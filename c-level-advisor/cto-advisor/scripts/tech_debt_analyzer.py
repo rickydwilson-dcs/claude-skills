@@ -17,6 +17,8 @@ Last Updated: 2025-11-05
 
 import argparse
 import json
+import csv
+from io import StringIO
 import math
 import sys
 from pathlib import Path
@@ -426,6 +428,30 @@ def analyze_technical_debt(system_config: Dict) -> str:
     return '\n'.join(output)
 
 
+def format_csv_output(system_config: Dict) -> str:
+    """Format technical debt analysis results as CSV"""
+    analyzer = TechDebtAnalyzer()
+    results = analyzer.analyze_system(system_config)
+
+    output = StringIO()
+    writer = csv.writer(output)
+
+    # Header row
+    writer.writerow(['category', 'issue', 'severity', 'effort_days', 'priority', 'status'])
+
+    # Write prioritized actions
+    for action in results.get('prioritized_actions', [])[:10]:
+        writer.writerow([
+            action.get('category', ''),
+            f"{action.get('category', 'issue').title()} improvement",
+            action.get('category', '').upper(),
+            int(action.get('priority', 1) * 5),  # Estimate days
+            int(action.get('priority', 0)),
+            'open'
+        ])
+
+    return output.getvalue()
+
 def format_json_output(system_config: Dict) -> str:
     """Format results as JSON with metadata"""
     analyzer = TechDebtAnalyzer()
@@ -525,9 +551,9 @@ c-level-advisor/cto-advisor/SKILL.md
     # Optional arguments
     parser.add_argument(
         '--output', '-o',
-        choices=['text', 'json'],
+        choices=['text', 'json', 'csv'],
         default='text',
-        help='Output format: text (default) or json'
+        help='Output format: text (default), json, or csv'
     )
 
     parser.add_argument(
@@ -585,7 +611,9 @@ c-level-advisor/cto-advisor/SKILL.md
             print(f"Analyzing technical debt for {system_name}...", file=sys.stderr)
 
         # Process data
-        if args.output == 'json':
+        if args.output == 'csv':
+            output = format_csv_output(system_config)
+        elif args.output == 'json':
             output = format_json_output(system_config)
         else:  # text (default)
             output = analyze_technical_debt(system_config)

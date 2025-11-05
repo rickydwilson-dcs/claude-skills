@@ -7,6 +7,34 @@ description: Senior Information Security Manager specializing in ISO 27001 and I
 
 Expert-level Information Security Management System (ISMS) implementation and cybersecurity governance with comprehensive knowledge of ISO 27001, ISO 27002, and healthcare-specific security requirements.
 
+## Quick Start: ISO 27001:2022 Compliance Assessment
+
+**NEW: Production-ready ISMS Compliance Checker**
+
+Assess your organization's ISO 27001:2022 compliance with automated gap analysis and remediation roadmap:
+
+```bash
+# Run compliance assessment
+cd ra-qm-team/information-security-manager-iso27001/scripts/
+python3 isms_compliance_checker.py sample_iso27001_assessment.json
+
+# Generate JSON report for dashboards
+python3 isms_compliance_checker.py assessment.json -o json -f report.json
+
+# Export to CSV for spreadsheet analysis
+python3 isms_compliance_checker.py assessment.json -o csv -f compliance.csv
+```
+
+**Key Features:**
+- Evaluates all 93 ISO 27001:2022 Annex A controls
+- Calculates compliance percentage by theme (Organizational, People, Physical, Technological)
+- Identifies critical gaps with prioritized remediation roadmap
+- Provides maturity level assessment (Initial → Optimized)
+- Assesses security risk exposure
+- Supports text, JSON, and CSV output formats
+
+See detailed documentation in [Resources section](#scriptsisms_compliance_checkerpy) below.
+
 ## Core ISMS Competencies
 
 ### 1. ISO 27001 ISMS Implementation
@@ -227,10 +255,11 @@ Ensure comprehensive compliance with healthcare security regulations and standar
 ## Resources
 
 ### scripts/
-- `isms-performance-dashboard.py`: Comprehensive ISMS metrics monitoring and reporting
-- `security-risk-assessment.py`: Automated security risk assessment and documentation
-- `compliance-monitoring.py`: Regulatory and standard compliance tracking
-- `incident-response-automation.py`: Security incident workflow automation
+- `isms_compliance_checker.py`: ISO 27001:2022 Annex A controls compliance assessment and gap analysis
+- `isms-performance-dashboard.py`: Comprehensive ISMS metrics monitoring and reporting (planned)
+- `security-risk-assessment.py`: Automated security risk assessment and documentation (planned)
+- `compliance-monitoring.py`: Regulatory and standard compliance tracking (planned)
+- `incident-response-automation.py`: Security incident workflow automation (planned)
 
 ### references/
 - `iso27001-implementation-guide.md`: Complete ISO 27001 ISMS implementation framework
@@ -239,8 +268,173 @@ Ensure comprehensive compliance with healthcare security regulations and standar
 - `device-security-assessment.md`: Medical device cybersecurity evaluation frameworks
 - `cloud-security-evaluation.md`: Cloud service security assessment criteria
 
+### scripts/isms_compliance_checker.py
+
+**Production-Ready ISO 27001:2022 Compliance Assessment Tool**
+
+Comprehensive security controls compliance checker supporting all 93 ISO 27001:2022 Annex A controls across four control themes.
+
+**Features:**
+- **Complete Control Coverage**: Assesses all 93 Annex A controls (37 Organizational, 8 People, 14 Physical, 34 Technological)
+- **Compliance Calculation**: Theme-based and overall compliance percentage with maturity level assessment
+- **Control Effectiveness Rating**: Tracks implementation status and operational effectiveness
+- **Gap Analysis**: Identifies critical security control gaps requiring immediate attention
+- **Risk Assessment**: Calculates security risk exposure based on control implementation status
+- **Remediation Roadmap**: Generates prioritized remediation plan (immediate, short-term, medium-term, long-term)
+- **Multiple Output Formats**: Text, JSON, and CSV reports for different stakeholders
+
+**Usage:**
+```bash
+# Basic compliance assessment
+python isms_compliance_checker.py sample_iso27001_assessment.json
+
+# JSON output for integration
+python isms_compliance_checker.py assessment.json --output json
+
+# CSV export for spreadsheet analysis
+python isms_compliance_checker.py assessment.json -o csv -f compliance_report.csv
+
+# Detailed verbose report
+python isms_compliance_checker.py assessment.json -v
+
+# Save to file
+python isms_compliance_checker.py assessment.json -f compliance_report.txt
+```
+
+**Input Format:**
+JSON file with ISO 27001 assessment data including:
+- Metadata (organization, scope, assessment date)
+- Controls array with:
+  - Control ID (e.g., "5.1", "8.24")
+  - Control name (ISO 27001:2022 Annex A control title)
+  - Theme (ORGANIZATIONAL, PEOPLE, PHYSICAL, TECHNOLOGICAL)
+  - Status (IMPLEMENTED, PARTIALLY_IMPLEMENTED, NOT_IMPLEMENTED, NOT_APPLICABLE, PLANNED)
+  - Effectiveness rating (EFFECTIVE, PARTIALLY_EFFECTIVE, INEFFECTIVE, NOT_TESTED)
+  - Evidence of implementation
+  - Identified gaps
+  - Remediation plan and priority
+  - Target completion date
+  - Responsible person
+
+**Sample Input:**
+See `scripts/sample_iso27001_assessment.json` for complete example with 35 representative controls across all themes.
+
+**Output Reports:**
+
+*Text Format (Default):*
+- Executive summary with overall compliance percentage and maturity level
+- Compliance by control theme (Organizational, People, Physical, Technological)
+- Critical gaps identified with priority levels
+- Remediation roadmap with phased implementation plan
+- Security risk assessment with risk level and score
+- Key recommendations for improving security posture
+- Detailed control assessment (verbose mode)
+
+*JSON Format:*
+- Metadata with tool version and assessment details
+- Executive summary with compliance and risk metrics
+- Theme-by-theme compliance breakdown
+- Remediation roadmap with control counts per phase
+- Detailed control data and gap analysis (verbose mode)
+
+*CSV Format:*
+- Tabular export for spreadsheet analysis
+- One row per control with status, effectiveness, gaps, and priorities
+- Suitable for pivot tables and compliance tracking
+
+**Compliance Maturity Levels:**
+- **OPTIMIZED** (≥95%): World-class security posture, continuous improvement
+- **MANAGED** (85-94%): Strong controls, systematic monitoring
+- **DEFINED** (70-84%): Standard processes, documented controls
+- **DEVELOPING** (50-69%): Basic controls, significant gaps remain
+- **INITIAL** (<50%): Ad-hoc security, major compliance work required
+
+**Risk Assessment:**
+- **CRITICAL**: >10 critical gaps or >20 high priority gaps
+- **HIGH**: 6-10 critical gaps or 11-20 high priority gaps
+- **MEDIUM**: 1-5 critical gaps or 6-10 high priority gaps
+- **LOW**: Minimal critical/high priority gaps
+
+**Remediation Priorities:**
+- **CRITICAL**: Immediate action required, significant security risk
+- **HIGH**: Short-term (0-3 months), important security improvement
+- **MEDIUM**: Medium-term (3-6 months), standard security enhancement
+- **LOW**: Long-term (6-12 months), incremental improvement
+
+**ISO 27001:2022 Control Themes:**
+
+*Organizational Controls (5.1-5.37): 37 controls*
+- Information security policies and governance
+- Organization of information security
+- Human resource security
+- Asset management
+- Access control policies
+- Supplier relationships
+
+*People Controls (6.1-6.8): 8 controls*
+- Screening and employment terms
+- Security awareness and training
+- Disciplinary processes
+- Remote working security
+
+*Physical Controls (7.1-7.14): 14 controls*
+- Physical security perimeters
+- Equipment protection and siting
+- Storage media security
+- Secure disposal
+
+*Technological Controls (8.1-8.34): 34 controls*
+- Access control implementation
+- Cryptography
+- Network security
+- Application security
+- Secure development
+- System monitoring
+
+**Use Cases:**
+1. **Pre-Certification Assessment**: Identify gaps before ISO 27001 certification audit
+2. **Surveillance Audit Preparation**: Demonstrate ongoing compliance for surveillance audits
+3. **Management Review**: Provide ISMS performance data for management review meetings
+4. **Risk Treatment Planning**: Prioritize security investments based on compliance gaps
+5. **Security Dashboard**: Generate regular compliance status reports for stakeholders
+6. **Gap Analysis**: Compare current state against ISO 27001:2022 requirements
+7. **Remediation Tracking**: Monitor progress of security control implementation projects
+
+**Integration:**
+- Export JSON for security dashboards and GRC platforms
+- CSV export for executive reporting and compliance tracking
+- Automated compliance monitoring in CI/CD pipelines
+- Regular assessment scheduling for continuous compliance
+
+**Example Workflow:**
+
+1. **Prepare Assessment Data**:
+   - Conduct control-by-control implementation review
+   - Document evidence and gaps for each control
+   - Assign remediation priorities based on risk
+
+2. **Run Compliance Check**:
+   ```bash
+   python isms_compliance_checker.py current_assessment.json -o json -f report.json
+   ```
+
+3. **Review Results**:
+   - Analyze overall compliance percentage and maturity level
+   - Identify critical gaps requiring immediate attention
+   - Review remediation roadmap for resource planning
+
+4. **Plan Remediation**:
+   - Prioritize immediate actions (critical priority controls)
+   - Allocate budget for short-term and medium-term improvements
+   - Assign ownership for each remediation task
+
+5. **Track Progress**:
+   - Update assessment data as controls are implemented
+   - Re-run checker monthly to monitor improvement
+   - Generate trend reports for management
+
 ### assets/
-- `isms-templates/`: Information security policy, procedure, and documentation templates
-- `risk-assessment-tools/`: Security risk assessment worksheets and calculation tools
-- `audit-checklists/`: ISO 27001 and security compliance audit checklists
-- `training-materials/`: Information security awareness and training programs
+- `isms-templates/`: Information security policy, procedure, and documentation templates (planned)
+- `risk-assessment-tools/`: Security risk assessment worksheets and calculation tools (planned)
+- `audit-checklists/`: ISO 27001 and security compliance audit checklists (planned)
+- `training-materials/`: Information security awareness and training programs (planned)

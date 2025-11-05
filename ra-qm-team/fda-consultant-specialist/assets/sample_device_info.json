@@ -1,0 +1,28 @@
+{
+  "device_name": "CardioMonitor Pro X200",
+  "manufacturer": "MedTech Innovations Inc.",
+  "intended_use": "Continuous cardiac monitoring for hospitalized patients with suspected arrhythmias",
+  "device_type": "Active monitoring device",
+  "invasiveness": "non-invasive",
+  "duration_of_contact": "short-term",
+  "patient_contact": true,
+  "sterile": false,
+  "technological_characteristics": {
+    "software_as_primary_function": true,
+    "ai_ml_enabled": false,
+    "connectivity": "wireless",
+    "data_storage": "cloud-based"
+  },
+  "predicate_device": {
+    "identified": true,
+    "name": "CardioMonitor X100",
+    "510k_number": "K123456",
+    "manufacturer": "MedTech Innovations Inc."
+  },
+  "design_changes_from_predicate": "software enhancement",
+  "novel_technology": false,
+  "guidance_document_available": true,
+  "complex_device": false,
+  "rare_disease_indication": false,
+  "annual_patient_population": 500000
+}

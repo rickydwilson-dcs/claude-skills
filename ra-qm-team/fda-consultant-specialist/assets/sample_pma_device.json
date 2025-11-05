@@ -1,0 +1,30 @@
+{
+  "device_name": "CardioVascular Implantable Heart Monitor",
+  "manufacturer": "Advanced MedTech Solutions",
+  "intended_use": "Long-term implantable cardiac monitoring for life-threatening arrhythmia detection in high-risk patients",
+  "device_type": "Active implantable device",
+  "invasiveness": "invasive",
+  "duration_of_contact": "permanent",
+  "patient_contact": true,
+  "sterile": true,
+  "technological_characteristics": {
+    "software_as_primary_function": true,
+    "ai_ml_enabled": true,
+    "connectivity": "wireless",
+    "data_storage": "device-based and cloud"
+  },
+  "predicate_device": {
+    "identified": false,
+    "name": "",
+    "510k_number": "",
+    "manufacturer": ""
+  },
+  "design_changes_from_predicate": "N/A",
+  "novel_technology": true,
+  "guidance_document_available": false,
+  "complex_device": true,
+  "rare_disease_indication": false,
+  "annual_patient_population": 50000,
+  "clinical_data_required": true,
+  "notes": "Class III device requiring PMA due to life-sustaining function and permanent implantation"
+}

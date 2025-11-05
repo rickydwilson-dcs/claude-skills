@@ -223,13 +223,365 @@ Develop comprehensive market access strategies optimizing FDA regulatory pathway
 - **Timeline Optimization**: Regulatory milestone planning and resource allocation
 - **Commercial Integration**: Regulatory strategy and business objective alignment
 
+## FDA Submission Planner Tool
+
+### Overview
+The **FDA Submission Planner** (`fda_submission_planner.py`) is a production-ready Python tool that helps medical device companies plan and track FDA regulatory submissions. It analyzes device characteristics, recommends optimal submission pathways, generates document checklists, calculates realistic timelines, and provides FDA correspondence tracking templates.
+
+### Key Features
+1. **Device Classification Analysis**: Automatically classifies devices as Class I, II, or III based on FDA criteria
+2. **Submission Pathway Recommendation**: Recommends optimal FDA pathway (510(k), PMA, De Novo, HDE) with detailed reasoning
+3. **Document Checklist Generation**: Creates comprehensive document checklists with CFR references specific to submission type
+4. **Timeline Calculation**: Estimates realistic submission timelines with key milestones and projected clearance dates
+5. **FDA Correspondence Tracking**: Provides templates for tracking FDA interactions (Q-Subs, RFIs, meetings)
+
+### Supported Submission Types
+- **510(k) Traditional**: Standard substantial equivalence demonstration with predicate device comparison
+- **510(k) Special**: Manufacturing-only changes to previously cleared device (30-day review)
+- **510(k) Abbreviated**: Devices with FDA guidance documents available
+- **PMA (Premarket Approval)**: Class III devices requiring clinical trials (180-day review)
+- **De Novo**: Novel devices with no predicate establishing new device classification (150-day review)
+- **HDE (Humanitarian Device Exemption)**: Devices for rare diseases affecting <8,000 patients/year
+
+### Installation & Setup
+```bash
+# No installation required - uses Python standard library only
+# Requires Python 3.8+
+
+# Make script executable (Unix/Mac)
+chmod +x scripts/fda_submission_planner.py
+
+# Test installation
+python scripts/fda_submission_planner.py --help
+```
+
+### Quick Start
+
+#### 1. Create Sample Device File
+```bash
+python scripts/fda_submission_planner.py sample
+# Creates: sample_device_info.json
+```
+
+#### 2. Generate Submission Plan
+```bash
+# Text output (human-readable)
+python scripts/fda_submission_planner.py sample_device_info.json
+
+# JSON output (machine-readable)
+python scripts/fda_submission_planner.py sample_device_info.json --output json
+
+# CSV output (document checklist only)
+python scripts/fda_submission_planner.py sample_device_info.json -o csv --file checklist.csv
+```
+
+#### 3. Review and Customize
+- Review recommended submission pathway
+- Validate document checklist completeness
+- Adjust timeline based on company resources
+- Track FDA correspondence using provided templates
+
+### Usage Examples
+
+#### Example 1: Basic Submission Planning
+```bash
+# Generate submission plan for your device
+python scripts/fda_submission_planner.py my_device.json
+
+# Output includes:
+# - Device classification (Class I/II/III)
+# - Recommended submission type with reasoning
+# - Complete document checklist with CFR references
+# - Timeline with milestones and dates
+# - FDA correspondence tracking templates
+```
+
+#### Example 2: Export for Project Management
+```bash
+# Export complete plan as JSON for integration with PM tools
+python scripts/fda_submission_planner.py my_device.json -o json -f submission_plan.json
+
+# Import into Jira, Asana, or other project management systems
+```
+
+#### Example 3: Document Checklist for Team Distribution
+```bash
+# Generate CSV checklist for document assignment
+python scripts/fda_submission_planner.py my_device.json -o csv -f document_checklist.csv
+
+# Distribute to cross-functional teams:
+# - R&D: Design documentation, testing reports
+# - RA: Submission documents, FDA correspondence
+# - QA: Quality system documentation, validation reports
+# - Manufacturing: Manufacturing information, process validation
+```
+
+#### Example 4: Compare Multiple Submission Scenarios
+```bash
+# Scenario A: With predicate device
+python scripts/fda_submission_planner.py scenario_a.json -o json -f plan_a.json
+
+# Scenario B: De Novo pathway
+python scripts/fda_submission_planner.py scenario_b.json -o json -f plan_b.json
+
+# Compare timelines and requirements
+```
+
+#### Example 5: Verbose Mode for Detailed Analysis
+```bash
+# Enable verbose output for detailed CFR references and descriptions
+python scripts/fda_submission_planner.py my_device.json -v
+
+# Shows:
+# - Processing steps and analysis
+# - Detailed document descriptions
+# - CFR references for each requirement
+# - FDA correspondence details
+```
+
+### Sample Device Files
+
+Pre-configured sample files are available in `assets/`:
+
+1. **sample_device_info.json**: 510(k) Abbreviated pathway for cardiac monitoring device
+2. **sample_pma_device.json**: PMA pathway for implantable life-sustaining device
+3. **sample_de_novo_device.json**: De Novo pathway for novel AI/ML diagnostic device
+4. **sample_hde_device.json**: HDE pathway for rare disease pediatric device
+
+Test with any sample:
+```bash
+python scripts/fda_submission_planner.py assets/sample_pma_device.json -v
+```
+
+### Input JSON Schema
+
+Create your device information file with the following structure:
+
+```json
+{
+  "device_name": "Your Device Name",
+  "manufacturer": "Your Company",
+  "intended_use": "Clinical indications and patient population",
+  "device_type": "Active monitoring device | Implantable | Software | etc.",
+  "invasiveness": "invasive | non-invasive",
+  "duration_of_contact": "short-term | long-term | permanent",
+  "patient_contact": true,
+  "sterile": false,
+  "technological_characteristics": {
+    "software_as_primary_function": true,
+    "ai_ml_enabled": false,
+    "connectivity": "wireless | wired | cloud-based",
+    "data_storage": "device-based | cloud-based"
+  },
+  "predicate_device": {
+    "identified": true,
+    "name": "Predicate Device Name",
+    "510k_number": "K123456",
+    "manufacturer": "Predicate Manufacturer"
+  },
+  "design_changes_from_predicate": "software enhancement | manufacturing only",
+  "novel_technology": false,
+  "guidance_document_available": true,
+  "complex_device": false,
+  "rare_disease_indication": false,
+  "annual_patient_population": 500000
+}
+```
+
+**Required fields**: `device_name`, `intended_use`
+
+**See**: `assets/README.md` for complete schema documentation
+
+### Output Formats
+
+#### Text Output (Default)
+Human-readable format with sections:
+- Device Information
+- Recommended Submission Pathway
+- Submission Timeline with Milestones
+- Document Checklist (grouped by section)
+- FDA Correspondence Tracking
+- Next Steps
+
+#### JSON Output
+Machine-readable structured data with:
+- Metadata (tool version, timestamp)
+- Device classification results
+- Submission recommendation with reasoning
+- Complete document checklist array
+- Timeline with milestone objects
+- Correspondence tracker array
+
+#### CSV Output
+Tabular format for document checklist:
+- Section, Document, Required, CFR_Reference, Description
+- Suitable for Excel/Sheets import
+- Easy team distribution and tracking
+
+### Common Workflows
+
+#### Workflow 1: New Device Submission Planning
+```bash
+# 1. Create device information file
+cp assets/sample_device_info.json my_device.json
+vim my_device.json  # Edit with your device details
+
+# 2. Generate initial plan
+python scripts/fda_submission_planner.py my_device.json -v
+
+# 3. Review classification and pathway recommendation
+
+# 4. Export detailed plan for team
+python scripts/fda_submission_planner.py my_device.json -o json -f submission_plan.json
+
+# 5. Generate document checklist for assignment
+python scripts/fda_submission_planner.py my_device.json -o csv -f checklist.csv
+```
+
+#### Workflow 2: Pre-Submission Meeting Preparation
+```bash
+# Generate comprehensive submission plan before Q-Sub meeting
+python scripts/fda_submission_planner.py my_device.json -v -f presub_plan.txt
+
+# Use output to:
+# - Confirm submission pathway with FDA
+# - Discuss document requirements
+# - Clarify testing requirements
+# - Establish communication plan
+```
+
+#### Workflow 3: Regulatory Strategy Development
+```bash
+# Compare multiple pathway scenarios
+python scripts/fda_submission_planner.py scenario_510k.json -o json -f 510k_plan.json
+python scripts/fda_submission_planner.py scenario_pma.json -o json -f pma_plan.json
+
+# Analyze:
+# - Timeline differences
+# - Document burden
+# - Resource requirements
+# - Risk vs. speed tradeoffs
+```
+
+### Business Logic
+
+#### Device Classification Algorithm
+1. Analyzes intended use for life-sustaining/life-supporting keywords
+2. Evaluates invasiveness and duration of contact
+3. Assesses technological characteristics (software, AI/ML)
+4. Applies FDA classification criteria
+5. Returns Class I/II/III with risk level (Low/Moderate/High)
+
+#### Submission Pathway Selection
+1. **HDE Priority**: Checks rare disease criteria (<8,000 patients/year)
+2. **PMA for Class III**: Novel technology or no predicate
+3. **De Novo for Novel**: Class I/II devices without predicate
+4. **Special 510(k)**: Manufacturing-only changes
+5. **Abbreviated 510(k)**: FDA guidance available
+6. **Traditional 510(k)**: Standard pathway with predicate
+
+#### Timeline Calculation
+- Pre-submission preparation: 60 days
+- Q-Sub meeting (if complex): 75 days
+- FDA review: 30-180 days (depends on submission type)
+- RFI response buffer: 30 days
+- Decision processing: 5 days
+
+### Regulatory Context
+
+The tool implements FDA regulatory requirements from:
+- **21 CFR Part 807**: Premarket Notification (510(k))
+- **21 CFR Part 814**: Premarket Approval (PMA)
+- **21 CFR Part 860**: Device Classification
+- **21 CFR Part 820**: Quality System Regulation
+- **FDA Guidance Documents**: Device-specific and pathway-specific guidance
+
+### Limitations & Disclaimers
+
+1. **Not a substitute for regulatory consulting**: Tool provides planning guidance, not regulatory approval
+2. **Device classification**: Recommendations based on provided information; FDA has final classification authority
+3. **Timelines are estimates**: Actual FDA review times vary based on complexity and FDA workload
+4. **Document checklists**: General requirements; specific devices may need additional documentation
+5. **Legal compliance**: Tool does not constitute legal or regulatory advice
+
+### Troubleshooting
+
+**Issue**: "Error: Input file not found"
+```bash
+# Verify file path is correct
+ls -la my_device.json
+
+# Use absolute path if needed
+python scripts/fda_submission_planner.py /full/path/to/my_device.json
+```
+
+**Issue**: "Error: Invalid JSON in input file"
+```bash
+# Validate JSON syntax
+python -m json.tool my_device.json
+
+# Common issues:
+# - Missing quotes on strings
+# - Trailing commas
+# - Unescaped quotes in strings
+```
+
+**Issue**: Incorrect classification
+```bash
+# Run with verbose mode to see analysis
+python scripts/fda_submission_planner.py my_device.json -v
+
+# Check device characteristics:
+# - intended_use keywords
+# - invasiveness level
+# - duration_of_contact
+# - technological_characteristics
+```
+
+**Issue**: Wrong submission pathway recommended
+```bash
+# Verify device information:
+# - predicate_device.identified = true/false
+# - novel_technology = true/false
+# - rare_disease_indication and patient population
+# - guidance_document_available = true/false
+```
+
+### Integration with Other Tools
+
+**Project Management Systems**:
+```bash
+# Export JSON for Jira/Asana/Monday integration
+python scripts/fda_submission_planner.py device.json -o json -f plan.json
+
+# Parse milestones as tasks/issues
+jq '.results.timeline.milestones[]' plan.json
+```
+
+**Quality Management Systems**:
+```bash
+# Export document checklist for QMS integration
+python scripts/fda_submission_planner.py device.json -o csv -f checklist.csv
+
+# Import into eQMS for document control
+```
+
+**Regulatory Information Management Systems (RIMS)**:
+```bash
+# Generate complete submission plan
+python scripts/fda_submission_planner.py device.json -o json -f rims_import.json
+
+# Import into RIMS for tracking and compliance
+```
+
 ## Resources
 
 ### scripts/
-- `fda-submission-tracker.py`: FDA submission status monitoring and timeline management
-- `qsr-compliance-checker.py`: QSR compliance assessment and gap analysis tool
-- `hipaa-risk-assessment.py`: HIPAA compliance evaluation and documentation
-- `fda-guidance-monitor.py`: FDA guidance and policy change monitoring
+- `fda_submission_planner.py`: **FDA regulatory submission planning and tracking** - Analyzes device classification, recommends submission pathways (510(k)/PMA/De Novo/HDE), generates document checklists, calculates timelines, and tracks FDA correspondence
+- `fda-submission-tracker.py`: FDA submission status monitoring and timeline management (planned)
+- `qsr-compliance-checker.py`: QSR compliance assessment and gap analysis tool (planned)
+- `hipaa-risk-assessment.py`: HIPAA compliance evaluation and documentation (planned)
+- `fda-guidance-monitor.py`: FDA guidance and policy change monitoring (planned)
 
 ### references/
 - `fda-submission-guide.md`: Comprehensive FDA submission preparation framework
@@ -239,7 +591,12 @@ Develop comprehensive market access strategies optimizing FDA regulatory pathway
 - `fda-capa-requirements.md`: FDA CAPA system requirements and best practices
 
 ### assets/
-- `fda-templates/`: FDA submission templates, forms, and checklists
-- `qsr-documentation/`: QSR compliance documentation templates
-- `hipaa-tools/`: HIPAA compliance assessment and documentation tools
-- `inspection-materials/`: FDA inspection preparation and response materials
+- `sample_device_info.json`: Sample 510(k) device information for testing submission planner
+- `sample_pma_device.json`: Sample PMA device requiring clinical trials
+- `sample_de_novo_device.json`: Sample De Novo device with novel AI/ML technology
+- `sample_hde_device.json`: Sample HDE device for rare disease indication
+- `README.md`: Comprehensive guide to using sample device files and JSON schema
+- `fda-templates/`: FDA submission templates, forms, and checklists (planned)
+- `qsr-documentation/`: QSR compliance documentation templates (planned)
+- `hipaa-tools/`: HIPAA compliance assessment and documentation tools (planned)
+- `inspection-materials/`: FDA inspection preparation and response materials (planned)

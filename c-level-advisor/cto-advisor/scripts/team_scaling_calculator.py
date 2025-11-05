@@ -17,6 +17,8 @@ Last Updated: 2025-11-05
 
 import argparse
 import json
+import csv
+from io import StringIO
 import math
 import sys
 from pathlib import Path
@@ -511,6 +513,23 @@ def calculate_team_scaling(current_state: Dict, growth_targets: Dict) -> str:
     return '\n'.join(output)
 
 
+def format_csv_output(results: Dict) -> str:
+    """Format team_scaling results as CSV"""
+    output = StringIO()
+    writer = csv.writer(output)
+    
+    # Header row
+    writer.writerow(['quarter', 'role', 'headcount', 'salary', 'total_comp', 'status'])
+    
+    # Write data rows
+    if isinstance(results, dict) and 'growth_timeline' in results:
+        for item in results.get('growth_timeline', [])[:20]:
+            if isinstance(item, dict):
+                writer.writerow([item.get(k, '') for k in ['quarter', 'role', 'headcount', 'salary', 'total_comp', 'status']])
+    
+    return output.getvalue()
+
+
 def format_json_output(current_state: Dict, growth_targets: Dict) -> str:
     """Format results as JSON with metadata"""
     calculator = TeamScalingCalculator()
@@ -589,9 +608,9 @@ c-level-advisor/cto-advisor/SKILL.md
     # Optional arguments
     parser.add_argument(
         '--output', '-o',
-        choices=['text', 'json'],
+        choices=['text', 'json', 'csv'],
         default='text',
-        help='Output format: text (default) or json'
+        help='Output format: text (default), json, or csv'
     )
 
     parser.add_argument(
@@ -666,7 +685,9 @@ c-level-advisor/cto-advisor/SKILL.md
             print(f"Calculating scaling plan from {current_state['headcount']} to {growth_targets['target_headcount']} headcount...", file=sys.stderr)
 
         # Process data
-        if args.output == 'json':
+        if args.output == 'csv':
+            output = format_csv_output(results)
+        elif args.output == 'json':
             output = format_json_output(current_state, growth_targets)
         else:  # text (default)
             output = calculate_team_scaling(current_state, growth_targets)

@@ -245,13 +245,117 @@ Continuously improve privacy program through regulatory monitoring, best practic
    - Stakeholder feedback integration and response
    - Privacy culture development and maturation
 
+## Practical Usage Examples
+
+### GDPR Compliance Assessment Workflow
+
+**Scenario**: Conducting quarterly GDPR compliance assessment for all data processing activities
+
+```bash
+# 1. Prepare processing inventory JSON file
+# See sample_processing_inventory.json for format
+
+# 2. Run basic compliance assessment
+python scripts/gdpr_compliance_checker.py processing_inventory.json
+
+# 3. Generate detailed JSON report for compliance dashboard
+python scripts/gdpr_compliance_checker.py processing_inventory.json \
+  --output json --verbose --file compliance_report.json
+
+# 4. Export CSV for spreadsheet analysis and trend tracking
+python scripts/gdpr_compliance_checker.py processing_inventory.json \
+  -o csv -f quarterly_compliance.csv
+
+# 5. Integrate with CI/CD pipeline (exits with code 3 if critical issues)
+python scripts/gdpr_compliance_checker.py processing_inventory.json -o json || \
+  echo "Critical GDPR issues detected - review required"
+```
+
+**Expected Output (Text Format)**:
+```
+======================================================================
+GDPR/DSGVO COMPLIANCE ASSESSMENT REPORT
+======================================================================
+Generated: 2025-11-05 21:29:31 UTC
+
+EXECUTIVE SUMMARY
+----------------------------------------------------------------------
+Total Processing Activities: 8
+Overall Compliance Score: 62.5%
+
+Risk Distribution:
+  Critical Issues: 3
+  High Risk:       3
+  Medium Risk:     1
+  Low Risk:        1
+
+HIGH-PRIORITY GAPS REQUIRING IMMEDIATE ATTENTION
+----------------------------------------------------------------------
+1. [CRITICAL] Marketing Analytics and Behavioral Tracking
+   Area: documentation
+   Issue: Records of processing activities missing (Art. 30)
+
+2. [CRITICAL] Medical Device Usage Data Collection
+   Area: dpia
+   Issue: DPIA required but not completed
+
+3. [CRITICAL] Video Surveillance System
+   Area: lawful_basis
+   Issue: Legitimate interests cannot be used for special category data
+```
+
+**JSON Output Structure**:
+```json
+{
+  "metadata": {
+    "tool": "gdpr_compliance_checker.py",
+    "version": "1.0.0",
+    "timestamp": "2025-11-05T21:29:36Z",
+    "assessment_date": "2025-11-05"
+  },
+  "results": {
+    "summary": {
+      "total_activities": 8,
+      "overall_compliance_score": 62.5,
+      "risk_distribution": {
+        "critical": 3,
+        "high": 3,
+        "medium": 1,
+        "low": 1
+      }
+    },
+    "high_priority_gaps": [...],
+    "activity_assessments": [...]
+  }
+}
+```
+
+**Key Assessment Areas**:
+- **Lawful Basis (Article 6)**: Validates appropriate legal basis for each processing activity
+- **Special Category Data (Article 9)**: Ensures explicit consent or valid exemption for sensitive data
+- **Data Subject Rights (Articles 12-23)**: Verifies implementation of all seven core rights
+- **DPIAs (Article 35)**: Identifies high-risk processing requiring impact assessments
+- **Technical Measures (Articles 25, 32)**: Assesses data protection by design and security
+- **International Transfers (Chapter V)**: Validates transfer mechanisms and risk assessments
+- **Breach Readiness (Articles 33-34)**: Checks notification procedures and testing
+- **Documentation (Article 30)**: Identifies gaps in required records and agreements
+
 ## Resources
 
 ### scripts/
-- `gdpr-compliance-checker.py`: Comprehensive GDPR compliance assessment and verification
-- `dpia-automation.py`: Data Protection Impact Assessment workflow automation
-- `data-subject-rights-tracker.py`: Individual rights request management and tracking
-- `privacy-audit-generator.py`: Automated privacy audit checklist and report generation
+- **`gdpr_compliance_checker.py`**: Comprehensive GDPR compliance assessment and verification
+  - Analyzes data processing activities against GDPR requirements
+  - Assesses lawful basis (Art. 6), data subject rights (Art. 12-23), DPIAs (Art. 35)
+  - Evaluates technical/organizational measures (Art. 25, 32)
+  - Checks international transfer compliance (Chapter V)
+  - Generates risk-based compliance scores and identifies high-priority gaps
+  - Supports text, JSON, and CSV output formats
+  - Exit code 3 if critical issues detected for CI/CD integration
+  - **Usage**: `python gdpr_compliance_checker.py processing_inventory.json`
+  - **Sample**: `sample_processing_inventory.json` - 8 realistic processing activities
+- `dpia-automation.py`: Data Protection Impact Assessment workflow automation (planned)
+- `data-subject-rights-tracker.py`: Individual rights request management and tracking (planned)
+- `privacy-audit-generator.py`: Automated privacy audit checklist and report generation (planned)
 
 ### references/
 - `gdpr-implementation-guide.md`: Complete GDPR compliance implementation framework

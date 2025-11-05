@@ -7,6 +7,8 @@ Automated tool for code reviewer tasks
 import os
 import sys
 import json
+import csv
+from io import StringIO
 import argparse
 from pathlib import Path
 from typing import Dict, List, Optional
@@ -68,6 +70,23 @@ class CodeQualityChecker:
         print(f"Findings: {len(self.results.get('findings', []))}")
         print("="*50 + "\n")
 
+def format_csv_output(results: Dict) -> str:
+    """Format code_quality results as CSV"""
+    output = StringIO()
+    writer = csv.writer(output)
+    
+    # Header row
+    writer.writerow(['file', 'issues', 'severity', 'category', 'status'])
+    
+    # Write data rows
+    if isinstance(results, dict) and 'findings' in results:
+        for item in results.get('findings', [])[:20]:
+            if isinstance(item, dict):
+                writer.writerow([item.get(k, '') for k in ['file', 'issues', 'severity', 'category', 'status']])
+    
+    return output.getvalue()
+
+
 def main():
     """Main entry point with standardized CLI interface"""
     parser = argparse.ArgumentParser(
@@ -123,7 +142,9 @@ For more information, see the skill documentation.
 
     results = tool.run()
 
-    if args.output == 'json':
+    if args.output == 'csv':
+        output = format_csv_output(results)
+    elif args.output == 'json':
         output = json.dumps(results, indent=2)
     else:
         output = json.dumps(results, indent=2)

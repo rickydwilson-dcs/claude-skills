@@ -6,6 +6,8 @@ Brand Voice Analyzer - Analyzes content to establish and maintain brand voice co
 import re
 from typing import Dict, List, Tuple
 import json
+import csv
+from io import StringIO
 
 class BrandVoiceAnalyzer:
     def __init__(self):
@@ -137,12 +139,40 @@ class BrandVoiceAnalyzer:
         
         return recommendations
 
+def format_csv_output(results: Dict) -> str:
+    """Format results as CSV"""
+    output = StringIO()
+    writer = csv.writer(output)
+
+    # Write header row with key metrics
+    writer.writerow(['metric', 'value', 'status'])
+
+    # Write core metrics
+    writer.writerow(['word_count', results['word_count'], 'pass'])
+    writer.writerow(['readability_score', f"{results['readability_score']:.1f}/100",
+                     'pass' if 60 <= results['readability_score'] <= 100 else 'needs_improvement'])
+
+    # Write voice profile metrics
+    for dimension, profile in results['voice_profile'].items():
+        writer.writerow([f"{dimension}_dominant", profile['dominant'], 'pass'])
+        for category, score in profile['scores'].items():
+            writer.writerow([f"{dimension}_{category}", score, 'pass'])
+
+    # Write sentence analysis
+    writer.writerow(['avg_sentence_length', f"{results['sentence_analysis']['average_length']} words", 'pass'])
+    writer.writerow(['sentence_variety', results['sentence_analysis']['variety'], 'pass'])
+    writer.writerow(['total_sentences', results['sentence_analysis']['count'], 'pass'])
+
+    return output.getvalue()
+
 def analyze_content(content: str, output_format: str = 'json') -> str:
     """Main function to analyze content"""
     analyzer = BrandVoiceAnalyzer()
     results = analyzer.analyze_text(content)
-    
-    if output_format == 'json':
+
+    if output_format == 'csv':
+        return format_csv_output(results)
+    elif output_format == 'json':
         return json.dumps(results, indent=2)
     else:
         # Human-readable format
@@ -153,10 +183,10 @@ def analyze_content(content: str, output_format: str = 'json') -> str:
             f"",
             f"Voice Profile:"
         ]
-        
+
         for dimension, profile in results['voice_profile'].items():
             output.append(f"  {dimension.title()}: {profile['dominant']}")
-        
+
         output.extend([
             f"",
             f"Sentence Analysis:",
@@ -166,10 +196,10 @@ def analyze_content(content: str, output_format: str = 'json') -> str:
             f"",
             f"Recommendations:"
         ])
-        
+
         for rec in results['recommendations']:
             output.append(f"  • {rec}")
-        
+
         return '\n'.join(output)
 
 if __name__ == "__main__":
@@ -200,9 +230,9 @@ For more information, see the skill documentation.
     # Optional arguments
     parser.add_argument(
         '--output', '-o',
-        choices=['text', 'json'],
+        choices=['text', 'json', 'csv'],
         default='text',
-        help='Output format: text (default) or json'
+        help='Output format: text (default), json, or csv'
     )
 
     parser.add_argument(

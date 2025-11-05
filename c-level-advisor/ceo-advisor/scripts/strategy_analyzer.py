@@ -20,6 +20,8 @@ import argparse
 import json
 import math
 import sys
+import csv
+from io import StringIO
 from pathlib import Path
 from typing import Dict, List, Tuple
 from datetime import datetime, timedelta
@@ -581,6 +583,33 @@ def analyze_strategy(company_data: Dict) -> str:
     return '\n'.join(output)
 
 
+def format_csv_output(company_data: Dict) -> str:
+    """Format strategic analysis results as CSV"""
+    analyzer = StrategyAnalyzer()
+    results = analyzer.analyze_strategic_position(company_data)
+
+    output = StringIO()
+    writer = csv.writer(output)
+
+    # Header row - pillar scores
+    writer.writerow(['pillar', 'score', 'weighted_score', 'level', 'status'])
+
+    # Write pillar analysis
+    for pillar, data in results.get('pillar_analysis', {}).items():
+        writer.writerow([
+            pillar.replace('_', ' ').title(),
+            data.get('score', 0),
+            f"{data.get('weighted_score', 0):.2f}",
+            data.get('level', 'Unknown'),
+            'pass'
+        ])
+
+    # Summary rows
+    writer.writerow(['', '', '', '', ''])
+    writer.writerow(['STRATEGIC_HEALTH_SCORE', results.get('strategic_health_score', 0), '', 'pass', ''])
+
+    return output.getvalue()
+
 def format_json_output(company_data: Dict) -> str:
     """Format results as JSON with metadata"""
     analyzer = StrategyAnalyzer()
@@ -680,9 +709,9 @@ c-level-advisor/ceo-advisor/SKILL.md
     # Optional arguments
     parser.add_argument(
         '--output', '-o',
-        choices=['text', 'json'],
+        choices=['text', 'json', 'csv'],
         default='text',
-        help='Output format: text (default) or json'
+        help='Output format: text (default), json, or csv'
     )
 
     parser.add_argument(
@@ -739,7 +768,9 @@ c-level-advisor/ceo-advisor/SKILL.md
             print(f"Analyzing strategic position for {company_data.get('name', 'Company')}...", file=sys.stderr)
 
         # Process data
-        if args.output == 'json':
+        if args.output == 'csv':
+            output = format_csv_output(company_data)
+        elif args.output == 'json':
             output = format_json_output(company_data)
         else:  # text (default)
             output = analyze_strategy(company_data)

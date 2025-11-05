@@ -8,6 +8,8 @@ Supports multiple time periods and channel breakdowns.
 
 import sys
 import json
+import csv
+from io import StringIO
 from typing import Dict, List
 
 def calculate_cac(total_spend: float, customers_acquired: int) -> float:
@@ -87,6 +89,41 @@ def format_text_output(results: Dict, show_benchmarks: bool = False) -> str:
         output.append("Blended Target: <$300")
 
     return '\n'.join(output)
+
+def format_csv_output(results: Dict) -> str:
+    """Format CAC results as CSV"""
+    output = StringIO()
+    writer = csv.writer(output)
+
+    # Header row
+    writer.writerow(['channel', 'spend', 'customers', 'cac', 'benchmark_min', 'benchmark_max', 'status'])
+
+    # Benchmark data
+    benchmarks = {
+        'LinkedIn Ads': {'min': 150, 'max': 400},
+        'Google Search': {'min': 80, 'max': 250},
+        'SEO/Organic': {'min': 50, 'max': 150},
+        'Partnerships': {'min': 100, 'max': 300},
+    }
+
+    # Write channel data
+    for channel, data in results.items():
+        if channel == 'blended':
+            continue
+        spend = data.get('spend', 0)
+        customers = data.get('customers', 0)
+        cac = data.get('cac', 0)
+        benchmark = benchmarks.get(channel, {'min': 0, 'max': 999999})
+        status = 'good' if benchmark['min'] <= cac <= benchmark['max'] else 'review'
+        writer.writerow([channel, spend, customers, cac, benchmark['min'], benchmark['max'], status])
+
+    # Blended CAC row
+    if 'blended' in results:
+        blended = results['blended']
+        writer.writerow(['BLENDED', blended.get('total_spend', 0), blended.get('total_customers', 0),
+                        blended.get('blended_cac', 0), '<', '300', 'pass'])
+
+    return output.getvalue()
 
 def format_json_output(results: Dict) -> str:
     """Format CAC results as JSON"""
@@ -182,9 +219,9 @@ For more information, see the skill documentation.
 
     parser.add_argument(
         '--output', '-o',
-        choices=['text', 'json'],
+        choices=['text', 'json', 'csv'],
         default='text',
-        help='Output format: text (default) or json'
+        help='Output format: text (default), json, or csv'
     )
 
     parser.add_argument(
@@ -253,7 +290,9 @@ For more information, see the skill documentation.
         results = calculate_channel_cac(channel_data)
 
         # Format output
-        if args.output == 'json':
+        if args.output == 'csv':
+            output = format_csv_output(results)
+        elif args.output == 'json':
             output = format_json_output(results)
         else:
             output = format_text_output(results, show_benchmarks=args.benchmarks)

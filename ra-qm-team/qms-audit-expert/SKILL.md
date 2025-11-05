@@ -64,6 +64,7 @@ Conduct systematic and effective audits using proven methodologies ensuring comp
 
 **Audit Execution Process:**
 1. **Audit Preparation**
+   - **Generate Audit Checklist**: Use scripts/audit_checklist_generator.py with audit scope and previous findings
    - **Pre-audit Document Review**: Follow scripts/audit-prep-checklist.py
    - **Audit Plan Development**: Scope, objectives, criteria, methods
    - **Auditor Assignment**: Competency matching and independence verification
@@ -219,6 +220,7 @@ Maintain awareness of industry audit best practices and regulatory expectations.
 ## Resources
 
 ### scripts/
+- `audit_checklist_generator.py`: ISO 13485:2016 comprehensive audit checklist generation with risk-based focus, previous finding follow-up, and clause coverage analysis
 - `audit-schedule-optimizer.py`: Risk-based audit planning and schedule optimization
 - `audit-prep-checklist.py`: Comprehensive audit preparation automation
 - `nonconformity-tracker.py`: Audit finding and CAPA integration management
@@ -236,3 +238,335 @@ Maintain awareness of industry audit best practices and regulatory expectations.
 - `audit-checklists/`: ISO 13485 clause-specific audit checklists
 - `training-materials/`: Auditor training and competency development programs
 - `nonconformity-forms/`: Standardized nonconformity documentation templates
+
+## Quick Start: ISO 13485 Audit Checklist Generator
+
+### Overview
+The `audit_checklist_generator.py` script generates comprehensive ISO 13485:2016 audit checklists with:
+- Complete clause coverage (Clauses 4-8)
+- Risk-based question prioritization
+- Previous finding follow-up tracking
+- Audit coverage metrics
+- Multiple output formats (text, JSON, CSV)
+
+### Basic Usage
+
+**Generate full audit checklist:**
+```bash
+python scripts/audit_checklist_generator.py audit_scope.json
+```
+
+**Generate with JSON output:**
+```bash
+python scripts/audit_checklist_generator.py audit_scope.json --output json
+```
+
+**Export to CSV file:**
+```bash
+python scripts/audit_checklist_generator.py audit_scope.json -o csv -f audit_checklist.csv
+```
+
+**Verbose mode with detailed information:**
+```bash
+python scripts/audit_checklist_generator.py audit_scope.json -v
+```
+
+### Input JSON Format
+
+Create an audit scope file (e.g., `audit_scope.json`):
+
+```json
+{
+  "audit_scope": {
+    "audit_type": "Internal Audit",
+    "scope_description": "Full QMS Review - ISO 13485:2016",
+    "organization": "Acme Medical Devices Inc.",
+    "audit_date": "2025-11-15",
+    "lead_auditor": "Jane Smith",
+    "auditee_department": "Quality Management"
+  },
+  "focus_areas": ["7.3", "8.2", "8.5"],
+  "risk_areas": ["Design Controls", "CAPA", "Complaint Handling"],
+  "previous_findings": [
+    {
+      "finding_id": "F-2024-001",
+      "clause": "7.3.4",
+      "description": "Design review not conducted at all stages",
+      "status": "OPEN",
+      "car_number": "CAR-2024-015",
+      "identified_date": "2024-10-15",
+      "target_closure": "2024-12-15",
+      "follow_up_required": true
+    }
+  ]
+}
+```
+
+### Configuration Options
+
+**focus_areas**: List of ISO 13485 clauses to emphasize (e.g., ["7.3", "8.2"])
+- Filters checklist to include questions from specified clauses
+- Useful for targeted audits focusing on specific QMS areas
+
+**risk_areas**: High-risk processes requiring extra attention
+- Questions related to risk areas are prioritized higher
+- Common risk areas: Design Controls, CAPA, Complaint Handling, Supplier Management
+
+**previous_findings**: Array of findings from previous audits
+- Status options: OPEN, CLOSED, CAR, VERIFIED
+- Generates follow-up questions for OPEN and CAR findings
+- Tracks finding resolution and effectiveness verification
+
+### Output Formats
+
+**Text Output (Default)**
+- Human-readable audit checklist
+- Organized by ISO 13485 clause
+- Includes coverage metrics and finding follow-ups
+- Provides audit report template
+- Best for: Printing, manual audit execution
+
+**JSON Output**
+- Structured machine-readable format
+- Complete metadata and metrics
+- Programmatic processing support
+- API integration ready
+- Best for: Audit software integration, data analysis
+
+**CSV Output**
+- Spreadsheet-compatible format
+- One question per row
+- Importable to Excel, Google Sheets
+- Customizable for tracking
+- Best for: Audit tracking, collaborative reviews
+
+### ISO 13485:2016 Clause Coverage
+
+The generator creates questions for all major clauses:
+
+**Clause 4: Quality Management System** (7 questions)
+- General requirements (4.1)
+- Documentation requirements (4.2)
+- Quality Manual, Document Control, Record Control
+
+**Clause 5: Management Responsibility** (7 questions)
+- Management commitment (5.1)
+- Customer focus (5.2)
+- Quality policy and objectives (5.3-5.4)
+- Management review (5.6)
+
+**Clause 6: Resource Management** (5 questions)
+- Provision of resources (6.1)
+- Human resources and training (6.2)
+- Infrastructure and work environment (6.3-6.4)
+
+**Clause 7: Product Realization** (20 questions)
+- Planning (7.1)
+- Customer requirements (7.2)
+- Design and development controls (7.3) - 10 detailed questions
+- Purchasing (7.4)
+- Production and service provision (7.5)
+- Control of monitoring equipment (7.6)
+
+**Clause 8: Measurement, Analysis, Improvement** (13 questions)
+- Monitoring and measurement (8.1-8.2)
+- Customer feedback and complaints (8.2.1-8.2.2)
+- Regulatory reporting (8.2.3)
+- Internal audit (8.2.4)
+- Nonconforming product control (8.3)
+- Data analysis and CAPA (8.4-8.5)
+
+### Risk-Based Prioritization
+
+Questions are automatically prioritized by risk level:
+
+**CRITICAL** - Core QMS requirements, regulatory compliance
+- Design controls (7.3.x)
+- CAPA system (8.5.2)
+- Complaint handling (8.2.2)
+- Regulatory reporting (8.2.3)
+- Record control (4.2.5)
+
+**HIGH** - Important processes affecting product quality
+- Process monitoring (8.2.5)
+- Training effectiveness (6.2)
+- Supplier controls (7.4.x)
+- Infrastructure management (6.3)
+
+**MEDIUM** - Supporting processes and documentation
+- Quality policy (5.3)
+- Installation activities (7.5.3)
+
+**LOW** - Administrative and routine processes
+- General documentation
+
+### Previous Finding Follow-Up
+
+For each OPEN or CAR finding, the generator creates:
+
+**Follow-up Questions:**
+1. Has root cause been identified?
+2. What corrective actions have been implemented?
+3. Has effectiveness been verified?
+4. Are similar issues present elsewhere?
+
+**Required Evidence:**
+- CAPA records
+- Root cause analysis documentation
+- Implementation evidence
+- Effectiveness verification results
+
+### Coverage Metrics
+
+The output includes comprehensive metrics:
+
+**Total Coverage**
+- Total questions generated
+- Critical vs. high-risk distribution
+- Questions by clause
+
+**Clause Coverage Percentage**
+- Calculated against expected minimum questions
+- Identifies under-audited areas
+- Ensures comprehensive QMS assessment
+
+**Example Output:**
+```
+Clause Coverage:
+  Clause_4: 85.7%
+  Clause_5: 100.0%
+  Clause_6: 80.0%
+  Clause_7: 90.0%
+  Clause_8: 92.3%
+```
+
+### Workflow Integration
+
+**Step 1: Define Audit Scope**
+```bash
+# Create audit_scope.json with audit details
+# Include focus areas and previous findings
+```
+
+**Step 2: Generate Checklist**
+```bash
+python scripts/audit_checklist_generator.py audit_scope.json -o text -f checklist.txt
+```
+
+**Step 3: Review and Customize**
+```bash
+# Review generated checklist
+# Add organization-specific questions
+# Customize evidence requirements
+```
+
+**Step 4: Conduct Audit**
+```bash
+# Use checklist during audit execution
+# Document findings directly on checklist
+# Note conformities and nonconformities
+```
+
+**Step 5: Export Results**
+```bash
+# Export findings to CSV for tracking
+python scripts/audit_checklist_generator.py audit_scope.json -o csv -f findings.csv
+```
+
+### Best Practices
+
+**Audit Planning**
+- Run generator 2 weeks before audit
+- Review and customize questions for organization context
+- Share checklist with audit team for preparation
+- Update previous findings before generation
+
+**Focus Areas**
+- Limit focus areas to 3-5 clauses for targeted audits
+- Use full checklist for certification/surveillance audits
+- Prioritize clauses with recent quality issues
+- Include clauses with regulatory updates
+
+**Risk Areas**
+- Update risk areas based on management review
+- Include processes with high customer complaints
+- Add areas with frequent nonconformities
+- Consider regulatory inspection history
+
+**Previous Findings**
+- Update finding status before each audit
+- Close verified findings to reduce follow-up load
+- Track CAR numbers for traceability
+- Document root causes in finding descriptions
+
+**Output Format Selection**
+- Text: Manual audits, paper-based systems
+- JSON: Integration with audit management software
+- CSV: Tracking findings in spreadsheets, collaborative tools
+
+### Sample Files
+
+**Sample audit scope:**
+```bash
+scripts/sample_audit_scope.json
+```
+
+**Generate sample checklist:**
+```bash
+python scripts/audit_checklist_generator.py scripts/sample_audit_scope.json
+```
+
+### Troubleshooting
+
+**Error: Input file not found**
+- Verify JSON file path is correct
+- Use absolute path if relative path fails
+
+**Error: Invalid JSON format**
+- Validate JSON syntax using online validator
+- Check for missing commas, brackets, quotes
+- Ensure proper string escaping
+
+**Low clause coverage percentage**
+- Check if focus_areas limits questions too much
+- Remove or expand focus_areas for full coverage
+- Verify expected coverage thresholds in metrics
+
+**No previous finding follow-ups**
+- Ensure findings have status "OPEN" or "CAR"
+- Set follow_up_required: true in finding data
+- Check finding clause matches audit scope
+
+### Advanced Usage
+
+**Targeted Design Control Audit:**
+```json
+{
+  "audit_scope": {"audit_type": "Design Control Audit"},
+  "focus_areas": ["7.3"],
+  "risk_areas": ["Design Controls", "Design Validation"]
+}
+```
+
+**CAPA System Effectiveness Audit:**
+```json
+{
+  "audit_scope": {"audit_type": "CAPA Audit"},
+  "focus_areas": ["8.5"],
+  "previous_findings": [/* all open CAPA findings */]
+}
+```
+
+**Pre-Certification Audit:**
+```json
+{
+  "audit_scope": {"audit_type": "Pre-Certification Audit"},
+  "focus_areas": [],  // Full coverage
+  "risk_areas": ["Design Controls", "CAPA", "Complaint Handling", "Regulatory Reporting"]
+}
+```
+
+For complete script documentation, run:
+```bash
+python scripts/audit_checklist_generator.py --help
+```

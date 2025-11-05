@@ -176,10 +176,14 @@ Maintain current awareness of evolving MDR guidance and regulatory expectations.
 ## Resources
 
 ### scripts/
-- `mdr-gap-analysis.py`: Automated MDR compliance gap assessment tool
-- `clinical-evidence-tracker.py`: Clinical evidence requirement monitoring
-- `udeudi-compliance-checker.py`: UDI and EUDAMED compliance verification
-- `pms-reporting-automation.py`: Post-market surveillance report generation
+- `mdr_compliance_tracker.py`: Comprehensive MDR compliance tracking dashboard with gap analysis, CE marking readiness assessment, and submission timeline generation. Tracks GSPR, technical documentation, clinical evaluation, PMS, and UDI compliance. Supports text/JSON/CSV output formats.
+  - Usage: `python mdr_compliance_tracker.py sample_mdr_requirements.json`
+  - Sample data included: `sample_mdr_requirements.json`
+  - Features: Compliance scoring, blocking gap identification, effort estimation, timeline planning
+- `mdr-gap-analysis.py`: Automated MDR compliance gap assessment tool (future)
+- `clinical-evidence-tracker.py`: Clinical evidence requirement monitoring (future)
+- `udi-compliance-checker.py`: UDI and EUDAMED compliance verification (future)
+- `pms-reporting-automation.py`: Post-market surveillance report generation (future)
 
 ### references/
 - `mdr-classification-guide.md`: Comprehensive device classification framework
@@ -193,3 +197,207 @@ Maintain current awareness of evolving MDR guidance and regulatory expectations.
 - `gap-analysis-checklists/`: MDR compliance assessment tools
 - `eudamed-forms/`: EUDAMED registration and reporting templates
 - `training-materials/`: MDR training presentations and compliance guides
+
+## MDR Compliance Tracker Usage
+
+### Quick Start
+
+```bash
+# Basic usage - generates text dashboard
+python mdr_compliance_tracker.py sample_mdr_requirements.json
+
+# JSON output for system integration
+python mdr_compliance_tracker.py mdr_data.json --output json
+
+# CSV export for spreadsheet analysis
+python mdr_compliance_tracker.py mdr_data.json -o csv -f compliance_report.csv
+
+# Detailed verbose report
+python mdr_compliance_tracker.py mdr_data.json -v
+```
+
+### Input Data Format
+
+The tracker requires a JSON file with the following structure:
+
+```json
+{
+  "metadata": {
+    "device_name": "Device Name",
+    "device_class": "CLASS_IIB",
+    "manufacturer": "Company Name",
+    "notified_body": "NB Identifier",
+    "submission_target": "2026-06-30"
+  },
+  "requirements": [
+    {
+      "requirement_id": "GSPR-001",
+      "annex_article": "ANNEX_I_GSPR",
+      "title": "Requirement title",
+      "description": "Detailed description",
+      "priority": "BLOCKING",
+      "status": "IN_PROGRESS",
+      "device_class_applicable": ["CLASS_IIB"],
+      "responsible_person": "Name - Role",
+      "target_date": "2026-01-15",
+      "completion_date": null,
+      "evidence_location": "DHF/Path/To/Evidence",
+      "gap_description": "What's missing",
+      "mitigation_plan": "How to close gap",
+      "verification_method": "How to verify",
+      "estimated_effort_hours": 120,
+      "blocking_for_ce_mark": true,
+      "notes": "Additional context"
+    }
+  ],
+  "pmcf_commitments": [
+    {
+      "pmcf_id": "PMCF-2026-001",
+      "study_title": "Study name",
+      "objective": "Study objective",
+      "start_date": "2026-07-01",
+      "target_completion": "2029-06-30",
+      "status": "PLANNED",
+      "data_sources": ["Registry", "Surveys"],
+      "responsible_person": "Name - Role",
+      "milestones": []
+    }
+  ],
+  "udi_status": {
+    "udi_di_assigned": true,
+    "eudamed_registration_complete": false,
+    "eudamed_target_date": "2026-04-30",
+    "udi_on_device_label": true,
+    "udi_on_packaging": true,
+    "basic_udi_di_assigned": true,
+    "responsible_person": "Name - Role",
+    "status": "IN_PROGRESS",
+    "notes": "UDI implementation notes"
+  }
+}
+```
+
+### Key Features
+
+**1. Compliance Readiness Score**
+- Weighted scoring based on requirement status
+- Overall percentage showing CE marking readiness
+- Status weights: NOT_STARTED (0%), IN_PROGRESS (30%), PARTIALLY_COMPLIANT (60%), COMPLIANT (90%), VERIFIED (100%)
+
+**2. Blocking Gap Analysis**
+- Identifies requirements that must be complete for CE marking
+- Prioritized list with responsible persons and target dates
+- Gap descriptions and mitigation plans
+
+**3. CE Marking Readiness Assessment**
+- GSPR compliance status
+- Technical documentation completeness
+- Clinical evaluation status
+- PMS system readiness
+- UDI system compliance
+
+**4. Compliance by Annex/Article**
+- Annex I - GSPR
+- Annex II/III - Technical Documentation
+- Annex XIV / Article 61 - Clinical Evaluation
+- Article 83-92 - Post-Market Surveillance
+- Article 27 - UDI System
+
+**5. Effort Estimation**
+- Hours remaining by status (not started, in progress)
+- Estimated weeks to completion
+- Resource planning support
+
+**6. Submission Timeline**
+- Month-by-month requirement deadlines
+- Blocking requirement counts
+- Key deliverables overview
+
+**7. PMCF Tracking**
+- Post-market clinical follow-up study management
+- Timeline and milestone tracking
+- Data source documentation
+
+**8. UDI System Status**
+- UDI-DI assignment tracking
+- EUDAMED registration status
+- Labeling compliance verification
+
+### Output Formats
+
+**Text Format (Default)**
+- Human-readable dashboard
+- Executive summary with key metrics
+- Blocking gaps highlighted
+- Compliance by annex breakdown
+- Timeline visualization
+
+**JSON Format**
+- Machine-readable structured data
+- Full metadata and timestamps
+- Nested data structures for integration
+- API-friendly format
+
+**CSV Format**
+- Spreadsheet-compatible export
+- One row per requirement
+- Key fields: ID, status, priority, blocking, dates
+- Import into Excel/Google Sheets
+
+### Use Cases
+
+**1. Executive Dashboard**
+```bash
+# Quick status check for leadership
+python mdr_compliance_tracker.py current_status.json
+```
+
+**2. Gap Analysis Meeting**
+```bash
+# Detailed report for team review
+python mdr_compliance_tracker.py current_status.json -v > gap_analysis_report.txt
+```
+
+**3. System Integration**
+```bash
+# Export for project management tools
+python mdr_compliance_tracker.py current_status.json -o json -f status.json
+```
+
+**4. Spreadsheet Analysis**
+```bash
+# Export for detailed tracking in Excel
+python mdr_compliance_tracker.py current_status.json -o csv -f requirements.csv
+```
+
+**5. Notified Body Preparation**
+```bash
+# Generate comprehensive compliance report
+python mdr_compliance_tracker.py pre_submission.json -v -f submission_readiness.txt
+```
+
+### Compliance Status Values
+
+- `NOT_STARTED`: Requirement not yet addressed
+- `IN_PROGRESS`: Work ongoing but not complete
+- `PARTIALLY_COMPLIANT`: Partially meets requirements, gaps remain
+- `COMPLIANT`: Fully compliant, documentation complete
+- `VERIFIED`: Compliance verified by Notified Body or internal audit
+- `NOT_APPLICABLE`: Requirement does not apply to this device
+
+### Priority Levels
+
+- `BLOCKING`: Must be complete for CE marking submission
+- `HIGH`: Critical for submission, important for approval
+- `MEDIUM`: Important but not blocking submission
+- `LOW`: Nice to have or future consideration
+
+### MDR Annex/Article Values
+
+- `ANNEX_I_GSPR`: General Safety and Performance Requirements
+- `ANNEX_II_TECH_DOC`: Technical Documentation (Class I, IIa, IIb)
+- `ANNEX_III_TECH_DOC_CLASS_III`: Technical Documentation Class III
+- `ANNEX_XIV_CLINICAL`: Clinical Evaluation and PMCF
+- `ARTICLE_61_CLINICAL_EVAL`: Clinical Evaluation Requirements
+- `ARTICLE_83_92_PMS`: Post-Market Surveillance
+- `ARTICLE_27_UDI`: UDI System

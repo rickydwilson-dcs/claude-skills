@@ -257,9 +257,88 @@ Continuously improve ISMS audit program through methodology enhancement and tech
    - Industry best practice adoption and customization
    - Regulatory requirement evolution and adaptation
 
+## ISO 27001 Gap Analysis Workflow
+
+### Performing Comprehensive Gap Analysis
+
+Conduct systematic gap analysis between current security control implementation and ISO 27001:2022 requirements.
+
+**Gap Analysis Process:**
+
+1. **Control Assessment Data Collection**
+   ```bash
+   # Use the sample template as starting point
+   cp assets/sample_iso27001_assessment.json current_assessment.json
+   # Update with actual maturity levels for all 93 Annex A controls
+   ```
+
+2. **Run Gap Analysis**
+   ```bash
+   # Generate comprehensive text report
+   python scripts/iso27001_gap_analyzer.py current_assessment.json
+
+   # Generate JSON output for integration
+   python scripts/iso27001_gap_analyzer.py current_assessment.json --output json
+
+   # Generate CSV for spreadsheet analysis
+   python scripts/iso27001_gap_analyzer.py current_assessment.json -o csv -f gap_report.csv
+
+   # Verbose mode with detailed recommendations
+   python scripts/iso27001_gap_analyzer.py current_assessment.json -v
+   ```
+
+3. **Interpret Results**
+   - **Certification Readiness Status**: READY | NEAR_READY | MODERATE_GAPS | SIGNIFICANT_GAPS
+   - **Certification Blockers**: Critical gaps that must be addressed before audit
+   - **Theme Maturity Scores**: Average maturity by control theme (Organizational, People, Physical, Technological)
+   - **Remediation Roadmap**: Phased approach with effort estimates
+
+4. **Gap Severity Levels**
+   - **CRITICAL**: Blocks certification, requires immediate action
+   - **HIGH**: Major compliance issue, high priority
+   - **MEDIUM**: Moderate improvement needed
+   - **LOW**: Minor enhancement opportunity
+
+5. **Maturity Levels (0-5)**
+   - **Level 0 - Not Implemented**: Control does not exist
+   - **Level 1 - Ad-hoc**: Reactive, informal processes
+   - **Level 2 - Defined**: Documented process exists
+   - **Level 3 - Consistent**: Process consistently implemented
+   - **Level 4 - Measured**: Process measured and monitored
+   - **Level 5 - Optimized**: Continuous improvement in place
+
+**Gap Analysis Output:**
+- Executive summary with certification readiness assessment
+- Maturity scores by control theme (Organizational, People, Physical, Technological)
+- Detailed gap analysis for all 93 Annex A controls
+- Prioritized remediation roadmap with effort estimates
+- Certification blocker identification
+- Control-specific recommendations
+
+**Example Use Case:**
+
+*Pre-Certification Gap Analysis:*
+```bash
+# Assess current state 6 months before certification audit
+python scripts/iso27001_gap_analyzer.py pre_cert_assessment.json -v -f gap_analysis_report.txt
+
+# Review certification blockers
+grep "CRITICAL" gap_analysis_report.txt
+
+# Export for management presentation
+python scripts/iso27001_gap_analyzer.py pre_cert_assessment.json -o json -f executive_report.json
+```
+
+**Integration with Audit Program:**
+- Use gap analysis results to prioritize internal audit focus areas
+- Track remediation progress through iterative gap assessments
+- Generate management review reports showing control maturity trends
+- Support risk-based audit planning with gap severity data
+
 ## Resources
 
 ### scripts/
+- `iso27001_gap_analyzer.py`: ISO 27001:2022 gap analysis and certification readiness assessment (93 Annex A controls)
 - `isms-audit-scheduler.py`: Risk-based ISMS audit planning and scheduling
 - `security-audit-prep.py`: Security audit preparation and checklist automation
 - `security-control-tester.py`: Automated security control verification testing
@@ -273,6 +352,7 @@ Continuously improve ISMS audit program through methodology enhancement and tech
 - `regulatory-security-compliance.md`: Multi-jurisdictional security compliance requirements
 
 ### assets/
+- `sample_iso27001_assessment.json`: Sample control assessment data for 30 key Annex A controls
 - `isms-audit-templates/`: ISMS audit plan, checklist, and report templates
 - `security-testing-tools/`: Security assessment and testing automation scripts
 - `compliance-checklists/`: ISO 27001 and regulatory compliance verification checklists

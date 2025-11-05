@@ -6,6 +6,8 @@ SEO Content Optimizer - Analyzes and optimizes content for SEO
 import re
 from typing import Dict, List, Set
 import json
+import csv
+from io import StringIO
 
 class SEOOptimizer:
     def __init__(self):
@@ -341,6 +343,50 @@ class SEOOptimizer:
         
         return recommendations
 
+def format_csv_output(results: Dict) -> str:
+    """Format SEO results as CSV"""
+    output = StringIO()
+    writer = csv.writer(output)
+
+    # Header row
+    writer.writerow(['metric', 'value', 'target', 'status'])
+
+    # SEO Score
+    seo_score = results.get('optimization_score', 0)
+    writer.writerow(['seo_score', seo_score, '80+', 'pass' if seo_score >= 80 else 'needs_improvement'])
+
+    # Content metrics
+    writer.writerow(['content_length', results.get('content_length', 0), '300-2500', 'pass'])
+
+    # Structure metrics
+    struct = results.get('structure_analysis', {})
+    writer.writerow(['headings', struct.get('headings', {}).get('total', 0), '3+', 'pass'])
+    writer.writerow(['paragraphs', struct.get('paragraphs', 0), '3+', 'pass'])
+    writer.writerow(['avg_paragraph_length', f"{struct.get('avg_paragraph_length', 0)}", '40-150', 'pass'])
+    writer.writerow(['internal_links', struct.get('links', {}).get('internal', 0), '1+', 'pass'])
+    writer.writerow(['external_links', struct.get('links', {}).get('external', 0), '1+', 'pass'])
+
+    # Readability
+    readability = results.get('readability', {})
+    writer.writerow(['readability_score', readability.get('score', 0), '50+', 'pass'])
+    writer.writerow(['readability_level', readability.get('level', 'Unknown'), 'Easy-Moderate', 'pass'])
+
+    # Keyword metrics
+    if results.get('keyword_analysis'):
+        kw = results['keyword_analysis'].get('primary_keyword', {})
+        writer.writerow(['primary_keyword', kw.get('keyword', ''), '', 'pass'])
+        writer.writerow(['keyword_count', kw.get('count', 0), '1+', 'pass'])
+        writer.writerow(['keyword_density', f"{kw.get('density', 0):.2%}", '1-3%', 'pass'])
+        writer.writerow(['keyword_in_first_para', 'yes' if kw.get('in_first_paragraph') else 'no', 'yes', 'pass'])
+
+    # Meta suggestions
+    if results.get('meta_suggestions'):
+        meta = results['meta_suggestions']
+        writer.writerow(['suggested_title', meta.get('title', ''), '', 'pass'])
+        writer.writerow(['suggested_url_slug', meta.get('url_slug', ''), '', 'pass'])
+
+    return output.getvalue()
+
 def optimize_content(content: str, keyword: str = None,
                      secondary_keywords: List[str] = None, output_format: str = 'text') -> str:
     """Main function to optimize content"""
@@ -352,8 +398,11 @@ def optimize_content(content: str, keyword: str = None,
 
     results = optimizer.analyze(content, keyword, secondary_keywords)
 
+    # Return CSV format if requested
+    if output_format == 'csv':
+        return format_csv_output(results)
     # Return JSON format if requested
-    if output_format == 'json':
+    elif output_format == 'json':
         return json.dumps(results, indent=2)
 
     # Format text output
@@ -453,9 +502,9 @@ For more information, see the skill documentation.
 
     parser.add_argument(
         '--output', '-o',
-        choices=['text', 'json'],
+        choices=['text', 'json', 'csv'],
         default='text',
-        help='Output format: text (default) or json'
+        help='Output format: text (default), json, or csv'
     )
 
     parser.add_argument(

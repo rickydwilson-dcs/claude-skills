@@ -19,6 +19,8 @@ import argparse
 import json
 import math
 import sys
+import csv
+from io import StringIO
 from pathlib import Path
 from typing import Dict, List, Tuple
 from datetime import datetime
@@ -410,6 +412,30 @@ def analyze_financial_scenarios(base_case: Dict, scenarios: List[Dict]) -> str:
     return '\n'.join(output)
 
 
+def format_csv_output(base_case: Dict, scenarios: List[Dict]) -> str:
+    """Format scenario analysis results as CSV"""
+    analyzer = FinancialScenarioAnalyzer()
+    results = analyzer.analyze_scenarios(base_case, scenarios)
+
+    output = StringIO()
+    writer = csv.writer(output)
+
+    # Header row
+    writer.writerow(['scenario', 'probability', 'npv', 'irr', 'break_even_month', 'total_return'])
+
+    # Write each scenario
+    for scenario_result in results.get('scenario_analysis', []):
+        writer.writerow([
+            scenario_result.get('name', ''),
+            scenario_result.get('probability', 0),
+            f"${scenario_result.get('npv', 0):.0f}",
+            f"{scenario_result.get('irr', 0):.1%}",
+            scenario_result.get('break_even_month', -1),
+            f"{scenario_result.get('total_return', 0):.2f}x"
+        ])
+
+    return output.getvalue()
+
 def format_json_output(base_case: Dict, scenarios: List[Dict]) -> str:
     """Format results as JSON with metadata"""
     analyzer = FinancialScenarioAnalyzer()
@@ -493,9 +519,9 @@ c-level-advisor/ceo-advisor/SKILL.md
     # Optional arguments
     parser.add_argument(
         '--output', '-o',
-        choices=['text', 'json'],
+        choices=['text', 'json', 'csv'],
         default='text',
-        help='Output format: text (default) or json'
+        help='Output format: text (default), json, or csv'
     )
 
     parser.add_argument(
@@ -571,7 +597,9 @@ c-level-advisor/ceo-advisor/SKILL.md
             print(f"Analyzing {len(scenarios)} financial scenarios...", file=sys.stderr)
 
         # Process data
-        if args.output == 'json':
+        if args.output == 'csv':
+            output = format_csv_output(base_case, scenarios)
+        elif args.output == 'json':
             output = format_json_output(base_case, scenarios)
         else:  # text (default)
             output = analyze_financial_scenarios(base_case, scenarios)
