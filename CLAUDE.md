@@ -10,6 +10,22 @@ This is a **comprehensive skills library** for Claude AI - reusable, production-
 
 **Key Distinction**: This is NOT a traditional application. It's a library of skill packages meant to be extracted and deployed by users into their own Claude workflows.
 
+## Quick Start for Development
+
+```bash
+# Setup Python environment
+python3 -m venv claude-skills_venv
+source claude-skills_venv/bin/activate  # On Windows: claude-skills_venv\Scripts\activate
+pip install -r requirements.txt
+
+# Test a Python tool
+python marketing-skill/content-creator/scripts/brand_voice_analyzer.py --help
+python marketing-skill/content-creator/scripts/seo_optimizer.py --help
+
+# Run agent validation (if available)
+find agents -name "cs-*.md" -exec echo "Validating: {}" \;
+```
+
 ## Navigation Map
 
 This repository uses **modular documentation**. For domain-specific guidance, see:
@@ -102,15 +118,43 @@ See [standards/git/git-workflow-standards.md](standards/git/git-workflow-standar
 
 **No build system or test frameworks** - intentional design choice for portability.
 
+**Python Environment Setup:**
+```bash
+# Create virtual environment (recommended)
+python3 -m venv claude-skills_venv
+source claude-skills_venv/bin/activate
+
+# Install dependencies (minimal - only pyyaml currently)
+pip install -r requirements.txt
+
+# Verify setup
+python -c "import yaml; print('Environment ready')"
+```
+
 **Python Scripts:**
 - Use standard library only (minimal dependencies)
 - CLI-first design for easy automation
 - Support both JSON and human-readable output
 - No ML/LLM calls (keeps skills portable and fast)
 
+**Testing Python Tools:**
+```bash
+# Test with --help flag (all tools must support this)
+python <domain-skill>/<skill-name>/scripts/<tool>.py --help
+
+# Test execution with sample data
+echo "Sample content for testing" > test-input.txt
+python marketing-skill/content-creator/scripts/brand_voice_analyzer.py test-input.txt
+python marketing-skill/content-creator/scripts/seo_optimizer.py test-input.txt "test keyword"
+rm test-input.txt
+
+# Test JSON output format
+python marketing-skill/content-creator/scripts/brand_voice_analyzer.py content.txt json
+```
+
 **If adding dependencies:**
 - Keep scripts runnable with minimal setup (`pip install package` at most)
-- Document all dependencies in SKILL.md
+- Document all dependencies in SKILL.md and update requirements.txt
 - Prefer standard library implementations
 
 ## Current Sprint
@@ -146,6 +190,120 @@ See [standards/git/git-workflow-standards.md](standards/git/git-workflow-standar
 
 See domain-specific roadmaps in each skill folder's README.md or roadmap files.
 
+## Common Development Tasks
+
+### Creating a New Skill
+
+```bash
+# 1. Create skill directory structure
+mkdir -p <domain-skill>/<skill-name>/{scripts,references,assets}
+
+# 2. Create SKILL.md from template
+cp templates/skill-template.md <domain-skill>/<skill-name>/SKILL.md
+
+# 3. Add Python tools to scripts/
+# All tools must:
+# - Support --help flag
+# - Accept JSON output mode
+# - Use standard library (or update requirements.txt)
+# - Follow CLI-first design
+
+# 4. Add knowledge bases to references/
+# - Markdown format
+# - Expert-level content
+# - Platform-specific guidance
+
+# 5. Add templates to assets/
+# - User-customizable
+# - Copy-paste ready
+
+# 6. Test skill integration
+python <domain-skill>/<skill-name>/scripts/<tool>.py --help
+```
+
+### Creating a New Agent
+
+```bash
+# 1. Use agent template
+cp templates/agent-template.md agents/<domain>/cs-<agent-name>.md
+
+# 2. Update YAML frontmatter
+# - name: cs-<agent-name>
+# - description: One-line purpose
+# - skills: skill-folder-name
+# - domain: marketing|product|engineering|c-level|pm|ra-qm
+# - model: sonnet|opus|haiku
+# - tools: [Read, Write, Bash, Grep, Glob]
+
+# 3. Document workflows (minimum 3)
+# - Clear step-by-step instructions
+# - Specific tool/command references
+# - Expected outputs
+# - Time estimates
+
+# 4. Test relative paths (CRITICAL)
+cd agents/<domain>/
+ls ../../<domain-skill>/<skill-name>/  # Must resolve correctly
+
+# 5. Test Python tool execution
+python ../../<domain-skill>/<skill-name>/scripts/<tool>.py --help
+```
+
+### Testing Changes
+
+```bash
+# Validate Python syntax
+find . -name "*.py" -type f -exec python3 -m py_compile {} \;
+
+# Test Python tools
+for tool in $(find . -name "*.py" -path "*/scripts/*"); do
+    echo "Testing: $tool"
+    python "$tool" --help || echo "FAILED: $tool"
+done
+
+# Validate markdown files
+find . -name "*.md" -type f -exec echo "Checking: {}" \;
+
+# Check for secrets (pre-commit check)
+git diff --cached | grep -iE '(api[_-]?key|secret|password|token).*=.*[^x{5}]' && echo "⚠️  Potential secret detected"
+
+# Validate relative paths in agents
+find agents -name "cs-*.md" -exec grep -l "../../" {} \; | while read file; do
+    echo "Validating paths in: $file"
+    grep -o "\.\./\.\./[a-z-]*/[a-z-]*/" "$file" | sort -u
+done
+```
+
+### Slash Commands
+
+Available slash commands (from `.claude/commands/`):
+
+```bash
+# Git and commit workflows
+/git:cm     # Stage changes and create conventional commit (no push)
+/git:cp     # Stage, commit, and push following git governance
+/git:pr     # Create pull request from current branch
+
+# Quality gates
+/review           # Run local review gate before pushing
+/security-scan    # Run security scan gate
+```
+
+**Usage Example:**
+```bash
+# Make changes
+vim marketing-skill/content-creator/SKILL.md
+
+# Review changes
+/review
+
+# Commit with conventional format
+/git:cm
+
+# Create pull request
+/git:pr dev
+```
+
 ## Key Principles
 
 1. **Skills are products** - Each skill deployable as standalone package
@@ -161,6 +319,8 @@ See domain-specific roadmaps in each skill folder's README.md or roadmap files.
 - Generic advice (focus on specific, actionable frameworks)
 - LLM calls in scripts (defeats portability and speed)
 - Over-documenting file structure (skills are simple by design)
+- Hardcoding absolute paths in agents (always use `../../` pattern)
+- Committing directly to main (use feature branches and PRs)
 
 ## Working with This Repository
 
@@ -170,15 +330,129 @@ See domain-specific roadmaps in each skill folder's README.md or roadmap files.
 
 **Quality Standard:** Each skill should save users 40%+ time while improving consistency/quality by 30%+.
 
+## Troubleshooting
+
+### Python Tools Not Working
+
+```bash
+# Issue: Module not found
+# Solution: Activate virtual environment
+source claude-skills_venv/bin/activate
+pip install -r requirements.txt
+
+# Issue: Permission denied
+# Solution: Make script executable
+chmod +x <domain-skill>/<skill-name>/scripts/<tool>.py
+
+# Issue: Tool returns unexpected output
+# Solution: Test with --help first
+python <tool>.py --help
+
+# Solution: Check Python version (requires 3.8+)
+python --version
+```
+
+### Agent Relative Paths Failing
+
+```bash
+# Issue: Agent can't find skill files
+# Solution: Verify path resolution from agent location
+cd agents/<domain>/
+ls ../../<domain-skill>/<skill-name>/  # Should list files
+
+# Issue: Path works locally but not in Claude Code
+# Solution: Always use ../../ pattern, never absolute paths
+# Wrong: /Users/name/claude-skills/marketing-skill/
+# Right: ../../marketing-skill/
+```
+
+### Git Workflow Issues
+
+```bash
+# Issue: Can't push to main
+# Solution: Main is protected - use PRs
+git checkout dev
+git checkout -b feature/my-changes
+# ... make changes ...
+git push origin feature/my-changes
+gh pr create --base dev
+
+# Issue: Commit rejected (conventional commits)
+# Solution: Use correct format
+# Wrong: "updated files"
+# Right: "feat(agents): implement cs-new-agent"
+
+# Issue: Merge conflicts
+# Solution: Sync with dev first
+git checkout feature/my-branch
+git pull origin dev
+# ... resolve conflicts ...
+git add .
+git commit -m "chore: resolve merge conflicts"
+```
+
+### Virtual Environment Issues
+
+```bash
+# Issue: Virtual environment not activating
+# Solution: Recreate it
+rm -rf claude-skills_venv
+python3 -m venv claude-skills_venv
+source claude-skills_venv/bin/activate
+pip install -r requirements.txt
+
+# Issue: Wrong Python version in venv
+# Solution: Specify Python version
+python3.9 -m venv claude-skills_venv
+# or
+python3.11 -m venv claude-skills_venv
+```
+
 ## Additional Resources
 
-- **.gitignore:** Excludes .vscode/, .DS_Store, AGENTS.md, PROMPTS.md, .env*
+- **.gitignore:** Excludes .vscode/, .DS_Store, AGENTS.md, PROMPTS.md, .env*, *_venv/
 - **Standards Library:** [standards/](standards/) - Communication, quality, git, documentation, security
 - **Implementation Plans:** [documentation/implementation/](documentation/implementation/)
 - **Sprint Delivery:** [documentation/delivery/](documentation/delivery/)
+- **Workflow Guide:** [documentation/WORKFLOW.md](documentation/WORKFLOW.md)
+- **Git Standards:** [standards/git/git-workflow-standards.md](standards/git/git-workflow-standards.md)
+
+## File Locations Quick Reference
+
+```
+claude-skills/
+├── agents/                        # cs-* agents (orchestrate skills)
+│   ├── marketing/                 # Marketing agents
+│   ├── product/                   # Product agents
+│   ├── c-level/                   # C-level advisory agents
+│   └── CLAUDE.md                  # Agent development guide
+├── <domain-skill>/                # Skill packages
+│   └── <skill-name>/
+│       ├── SKILL.md               # Master documentation
+│       ├── scripts/               # Python tools (executable)
+│       ├── references/            # Knowledge bases
+│       └── assets/                # User templates
+├── standards/                     # Quality standards
+│   ├── communication/
+│   ├── quality/
+│   ├── git/
+│   ├── documentation/
+│   └── security/
+├── documentation/                 # Implementation docs
+│   ├── WORKFLOW.md                # Git workflow guide
+│   ├── implementation/            # Implementation plans
+│   └── delivery/                  # Sprint tracking
+├── templates/                     # Templates
+│   ├── agent-template.md          # Agent creation template
+│   └── skill-template.md          # Skill creation template
+├── requirements.txt               # Python dependencies
+└── CLAUDE.md                      # This file
+```
 
 ---
 
 **Last Updated:** November 5, 2025
 **Current Sprint:** sprint-11-05-2025 (Skill-Agent Integration Phase 1-2)
 **Status:** 42 skills deployed, agent system in development
+**Python Version:** 3.8+ required
+**Dependencies:** pyyaml>=6.0.3 (see requirements.txt)
