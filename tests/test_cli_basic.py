@@ -51,9 +51,9 @@ class TestBasicScriptExecution:
         )
 
         # Should handle input file without crashing
-        # May return 0 (success) or 1 (expected error), but not crash
-        assert result.returncode in [0, 1, 2], \
-            f"Script {script_path.name} crashed with input: {result.stderr[:200]}"
+        # Exit codes: 0=success, 1=general error, 2=arg error, 3=processing error, 4=output error
+        assert result.returncode in [0, 1, 2, 3, 4], \
+            f"Script {script_path.name} crashed with input (exit code {result.returncode}): {result.stderr[:200]}"
 
     @pytest.mark.execution
     def test_script_missing_file_error(self, script_path: Path):
@@ -130,13 +130,14 @@ class TestBasicScriptExecution:
         content = script_path.read_text()
 
         # Should have either:
-        # 1. if __name__ == "__main__": pattern
+        # 1. if __name__ == "__main__": pattern (with single or double quotes)
         # 2. main() function
-        has_main_guard = 'if __name__ == "__main__"' in content
+        has_main_guard = ('if __name__ == "__main__"' in content or
+                         "if __name__ == '__main__'" in content)
         has_main_func = 'def main' in content
 
         assert has_main_guard, \
-            f"Script {script_path.name} missing main guard (if __name__ == '__main__')"
+            f"Script {script_path.name} missing main guard (if __name__ == '__main__' or \"__main__\")"
 
     @pytest.mark.execution
     def test_script_uses_argparse(self, script_path: Path):
@@ -287,7 +288,8 @@ class TestErrorHandling:
             )
 
             # Should handle unicode without crashing (may error gracefully)
-            assert result.returncode in [0, 1, 2], \
-                f"Script {script_path.name} crashed on unicode input"
+            # Exit codes: 0=success, 1=general error, 2=arg error, 3=processing error, 4=output error
+            assert result.returncode in [0, 1, 2, 3, 4], \
+                f"Script {script_path.name} crashed on unicode input (exit code {result.returncode})"
         finally:
             unicode_file.unlink()
