@@ -16,7 +16,7 @@ This guide provides comprehensive instructions for creating **cs-* prefixed agen
 
 ### Production Agents
 
-**23 Agents Currently Available** (as of November 6, 2025):
+**28 Agents Currently Available** (as of November 6, 2025):
 
 | Agent | Domain | Description | Skills Used | Lines |
 |-------|--------|-------------|-------------|-------|
@@ -38,7 +38,7 @@ This guide provides comprehensive instructions for creating **cs-* prefixed agen
 | [cs-scrum-master](project-management/cs-scrum-master.md) | Project Management | Sprint ceremonies, team facilitation, Agile coaching | scrum-master | 588 |
 | [cs-jira-expert](project-management/cs-jira-expert.md) | Project Management | JQL queries, workflow configuration, automation rules | jira-expert | 710 |
 | [cs-confluence-expert](project-management/cs-confluence-expert.md) | Project Management | Space architecture, template creation, documentation governance | confluence-expert | 788 |
-| **Engineering (9 agents)** |||||
+| **Engineering (14 agents)** |||||
 | [cs-backend-engineer](engineering/cs-backend-engineer.md) | Engineering | API development, database optimization, microservices architecture | senior-backend | 745 |
 | [cs-frontend-engineer](engineering/cs-frontend-engineer.md) | Engineering | React/Vue development, UI/UX implementation, frontend performance | senior-frontend | 982 |
 | [cs-fullstack-engineer](engineering/cs-fullstack-engineer.md) | Engineering | End-to-end development, API integration, full-stack architecture | senior-fullstack | 1,191 |
@@ -48,8 +48,13 @@ This guide provides comprehensive instructions for creating **cs-* prefixed agen
 | [cs-secops-engineer](engineering/cs-secops-engineer.md) | Engineering | Security operations, incident response, threat detection | senior-secops | 365 |
 | [cs-qa-engineer](engineering/cs-qa-engineer.md) | Engineering | Test automation, quality assurance, test strategy | senior-qa | 383 |
 | [cs-code-reviewer](engineering/cs-code-reviewer.md) | Engineering | Code review, quality assessment, refactoring guidance | code-reviewer | 427 |
+| [cs-ml-engineer](engineering/cs-ml-engineer.md) | Engineering | Model training, MLOps pipelines, experiment tracking, model deployment | senior-ml-engineer | 1,059 |
+| [cs-data-engineer](engineering/cs-data-engineer.md) | Engineering | ETL/ELT pipelines, data warehousing, data quality, scalable data infrastructure | senior-data-engineer | 1,305 |
+| [cs-data-scientist](engineering/cs-data-scientist.md) | Engineering | Statistical analysis, exploratory data analysis, feature engineering, model evaluation | senior-data-scientist | 1,368 |
+| [cs-computer-vision-engineer](engineering/cs-computer-vision-engineer.md) | Engineering | Image classification, object detection, semantic segmentation, computer vision pipelines | senior-computer-vision | 1,183 |
+| [cs-prompt-engineer](engineering/cs-prompt-engineer.md) | Engineering | Prompt design, LLM optimization, RAG systems, multi-agent orchestration | senior-prompt-engineer | 1,381 |
 
-**Total**: 14,034 lines of comprehensive agent documentation
+**Total**: 20,330 lines of comprehensive agent documentation
 
 **Template Available**: [templates/agent-template.md](../templates/agent-template.md) (318 lines) - Use this to create new agents
 

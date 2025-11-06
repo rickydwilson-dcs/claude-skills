@@ -79,7 +79,7 @@ python3 marketing-skill/content-creator/scripts/brand_voice_analyzer.py \
 
 ## 🤖 Agent Catalog
 
-**23 specialized agents** that orchestrate skills and provide guided workflows (v1.0):
+**28 specialized agents** that orchestrate skills and provide guided workflows (v1.0):
 
 Agents are workflow orchestrators that intelligently invoke skills, coordinate Python tools, and guide you through complex multi-step processes. While skills provide the tools and knowledge, agents provide the intelligence to use them effectively.
 
@@ -113,6 +113,11 @@ Agents are workflow orchestrators that intelligently invoke skills, coordinate P
 | [cs-secops-engineer](agents/engineering/cs-secops-engineer.md) | Engineering | senior-secops | Security operations, incident response, threat detection |
 | [cs-qa-engineer](agents/engineering/cs-qa-engineer.md) | Engineering | senior-qa | Test automation, quality assurance, test strategy |
 | [cs-code-reviewer](agents/engineering/cs-code-reviewer.md) | Engineering | code-reviewer | Code review, quality assessment, refactoring guidance |
+| [cs-ml-engineer](agents/engineering/cs-ml-engineer.md) | Engineering | senior-ml-engineer | Model training, MLOps pipelines, experiment tracking, model deployment |
+| [cs-data-engineer](agents/engineering/cs-data-engineer.md) | Engineering | senior-data-engineer | ETL/ELT pipelines, data warehousing, data quality, scalable data infrastructure |
+| [cs-data-scientist](agents/engineering/cs-data-scientist.md) | Engineering | senior-data-scientist | Statistical analysis, exploratory data analysis, feature engineering, model evaluation |
+| [cs-computer-vision-engineer](agents/engineering/cs-computer-vision-engineer.md) | Engineering | senior-computer-vision | Image classification, object detection, semantic segmentation, computer vision pipelines |
+| [cs-prompt-engineer](agents/engineering/cs-prompt-engineer.md) | Engineering | senior-prompt-engineer | Prompt design, LLM optimization, RAG systems, multi-agent orchestration |
 
 ### Agents vs Skills
 
