@@ -12,6 +12,7 @@
 
 - [Overview](#-overview)
 - [Production CLI Tools & Testing](#%EF%B8%8F-production-cli-tools--testing)
+- [Agent Catalog](#-agent-catalog)
 - [Available Skills](#-available-skills)
 - [Quick Start](#-quick-start)
 - [How to Use with Claude AI](#-how-to-use-with-claude-ai)
@@ -73,6 +74,38 @@ python3 marketing-skill/content-creator/scripts/brand_voice_analyzer.py \
 ```
 
 **Learn More:** [TESTING_GUIDE.md](TESTING_GUIDE.md) | [documentation/standards/cli-standards.md](documentation/standards/cli-standards.md)
+
+---
+
+## 🤖 Agent Catalog
+
+**5 specialized agents** that orchestrate skills and provide guided workflows (v1.0):
+
+Agents are workflow orchestrators that intelligently invoke skills, coordinate Python tools, and guide you through complex multi-step processes. While skills provide the tools and knowledge, agents provide the intelligence to use them effectively.
+
+| Agent | Domain | Skills Used | Description |
+|-------|--------|-------------|-------------|
+| [cs-content-creator](agents/marketing/cs-content-creator.md) | Marketing | content-creator | Create SEO-optimized marketing content with brand voice consistency |
+| [cs-demand-gen-specialist](agents/marketing/cs-demand-gen-specialist.md) | Marketing | marketing-demand-acquisition | Lead generation and conversion funnel optimization |
+| [cs-ceo-advisor](agents/c-level/cs-ceo-advisor.md) | C-Level | ceo-advisor | Strategic planning, OKR setting, and board deck preparation |
+| [cs-cto-advisor](agents/c-level/cs-cto-advisor.md) | C-Level | cto-advisor | Tech roadmap planning, build vs buy decisions, team scaling |
+| [cs-product-manager](agents/product/cs-product-manager.md) | Product | product-manager-toolkit | RICE prioritization, roadmap generation, customer discovery |
+
+### Agents vs Skills
+
+**Skills** = Tools + Knowledge + Templates
+- 42 production-ready skills
+- 97 automation tools
+- Domain expertise packaged
+
+**Agents** = Workflow Orchestrators
+- Invoke skills intelligently
+- Guide multi-step processes
+- Coordinate tools and knowledge
+
+**Example:** The [cs-content-creator](agents/marketing/cs-content-creator.md) agent uses the content-creator skill's Python tools (brand_voice_analyzer.py, seo_optimizer.py) plus knowledge bases (brand guidelines, SEO frameworks) to guide you through professional content creation workflows.
+
+**Learn More:** [agents/CLAUDE.md](agents/CLAUDE.md) | [templates/agent-template.md](templates/agent-template.md)
 
 ---
 

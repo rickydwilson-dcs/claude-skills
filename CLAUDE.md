@@ -50,16 +50,22 @@ This repository uses **modular documentation**. For domain-specific guidance, se
 
 ```
 claude-code-skills/
-├── agents/                    # cs-* prefixed agents (in development)
+├── agents/                    # 5 workflow orchestrator agents (cs-* prefix)
+│   ├── marketing/            # Marketing domain agents
+│   ├── c-level/              # Executive advisory agents
+│   └── product/              # Product management agents
 ├── marketing-skill/           # 3 marketing skills + Python tools
 ├── product-team/              # 5 product skills + Python tools
 ├── engineering-team/          # 14 engineering skills + Python tools
 ├── c-level-advisor/           # 2 C-level skills
 ├── project-management/        # 6 PM skills + Atlassian MCP
 ├── ra-qm-team/                # 12 RA/QM compliance skills
-├── standards/                 # 5 standards library files
-├── templates/                 # Reusable templates
-└── documentation/             # Implementation plans, sprints, delivery
+├── tools/                     # Testing and validation scripts
+├── templates/                 # Reusable templates (agent, CLI, etc.)
+├── documentation/             # Standards, migration docs, sprints
+│   ├── standards/            # CLI, git, quality, security standards
+│   └── migration/            # CLI migration reports
+└── tests/                     # 2,814 automated pytest tests
 ```
 
 ### Skill Package Pattern
@@ -76,6 +82,70 @@ skill-name/
 **Design Philosophy**: Skills are self-contained packages. Each includes executable tools (Python scripts), knowledge bases (markdown references), and user-facing templates. Teams can extract a skill folder and use it immediately.
 
 **Key Pattern**: Knowledge flows from `references/` → into `SKILL.md` workflows → executed via `scripts/` → applied using `assets/` templates.
+
+### Agent Architecture (v1.0)
+
+**5 production agents** orchestrate skills through guided workflows:
+
+```
+agents/
+├── marketing/
+│   ├── cs-content-creator.md         # SEO-optimized content creation
+│   └── cs-demand-gen-specialist.md   # Lead gen & conversion funnel
+├── c-level/
+│   ├── cs-ceo-advisor.md             # Strategic planning & OKRs
+│   └── cs-cto-advisor.md             # Tech roadmap & team scaling
+└── product/
+    └── cs-product-manager.md         # RICE prioritization & roadmaps
+```
+
+**Agent Design Principles:**
+
+1. **cs-* Prefix Convention** - All agents use `cs-` prefix (claude-skills) to distinguish from other agent types
+2. **Workflow Orchestration** - Agents guide multi-step processes, invoking skills and tools intelligently
+3. **Relative Path Integration** - Agents use `../../skill-package/` paths to access skills from their location
+4. **YAML Frontmatter** - Each agent has structured metadata (name, description, skills, domain, model, tools)
+5. **4+ Workflows Minimum** - Production agents document at least 4 complete workflows
+6. **Tool Integration** - Agents invoke Python CLI tools using bash commands with proper paths
+
+**Agent Structure:**
+```markdown
+---
+name: cs-agent-name
+description: What this agent does
+skills: skill-package-name
+domain: marketing|c-level|product|engineering|ra-qm
+model: sonnet|opus
+tools: [Read, Write, Bash, Grep, Glob]
+---
+
+# Agent Name
+
+## Purpose
+[Description]
+
+## Skill Integration
+**Skill Location:** `../../skill-package/`
+
+### Python Tools
+```bash
+python ../../skill-package/scripts/tool.py input.txt
+```
+
+## Workflows
+### Workflow 1: [Name]
+[Step-by-step guide]
+
+## Success Metrics
+[How to measure effectiveness]
+```
+
+**Agent vs. Skill Distinction:**
+- **Skills** = Tools + Knowledge + Templates (the "what")
+- **Agents** = Workflow Orchestrators (the "how")
+- Agents invoke skills intelligently based on context and guide users through complex processes
+
+**Learn More:** See [agents/CLAUDE.md](agents/CLAUDE.md) for agent development guide and [templates/agent-template.md](templates/agent-template.md) for the creation template.
 
 ## Git Workflow
 
