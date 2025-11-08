@@ -1,6 +1,39 @@
 ---
 name: product-manager-toolkit
 description: Comprehensive toolkit for product managers including RICE prioritization, customer interview analysis, PRD templates, discovery frameworks, and go-to-market strategies. Use for feature prioritization, user research synthesis, requirement documentation, and product strategy development.
+license: MIT
+metadata:
+  version: 1.0.0
+  author: Claude Skills Team
+  category: product
+  domain: product-management
+  updated: 2025-11-08
+  keywords:
+    - RICE prioritization
+    - customer interviews
+    - feature prioritization
+    - PRD templates
+    - product discovery
+    - go-to-market strategy
+    - user research
+    - interview analysis
+    - sentiment analysis
+    - pain points extraction
+    - feature requests
+    - jobs-to-be-done
+    - roadmap planning
+    - stakeholder management
+    - product strategy
+    - opportunity tree
+  tech-stack:
+    - Python 3.8+
+    - CLI
+    - CSV processing
+    - JSON export
+    - NLP sentiment analysis
+  python-tools:
+    - rice_prioritizer.py
+    - customer_interview_analyzer.py
 ---
 
 # Product Manager Toolkit

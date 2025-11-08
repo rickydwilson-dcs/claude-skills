@@ -1,6 +1,36 @@
 ---
 name: agile-product-owner
 description: Agile product ownership toolkit for Senior Product Owner including INVEST-compliant user story generation, sprint planning, backlog management, and velocity tracking. Use for story writing, sprint planning, stakeholder communication, and agile ceremonies.
+license: MIT
+metadata:
+  version: 1.0.0
+  author: Claude Skills Team
+  category: product
+  domain: agile
+  updated: 2025-11-08
+  keywords:
+    - agile product ownership
+    - user story generation
+    - sprint planning
+    - INVEST criteria
+    - backlog prioritization
+    - acceptance criteria
+    - velocity tracking
+    - story points estimation
+    - agile ceremonies
+    - product backlog
+    - sprint capacity
+    - burndown charts
+    - retrospectives
+    - daily standups
+    - release planning
+  tech-stack:
+    - Python 3.8+
+    - CLI
+    - CSV processing
+    - JSON export
+  python-tools:
+    - user_story_generator.py
 ---
 
 # Agile Product Owner
