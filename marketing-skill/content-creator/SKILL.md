@@ -4,12 +4,40 @@ description: Create SEO-optimized marketing content with consistent brand voice.
 license: MIT
 metadata:
   version: 1.0.0
-  author: Alireza Rezvani
+  author: Claude Skills Team
   category: marketing
   domain: content-marketing
-  updated: 2025-10-20
-  python-tools: brand_voice_analyzer.py, seo_optimizer.py
-  tech-stack: SEO, social-media-platforms
+  updated: 2025-11-08
+  keywords:
+    - content creation
+    - blog writing
+    - SEO optimization
+    - brand voice
+    - social media marketing
+    - content strategy
+    - copywriting
+    - keyword research
+    - content calendar
+    - marketing content
+    - SEO copywriting
+    - brand consistency
+    - content marketing
+    - audience engagement
+    - content planning
+    - editorial calendar
+    - tone of voice
+    - search engine optimization
+    - organic traffic
+    - content distribution
+  tech-stack:
+    - SEO
+    - Google Analytics
+    - Social media platforms
+    - Markdown
+    - Python 3.8+
+  python-tools:
+    - brand_voice_analyzer.py
+    - seo_optimizer.py
 ---
 
 # Content Creator
