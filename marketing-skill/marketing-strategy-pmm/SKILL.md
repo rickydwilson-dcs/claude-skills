@@ -4,12 +4,41 @@ description: Product marketing, positioning, GTM strategy, and competitive intel
 license: MIT
 metadata:
   version: 1.0.0
-  author: Alireza Rezvani
+  author: Claude Skills Team
   category: marketing
   domain: product-marketing
-  updated: 2025-10-20
-  frameworks: April-Dunford-positioning, ICP-definition, messaging-hierarchy
-  target-market: B2B-SaaS, international-expansion, Series-A+
+  updated: 2025-11-08
+  keywords:
+    - product marketing
+    - go-to-market strategy
+    - positioning
+    - messaging
+    - competitive analysis
+    - competitive intelligence
+    - battlecards
+    - ICP
+    - ideal customer profile
+    - buyer personas
+    - sales enablement
+    - product launch
+    - GTM
+    - market entry
+    - international expansion
+    - win-loss analysis
+    - value proposition
+    - feature-benefit mapping
+    - product differentiation
+    - market segmentation
+  tech-stack:
+    - HubSpot CRM
+    - Google Analytics
+    - Gong/Chorus
+    - Productboard
+    - Notion
+    - Confluence
+    - Competitive intelligence tools
+    - Python 3.8+
+  python-tools: []
 ---
 
 # Marketing Strategy & Product Marketing

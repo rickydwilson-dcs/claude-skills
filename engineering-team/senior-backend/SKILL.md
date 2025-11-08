@@ -3,6 +3,45 @@ name: senior-backend
 description: Comprehensive backend development skill for building scalable backend systems using NodeJS, Express, Go, Python, Postgres, GraphQL, REST APIs. Includes API scaffolding, database optimization, security implementation, and performance tuning. Use when designing APIs, optimizing database queries, implementing business logic, handling authentication/authorization, or reviewing backend code.
 ---
 
+license: MIT
+metadata:
+  version: 1.0.0
+  author: Claude Skills Team
+  category: engineering
+  domain: backend
+  updated: 2025-11-08
+  keywords:
+    - backend development
+    - API design
+    - REST APIs
+    - GraphQL
+    - database optimization
+    - performance tuning
+    - security
+    - authentication
+    - authorization
+    - Node.js
+    - Express
+    - scalability
+    - microservices
+    - load testing
+    - database design
+  tech-stack:
+    - Node.js
+    - Express
+    - Go
+    - Python
+    - PostgreSQL
+    - GraphQL
+    - REST APIs
+    - Docker
+    - Kubernetes
+    - Redis
+  python-tools:
+    - api_scaffolder.py
+    - database_migration_tool.py
+    - api_load_tester.py
+
 # Senior Backend
 
 Complete toolkit for senior backend with modern tools and best practices.

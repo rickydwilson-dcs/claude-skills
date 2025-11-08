@@ -3,6 +3,44 @@ name: senior-secops
 description: Comprehensive SecOps skill for application security, vulnerability management, compliance, and secure development practices. Includes security scanning, vulnerability assessment, compliance checking, and security automation. Use when implementing security controls, conducting security audits, responding to vulnerabilities, or ensuring compliance requirements.
 ---
 
+license: MIT
+metadata:
+  version: 1.0.0
+  author: Claude Skills Team
+  category: engineering
+  domain: security-operations
+  updated: 2025-11-08
+  keywords:
+    - security operations
+    - vulnerability management
+    - security scanning
+    - compliance
+    - application security
+    - threat assessment
+    - security controls
+    - incident response
+    - SIEM
+    - log analysis
+    - security automation
+    - patch management
+    - security audits
+    - vulnerability remediation
+    - access control
+  tech-stack:
+    - Python
+    - OWASP tools
+    - Snyk
+    - SonarQube
+    - GitHub Security
+    - Docker
+    - Kubernetes
+    - AWS Security
+    - Prometheus
+  python-tools:
+    - security_scanner.py
+    - vulnerability_assessor.py
+    - compliance_checker.py
+
 # Senior Secops
 
 Complete toolkit for senior secops with modern tools and best practices.

@@ -1,6 +1,47 @@
 ---
 name: fda-consultant-specialist
 description: Senior FDA consultant and specialist for medical device companies including HIPAA compliance and requirement management. Provides FDA pathway expertise, QSR compliance, cybersecurity guidance, and regulatory submission support. Use for FDA submission planning, QSR compliance assessments, HIPAA evaluations, and FDA regulatory strategy development.
+license: MIT
+metadata:
+  version: 1.0.0
+  author: Claude Skills Team
+  category: regulatory-quality
+  domain:
+    - FDA
+    - QSR
+    - HIPAA
+    - cybersecurity
+    - HealthTech
+    - MedTech
+    - United-States
+  updated: 2025-11-08
+  keywords:
+    - FDA regulation
+    - 510(k) submission
+    - PMA approval
+    - De Novo classification
+    - device classification
+    - QSR compliance
+    - 21 CFR 820
+    - design controls
+    - CAPA system
+    - document controls
+    - HIPAA compliance
+    - protected health information
+    - cybersecurity
+    - SaMD regulation
+    - combination products
+    - FDA inspection
+    - warning letters
+    - submission planning
+  tech-stack:
+    - Python 3.8+
+    - JSON submission tracking
+    - timeline calculation
+    - document checklists
+    - compliance assessment
+  python-tools:
+    - fda_submission_planner.py
 ---
 
 # Senior FDA Consultant and Specialist

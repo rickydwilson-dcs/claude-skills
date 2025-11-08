@@ -3,6 +3,45 @@ name: senior-frontend
 description: Comprehensive frontend development skill for building modern, performant web applications using ReactJS, NextJS, TypeScript, Tailwind CSS. Includes component scaffolding, performance optimization, bundle analysis, and UI best practices. Use when developing frontend features, optimizing performance, implementing UI/UX designs, managing state, or reviewing frontend code.
 ---
 
+license: MIT
+metadata:
+  version: 1.0.0
+  author: Claude Skills Team
+  category: engineering
+  domain: frontend
+  updated: 2025-11-08
+  keywords:
+    - frontend development
+    - React
+    - Next.js
+    - component development
+    - UI design
+    - performance optimization
+    - bundle analysis
+    - state management
+    - responsive design
+    - TypeScript
+    - CSS
+    - web performance
+    - user experience
+    - component patterns
+    - testing
+  tech-stack:
+    - React
+    - Next.js
+    - TypeScript
+    - Tailwind CSS
+    - JavaScript
+    - HTML5
+    - CSS3
+    - Webpack
+    - ESLint
+    - Jest
+  python-tools:
+    - component_generator.py
+    - bundle_analyzer.py
+    - frontend_scaffolder.py
+
 # Senior Frontend
 
 Complete toolkit for senior frontend with modern tools and best practices.

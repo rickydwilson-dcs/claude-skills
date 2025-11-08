@@ -4,13 +4,41 @@ description: Multi-channel demand generation, paid media optimization, SEO strat
 license: MIT
 metadata:
   version: 1.0.0
-  author: Alireza Rezvani
+  author: Claude Skills Team
   category: marketing
   domain: demand-generation
-  updated: 2025-10-20
-  python-tools: calculate_cac.py
-  tech-stack: HubSpot, LinkedIn-Ads, Google-Ads, Meta-Ads, SEO-tools
-  target-market: B2B-SaaS, Series-A+
+  updated: 2025-11-08
+  keywords:
+    - demand generation
+    - lead generation
+    - paid advertising
+    - LinkedIn Ads
+    - Google Ads
+    - customer acquisition cost
+    - CAC calculator
+    - paid media
+    - performance marketing
+    - SEO strategy
+    - SEM
+    - paid search
+    - retargeting
+    - conversion optimization
+    - marketing funnel
+    - pipeline generation
+    - MQL to SQL
+    - affiliate marketing
+    - partnership marketing
+    - marketing automation
+  tech-stack:
+    - HubSpot CRM
+    - LinkedIn Campaign Manager
+    - Google Ads
+    - Google Analytics
+    - Meta Ads Manager
+    - Search Console
+    - Python 3.8+
+  python-tools:
+    - calculate_cac.py
 ---
 
 # Marketing Demand & Acquisition

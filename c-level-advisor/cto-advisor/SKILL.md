@@ -4,13 +4,42 @@ description: Technical leadership guidance for engineering teams, architecture d
 license: MIT
 metadata:
   version: 1.0.0
-  author: Alireza Rezvani
-  category: c-level
-  domain: cto-leadership
-  updated: 2025-10-20
-  python-tools: tech_debt_analyzer.py, team_scaling_calculator.py
-  frameworks: DORA-metrics, architecture-decision-records, engineering-metrics
-  tech-stack: engineering-management, team-organization
+  author: Claude Skills Team
+  category: executive-advisory
+  domain: cto
+  updated: 2025-11-08
+  keywords:
+    - technical leadership
+    - tech debt management
+    - team scaling
+    - architecture decisions
+    - engineering metrics
+    - DORA metrics
+    - technology strategy
+    - engineering excellence
+    - infrastructure planning
+    - team structure
+    - hiring strategy
+    - vendor evaluation
+    - technology selection
+    - CI/CD optimization
+    - system design
+    - microservices architecture
+    - cloud migration
+    - engineering culture
+    - performance optimization
+    - security governance
+  tech-stack:
+    - architecture tools
+    - metrics platforms
+    - monitoring systems
+    - CI/CD systems
+    - project management tools
+    - development platforms
+    - engineering dashboards
+  python-tools:
+    - tech_debt_analyzer.py
+    - team_scaling_calculator.py
 ---
 
 # CTO Advisor

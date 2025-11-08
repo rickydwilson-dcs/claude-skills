@@ -1,6 +1,46 @@
 ---
 name: capa-officer
 description: Senior CAPA Officer specialist for managing Corrective and Preventive Actions within Quality Management Systems. Provides CAPA process management, root cause analysis, effectiveness verification, and continuous improvement coordination. Use for CAPA investigations, corrective action planning, preventive action implementation, and CAPA system optimization.
+license: MIT
+metadata:
+  version: 1.0.0
+  author: Claude Skills Team
+  category: regulatory-quality
+  domain:
+    - ISO13485
+    - FDA
+    - CAPA
+    - quality-management
+    - HealthTech
+    - MedTech
+  updated: 2025-11-08
+  keywords:
+    - corrective action
+    - preventive action
+    - CAPA management
+    - root cause analysis
+    - 5-Why analysis
+    - Fishbone diagram
+    - Fault Tree Analysis
+    - FMEA analysis
+    - effectiveness verification
+    - investigation process
+    - nonconformance
+    - continuous improvement
+    - quality system
+    - compliance requirements
+    - regulatory readiness
+    - trend analysis
+    - CAPA tracking
+    - risk assessment
+  tech-stack:
+    - Python 3.8+
+    - JSON CAPA tracking
+    - root cause analysis
+    - trend analysis algorithms
+    - investigation workflows
+  python-tools:
+    - capa_tracker.py
 ---
 
 # Senior CAPA Officer

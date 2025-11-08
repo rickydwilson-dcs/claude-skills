@@ -1,6 +1,46 @@
 ---
 name: mdr-745-specialist
 description: EU MDR 2017/745 regulation specialist and consultant for medical device requirement management. Provides comprehensive MDR compliance expertise, gap analysis, technical documentation guidance, clinical evidence requirements, and post-market surveillance implementation. Use for MDR compliance assessment, classification decisions, technical file preparation, and regulatory requirement interpretation.
+license: MIT
+metadata:
+  version: 1.0.0
+  author: Claude Skills Team
+  category: regulatory-quality
+  domain:
+    - MDR
+    - EU-regulation
+    - medical-devices
+    - HealthTech
+    - MedTech
+    - European-compliance
+  updated: 2025-11-08
+  keywords:
+    - EU MDR 2017/745
+    - medical device regulation
+    - device classification
+    - technical documentation
+    - Annex II
+    - Annex III
+    - clinical evidence
+    - PMCF
+    - post-market surveillance
+    - UDI system
+    - EUDAMED
+    - Notified Body
+    - conformity assessment
+    - CE marking
+    - GSPR compliance
+    - gap analysis
+    - MDR compliance tracker
+    - classification rules
+  tech-stack:
+    - Python 3.8+
+    - JSON compliance tracking
+    - MDR requirement database
+    - timeline planning
+    - gap analysis tools
+  python-tools:
+    - mdr_compliance_tracker.py
 ---
 
 # Senior MDR 2017/745 Specialist and Consultant

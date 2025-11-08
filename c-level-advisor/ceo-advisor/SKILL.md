@@ -4,12 +4,42 @@ description: Executive leadership guidance for strategic decision-making, organi
 license: MIT
 metadata:
   version: 1.0.0
-  author: Alireza Rezvani
-  category: c-level
-  domain: ceo-leadership
-  updated: 2025-10-20
-  python-tools: strategy_analyzer.py, financial_scenario_analyzer.py
-  frameworks: executive-decision-framework, board-governance, investor-relations
+  author: Claude Skills Team
+  category: executive-advisory
+  domain: ceo
+  updated: 2025-11-08
+  keywords:
+    - strategic planning
+    - executive leadership
+    - board governance
+    - investor relations
+    - financial modeling
+    - organizational strategy
+    - business strategy
+    - stakeholder management
+    - capital allocation
+    - M&A decisions
+    - fundraising strategy
+    - company culture
+    - OKR development
+    - market positioning
+    - competitive strategy
+    - financial planning
+    - risk management
+    - talent strategy
+    - organizational design
+    - CEO succession planning
+  tech-stack:
+    - financial modeling tools
+    - strategy frameworks
+    - board management platforms
+    - OKR management systems
+    - investor CRM
+    - executive dashboards
+    - communication platforms
+  python-tools:
+    - strategy_analyzer.py
+    - financial_scenario_analyzer.py
 ---
 
 # CEO Advisor

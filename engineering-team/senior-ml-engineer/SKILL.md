@@ -3,6 +3,45 @@ name: senior-ml-engineer
 description: World-class ML engineering skill for productionizing ML models, MLOps, and building scalable ML systems. Expertise in PyTorch, TensorFlow, model deployment, feature stores, model monitoring, and ML infrastructure. Includes LLM integration, fine-tuning, RAG systems, and agentic AI. Use when deploying ML models, building ML platforms, implementing MLOps, or integrating LLMs into production systems.
 ---
 
+license: MIT
+metadata:
+  version: 1.0.0
+  author: Claude Skills Team
+  category: engineering
+  domain: ml-engineering
+  updated: 2025-11-08
+  keywords:
+    - machine learning
+    - ML engineering
+    - MLOps
+    - model deployment
+    - LLM integration
+    - PyTorch
+    - TensorFlow
+    - model monitoring
+    - feature stores
+    - RAG systems
+    - model serving
+    - deep learning
+    - production ML
+    - model scaling
+    - agentic AI
+  tech-stack:
+    - Python
+    - PyTorch
+    - TensorFlow
+    - LangChain
+    - LlamaIndex
+    - MLflow
+    - Docker
+    - Kubernetes
+    - AWS SageMaker
+    - Weights & Biases
+  python-tools:
+    - model_deployment_pipeline.py
+    - rag_system_builder.py
+    - ml_monitoring_suite.py
+
 # Senior ML/AI Engineer
 
 World-class senior ml/ai engineer skill for production-grade AI/ML/Data systems.

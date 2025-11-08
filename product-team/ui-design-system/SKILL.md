@@ -1,6 +1,38 @@
 ---
 name: ui-design-system
 description: UI design system toolkit for Senior UI Designer including design token generation, component documentation, responsive design calculations, and developer handoff tools. Use for creating design systems, maintaining visual consistency, and facilitating design-dev collaboration.
+license: MIT
+metadata:
+  version: 1.0.0
+  author: Claude Skills Team
+  category: product
+  domain: design
+  updated: 2025-11-08
+  keywords:
+    - design systems
+    - design tokens
+    - color palette
+    - typography scale
+    - spacing system
+    - component documentation
+    - responsive design
+    - design handoff
+    - visual consistency
+    - Figma integration
+    - CSS tokens
+    - SCSS variables
+    - accessibility standards
+    - design patterns
+    - brand guidelines
+    - design tooling
+  tech-stack:
+    - Python 3.8+
+    - CLI
+    - JSON export
+    - CSS/SCSS generation
+    - Color processing
+  python-tools:
+    - design_token_generator.py
 ---
 
 # UI Design System

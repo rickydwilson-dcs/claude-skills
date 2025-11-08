@@ -1,6 +1,45 @@
 ---
 name: risk-management-specialist
 description: Senior Risk Management specialist for medical device companies implementing ISO 14971 risk management throughout product lifecycle. Provides risk analysis, risk evaluation, risk control, and post-production information analysis. Use for risk management planning, risk assessments, risk control verification, and risk management file maintenance.
+license: MIT
+metadata:
+  version: 1.0.0
+  author: Claude Skills Team
+  category: regulatory-quality
+  domain:
+    - ISO14971
+    - risk-management
+    - HealthTech
+    - MedTech
+    - product-safety
+  updated: 2025-11-08
+  keywords:
+    - ISO 14971
+    - risk management
+    - risk analysis
+    - hazard identification
+    - risk evaluation
+    - risk control
+    - residual risk
+    - risk acceptability
+    - post-market surveillance
+    - software risk
+    - cybersecurity risk
+    - use error
+    - human factors
+    - FMEA analysis
+    - risk matrix
+    - risk management file
+    - benefit-risk analysis
+    - design controls
+  tech-stack:
+    - Python 3.8+
+    - JSON risk tracking
+    - risk matrix calculation
+    - hazard database
+    - post-production monitoring
+  python-tools:
+    - risk_register.py
 ---
 
 # Senior Risk Management Specialist

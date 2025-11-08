@@ -1,6 +1,37 @@
 ---
 name: product-strategist
 description: Strategic product leadership toolkit for Head of Product including OKR cascade generation, market analysis, vision setting, and team scaling. Use for strategic planning, goal alignment, competitive analysis, and organizational design.
+license: MIT
+metadata:
+  version: 1.0.0
+  author: Claude Skills Team
+  category: product
+  domain: product-strategy
+  updated: 2025-11-08
+  keywords:
+    - OKR framework
+    - strategic planning
+    - goal alignment
+    - market analysis
+    - competitive analysis
+    - vision setting
+    - team scaling
+    - organizational design
+    - strategy cascade
+    - key results
+    - alignment tracking
+    - metrics definition
+    - KPI development
+    - strategic roadmap
+    - business strategy
+    - market positioning
+  tech-stack:
+    - Python 3.8+
+    - CLI
+    - JSON export
+    - Alignment scoring
+  python-tools:
+    - okr_cascade_generator.py
 ---
 
 # Product Strategist

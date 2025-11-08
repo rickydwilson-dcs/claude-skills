@@ -3,6 +3,44 @@ name: senior-qa
 description: Comprehensive QA and testing skill for quality assurance, test automation, and testing strategies for ReactJS, NextJS, NodeJS applications. Includes test suite generation, coverage analysis, E2E testing setup, and quality metrics. Use when designing test strategies, writing test cases, implementing test automation, performing manual testing, or analyzing test coverage.
 ---
 
+license: MIT
+metadata:
+  version: 1.0.0
+  author: Claude Skills Team
+  category: engineering
+  domain: quality-assurance
+  updated: 2025-11-08
+  keywords:
+    - QA
+    - quality assurance
+    - test automation
+    - testing strategies
+    - unit testing
+    - integration testing
+    - E2E testing
+    - test coverage
+    - Jest
+    - Cypress
+    - quality metrics
+    - regression testing
+    - performance testing
+    - test design
+    - bug detection
+  tech-stack:
+    - JavaScript
+    - TypeScript
+    - Jest
+    - Cypress
+    - React Testing Library
+    - Selenium
+    - Mocha
+    - Chai
+    - GitHub Actions
+  python-tools:
+    - test_suite_generator.py
+    - coverage_analyzer.py
+    - e2e_test_scaffolder.py
+
 # Senior Qa
 
 Complete toolkit for senior qa with modern tools and best practices.
