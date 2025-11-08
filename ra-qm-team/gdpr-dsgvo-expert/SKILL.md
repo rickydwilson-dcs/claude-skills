@@ -1,6 +1,46 @@
 ---
 name: gdpr-dsgvo-expert
 description: Senior GDPR/DSGVO expert and internal/external auditor for data protection compliance. Provides EU GDPR and German DSGVO expertise, privacy impact assessments, data protection auditing, and compliance verification. Use for GDPR compliance assessments, privacy audits, data protection planning, and regulatory compliance verification.
+license: MIT
+metadata:
+  version: 1.0.0
+  author: Claude Skills Team
+  category: regulatory-quality
+  domain:
+    - GDPR
+    - DSGVO
+    - data-protection
+    - privacy
+    - EU-regulation
+    - healthcare-privacy
+  updated: 2025-11-08
+  keywords:
+    - GDPR compliance
+    - DSGVO compliance
+    - data protection
+    - privacy impact assessment
+    - DPIA
+    - data subject rights
+    - lawful basis
+    - consent management
+    - data processing
+    - privacy by design
+    - data minimization
+    - international transfers
+    - standard contractual clauses
+    - BDSG compliance
+    - healthcare data
+    - medical device data
+    - privacy audit
+    - compliance verification
+  tech-stack:
+    - Python 3.8+
+    - JSON compliance tracking
+    - GDPR requirement database
+    - risk assessment tools
+    - compliance scoring
+  python-tools:
+    - gdpr_compliance_checker.py
 ---
 
 # Senior GDPR/DSGVO Expert and Auditor

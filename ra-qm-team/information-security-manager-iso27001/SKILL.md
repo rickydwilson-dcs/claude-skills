@@ -1,6 +1,48 @@
 ---
 name: information-security-manager-iso27001
 description: Senior Information Security Manager specializing in ISO 27001 and ISO 27002 implementation for HealthTech and MedTech companies. Provides ISMS implementation, cybersecurity risk assessment, security controls management, and compliance oversight. Use for ISMS design, security risk assessments, control implementation, and ISO 27001 certification activities.
+license: MIT
+metadata:
+  version: 1.0.0
+  author: Claude Skills Team
+  category: regulatory-quality
+  domain:
+    - ISO27001
+    - ISO27002
+    - cybersecurity
+    - HealthTech
+    - MedTech
+    - HIPAA
+    - FDA
+  updated: 2025-11-08
+  keywords:
+    - Information Security Management System
+    - ISMS implementation
+    - ISO 27001 controls
+    - ISO 27002 controls
+    - Annex A controls
+    - security risk assessment
+    - threat modeling
+    - vulnerability assessment
+    - penetration testing
+    - security policies
+    - access control
+    - encryption
+    - incident management
+    - security awareness training
+    - compliance auditing
+    - healthcare security
+    - medical device cybersecurity
+    - cloud security
+    - GDPR security
+  tech-stack:
+    - Python 3.8+
+    - JSON data format
+    - risk assessment frameworks
+    - security control testing
+    - audit methodologies
+  python-tools:
+    - isms_compliance_checker.py
 ---
 
 # Senior Information Security Manager - ISO 27001/27002 Specialist

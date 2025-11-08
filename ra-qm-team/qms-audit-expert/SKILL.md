@@ -1,6 +1,46 @@
 ---
 name: qms-audit-expert
 description: Senior QMS Audit Expert for internal and external quality management system auditing. Provides ISO 13485 audit expertise, audit program management, nonconformity identification, and corrective action verification. Use for internal audit planning, external audit preparation, audit execution, and audit follow-up activities.
+license: MIT
+metadata:
+  version: 1.0.0
+  author: Claude Skills Team
+  category: regulatory-quality
+  domain:
+    - ISO13485
+    - QMS
+    - auditing
+    - HealthTech
+    - MedTech
+    - compliance-verification
+  updated: 2025-11-08
+  keywords:
+    - ISO 13485 audit
+    - QMS audit
+    - internal audit
+    - audit program
+    - audit checklist
+    - nonconformity
+    - audit evidence
+    - audit findings
+    - risk-based auditing
+    - process audit
+    - design controls
+    - CAPA verification
+    - auditor competency
+    - certification audit
+    - regulatory inspection
+    - audit schedule
+    - audit effectiveness
+    - compliance verification
+  tech-stack:
+    - Python 3.8+
+    - JSON audit data
+    - audit checklist generation
+    - finding tracking
+    - schedule optimization
+  python-tools:
+    - audit_checklist_generator.py
 ---
 
 # Senior QMS Audit Expert

@@ -1,6 +1,47 @@
 ---
 name: regulatory-affairs-head
 description: Senior Regulatory Affairs Manager expertise for HealthTech and MedTech companies. Provides strategic regulatory guidance, submission management, regulatory pathway analysis, global compliance coordination, and cross-functional team leadership. Use for regulatory strategy development, submission planning, regulatory risk assessment, and team coordination activities.
+license: MIT
+metadata:
+  version: 1.0.0
+  author: Claude Skills Team
+  category: regulatory-quality
+  domain:
+    - FDA
+    - MDR
+    - regulatory-affairs
+    - HealthTech
+    - MedTech
+    - global-compliance
+  updated: 2025-11-08
+  keywords:
+    - regulatory affairs
+    - regulatory strategy
+    - FDA submissions
+    - EU MDR
+    - regulatory pathways
+    - 510(k) submission
+    - PMA approval
+    - De Novo classification
+    - regulatory submissions
+    - compliance tracking
+    - regulatory intelligence
+    - market access
+    - cross-functional coordination
+    - regulatory authority relations
+    - submission management
+    - regulatory compliance
+    - global markets
+    - regulatory risk assessment
+    - team leadership
+  tech-stack:
+    - Python 3.8+
+    - JSON tracking systems
+    - regulatory databases
+    - submission timelines
+    - compliance reporting
+  python-tools:
+    - regulatory_tracker.py
 ---
 
 # Senior Regulatory Affairs Manager (Head of Regulatory Affairs)

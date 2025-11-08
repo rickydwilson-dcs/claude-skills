@@ -1,6 +1,46 @@
 ---
 name: quality-manager-qms-iso13485
 description: ISO 13485 Quality Management System specialist for medical device companies. Provides QMS implementation, maintenance, process optimization, and compliance expertise. Use for QMS design, documentation control, management review, internal auditing, corrective actions, and ISO 13485 certification activities.
+license: MIT
+metadata:
+  version: 1.0.0
+  author: Claude Skills Team
+  category: regulatory-quality
+  domain:
+    - ISO13485
+    - QMS
+    - quality-management
+    - HealthTech
+    - MedTech
+    - certification
+  updated: 2025-11-08
+  keywords:
+    - ISO 13485
+    - QMS implementation
+    - quality management system
+    - design controls
+    - document control
+    - management review
+    - internal audit
+    - CAPA system
+    - risk management
+    - supplier quality
+    - process optimization
+    - quality policy
+    - quality objectives
+    - continuous improvement
+    - certification maintenance
+    - surveillance audit
+    - nonconformity management
+    - process performance
+  tech-stack:
+    - Python 3.8+
+    - JSON QMS tracking
+    - audit scheduling
+    - performance metrics
+    - quality analytics
+  python-tools:
+    - qms_audit_scheduler.py
 ---
 
 # Senior Quality Manager - QMS ISO 13485 Specialist

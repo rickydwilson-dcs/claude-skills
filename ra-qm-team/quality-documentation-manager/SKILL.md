@@ -1,6 +1,46 @@
 ---
 name: quality-documentation-manager
 description: Senior Quality Documentation Manager for comprehensive documentation control and regulatory document review. Provides document management system design, change control, configuration management, and regulatory documentation oversight. Use for document control system implementation, regulatory document review, change management, and documentation compliance verification.
+license: MIT
+metadata:
+  version: 1.0.0
+  author: Claude Skills Team
+  category: regulatory-quality
+  domain:
+    - ISO13485
+    - documentation
+    - document-control
+    - HealthTech
+    - MedTech
+    - quality-management
+  updated: 2025-11-08
+  keywords:
+    - document control
+    - document management system
+    - DMS
+    - regulatory documentation
+    - technical documentation
+    - change control
+    - configuration management
+    - document approval
+    - version control
+    - document retention
+    - archiving
+    - 21 CFR Part 11
+    - electronic signatures
+    - document lifecycle
+    - DHF management
+    - DMR control
+    - compliance verification
+    - document templates
+  tech-stack:
+    - Python 3.8+
+    - JSON document tracking
+    - change management workflows
+    - compliance monitoring
+    - document version control
+  python-tools:
+    - document_controller.py
 ---
 
 # Senior Quality Documentation Manager
