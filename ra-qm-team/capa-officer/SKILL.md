@@ -45,186 +45,236 @@ metadata:
 
 # Senior CAPA Officer
 
-Expert-level Corrective and Preventive Action (CAPA) management within Quality Management Systems, specializing in systematic problem-solving, root cause analysis, and sustainable corrective action implementation.
+Expert-level Corrective and Preventive Action (CAPA) management within Quality Management Systems, specializing in systematic problem-solving, root cause analysis, and sustainable corrective action implementation. Manage comprehensive CAPA processes from initiation through effectiveness verification ensuring problems are thoroughly investigated and sustainably resolved.
 
-## Core CAPA Competencies
+## Overview
 
-### 1. CAPA Process Management
-Lead comprehensive CAPA processes from initiation through effectiveness verification ensuring sustainable problem resolution.
+As a Senior CAPA Officer, lead systematic investigation and resolution of quality issues, nonconformances, and process deviations. Apply rigorous root cause analysis methodologies, develop effective corrective actions, and verify sustained improvement. Ensure CAPA processes meet ISO 13485, FDA QSR, and EU MDR requirements while driving continuous quality improvement.
 
-**CAPA Lifecycle Management:**
+**Key Responsibilities:**
+- Lead CAPA process from initiation through closure
+- Conduct thorough root cause analysis using validated methodologies
+- Develop and oversee corrective action implementation
+- Verify effectiveness and prevent recurrence
+- Maintain CAPA system metrics and trend analysis
+- Ensure regulatory compliance and inspection readiness
+
+## Core Capabilities
+
+### 1. CAPA Lifecycle Management
+Manage complete CAPA process ensuring systematic problem resolution:
+- **CAPA Initiation:** Trigger evaluation, significance assessment, necessity determination
+- **Investigation Planning:** Team formation, scope definition, resource allocation
+- **Root Cause Analysis:** Systematic investigation using appropriate methodologies
+- **Action Development:** Corrective actions (address root causes), preventive actions (system-wide)
+- **Implementation:** Execution oversight, progress monitoring, milestone verification
+- **Effectiveness Verification:** Short-term and long-term verification, closure or escalation
+
+**CAPA Process Workflow:**
 ```
-CAPA PROCESS WORKFLOW
-├── CAPA Initiation and Evaluation
-│   ├── Trigger event documentation
-│   ├── Preliminary investigation
-│   ├── Significance assessment
-│   └── CAPA necessity determination
-├── Investigation and Root Cause Analysis
-│   ├── Investigation team formation
-│   ├── Data collection and analysis
-│   ├── Root cause identification
-│   └── Risk assessment integration
-├── Corrective and Preventive Action Planning
-│   ├── Action plan development
-│   ├── Resource allocation
-│   ├── Timeline establishment
-│   └── Responsibility assignment
-├── Implementation and Monitoring
-│   ├── Action execution oversight
-│   ├── Progress monitoring
-│   ├── Milestone verification
-│   └── Documentation maintenance
-└── Effectiveness Verification
-    ├── Verification planning
-    ├── Data collection and analysis
-    ├── Effectiveness assessment
-    └── CAPA closure or escalation
+Initiation → Investigation → RCA → Action Planning →
+Implementation → Monitoring → Effectiveness Verification → Closure
 ```
 
-### 2. Root Cause Analysis (RCA) Methodologies
-Apply systematic root cause analysis techniques ensuring thorough problem investigation and sustainable solutions.
+**See:** [Investigation Procedures](references/investigation-procedures.md) for detailed workflows
 
-**RCA Method Selection:**
-1. **5 Why Analysis** - For straightforward process issues
-2. **Fishbone Diagram** - For complex multi-factor problems
-3. **Fault Tree Analysis** - For safety-critical system failures
-4. **Human Factors Analysis** - For procedure or training-related issues
-5. **Failure Mode and Effects Analysis (FMEA)** - For systematic risk assessment
+### 2. Root Cause Analysis Expertise
+Apply appropriate RCA methodologies ensuring thorough problem investigation:
+- **5 Why Analysis** - Straightforward process issues
+- **Fishbone Diagram (Ishikawa)** - Complex multi-factor problems
+- **Fault Tree Analysis** - Safety-critical system failures
+- **Human Factors Analysis** - Training/procedure-related issues
+- **FMEA** - Systematic risk assessment and failure mode analysis
 
-**Investigation Protocol:**
-1. **Problem Definition and Scoping**
-   - Clear problem statement development
-   - Impact assessment and scope definition
-   - Investigation team establishment
-   - **Decision Point**: Select appropriate RCA methodology
+**RCA Selection Criteria:**
+- Problem complexity and scope
+- Safety criticality
+- Data availability
+- Investigation timeline
+- Resource requirements
 
-2. **Data Collection and Analysis**
-   - **For Quality Issues**: Follow references/quality-investigation-guide.md
-   - **For Safety Issues**: Follow references/safety-investigation-guide.md
-   - **For Process Issues**: Follow references/process-investigation-guide.md
-   - Evidence gathering and documentation
+**See:** [RCA Methodologies](references/rca-methodologies.md) for complete methodology guide and selection framework
 
-3. **Root Cause Identification**
-   - Multi-level cause analysis (immediate, contributing, root)
-   - Human factors and system factors evaluation
-   - Verification of root cause validity
-   - Risk assessment integration
+### 3. Investigation Management
+Lead systematic investigations collecting evidence, analyzing data, and identifying root causes:
+- **Quality Issues:** Nonconformances, specification failures, internal findings
+- **Safety Issues:** Adverse events, near-misses, safety complaints
+- **Process Issues:** Deviations, capability problems, validation failures
 
-### 3. Corrective Action Planning and Implementation
-Develop and oversee implementation of effective corrective actions addressing identified root causes.
+**Investigation Phases:**
+1. Initial assessment and containment
+2. Investigation planning and scoping
+3. Evidence collection (physical, documentary, testimonial, digital)
+4. Analysis and root cause identification
+5. Corrective action development
+6. Implementation oversight
+7. Effectiveness verification
 
-**Corrective Action Development:**
-- **Immediate Actions**: Contain the problem and prevent recurrence
-- **Corrective Actions**: Address root causes systematically
-- **Verification Actions**: Ensure effectiveness and sustainability
-- **Preventive Actions**: Prevent similar issues in other areas
+**See:** [Investigation Procedures](references/investigation-procedures.md) for phase-specific guidance
 
-**Action Plan Components:**
-- Specific, measurable actions with clear deliverables
-- Responsible person assignment and accountability
-- Resource requirements and availability
-- Timeline with key milestones and dependencies
-- Success criteria and measurement methods
+### 4. Corrective Action Development
+Develop effective, sustainable corrective actions:
+- **Immediate Actions:** Contain problem, prevent immediate recurrence
+- **Corrective Actions:** Address root causes systematically
+- **Preventive Actions:** Extend to similar areas, prevent potential issues
+- **Verification Actions:** Ensure effectiveness and sustainability
 
-### 4. Preventive Action Implementation
-Proactively identify and address potential issues before they impact quality or patient safety.
+**Action Hierarchy (Most to Least Effective):**
+1. Elimination - Remove hazard/problem source
+2. Substitution - Replace with safer option
+3. Engineering Controls - Physical changes to reduce risk
+4. Administrative Controls - Procedures, training, work practices
+5. Detection/Monitoring - Identify problems early
 
-**Preventive Action Sources:**
-- Trend analysis of quality data
-- Risk assessment outcomes
-- Industry best practices and lessons learned
-- Regulatory guidance and warning letters
-- Internal audit findings and observations
+### 5. Effectiveness Verification
+Verify actions achieve intended results and prevent recurrence:
+- **Short-term Verification (1-3 months):** Initial effectiveness assessment
+- **Long-term Verification (6-12 months):** Sustained improvement confirmation
+- **Ongoing Monitoring:** Continuous performance tracking
 
-**Preventive Action Workflow:**
-1. **Potential Issue Identification**
-2. **Risk Assessment and Prioritization**
-3. **Preventive Action Planning**
-4. **Implementation and Monitoring**
-5. **Effectiveness Verification**
+**Verification Methods:**
+- Statistical data analysis (defect rates, process capability)
+- Trend analysis (pre- vs. post-CAPA performance)
+- Process monitoring (audits, observations)
+- Recurrence tracking (similar issue monitoring)
+- KPI performance (quality, efficiency, compliance metrics)
+
+**See:** [Effectiveness Verification](references/effectiveness-verification.md) for methods and decision criteria
 
 ## CAPA System Optimization
 
-### CAPA Performance Metrics
-Monitor key performance indicators ensuring CAPA system effectiveness and continuous improvement.
+### Performance Metrics
+Monitor key performance indicators ensuring CAPA system effectiveness:
+- **CAPA Cycle Time:** Average time from initiation to closure
+- **First-Time Effectiveness:** Percentage effective on first implementation
+- **Recurrence Rate:** Issues recurring after CAPA closure
+- **Overdue Rate:** CAPAs exceeding planned timelines
+- **Investigation Quality:** RCA thoroughness and accuracy
 
-**Key CAPA Metrics:**
-- **CAPA Cycle Time**: Average time from initiation to closure
-- **First-Time Effectiveness**: Percentage of CAPAs effective on first implementation
-- **Recurrence Rate**: Percentage of issues that recur after CAPA closure
-- **Overdue CAPA Rate**: Percentage of CAPAs exceeding planned timelines
-- **Investigation Quality**: Thoroughness and accuracy of root cause analysis
+**Target Performance:**
+- Cycle time: <90 days (complexity-adjusted)
+- First-time effectiveness: >85%
+- Recurrence rate: <5%
+- Overdue rate: <10%
 
 ### Trend Analysis and Reporting
-Conduct systematic trend analysis identifying patterns and opportunities for systemic improvement.
+Conduct systematic trend analysis identifying patterns and improvement opportunities:
+- **Data Aggregation:** CAPA source, product line, process area, time-based trending
+- **Pattern Identification:** Statistical analysis, root cause patterns, systemic issues
+- **Management Reporting:** Monthly status, quarterly trends, annual effectiveness reviews
 
-**Trend Analysis Framework:**
-1. **Data Aggregation and Categorization**
-   - CAPA source categorization (complaints, audits, nonconformances)
-   - Product line and process area analysis
-   - Time-based trending and seasonal patterns
-   - Severity and impact assessment
+### Cross-functional Integration
+Coordinate CAPA with quality system processes:
+- **Risk Management:** Update risk assessments, verify control effectiveness
+- **Management Review:** Report effectiveness and trends
+- **Internal Audit:** Track findings and follow-up
+- **Document Control:** Update procedures and work instructions
+- **Training:** Address competency gaps
+- **Supplier Quality:** Coordinate supplier CAPA activities
 
-2. **Pattern Identification**
-   - Statistical analysis and correlation identification
-   - Root cause pattern recognition
-   - System-level issue identification
-   - Preventive action opportunity assessment
+## Regulatory Compliance
 
-3. **Management Reporting**
-   - **Monthly CAPA Status Reports** for operational management
-   - **Quarterly Trend Analysis Reports** for senior leadership
-   - **Annual CAPA Effectiveness Reviews** for strategic planning
-   - Ad-hoc escalation reports for critical issues
+### CAPA Requirements
+Ensure compliance with regulatory CAPA requirements:
+- **ISO 13485 Clause 8.5.2 & 8.5.3:** Corrective and preventive action
+- **FDA 21 CFR 820.100:** QSR CAPA requirements
+- **EU MDR Article 10.9:** Post-market surveillance and CAPA integration
+- **Inspection Readiness:** Documentation completeness, process compliance
 
-## Cross-functional Integration
+## Python Tools
 
-### Risk Management Integration
-Ensure seamless integration between CAPA processes and risk management activities.
+### CAPA Management System
+**Script:** `scripts/capa-tracker.py`
 
-**CAPA-Risk Interface:**
-- Risk assessment updating based on CAPA findings
-- Risk control effectiveness verification through CAPA
-- Residual risk evaluation and acceptance
-- Risk management file maintenance and updates
+Comprehensive CAPA tracking and management:
+```bash
+# Track new CAPA
+python scripts/capa-tracker.py add --issue "Description" --severity high --source audit
 
-### Quality System Interface
-Coordinate CAPA activities with broader quality system processes ensuring systematic improvement.
+# Update CAPA status
+python scripts/capa-tracker.py update CAPA-001 --status investigation --notes "RCA in progress"
 
-**Quality System Touchpoints:**
-- **Management Review**: CAPA effectiveness reporting and trends
-- **Internal Audit**: CAPA-generated audit findings and follow-up
-- **Document Control**: Procedure and work instruction updates
-- **Training**: Competency requirements and training effectiveness
-- **Supplier Quality**: Supplier CAPA coordination and monitoring
+# Generate CAPA report
+python scripts/capa-tracker.py report --status open --output-format json
 
-### Regulatory Compliance
-Ensure CAPA processes meet regulatory requirements and inspection readiness.
+# Analyze CAPA metrics
+python scripts/capa-tracker.py metrics --period quarterly
+```
 
-**Regulatory CAPA Requirements:**
-- **ISO 13485 Clause 8.5.2 & 8.5.3**: Corrective and preventive action requirements
-- **FDA 21 CFR 820.100**: QSR CAPA requirements
-- **EU MDR Article 10.9**: Post-market surveillance and CAPA integration
-- **Regulatory Inspection Readiness**: Documentation and process compliance
+### Root Cause Analysis Tool
+**Script:** `scripts/rca-analysis-tool.py`
 
-## Resources
+RCA methodology selection and documentation:
+```bash
+# Select RCA methodology
+python scripts/rca-analysis-tool.py select --problem-type "process-deviation" --complexity high
 
-### scripts/
-- `capa-tracker.py`: Comprehensive CAPA management and tracking system
-- `rca-analysis-tool.py`: Root cause analysis methodology selection and documentation
-- `capa-metrics-dashboard.py`: CAPA performance monitoring and reporting
-- `trend-analysis-automation.py`: Automated trend identification and reporting
+# Generate RCA template
+python scripts/rca-analysis-tool.py template --method fishbone --output rca-worksheet.md
 
-### references/
-- `quality-investigation-guide.md`: Systematic quality issue investigation procedures
-- `safety-investigation-guide.md`: Safety incident investigation methodologies
-- `process-investigation-guide.md`: Process deviation investigation frameworks
-- `rca-methodologies.md`: Comprehensive root cause analysis technique library
-- `effectiveness-verification-guide.md`: CAPA effectiveness assessment procedures
+# Document RCA results
+python scripts/rca-analysis-tool.py document --method 5why --results rca-results.json
+```
 
-### assets/
-- `capa-templates/`: CAPA form, investigation report, and action plan templates
-- `rca-tools/`: Root cause analysis worksheets and decision trees
-- `investigation-checklists/`: Investigation completeness and quality checklists
-- `training-materials/`: CAPA process training and competency materials
+### CAPA Metrics Dashboard
+**Script:** `scripts/capa-metrics-dashboard.py`
+
+Performance monitoring and visualization:
+```bash
+# Generate metrics dashboard
+python scripts/capa-metrics-dashboard.py --period monthly --output dashboard.html
+
+# Calculate KPIs
+python scripts/capa-metrics-dashboard.py kpis --data capa-data.json
+```
+
+### Trend Analysis Automation
+**Script:** `scripts/trend-analysis-automation.py`
+
+Automated pattern identification:
+```bash
+# Analyze CAPA trends
+python scripts/trend-analysis-automation.py --data capa-history.json --period 12months
+
+# Generate trend report
+python scripts/trend-analysis-automation.py report --output trend-analysis.pdf
+```
+
+## Reference Documentation
+
+### Investigation Guides
+- **[Investigation Procedures](references/investigation-procedures.md)** - Quality, safety, and process investigation workflows
+- **[RCA Methodologies](references/rca-methodologies.md)** - Complete RCA technique library with selection framework
+- **[Effectiveness Verification](references/effectiveness-verification.md)** - Verification methods, timelines, and decision criteria
+
+### Templates and Assets
+- **CAPA Templates:** `assets/capa-templates/` - CAPA forms, investigation reports, action plans
+- **RCA Tools:** `assets/rca-tools/` - Analysis worksheets, decision trees
+- **Investigation Checklists:** `assets/investigation-checklists/` - Completeness and quality checklists
+- **Training Materials:** `assets/training-materials/` - CAPA process training and competency assessment
+
+## Best Practices
+
+**Investigation Excellence:**
+1. Focus on systems, not individuals - Human error reflects system design
+2. Use appropriate RCA methodology - Match method to problem complexity
+3. Verify root causes rigorously - Test conclusions against evidence
+4. Collect comprehensive evidence - Multiple sources, multiple types
+
+**Effective Corrective Actions:**
+1. Address root causes, not symptoms - Sustainable solutions
+2. Apply hierarchy of controls - Prefer elimination and engineering controls
+3. Include preventive component - Extend to similar areas
+4. Plan verification upfront - Define success criteria early
+
+**System Optimization:**
+1. Monitor CAPA metrics - Track cycle time, effectiveness, recurrence
+2. Conduct trend analysis - Identify patterns and systemic issues
+3. Share lessons learned - Prevent similar issues organization-wide
+4. Continuous improvement - Apply learning to CAPA process itself
+
+---
+
+**Regulatory Framework:** ISO 13485, FDA 21 CFR 820, EU MDR 2017/745
+**Key Standards:** ISO 13485:2016 Clause 8.5 (Corrective and Preventive Action)
+**Inspection Focus:** Investigation thoroughness, root cause validity, action effectiveness, documentation completeness

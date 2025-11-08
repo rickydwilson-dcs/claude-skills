@@ -43,205 +43,324 @@ metadata:
 
 # Code Reviewer
 
-Complete toolkit for code reviewer with modern tools and best practices.
+Expert code review skill with automated analysis tools for modern programming languages. Provides comprehensive review checklists, coding standards enforcement, and anti-pattern detection across TypeScript, JavaScript, Python, Swift, Kotlin, and Go.
 
-## Quick Start
+## Overview
 
-### Main Capabilities
+This skill delivers production-ready code review capabilities through three Python automation tools and extensive reference documentation. Whether conducting pull request reviews, enforcing coding standards, or identifying common anti-patterns, this skill ensures consistent, high-quality code across your team.
 
-This skill provides three core capabilities through automated scripts:
-
-```bash
-# Script 1: Pr Analyzer
-python scripts/pr_analyzer.py [options]
-
-# Script 2: Code Quality Checker
-python scripts/code_quality_checker.py [options]
-
-# Script 3: Review Report Generator
-python scripts/review_report_generator.py [options]
-```
+**Use this skill when:**
+- Reviewing pull requests for quality and security
+- Enforcing language-specific coding standards
+- Identifying common anti-patterns and code smells
+- Generating comprehensive review reports
+- Training team members on best practices
 
 ## Core Capabilities
 
-### 1. Pr Analyzer
+### 1. PR Analyzer
 
-Automated tool for pr analyzer tasks.
+Automated pull request analysis with comprehensive metrics and insights.
 
 **Features:**
-- Automated scaffolding
-- Best practices built-in
-- Configurable templates
-- Quality checks
+- Code diff analysis and impact assessment
+- Complexity metrics calculation
+- Test coverage evaluation
+- Security vulnerability detection
+- Breaking change identification
+- Review priority recommendations
 
 **Usage:**
 ```bash
-python scripts/pr_analyzer.py <project-path> [options]
+python scripts/pr_analyzer.py <pr-number> [--repo=owner/name]
+python scripts/pr_analyzer.py 123 --repo=company/project --json
+```
+
+**Output:**
+```
+PR Analysis Report (#123):
+- Files Changed: 12 files
+- Lines Changed: +245 / -87
+- Complexity Score: Medium (6/10)
+- Test Coverage Impact: +3%
+- Security Concerns: 1 medium issue
+- Review Priority: High
+- Estimated Review Time: 45 minutes
+
+Recommendations:
+1. Review authentication changes carefully (security-critical)
+2. Verify test coverage for new UserService methods
+3. Consider breaking into smaller PRs (>300 lines)
 ```
 
 ### 2. Code Quality Checker
 
-Comprehensive analysis and optimization tool.
+Comprehensive code analysis across multiple languages with actionable recommendations.
 
 **Features:**
-- Deep analysis
-- Performance metrics
-- Recommendations
-- Automated fixes
+- Multi-language support (TS/JS/Python/Swift/Kotlin/Go)
+- SOLID principles validation
+- Code smell detection
+- Performance issue identification
+- Documentation quality assessment
+- Configurable rulesets
 
 **Usage:**
 ```bash
-python scripts/code_quality_checker.py <target-path> [--verbose]
+python scripts/code_quality_checker.py <path> [--language=typescript]
+python scripts/code_quality_checker.py ./src --verbose --json
 ```
+
+**Checks:**
+- Cyclomatic complexity
+- Function/method length
+- Code duplication
+- Naming conventions
+- Error handling patterns
+- Test coverage
 
 ### 3. Review Report Generator
 
-Advanced tooling for specialized tasks.
+Generate detailed, actionable review reports with categorized findings.
 
 **Features:**
-- Expert-level automation
-- Custom configurations
-- Integration ready
-- Production-grade output
+- Multi-level issue categorization (blocking/major/minor)
+- Language-specific best practice checks
+- Security vulnerability assessment
+- Performance concern flagging
+- Markdown/JSON output formats
+- Automated feedback suggestions
 
 **Usage:**
 ```bash
-python scripts/review_report_generator.py [arguments] [options]
+python scripts/review_report_generator.py <pr-number> [options]
+python scripts/review_report_generator.py 123 --format=markdown
 ```
 
 ## Reference Documentation
 
+Detailed guides available in the `references/` directory:
+
 ### Code Review Checklist
-
-Comprehensive guide available in `references/code_review_checklist.md`:
-
-- Detailed patterns and practices
-- Code examples
-- Best practices
-- Anti-patterns to avoid
-- Real-world scenarios
+**[code_review_checklist.md](references/code_review_checklist.md)** - Comprehensive review guide covering:
+- Pre-review preparation and context gathering
+- Code quality assessment (functionality, readability, maintainability)
+- Language-specific checklists (TypeScript/JavaScript, Python, Swift, Kotlin, Go)
+- Testing requirements and best practices
+- Security review checklist (injection, auth, data protection)
+- Architecture and scalability considerations
+- Documentation standards
+- Git workflow and commit quality
+- Performance optimization checks
+- Feedback guidelines and review priorities
 
 ### Coding Standards
+**[coding_standards.md](references/coding_standards.md)** - Language-specific standards including:
+- Naming conventions across all supported languages
+- TypeScript/JavaScript best practices and modern patterns
+- React-specific standards (hooks, components, performance)
+- Python PEP 8 compliance and Pythonic patterns
+- Swift optionals handling and protocol-oriented design
+- Kotlin null safety and data classes
+- Go error handling and interfaces
+- Code formatting and file organization
+- Documentation standards (JSDoc, docstrings)
+- Linting and formatting tool recommendations
 
-Complete workflow documentation in `references/coding_standards.md`:
+### Common Anti-Patterns
+**[common_antipatterns.md](references/common_antipatterns.md)** - Catalog of anti-patterns to avoid:
+- General anti-patterns (God objects, magic numbers, deep nesting, premature optimization)
+- TypeScript/JavaScript issues (callback hell, 'any' type abuse, React prop mutations)
+- Python problems (mutable defaults, bare except, context manager neglect)
+- Swift pitfalls (force unwrapping, retain cycles, IUO overuse)
+- Kotlin concerns (null assertion abuse, data class neglect)
+- Go mistakes (error ignoring, defer neglect, goroutine leaks)
+- Database anti-patterns (N+1 queries, missing indexes, SELECT *)
+- Security vulnerabilities (SQL injection, plaintext passwords, secret exposure)
+- Performance issues (unnecessary re-renders, bulk loading)
+- Testing anti-patterns (implementation testing, test interdependence)
 
-- Step-by-step processes
-- Optimization strategies
-- Tool integrations
-- Performance tuning
-- Troubleshooting guide
+## Quick Start Workflows
 
-### Common Antipatterns
-
-Technical reference guide in `references/common_antipatterns.md`:
-
-- Technology stack details
-- Configuration examples
-- Integration patterns
-- Security considerations
-- Scalability guidelines
-
-## Tech Stack
-
-**Languages:** TypeScript, JavaScript, Python, Go, Swift, Kotlin
-**Frontend:** React, Next.js, React Native, Flutter
-**Backend:** Node.js, Express, GraphQL, REST APIs
-**Database:** PostgreSQL, Prisma, NeonDB, Supabase
-**DevOps:** Docker, Kubernetes, Terraform, GitHub Actions, CircleCI
-**Cloud:** AWS, GCP, Azure
-
-## Development Workflow
-
-### 1. Setup and Configuration
+### Workflow 1: Pull Request Review
 
 ```bash
-# Install dependencies
-npm install
-# or
-pip install -r requirements.txt
+# 1. Analyze the PR
+python scripts/pr_analyzer.py 123 --repo=company/project
 
-# Configure environment
-cp .env.example .env
+# 2. Review changed files with quality checker
+python scripts/code_quality_checker.py ./src --language=typescript
+
+# 3. Generate comprehensive review report
+python scripts/review_report_generator.py 123 --format=markdown
+
+# 4. Review output and provide feedback using checklist
+# Reference: references/code_review_checklist.md
 ```
 
-### 2. Run Quality Checks
+### Workflow 2: Codebase Quality Audit
 
 ```bash
-# Use the analyzer script
-python scripts/code_quality_checker.py .
+# 1. Run quality checker on entire codebase
+python scripts/code_quality_checker.py ./ --verbose
 
-# Review recommendations
-# Apply fixes
+# 2. Identify anti-patterns
+grep -r "any" src/**/*.ts  # TypeScript: avoid 'any'
+grep -r "except:" src/**/*.py  # Python: check bare excepts
+
+# 3. Generate comprehensive report
+python scripts/code_quality_checker.py ./ --json > quality-report.json
+
+# 4. Prioritize fixes
+# Review report and tackle blocking/major issues first
 ```
 
-### 3. Implement Best Practices
+### Workflow 3: Team Standards Enforcement
 
-Follow the patterns and practices documented in:
-- `references/code_review_checklist.md`
-- `references/coding_standards.md`
-- `references/common_antipatterns.md`
+```bash
+# 1. Configure linters based on standards
+# ESLint for TypeScript/JavaScript
+# pylint/flake8 for Python
+# SwiftLint for Swift
+# Reference: references/coding_standards.md
+
+# 2. Setup pre-commit hooks
+cat > .git/hooks/pre-commit << 'EOF'
+#!/bin/bash
+python scripts/code_quality_checker.py $(git diff --cached --name-only)
+EOF
+chmod +x .git/hooks/pre-commit
+
+# 3. Add CI/CD quality gates
+# GitHub Actions example:
+# - name: Code Quality Check
+#   run: python scripts/code_quality_checker.py ./src
+```
+
+## Language Support
+
+**TypeScript/JavaScript**
+- Type safety validation
+- React patterns and hooks
+- Async/await best practices
+- Modern ES6+ features
+- ESLint/Prettier integration
+
+**Python**
+- PEP 8 compliance
+- Type hints validation
+- Pythonic patterns
+- Context managers
+- Import organization
+
+**Swift**
+- Optional safety
+- Protocol-oriented design
+- Memory management
+- SwiftLint integration
+
+**Kotlin**
+- Null safety
+- Data classes
+- Coroutines
+- Extension functions
+
+**Go**
+- Error handling
+- Goroutine management
+- Interface design
+- Idiomatic Go
 
 ## Best Practices Summary
 
-### Code Quality
-- Follow established patterns
-- Write comprehensive tests
-- Document decisions
-- Review regularly
+### Review Priorities
 
-### Performance
-- Measure before optimizing
-- Use appropriate caching
-- Optimize critical paths
-- Monitor in production
+1. **Security** - SQL injection, XSS, authentication issues
+2. **Correctness** - Logic errors, edge case handling
+3. **Performance** - N+1 queries, memory leaks, inefficient algorithms
+4. **Maintainability** - Code clarity, documentation, test coverage
+5. **Style** - Formatting, naming conventions (automated preferred)
 
-### Security
-- Validate all inputs
-- Use parameterized queries
-- Implement proper authentication
-- Keep dependencies updated
+### Common Red Flags
 
-### Maintainability
-- Write clear code
-- Use consistent naming
-- Add helpful comments
-- Keep it simple
+- Functions >50 lines
+- Cyclomatic complexity >10
+- Test coverage <70%
+- No error handling
+- Hardcoded secrets
+- Commented-out code
+- Missing documentation
 
-## Common Commands
+### Effective Feedback
 
-```bash
-# Development
-npm run dev
-npm run build
-npm run test
-npm run lint
+**DO:**
+- Be constructive and specific
+- Explain the "why" behind suggestions
+- Acknowledge good practices
+- Suggest alternatives
+- Use questions to guide learning
 
-# Analysis
-python scripts/code_quality_checker.py .
-python scripts/review_report_generator.py --analyze
+**DON'T:**
+- Focus on personal preferences
+- Be vague or unclear
+- Nitpick trivial issues
+- Assume bad intentions
+- Skip positive feedback
 
-# Deployment
-docker build -t app:latest .
-docker-compose up -d
-kubectl apply -f k8s/
+## Integration
+
+### CI/CD Pipeline
+
+```yaml
+# .github/workflows/code-review.yml
+name: Code Review
+on: [pull_request]
+
+jobs:
+  quality-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+      - name: Run Quality Checker
+        run: python scripts/code_quality_checker.py ./src
+      - name: Generate Report
+        run: python scripts/review_report_generator.py ${{ github.event.pull_request.number }}
 ```
 
-## Troubleshooting
+### Pre-commit Hooks
 
-### Common Issues
+```bash
+# Install pre-commit framework
+pip install pre-commit
 
-Check the comprehensive troubleshooting section in `references/common_antipatterns.md`.
+# Add .pre-commit-config.yaml
+hooks:
+  - repo: local
+    hooks:
+      - id: code-quality
+        name: Code Quality Check
+        entry: python scripts/code_quality_checker.py
+        language: system
+```
 
-### Getting Help
+## Additional Resources
 
-- Review reference documentation
-- Check script output messages
-- Consult tech stack documentation
-- Review error logs
+- **Review Checklist:** [references/code_review_checklist.md](references/code_review_checklist.md)
+- **Coding Standards:** [references/coding_standards.md](references/coding_standards.md)
+- **Anti-Patterns:** [references/common_antipatterns.md](references/common_antipatterns.md)
+- **Python Tools:** `scripts/` directory
 
-## Resources
+## Getting Help
 
-- Pattern Reference: `references/code_review_checklist.md`
-- Workflow Guide: `references/coding_standards.md`
-- Technical Guide: `references/common_antipatterns.md`
-- Tool Scripts: `scripts/` directory
+1. **Review guidelines:** See [code_review_checklist.md](references/code_review_checklist.md)
+2. **Language standards:** Consult [coding_standards.md](references/coding_standards.md)
+3. **Pattern recognition:** Review [common_antipatterns.md](references/common_antipatterns.md)
+4. **Tool usage:** Run any script with `--help` flag
+
+---
+
+**Version:** 1.0.0
+**Last Updated:** 2025-11-08
+**Documentation Structure:** Progressive disclosure with references/

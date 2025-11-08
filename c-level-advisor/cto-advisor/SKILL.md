@@ -44,461 +44,153 @@ metadata:
 
 # CTO Advisor
 
-Strategic frameworks and tools for technology leadership, team scaling, and engineering excellence.
+Technical leadership guidance for engineering teams, architecture decisions, and technology strategy.
 
-## Keywords
-CTO, chief technology officer, technical leadership, tech debt, technical debt, engineering team, team scaling, architecture decisions, technology evaluation, engineering metrics, DORA metrics, ADR, architecture decision records, technology strategy, engineering leadership, engineering organization, team structure, hiring plan, technical strategy, vendor evaluation, technology selection
+## Overview
+
+The CTO Advisor skill provides comprehensive frameworks, tools, and templates for technical leadership excellence. It combines technology strategy methodologies, team scaling frameworks, architecture governance patterns, and engineering metrics to support CTOs in building world-class engineering organizations.
+
+This skill addresses the full scope of CTO responsibilities: defining technology vision and roadmap, scaling engineering teams effectively, establishing architecture standards, managing vendor relationships, and driving engineering excellence through metrics and culture. All content is designed for immediate application in quarterly planning, architecture reviews, hiring initiatives, and engineering transformation programs.
+
+## Core Capabilities
+
+**Technology Strategy & Planning**
+- 3-5 year technology vision development
+- Quarterly roadmap planning and execution
+- Innovation management frameworks
+- Technical debt assessment and reduction
+- Python-based tech debt analyzer tool
+
+**Team Scaling & Development**
+- Engineering team scaling strategies
+- Hiring velocity and pipeline planning
+- Performance management frameworks
+- Engineering culture building
+- Python-based team scaling calculator
+
+**Architecture Governance**
+- Architecture Decision Records (ADR) templates
+- Technology standards and guidelines
+- System design review processes
+- Vendor evaluation frameworks
+- Build vs buy analysis
+
+**Engineering Excellence**
+- DORA metrics implementation
+- Quality metrics tracking
+- Team health indicators
+- Incident management processes
+- Post-mortem frameworks
+
+**Stakeholder Management**
+- Board and executive reporting
+- Cross-functional partnerships
+- Strategic initiative planning
+- Crisis management playbooks
+- Communication templates
 
 ## Quick Start
 
-### For Technical Debt Assessment
+### Technical Debt Assessment
+
 ```bash
-# Create system data JSON file (see example below)
-# Run analysis
+# Analyze technical debt across 5 categories with prioritized reduction plan
 python scripts/tech_debt_analyzer.py system_data.json
 
-# Generate JSON output for dashboards
-python scripts/tech_debt_analyzer.py system_data.json --output json
+# Generate JSON output for executive dashboards
+python scripts/tech_debt_analyzer.py system_data.json --output json -f debt_report.json
 
-# Save report to file
-python scripts/tech_debt_analyzer.py system_data.json -o json -f debt_report.json
-
-# View help and JSON schema
+# View help and input schema
 python scripts/tech_debt_analyzer.py --help
 ```
 
-Example `system_data.json`:
-```json
-{
-  "name": "Legacy E-commerce Platform",
-  "architecture": {"monolithic_design": 80, "tight_coupling": 70, "no_microservices": 90},
-  "code_quality": {"low_test_coverage": 75, "high_complexity": 65},
-  "infrastructure": {"manual_deployments": 70, "no_ci_cd": 60},
-  "security": {"outdated_dependencies": 85, "no_security_scans": 70},
-  "performance": {"slow_response_times": 60, "no_caching": 50},
-  "team_size": 8,
-  "system_criticality": "high",
-  "business_context": {"growth_phase": "rapid", "compliance_required": true}
-}
-```
+See [references/tools.md](references/tools.md) for detailed tool documentation, scoring guidelines, and reduction planning.
 
-Analyzes system across 5 debt categories with prioritized reduction plan.
+### Team Scaling Planning
 
-### For Team Scaling Planning
 ```bash
-# Create team data JSON file (see example below)
-# Run analysis
+# Calculate optimal hiring plan, team structure, and budget projections
 python scripts/team_scaling_calculator.py team_data.json
 
-# Generate JSON output for planning tools
-python scripts/team_scaling_calculator.py team_data.json --output json
+# Generate JSON output for board planning
+python scripts/team_scaling_calculator.py team_data.json --output json -f scaling_plan.json
 
-# Save report to file
-python scripts/team_scaling_calculator.py team_data.json -o json -f scaling_plan.json
-
-# View help and JSON schema
+# View help and input schema
 python scripts/team_scaling_calculator.py --help
 ```
 
-Example `team_data.json`:
-```json
-{
-  "current_state": {
-    "headcount": 25,
-    "velocity": 450,
-    "roles": {"engineering_manager": 2, "senior_engineer": 8, "mid_engineer": 10},
-    "attrition_rate": 12,
-    "location": "US"
-  },
-  "growth_targets": {
-    "target_headcount": 75,
-    "timeline_quarters": 4
-  }
-}
-```
-
-Calculates optimal hiring plan, team structure, and budget projections.
-
-### For Architecture Decisions
-Review `references/architecture_decision_records.md` for ADR templates and examples.
-
-### For Technology Evaluation
-Use framework in `references/technology_evaluation_framework.md` for vendor selection.
-
-### For Engineering Metrics
-Implement KPIs from `references/engineering_metrics.md` for team performance tracking.
-
-## Core Responsibilities
-
-### 1. Technology Strategy
-
-#### Vision & Roadmap
-- Define 3-5 year technology vision
-- Create quarterly roadmaps
-- Align with business strategy
-- Communicate to stakeholders
-
-#### Innovation Management
-- Allocate 20% time for innovation
-- Run hackathons quarterly
-- Evaluate emerging technologies
-- Build proof of concepts
-
-#### Technical Debt Strategy
-```bash
-# Assess current debt
-python scripts/tech_debt_analyzer.py system_data.json
-
-# Generate report for executives
-python scripts/tech_debt_analyzer.py system_data.json -o json -f debt_report.json
-
-# Allocate capacity based on debt level
-- Critical debt (>80): 40% capacity
-- High debt (60-80): 25% capacity
-- Medium debt (40-60): 15% capacity
-- Low debt (<40): Ongoing maintenance
-```
-
-### 2. Team Leadership
-
-#### Scaling Engineering
-```bash
-# Calculate scaling needs
-python scripts/team_scaling_calculator.py team_data.json
-
-# Generate hiring plan for board
-python scripts/team_scaling_calculator.py team_data.json -o json -f hiring_plan.json
-
-# Key ratios to maintain:
-- Manager:Engineer = 1:8
-- Senior:Mid:Junior = 3:4:2
-- Product:Engineering = 1:10
-- QA:Engineering = 1.5:10
-```
-
-#### Performance Management
-- Set clear OKRs quarterly
-- Conduct 1:1s weekly
-- Review performance quarterly
-- Provide growth opportunities
-
-#### Culture Building
-- Define engineering values
-- Establish coding standards
-- Create learning programs
-- Foster collaboration
-
-### 3. Architecture Governance
-
-#### Decision Making
-Use ADR template from `references/architecture_decision_records.md`:
-1. Document context and problem
-2. List all options considered
-3. Record decision and rationale
-4. Track consequences
-
-#### Technology Standards
-- Language choices
-- Framework selection
-- Database standards
-- Security requirements
-- API design guidelines
-
-#### System Design Review
-- Weekly architecture reviews
-- Design documentation standards
-- Prototype requirements
-- Performance criteria
-
-### 4. Vendor Management
-
-#### Evaluation Process
-Follow framework in `references/technology_evaluation_framework.md`:
-1. Gather requirements (Week 1)
-2. Market research (Week 1-2)
-3. Deep evaluation (Week 2-4)
-4. Decision and documentation (Week 4)
-
-#### Vendor Relationships
-- Quarterly business reviews
-- SLA monitoring
-- Cost optimization
-- Strategic partnerships
-
-### 5. Engineering Excellence
-
-#### Metrics Implementation
-From `references/engineering_metrics.md`:
-
-**DORA Metrics** (Deploy to production targets):
-- Deployment Frequency: >1/day
-- Lead Time: <1 day
-- MTTR: <1 hour
-- Change Failure Rate: <15%
-
-**Quality Metrics**:
-- Test Coverage: >80%
-- Code Review: 100%
-- Technical Debt: <10%
-
-**Team Health**:
-- Sprint Velocity: ±10% variance
-- Unplanned Work: <20%
-- On-call Incidents: <5/week
-
-## Weekly Cadence
-
-### Monday
-- Leadership team sync
-- Review metrics dashboard
-- Address escalations
-
-### Tuesday
-- Architecture review
-- Technical interviews
-- 1:1s with directs
-
-### Wednesday
-- Cross-functional meetings
-- Vendor meetings
-- Strategy work
-
-### Thursday
-- Team all-hands (monthly)
-- Sprint reviews (bi-weekly)
-- Technical deep dives
-
-### Friday
-- Strategic planning
-- Innovation time
-- Week recap and planning
-
-## Quarterly Planning
-
-### Q1 Focus: Foundation
-- Annual planning
-- Budget allocation
-- Team goal setting
-- Technology assessment
-
-### Q2 Focus: Execution
-- Major initiatives launch
-- Mid-year hiring push
-- Performance reviews
-- Architecture evolution
-
-### Q3 Focus: Innovation
-- Hackathon
-- Technology exploration
-- Team development
-- Process optimization
-
-### Q4 Focus: Planning
-- Next year strategy
-- Budget planning
-- Promotion cycles
-- Debt reduction sprint
-
-## Crisis Management
-
-### Incident Response
-1. **Immediate** (0-15 min):
-   - Assess severity
-   - Activate incident team
-   - Begin communication
-
-2. **Short-term** (15-60 min):
-   - Implement fixes
-   - Update stakeholders
-   - Monitor systems
-
-3. **Resolution** (1-24 hours):
-   - Verify fix
-   - Document timeline
-   - Customer communication
-
-4. **Post-mortem** (48-72 hours):
-   - Root cause analysis
-   - Action items
-   - Process improvements
-
-### Types of Crises
-
-#### Security Breach
-- Isolate affected systems
-- Engage security team
-- Legal/compliance notification
-- Customer communication plan
-
-#### Major Outage
-- All-hands response
-- Status page updates
-- Executive briefings
-- Customer outreach
-
-#### Data Loss
-- Stop writes immediately
-- Assess recovery options
-- Begin restoration
-- Impact analysis
-
-## Stakeholder Management
-
-### Board/Executive Reporting
-**Monthly**:
-- KPI dashboard
-- Risk register
-- Major initiatives status
-
-**Quarterly**:
-- Technology strategy update
-- Team growth and health
-- Innovation highlights
-- Budget review
-
-### Cross-functional Partners
-
-#### Product Team
-- Weekly roadmap sync
-- Sprint planning participation
-- Technical feasibility reviews
-- Feature estimation
-
-#### Sales/Marketing
-- Technical sales support
-- Product capability briefings
-- Customer reference calls
-- Competitive analysis
-
-#### Finance
-- Budget management
-- Cost optimization
-- Vendor negotiations
-- Capex planning
-
-## Strategic Initiatives
-
-### Digital Transformation
-1. Assess current state
-2. Define target architecture
-3. Create migration plan
-4. Execute in phases
-5. Measure and adjust
-
-### Cloud Migration
-1. Application assessment
-2. Migration strategy (7Rs)
-3. Pilot applications
-4. Full migration
-5. Optimization
-
-### Platform Engineering
-1. Define platform vision
-2. Build core services
-3. Create self-service tools
-4. Enable team adoption
-5. Measure efficiency
-
-### AI/ML Integration
-1. Identify use cases
-2. Build data infrastructure
-3. Develop models
-4. Deploy and monitor
-5. Scale adoption
-
-## Communication Templates
-
-### Technology Strategy Presentation
-```
-1. Executive Summary (1 slide)
-2. Current State Assessment (2 slides)
-3. Vision & Strategy (2 slides)
-4. Roadmap & Milestones (3 slides)
-5. Investment Required (1 slide)
-6. Risks & Mitigation (1 slide)
-7. Success Metrics (1 slide)
-```
-
-### Team All-hands
-```
-1. Wins & Recognition (5 min)
-2. Metrics Review (5 min)
-3. Strategic Updates (10 min)
-4. Demo/Deep Dive (15 min)
-5. Q&A (10 min)
-```
-
-### Board Update Email
-```
-Subject: Engineering Update - [Month]
-
-Highlights:
-• [Major achievement]
-• [Key metric improvement]
-• [Strategic progress]
-
-Challenges:
-• [Issue and mitigation]
-
-Next Month:
-• [Priority 1]
-• [Priority 2]
-
-Detailed metrics attached.
-```
-
-## Tools & Resources
-
-### Essential Tools
-- **Architecture**: Draw.io, Lucidchart, C4 Model
-- **Metrics**: DataDog, Grafana, LinearB
-- **Planning**: Jira, Confluence, Notion
-- **Communication**: Slack, Zoom, Loom
-- **Development**: GitHub, GitLab, Bitbucket
-
-### Key Resources
-- **Books**: 
-  - "The Manager's Path" - Camille Fournier
-  - "Accelerate" - Nicole Forsgren
-  - "Team Topologies" - Skelton & Pais
-  
-- **Frameworks**:
-  - DORA metrics
-  - SPACE framework
-  - Team Topologies
-  
-- **Communities**:
-  - CTO Craft
-  - Engineering Leadership Slack
-  - LeadDev community
+See [references/tools.md](references/tools.md) for scenario examples, budget estimation, and risk assessment guidance.
+
+## Reference Materials
+
+All detailed frameworks, templates, and tool documentation have been organized into focused reference files:
+
+### [Technical Leadership Frameworks](references/frameworks.md)
+- Technology strategy and roadmap development
+- Innovation management frameworks
+- Technical debt assessment strategies
+- Team scaling and structure patterns
+- Performance management systems
+- Architecture governance (ADRs)
+- Technology evaluation frameworks
+- Vendor relationship management
+- DORA and quality metrics
+- Crisis management playbooks
+- Stakeholder reporting frameworks
+- Strategic initiatives (cloud, AI/ML, platform)
+
+### [Communication Templates](references/templates.md)
+- Weekly CTO schedule template
+- Technology strategy presentation
+- Team all-hands structure
+- Board update email format
+- ADR (Architecture Decision Record) template
+- Incident post-mortem template
+- Technology evaluation scorecard
+- Engineering team OKR template
+- Hiring scorecard template
+- 1-on-1 meeting template
+
+### [Python Tools Guide](references/tools.md)
+- Tech debt analyzer comprehensive documentation
+- Team scaling calculator detailed guide
+- Input format specifications and examples
+- Output interpretation guidelines
+- Integration workflow examples
+- Best practices and troubleshooting
+- Real-world scenario examples
+- Data privacy and security notes
 
 ## Success Indicators
 
-✅ **Technical Excellence**
+**Technical Excellence**
 - System uptime >99.9%
-- Deploy multiple times daily
-- Technical debt <10% capacity
-- Security incidents = 0
+- Deploy frequency >1 per day
+- Technical debt <10% capacity allocation
+- Zero critical security incidents
+- Lead time for changes <1 day
 
-✅ **Team Success**
-- Team satisfaction >8/10
-- Attrition <10%
-- Filled positions >90%
-- Diversity improving
+**Team Success**
+- Team satisfaction score >8/10
+- Voluntary attrition <10% annually
+- Key positions filled >90%
+- Diversity metrics improving
+- Internal promotion rate >30%
 
-✅ **Business Impact**
-- Features on-time >80%
-- Engineering enables revenue
+**Business Impact**
+- Features delivered on-time >80%
+- Engineering enables revenue growth
 - Cost per transaction decreasing
-- Innovation driving growth
+- Innovation driving competitive advantage
+- Customer-reported issues declining
 
-## Red Flags to Watch
+## Red Flags
 
-⚠️ Increasing technical debt  
-⚠️ Rising attrition rate  
-⚠️ Slowing velocity  
-⚠️ Growing incidents  
-⚠️ Team morale declining  
-⚠️ Budget overruns  
-⚠️ Vendor dependencies  
-⚠️ Security vulnerabilities
+- Technical debt increasing quarter-over-quarter
+- Attrition rate rising above 15%
+- Sprint velocity declining consistently
+- Production incidents increasing
+- Team morale scores dropping
+- Budget overruns (>10% variance)
+- Vendor lock-in concerns growing
+- Security vulnerabilities accumulating
