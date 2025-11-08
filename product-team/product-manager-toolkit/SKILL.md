@@ -38,362 +38,171 @@ metadata:
 
 # Product Manager Toolkit
 
-Essential tools and frameworks for modern product management, from discovery to delivery.
+Essential tools and frameworks for modern product management, from discovery to delivery. This toolkit provides Python automation tools for prioritization and interview analysis, comprehensive frameworks for decision-making, and battle-tested templates for product documentation.
+
+**What This Skill Provides:**
+- RICE prioritization engine with portfolio analysis
+- NLP-based customer interview analyzer
+- Complete PRD templates and interview guides
+- Discovery frameworks (JTBD, Opportunity Trees)
+- Metrics frameworks (North Star, Funnels)
+
+**Best For:**
+- Feature prioritization and roadmap planning
+- User research synthesis and insight extraction
+- Requirements documentation (PRDs, user stories)
+- Discovery planning and stakeholder alignment
 
 ## Quick Start
 
-### For Feature Prioritization
+### Feature Prioritization
 ```bash
 python scripts/rice_prioritizer.py sample  # Create sample CSV
 python scripts/rice_prioritizer.py sample_features.csv --capacity 15
 ```
 
-### For Interview Analysis
+### Interview Analysis
 ```bash
 python scripts/customer_interview_analyzer.py interview_transcript.txt
 ```
 
-### For PRD Creation
-1. Choose template from `references/prd_templates.md`
-2. Fill in sections based on discovery work
-3. Review with stakeholders
-4. Version control in your PM tool
+### PRD Creation
+1. Choose template: Standard, One-Page, Agile Epic, or Feature Brief
+2. See [templates.md](references/templates.md) for complete formats
+3. Fill sections based on discovery work
+4. Review with stakeholders and version control
 
 ## Core Workflows
 
-### Feature Prioritization Process
+### 1. Feature Prioritization Process
 
-1. **Gather Feature Requests**
-   - Customer feedback
-   - Sales requests
-   - Technical debt
-   - Strategic initiatives
+**Steps:**
+1. Gather feature requests (customer feedback, sales, tech debt, strategic)
+2. Score with RICE: `python scripts/rice_prioritizer.py features.csv`
+   - Reach: Users affected per quarter
+   - Impact: massive/high/medium/low/minimal (3x/2x/1x/0.5x/0.25x)
+   - Confidence: high/medium/low (100%/80%/50%)
+   - Effort: Person-months
+3. Analyze portfolio (quick wins vs big bets)
+4. Generate roadmap with capacity planning
 
-2. **Score with RICE**
-   ```bash
-   # Create CSV with: name,reach,impact,confidence,effort
-   python scripts/rice_prioritizer.py features.csv
-   ```
-   - **Reach**: Users affected per quarter
-   - **Impact**: massive/high/medium/low/minimal
-   - **Confidence**: high/medium/low
-   - **Effort**: xl/l/m/s/xs (person-months)
+**Detailed Methodology:** See [frameworks.md](references/frameworks.md) for RICE, Value vs Effort Matrix, MoSCoW, and Kano Model.
 
-3. **Analyze Portfolio**
-   - Review quick wins vs big bets
-   - Check effort distribution
-   - Validate against strategy
+### 2. Customer Discovery Process
 
-4. **Generate Roadmap**
-   - Quarterly capacity planning
-   - Dependency mapping
-   - Stakeholder alignment
+**Steps:**
+1. Conduct interviews using semi-structured format
+2. Analyze insights: `python scripts/customer_interview_analyzer.py transcript.txt`
+   - Extracts pain points, feature requests, JTBD, sentiment, themes
+3. Synthesize findings across interviews
+4. Validate solutions with prototypes
 
-### Customer Discovery Process
+**Interview Scripts:** See [templates.md](references/templates.md) for complete discovery and validation interview guides.
 
-1. **Conduct Interviews**
-   - Use semi-structured format
-   - Focus on problems, not solutions
-   - Record with permission
+**Discovery Frameworks:** See [frameworks.md](references/frameworks.md) for Customer Interview Guide, Hypothesis Template, and Opportunity Solution Tree.
 
-2. **Analyze Insights**
-   ```bash
-   python scripts/customer_interview_analyzer.py transcript.txt
-   ```
-   Extracts:
-   - Pain points with severity
-   - Feature requests with priority
-   - Jobs to be done
-   - Sentiment analysis
-   - Key themes and quotes
+### 3. PRD Development Process
 
-3. **Synthesize Findings**
-   - Group similar pain points
-   - Identify patterns across interviews
-   - Map to opportunity areas
+**Steps:**
+1. Choose template based on project size:
+   - Standard PRD: Complex features (6-8 weeks)
+   - One-Page PRD: Simple features (2-4 weeks)
+   - Feature Brief: Exploration phase (1 week)
+   - Agile Epic: Sprint-based delivery
+2. Structure: Problem → Solution → Success Metrics
+3. Collaborate with engineering, design, sales, support
 
-4. **Validate Solutions**
-   - Create solution hypotheses
-   - Test with prototypes
-   - Measure actual vs expected behavior
+**Complete Templates:** See [templates.md](references/templates.md) for all PRD formats with examples.
 
-### PRD Development Process
-
-1. **Choose Template**
-   - **Standard PRD**: Complex features (6-8 weeks)
-   - **One-Page PRD**: Simple features (2-4 weeks)
-   - **Feature Brief**: Exploration phase (1 week)
-   - **Agile Epic**: Sprint-based delivery
-
-2. **Structure Content**
-   - Problem → Solution → Success Metrics
-   - Always include out-of-scope
-   - Clear acceptance criteria
-
-3. **Collaborate**
-   - Engineering for feasibility
-   - Design for experience
-   - Sales for market validation
-   - Support for operational impact
-
-## Key Scripts
+## Python Tools
 
 ### rice_prioritizer.py
-Advanced RICE framework implementation with portfolio analysis.
+RICE framework implementation with portfolio analysis and roadmap generation.
+
+**Key Features:**
+- RICE score calculation
+- Portfolio balance (quick wins, big bets, fill-ins, time sinks)
+- Quarterly roadmap with capacity planning
+- Multiple output formats (text/json/csv)
 
 **Usage:**
 ```bash
 # Basic prioritization
 python3 scripts/rice_prioritizer.py features.csv
 
-# With custom team capacity (person-months per quarter)
+# With team capacity
 python3 scripts/rice_prioritizer.py features.csv --capacity 20
 
-# JSON output
-python3 scripts/rice_prioritizer.py features.csv --output json
-
-# Save to file
-python3 scripts/rice_prioritizer.py features.csv -o json -f roadmap.json
-
-# Verbose mode
-python3 scripts/rice_prioritizer.py features.csv -v
+# JSON output for tool integration
+python3 scripts/rice_prioritizer.py features.csv --output json -f roadmap.json
 ```
 
-**Available Options:**
-- `input`: Input CSV file path (required)
-- `--capacity`: Team capacity in person-months (default: 15)
-- `--output/-o`: Output format (text, json, csv) - default: text
-- `--file/-f`: Write output to file instead of stdout
-- `--verbose/-v`: Enable detailed output
-- `--help`: Show help message with examples
+**CSV Format:**
+```csv
+name,reach,impact,confidence,effort
+User Dashboard,500,2,0.8,5
+API Rate Limiting,1000,2,0.9,3
+```
 
-**Features**:
-- RICE score calculation
-- Portfolio balance analysis (quick wins vs big bets)
-- Quarterly roadmap generation
-- Team capacity planning
-- Multiple output formats (text/json/csv)
+**Complete Documentation:** See [tools.md](references/tools.md) for full options, output formats, and integration patterns.
 
 ### customer_interview_analyzer.py
 NLP-based interview analysis for extracting actionable insights.
 
-**Usage:**
-```bash
-# Analyze single interview
-python3 scripts/customer_interview_analyzer.py interview.txt
-
-# JSON output
-python3 scripts/customer_interview_analyzer.py interview.txt --output json
-
-# Save to file
-python3 scripts/customer_interview_analyzer.py interview.txt -o json -f analysis.json
-
-# Verbose mode
-python3 scripts/customer_interview_analyzer.py interview.txt -v
-```
-
-**Available Options:**
-- `input`: Input transcript file path (required)
-- `--output/-o`: Output format (text, json, csv) - default: text
-- `--file/-f`: Write output to file instead of stdout
-- `--verbose/-v`: Enable detailed output
-- `--help`: Show help message with examples
-
-**Capabilities**:
+**Capabilities:**
 - Pain point extraction with severity assessment
 - Feature request identification and classification
 - Jobs-to-be-done pattern recognition
 - Sentiment analysis
-- Theme extraction
-- Competitor mentions
-- Key quotes identification
+- Theme extraction and competitor mentions
 
-## Reference Documents
+**Usage:**
+```bash
+# Analyze interview
+python3 scripts/customer_interview_analyzer.py interview.txt
 
-### prd_templates.md
-Multiple PRD formats for different contexts:
-
-1. **Standard PRD Template**
-   - Comprehensive 11-section format
-   - Best for major features
-   - Includes technical specs
-
-2. **One-Page PRD**
-   - Concise format for quick alignment
-   - Focus on problem/solution/metrics
-   - Good for smaller features
-
-3. **Agile Epic Template**
-   - Sprint-based delivery
-   - User story mapping
-   - Acceptance criteria focus
-
-4. **Feature Brief**
-   - Lightweight exploration
-   - Hypothesis-driven
-   - Pre-PRD phase
-
-## Prioritization Frameworks
-
-### RICE Framework
-```
-Score = (Reach × Impact × Confidence) / Effort
-
-Reach: # of users/quarter
-Impact: 
-  - Massive = 3x
-  - High = 2x
-  - Medium = 1x
-  - Low = 0.5x
-  - Minimal = 0.25x
-Confidence:
-  - High = 100%
-  - Medium = 80%
-  - Low = 50%
-Effort: Person-months
+# JSON output for research tools
+python3 scripts/customer_interview_analyzer.py interview.txt --output json -f analysis.json
 ```
 
-### Value vs Effort Matrix
-```
-         Low Effort    High Effort
-         
-High     QUICK WINS    BIG BETS
-Value    [Prioritize]   [Strategic]
-         
-Low      FILL-INS      TIME SINKS
-Value    [Maybe]       [Avoid]
-```
+**Complete Documentation:** See [tools.md](references/tools.md) for full capabilities, output formats, and batch analysis workflows.
 
-### MoSCoW Method
-- **Must Have**: Critical for launch
-- **Should Have**: Important but not critical
-- **Could Have**: Nice to have
-- **Won't Have**: Out of scope
+## Reference Documentation
 
-## Discovery Frameworks
+### Frameworks ([frameworks.md](references/frameworks.md))
+Detailed frameworks and methodologies:
+- Prioritization: RICE (detailed), Value vs Effort Matrix, MoSCoW, Kano Model
+- Discovery: Customer Interview Guide, Hypothesis Template, Opportunity Solution Tree
+- Metrics: North Star Framework, Funnel Analysis (AARRR), Feature Success Metrics, Cohort Analysis
 
-### Customer Interview Guide
-```
-1. Context Questions (5 min)
-   - Role and responsibilities
-   - Current workflow
-   - Tools used
+### Templates ([templates.md](references/templates.md))
+Complete templates and best practices:
+- PRD Templates: Standard, One-Page, Agile Epic, Feature Brief
+- Interview Guides: Discovery interviews, solution validation
+- Best Practices: Writing PRDs, prioritization, discovery, stakeholder management
+- Common Pitfalls: What to avoid and how to fix
 
-2. Problem Exploration (15 min)
-   - Pain points
-   - Frequency and impact
-   - Current workarounds
-
-3. Solution Validation (10 min)
-   - Reaction to concepts
-   - Value perception
-   - Willingness to pay
-
-4. Wrap-up (5 min)
-   - Other thoughts
-   - Referrals
-   - Follow-up permission
-```
-
-### Hypothesis Template
-```
-We believe that [building this feature]
-For [these users]
-Will [achieve this outcome]
-We'll know we're right when [metric]
-```
-
-### Opportunity Solution Tree
-```
-Outcome
-├── Opportunity 1
-│   ├── Solution A
-│   └── Solution B
-└── Opportunity 2
-    ├── Solution C
-    └── Solution D
-```
-
-## Metrics & Analytics
-
-### North Star Metric Framework
-1. **Identify Core Value**: What's the #1 value to users?
-2. **Make it Measurable**: Quantifiable and trackable
-3. **Ensure It's Actionable**: Teams can influence it
-4. **Check Leading Indicator**: Predicts business success
-
-### Funnel Analysis Template
-```
-Acquisition → Activation → Retention → Revenue → Referral
-
-Key Metrics:
-- Conversion rate at each step
-- Drop-off points
-- Time between steps
-- Cohort variations
-```
-
-### Feature Success Metrics
-- **Adoption**: % of users using feature
-- **Frequency**: Usage per user per time period
-- **Depth**: % of feature capability used
-- **Retention**: Continued usage over time
-- **Satisfaction**: NPS/CSAT for feature
-
-## Best Practices
-
-### Writing Great PRDs
-1. Start with the problem, not solution
-2. Include clear success metrics upfront
-3. Explicitly state what's out of scope
-4. Use visuals (wireframes, flows)
-5. Keep technical details in appendix
-6. Version control changes
-
-### Effective Prioritization
-1. Mix quick wins with strategic bets
-2. Consider opportunity cost
-3. Account for dependencies
-4. Buffer for unexpected work (20%)
-5. Revisit quarterly
-6. Communicate decisions clearly
-
-### Customer Discovery Tips
-1. Ask "why" 5 times
-2. Focus on past behavior, not future intentions
-3. Avoid leading questions
-4. Interview in their environment
-5. Look for emotional reactions
-6. Validate with data
-
-### Stakeholder Management
-1. Identify RACI for decisions
-2. Regular async updates
-3. Demo over documentation
-4. Address concerns early
-5. Celebrate wins publicly
-6. Learn from failures openly
-
-## Common Pitfalls to Avoid
-
-1. **Solution-First Thinking**: Jumping to features before understanding problems
-2. **Analysis Paralysis**: Over-researching without shipping
-3. **Feature Factory**: Shipping features without measuring impact
-4. **Ignoring Technical Debt**: Not allocating time for platform health
-5. **Stakeholder Surprise**: Not communicating early and often
-6. **Metric Theater**: Optimizing vanity metrics over real value
+### Tools ([tools.md](references/tools.md))
+Python tool documentation and integrations:
+- rice_prioritizer.py: Complete usage, options, output formats
+- customer_interview_analyzer.py: Full capabilities and workflows
+- Integration Patterns: Jira, ProductBoard, Amplitude, Figma, Dovetail, Slack
+- Platform Setup: Step-by-step for each tool
+- Troubleshooting: Common issues and solutions
 
 ## Integration Points
 
 This toolkit integrates with:
-- **Analytics**: Amplitude, Mixpanel, Google Analytics
-- **Roadmapping**: ProductBoard, Aha!, Roadmunk
-- **Design**: Figma, Sketch, Miro
-- **Development**: Jira, Linear, GitHub
-- **Research**: Dovetail, UserVoice, Pendo
-- **Communication**: Slack, Notion, Confluence
+- **Analytics:** Amplitude, Mixpanel, Google Analytics
+- **Roadmapping:** ProductBoard, Aha!, Roadmunk
+- **Design:** Figma, Sketch, Miro
+- **Development:** Jira, Linear, GitHub
+- **Research:** Dovetail, UserVoice, Pendo
+- **Communication:** Slack, Notion, Confluence
 
-## Quick Commands Cheat Sheet
+See [tools.md](references/tools.md) for detailed integration workflows and platform-specific setup guides.
+
+## Quick Commands
 
 ```bash
 # Prioritization
@@ -407,5 +216,5 @@ python scripts/rice_prioritizer.py sample
 
 # JSON outputs for integration
 python scripts/rice_prioritizer.py features.csv --output json
-python scripts/customer_interview_analyzer.py interview.txt json
+python scripts/customer_interview_analyzer.py interview.txt --output json
 ```
