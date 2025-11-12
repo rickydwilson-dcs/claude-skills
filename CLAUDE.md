@@ -37,7 +37,7 @@ This repository uses **modular documentation**. For domain-specific guidance, se
 | **Product Team** | [skills/product-team/CLAUDE.md](skills/product-team/CLAUDE.md) | RICE, OKRs, user stories, UX research tools |
 | **Engineering** | [skills/engineering-team/CLAUDE.md](skills/engineering-team/CLAUDE.md) | Scaffolding, fullstack, AI/ML, data tools, CTO strategy |
 | **Delivery Team** | [skills/delivery-team/CLAUDE.md](skills/delivery-team/CLAUDE.md) | Atlassian MCP, Jira/Confluence integration |
-| **Standards Library** | [standards/CLAUDE.md](standards/CLAUDE.md) | Communication, quality, git, security standards |
+| **Standards Library** | [docs/standards/CLAUDE.md](docs/standards/CLAUDE.md) | Communication, quality, git, security standards |
 | **Templates** | [templates/CLAUDE.md](templates/CLAUDE.md) | Template system usage |
 
 **Current Sprint:** See [docs/delivery/sprint-11-05-2025/](docs/delivery/sprint-11-05-2025/) for active sprint context and progress.
@@ -475,11 +475,11 @@ python3.11 -m venv claude-skills_venv
 ## Additional Resources
 
 - **.gitignore:** Excludes .vscode/, .DS_Store, AGENTS.md, PROMPTS.md, .env*, *_venv/
-- **Standards Library:** [standards/](standards/) - Communication, quality, git, documentation, security
+- **Standards Library:** [docs/standards/](docs/standards/) - Communication, quality, git, documentation, security
 - **Implementation Plans:** [docs/implementation/](docs/implementation/)
 - **Sprint Delivery:** [docs/delivery/](docs/delivery/)
 - **Workflow Guide:** [docs/WORKFLOW.md](docs/WORKFLOW.md)
-- **Git Standards:** [standards/git/git-workflow-standards.md](standards/git/git-workflow-standards.md)
+- **Git Standards:** [docs/standards/git/git-workflow-standards.md](docs/standards/git/git-workflow-standards.md)
 
 ## File Locations Quick Reference
 
@@ -502,13 +502,13 @@ claude-skills/
 ├── docs/                          # Implementation docs
 │   ├── WORKFLOW.md                # Git workflow guide
 │   ├── implementation/            # Implementation plans
-│   └── delivery/                  # Sprint tracking
-├── standards/                     # Quality standards
-│   ├── communication/
-│   ├── quality/
-│   ├── git/
-│   ├── documentation/
-│   └── security/
+│   ├── delivery/                  # Sprint tracking
+│   └── standards/                 # Quality standards
+│       ├── communication/
+│       ├── quality/
+│       ├── git/
+│       ├── documentation/
+│       └── security/
 ├── templates/                     # Templates
 │   ├── agent-template.md          # Agent creation template
 │   └── skill-template.md          # Skill creation template

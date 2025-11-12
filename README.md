@@ -59,7 +59,7 @@ This repository provides **modular, self-contained skill packages** designed spe
 
 **Workflows & Standards**
 - **[Git Workflow](docs/WORKFLOW.md)** - Branch strategy and deployment pipeline (develop → staging → main)
-- **[Standards Library](standards/)** - Communication, quality, git, documentation, and security standards
+- **[Standards Library](docs/standards/)** - Communication, quality, git, documentation, and security standards
 
 **Project Info**
 - **[Changelog](CHANGELOG.md)** - Version history and notable changes

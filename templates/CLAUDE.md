@@ -68,7 +68,7 @@ git commit -m "feat(agents): implement cs-new-agent from template"
 ## Related Documentation
 
 - **Agent Development:** `../agents/CLAUDE.md` - Comprehensive agent creation guide
-- **Standards:** `../standards/CLAUDE.md` - Quality and consistency standards
+- **Standards:** `../docs/standards/CLAUDE.md` - Quality and consistency standards
 - **Main Documentation:** `../CLAUDE.md` - Repository overview
 
 ---
