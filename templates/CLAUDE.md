@@ -35,7 +35,7 @@ This guide explains the template system for agents, commands, and standardized w
 - Argument parsing patterns
 - Help documentation format
 
-**When to Use:** Creating slash commands in `commands/` directory
+**When to Use:** Creating slash commands in `.claude/commands/` directory
 
 ### Workflow Templates
 
@@ -68,7 +68,7 @@ git commit -m "feat(agents): implement cs-new-agent from template"
 ## Related Documentation
 
 - **Agent Development:** `../agents/CLAUDE.md` - Comprehensive agent creation guide
-- **Standards:** `../standards/CLAUDE.md` - Quality and consistency standards
+- **Standards:** `../docs/standards/CLAUDE.md` - Quality and consistency standards
 - **Main Documentation:** `../CLAUDE.md` - Repository overview
 
 ---

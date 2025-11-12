@@ -19,37 +19,37 @@ The cs-agile-product-owner agent bridges the gap between high-level product requ
 
 ## Skill Integration
 
-**Skill Location:** `../../product-team/agile-product-owner/`
+**Skill Location:** `../../skills/product-team/agile-product-owner/`
 
 ### Python Tools
 
 1. **User Story Generator**
    - **Purpose:** Automated generation of well-structured user stories from feature descriptions with INVEST criteria validation
-   - **Path:** `../../product-team/agile-product-owner/scripts/user_story_generator.py`
-   - **Usage:** `python ../../product-team/agile-product-owner/scripts/user_story_generator.py feature.txt --output json`
+   - **Path:** `../../skills/product-team/agile-product-owner/scripts/user_story_generator.py`
+   - **Usage:** `python ../../skills/product-team/agile-product-owner/scripts/user_story_generator.py feature.txt --output json`
    - **Features:** INVEST criteria checking (Independent, Negotiable, Valuable, Estimable, Small, Testable), acceptance criteria generation, story point estimation suggestions, epic breakdown, JSON/CSV export
    - **Use Cases:** Sprint planning, backlog refinement, requirement decomposition, story splitting
 
 ### Knowledge Bases
 
 1. **Agile Story Framework**
-   - **Location:** `../../product-team/agile-product-owner/references/agile_story_framework.md`
+   - **Location:** `../../skills/product-team/agile-product-owner/references/agile_story_framework.md`
    - **Content:** User story templates (standard, job story, feature story), INVEST criteria guidelines, story splitting patterns, estimation techniques (story points, t-shirt sizing)
    - **Use Case:** Story writing best practices, backlog refinement, team onboarding
 
 2. **Sprint Planning Guide**
-   - **Location:** `../../product-team/agile-product-owner/references/sprint_planning_guide.md`
+   - **Location:** `../../skills/product-team/agile-product-owner/references/sprint_planning_guide.md`
    - **Content:** Sprint planning process, capacity calculation, velocity tracking, commitment strategies, sprint goal setting
    - **Use Case:** Sprint planning meetings, capacity planning, team velocity management
 
 ### Templates
 
 1. **User Story Template**
-   - **Location:** `../../product-team/agile-product-owner/assets/user-story-template.md`
+   - **Location:** `../../skills/product-team/agile-product-owner/assets/user-story-template.md`
    - **Use Case:** Manual story creation, story structure reference
 
 2. **Sprint Backlog Template**
-   - **Location:** `../../product-team/agile-product-owner/assets/sprint-backlog-template.md`
+   - **Location:** `../../skills/product-team/agile-product-owner/assets/sprint-backlog-template.md`
    - **Use Case:** Sprint planning documentation, backlog tracking
 
 ## Workflows
@@ -81,7 +81,7 @@ The cs-agile-product-owner agent bridges the gap between high-level product requ
 
 3. **Generate User Stories** - Run story generator tool
    ```bash
-   python ../../product-team/agile-product-owner/scripts/user_story_generator.py feature.txt --output human
+   python ../../skills/product-team/agile-product-owner/scripts/user_story_generator.py feature.txt --output human
    ```
 
 4. **Review Generated Stories** - Analyze output for:
@@ -114,7 +114,7 @@ Feature: Dashboard Widget Customization
 Allow users to drag and drop dashboard widgets to customize their view
 EOF
 
-python ../../product-team/agile-product-owner/scripts/user_story_generator.py dashboard-feature.txt
+python ../../skills/product-team/agile-product-owner/scripts/user_story_generator.py dashboard-feature.txt
 
 # Review output and refine stories
 ```
@@ -133,7 +133,7 @@ python ../../product-team/agile-product-owner/scripts/user_story_generator.py da
 2. **Review Team Velocity** - Analyze historical sprint performance:
    ```bash
    # Review past 3-5 sprints
-   cat ../../product-team/agile-product-owner/references/sprint_planning_guide.md
+   cat ../../skills/product-team/agile-product-owner/references/sprint_planning_guide.md
    ```
    - Average story points completed per sprint
    - Velocity trend (increasing, decreasing, stable)
@@ -190,7 +190,7 @@ python ../../product-team/agile-product-owner/scripts/user_story_generator.py da
 
 3. **Generate Missing Stories** - Use story generator for new features:
    ```bash
-   python ../../product-team/agile-product-owner/scripts/user_story_generator.py new-feature.txt --output json > stories.json
+   python ../../skills/product-team/agile-product-owner/scripts/user_story_generator.py new-feature.txt --output json > stories.json
    ```
 
 4. **Validate INVEST Criteria** - Check each story for quality:
@@ -238,7 +238,7 @@ python ../../product-team/agile-product-owner/scripts/user_story_generator.py da
 # Batch generate stories for refinement
 for feature in backlog/*.txt; do
   echo "Generating stories for: $feature"
-  python ../../product-team/agile-product-owner/scripts/user_story_generator.py "$feature" --output json >> refined-stories.json
+  python ../../skills/product-team/agile-product-owner/scripts/user_story_generator.py "$feature" --output json >> refined-stories.json
 done
 
 # Review generated stories in refinement meeting
@@ -331,7 +331,7 @@ echo "📝 Generating User Stories..."
 if [ -d "backlog/features/" ]; then
   for feature in backlog/features/*.txt; do
     echo "Processing: $feature"
-    python ../../product-team/agile-product-owner/scripts/user_story_generator.py "$feature" --output json >> sprint-$SPRINT_NUMBER-stories.json
+    python ../../skills/product-team/agile-product-owner/scripts/user_story_generator.py "$feature" --output json >> sprint-$SPRINT_NUMBER-stories.json
   done
 else
   echo "No features found in backlog/features/"
@@ -340,12 +340,12 @@ fi
 # Review sprint planning guide
 echo ""
 echo "📖 Sprint Planning Best Practices:"
-cat ../../product-team/agile-product-owner/references/sprint_planning_guide.md | head -20
+cat ../../skills/product-team/agile-product-owner/references/sprint_planning_guide.md | head -20
 
 # Copy sprint backlog template
 echo ""
 echo "📋 Creating Sprint Backlog..."
-cp ../../product-team/agile-product-owner/assets/sprint-backlog-template.md sprint-$SPRINT_NUMBER-backlog.md
+cp ../../skills/product-team/agile-product-owner/assets/sprint-backlog-template.md sprint-$SPRINT_NUMBER-backlog.md
 
 echo ""
 echo "✅ Sprint planning preparation complete!"
@@ -369,13 +369,13 @@ echo ""
 echo "1. Generating Stories for New Features:"
 find backlog/unrefined/ -name "*.txt" | while read feature; do
   echo "   Processing: $feature"
-  python ../../product-team/agile-product-owner/scripts/user_story_generator.py "$feature"
+  python ../../skills/product-team/agile-product-owner/scripts/user_story_generator.py "$feature"
   echo ""
 done
 
 # Review story framework
 echo "2. Story Quality Guidelines (INVEST):"
-cat ../../product-team/agile-product-owner/references/agile_story_framework.md | grep -A 10 "INVEST"
+cat ../../skills/product-team/agile-product-owner/references/agile_story_framework.md | grep -A 10 "INVEST"
 
 echo ""
 echo "3. Review generated stories and:"
@@ -478,8 +478,8 @@ echo "- [ ] Documentation updated"
 
 ## References
 
-- **Skill Documentation:** [../../product-team/agile-product-owner/SKILL.md](../../product-team/agile-product-owner/SKILL.md)
-- **Product Domain Guide:** [../../product-team/CLAUDE.md](../../product-team/CLAUDE.md)
+- **Skill Documentation:** [../../skills/product-team/agile-product-owner/SKILL.md](../../skills/product-team/agile-product-owner/SKILL.md)
+- **Product Domain Guide:** [../../skills/product-team/CLAUDE.md](../../skills/product-team/CLAUDE.md)
 - **Agent Development Guide:** [../CLAUDE.md](../CLAUDE.md)
 
 ---

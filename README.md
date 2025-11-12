@@ -1,6 +1,8 @@
-# Claude Skills Library by nginity (Your Agentic Startup Kit)
+# Claude Skills Library - Pandora Edition
 
-**Production-Ready skill packages for Claude AI & Claude Code** - Reusable expertise bundles combining best practices, analysis tools, and strategic frameworks for marketing teams, executive leadership, product development, your web and mobile engineering teams. Many other teams will be included soon and regularly.
+**Production-Ready skill packages for Claude AI & Claude Code** - Pandora-focused expertise bundles combining best practices, analysis tools, and strategic frameworks for our marketing, product, engineering, and delivery teams.
+
+> Originally created by [Ali Rezvani](https://github.com/alirezarezvani/claude-skills). This is a Pandora-specialized fork tailored to our team's specific needs.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Claude AI](https://img.shields.io/badge/Claude-AI-blue.svg)](https://claude.ai)
@@ -11,6 +13,7 @@
 ## 📚 Table of Contents
 
 - [Overview](#-overview)
+- [Documentation](#-documentation)
 - [Production CLI Tools & Testing](#%EF%B8%8F-production-cli-tools--testing)
 - [Agent Catalog](#-agent-catalog)
 - [Available Skills](#-available-skills)
@@ -23,30 +26,50 @@
 - [Roadmap](#-roadmap)
 - [Contributing](#-contributing)
 - [License](#-license)
-- [Author](#-author)
+- [Attribution](#-attribution)
 
 ---
 
 ## 🎯 Overview
 
-This repository provides **modular, self-contained skill packages** designed to augment Claude AI with specialized domain expertise. Each skill includes:
+This repository provides **modular, self-contained skill packages** designed specifically for Pandora's teams to augment Claude AI with specialized domain expertise. Each skill includes:
 
-- **📖 Comprehensive documentation** - Workflows, best practices, and strategic frameworks
-- **🛠️ Python analysis tools** - CLI utilities for automated analysis and optimization
-- **📚 Knowledge bases** - Curated reference materials and guidelines
+- **📖 Comprehensive documentation** - Workflows, best practices, and strategic frameworks tailored to Pandora's needs
+- **🛠️ Python analysis tools** - 77 CLI utilities for automated analysis and optimization
+- **📚 Knowledge bases** - Curated reference materials and guidelines for Pandora's domains
 - **📋 Ready-to-use templates** - Customizable assets for immediate deployment
 
-**Key Benefits:**
-- ⚡ **Immediate deployment** - Download and use in minutes
-- 🎯 **Domain expertise** - Battle-tested frameworks from industry experts
+**Key Benefits for Pandora:**
+- ⚡ **Immediate deployment** - Skills ready to use across marketing, product, engineering, and delivery teams
+- 🎯 **Focused expertise** - 26 skills across 4 core domains relevant to Pandora's operations
 - 🔧 **Practical tools** - Algorithmic analysis without external API dependencies
 - 📈 **Measurable ROI** - 40%+ time savings, 30%+ quality improvements
 
 ---
 
+## 📖 Documentation
+
+**Getting Started**
+- **[Installation Guide](docs/INSTALL.md)** - Complete setup instructions for Python environment and dependencies
+- **[Usage Guide](docs/USAGE.md)** - Comprehensive examples and workflows for Claude AI and Claude Code
+
+**Testing & Quality**
+- **[Testing Guide](docs/testing/TESTING_GUIDE.md)** - Python script testing framework and CLI standards
+- **[Testing Quick Start](docs/testing/TESTING_QUICK_START.md)** - Quick reference for running tests
+
+**Workflows & Standards**
+- **[Git Workflow](docs/WORKFLOW.md)** - Branch strategy and deployment pipeline (develop → staging → main)
+- **[Standards Library](docs/standards/)** - Communication, quality, git, documentation, and security standards
+
+**Project Info**
+- **[Changelog](CHANGELOG.md)** - Version history and notable changes
+- **[Contributors](CONTRIBUTORS.md)** - Attribution to Ali Rezvani and fork maintainers
+
+---
+
 ## 🛠️ Production CLI Tools & Testing
 
-**67 standardized Python CLI tools** with comprehensive testing framework (v2.0.0):
+**77 standardized Python CLI tools** with comprehensive testing framework (v2.0.0):
 
 ### CLI Features
 - **Consistent Interface** - All tools use argparse with standard flags: `--help`, `--version`, `--output`, `--file`, `--verbose`
@@ -62,24 +85,24 @@ This repository provides **modular, self-contained skill packages** designed to 
 ### Quick Start
 ```bash
 # Test a single script
-./test_single_script.sh marketing-skill/content-creator/scripts/brand_voice_analyzer.py \
-  marketing-skill/content-creator/assets/sample-content.txt
+./test_single_script.sh skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py \
+  skills/marketing-team/content-creator/assets/sample-content.txt
 
 # Test all scripts
 ./test_cli_standards.sh
 
 # Run script with JSON output
-python3 marketing-skill/content-creator/scripts/brand_voice_analyzer.py \
+python3 skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py \
   input.txt --output json --file results.json
 ```
 
-**Learn More:** [TESTING_GUIDE.md](TESTING_GUIDE.md) | [documentation/standards/cli-standards.md](documentation/standards/cli-standards.md)
+**Learn More:** [TESTING_GUIDE.md](TESTING_GUIDE.md) | [docs/standards/cli-standards.md](docs/standards/cli-standards.md)
 
 ---
 
 ## 🤖 Agent Catalog
 
-**28 specialized agents** that orchestrate skills and provide guided workflows (v1.0):
+**3 production agents** that orchestrate skills and provide guided workflows (v1.0):
 
 Agents are workflow orchestrators that intelligently invoke skills, coordinate Python tools, and guide you through complex multi-step processes. While skills provide the tools and knowledge, agents provide the intelligence to use them effectively.
 
@@ -88,42 +111,14 @@ Agents are workflow orchestrators that intelligently invoke skills, coordinate P
 | **Marketing Agents** ||||
 | [cs-content-creator](agents/marketing/cs-content-creator.md) | Marketing | content-creator | Create SEO-optimized marketing content with brand voice consistency |
 | [cs-demand-gen-specialist](agents/marketing/cs-demand-gen-specialist.md) | Marketing | marketing-demand-acquisition | Lead generation and conversion funnel optimization |
-| [cs-product-marketer](agents/marketing/cs-product-marketer.md) | Marketing | marketing-strategy-pmm | Product positioning, GTM strategy, and competitive analysis |
-| **C-Level Agents** ||||
-| [cs-ceo-advisor](agents/c-level/cs-ceo-advisor.md) | C-Level | ceo-advisor | Strategic planning, OKR setting, and board deck preparation |
-| [cs-cto-advisor](agents/c-level/cs-cto-advisor.md) | C-Level | cto-advisor | Tech roadmap planning, build vs buy decisions, team scaling |
 | **Product Agents** ||||
 | [cs-product-manager](agents/product/cs-product-manager.md) | Product | product-manager-toolkit | RICE prioritization, roadmap generation, customer discovery |
-| [cs-agile-product-owner](agents/product/cs-agile-product-owner.md) | Product | agile-product-owner | User story creation, backlog grooming, sprint planning |
-| [cs-product-strategist](agents/product/cs-product-strategist.md) | Product | product-strategist | OKR cascades, strategic roadmaps, vision-driven prioritization |
-| [cs-ux-researcher](agents/product/cs-ux-researcher.md) | Product | ux-researcher-designer | Persona development, usability testing, customer interview analysis |
-| [cs-ui-designer](agents/product/cs-ui-designer.md) | Product | ui-design-system | Design tokens, component libraries, design system documentation |
-| **Project Management Agents** ||||
-| [cs-senior-pm](agents/project-management/cs-senior-pm.md) | Project Management | senior-pm | Portfolio planning, stakeholder management, program governance |
-| [cs-scrum-master](agents/project-management/cs-scrum-master.md) | Project Management | scrum-master | Sprint ceremonies, team facilitation, Agile coaching |
-| [cs-jira-expert](agents/project-management/cs-jira-expert.md) | Project Management | jira-expert | JQL queries, workflow configuration, automation rules |
-| [cs-confluence-expert](agents/project-management/cs-confluence-expert.md) | Project Management | confluence-expert | Space architecture, template creation, documentation governance |
-| **Engineering Agents** ||||
-| [cs-backend-engineer](agents/engineering/cs-backend-engineer.md) | Engineering | senior-backend | API development, database optimization, microservices architecture |
-| [cs-frontend-engineer](agents/engineering/cs-frontend-engineer.md) | Engineering | senior-frontend | React/Vue development, UI/UX implementation, frontend performance |
-| [cs-fullstack-engineer](agents/engineering/cs-fullstack-engineer.md) | Engineering | senior-fullstack | End-to-end development, API integration, full-stack architecture |
-| [cs-devops-engineer](agents/engineering/cs-devops-engineer.md) | Engineering | senior-devops | CI/CD pipelines, infrastructure as code, container orchestration |
-| [cs-architect](agents/engineering/cs-architect.md) | Engineering | senior-architect | System design, architecture patterns, scalability planning |
-| [cs-security-engineer](agents/engineering/cs-security-engineer.md) | Engineering | senior-security | Security audits, vulnerability assessment, secure coding |
-| [cs-secops-engineer](agents/engineering/cs-secops-engineer.md) | Engineering | senior-secops | Security operations, incident response, threat detection |
-| [cs-qa-engineer](agents/engineering/cs-qa-engineer.md) | Engineering | senior-qa | Test automation, quality assurance, test strategy |
-| [cs-code-reviewer](agents/engineering/cs-code-reviewer.md) | Engineering | code-reviewer | Code review, quality assessment, refactoring guidance |
-| [cs-ml-engineer](agents/engineering/cs-ml-engineer.md) | Engineering | senior-ml-engineer | Model training, MLOps pipelines, experiment tracking, model deployment |
-| [cs-data-engineer](agents/engineering/cs-data-engineer.md) | Engineering | senior-data-engineer | ETL/ELT pipelines, data warehousing, data quality, scalable data infrastructure |
-| [cs-data-scientist](agents/engineering/cs-data-scientist.md) | Engineering | senior-data-scientist | Statistical analysis, exploratory data analysis, feature engineering, model evaluation |
-| [cs-computer-vision-engineer](agents/engineering/cs-computer-vision-engineer.md) | Engineering | senior-computer-vision | Image classification, object detection, semantic segmentation, computer vision pipelines |
-| [cs-prompt-engineer](agents/engineering/cs-prompt-engineer.md) | Engineering | senior-prompt-engineer | Prompt design, LLM optimization, RAG systems, multi-agent orchestration |
 
 ### Agents vs Skills
 
 **Skills** = Tools + Knowledge + Templates
-- 42 production-ready skills
-- 97 automation tools
+- 26 Pandora-focused skills
+- 77 automation tools
 - Domain expertise packaged
 
 **Agents** = Workflow Orchestrators
@@ -156,7 +151,7 @@ Professional-grade brand voice analysis, SEO optimization, and platform-specific
 - **Social Media Optimization** - Platform-specific guides for LinkedIn, Twitter/X, Instagram, Facebook, TikTok
 - **Content Calendar Template** - Monthly planning and distribution framework
 
-**Learn More:** [marketing-skill/content-creator/SKILL.md](marketing-skill/content-creator/SKILL.md)
+**Learn More:** [skills/marketing-team/content-creator/SKILL.md](skills/marketing-team/content-creator/SKILL.md)
 
 ---
 
@@ -173,7 +168,7 @@ Expert demand generation, paid media, SEO, and partnerships for Series A+ startu
 - **International Expansion** - EU vs US vs Canada tactics
 - **Performance Benchmarks** - B2B SaaS CAC and conversion benchmarks
 
-**Learn More:** [marketing-skill/marketing-demand-acquisition/SKILL.md](marketing-skill/marketing-demand-acquisition/SKILL.md)
+**Learn More:** [skills/marketing-team/marketing-demand-acquisition/SKILL.md](skills/marketing-team/marketing-demand-acquisition/SKILL.md)
 
 ---
 
@@ -191,33 +186,11 @@ Product marketing, positioning, GTM strategy, and competitive intelligence.
 - **International Market Entry** - 5-phase market expansion playbooks
 - **Sales Enablement** - Training programs and asset development
 
-**Learn More:** [marketing-skill/marketing-strategy-pmm/SKILL.md](marketing-skill/marketing-strategy-pmm/SKILL.md)
+**Learn More:** [skills/marketing-team/marketing-strategy-pmm/SKILL.md](skills/marketing-team/marketing-strategy-pmm/SKILL.md)
 
 ---
 
-### C-Level Advisory Skills
-
-#### 👔 CEO Advisor
-**Status:** ✅ Production Ready | **Version:** 1.0
-
-Executive leadership guidance for strategic decision-making, organizational development, and stakeholder management.
-
-**What's Included:**
-- **Strategy Analyzer** - Evaluate strategic initiatives and competitive positioning (Python CLI)
-- **Financial Scenario Analyzer** - Model financial scenarios and business outcomes (Python CLI)
-- **Executive Decision Framework** - Structured decision-making methodology
-- **Leadership & Organizational Culture** - Culture building and change management
-- **Board Governance & Investor Relations** - Stakeholder communication best practices
-
-**Core Workflows:**
-1. Strategic planning and initiative evaluation
-2. Financial scenario modeling
-3. Board and investor communication
-4. Organizational culture development
-
-**Learn More:** [c-level-advisor/ceo-advisor/SKILL.md](c-level-advisor/ceo-advisor/SKILL.md)
-
----
+### Engineering Team Skills
 
 #### 💻 CTO Advisor
 **Status:** ✅ Production Ready | **Version:** 1.0
@@ -237,7 +210,7 @@ Technical leadership guidance for engineering teams, architecture decisions, and
 3. Technology evaluation and selection
 4. Architecture decision documentation
 
-**Learn More:** [c-level-advisor/cto-advisor/SKILL.md](c-level-advisor/cto-advisor/SKILL.md)
+**Learn More:** [skills/engineering-team/cto-advisor/SKILL.md](skills/engineering-team/cto-advisor/SKILL.md)
 
 ---
 
@@ -261,7 +234,7 @@ Essential tools and frameworks for modern product management, from discovery to 
 3. PRD development and stakeholder alignment
 4. Product metrics and success measurement
 
-**Learn More:** [product-team/product-manager-toolkit/SKILL.md](product-team/product-manager-toolkit/SKILL.md)
+**Learn More:** [skills/product-team/product-manager-toolkit/SKILL.md](skills/product-team/product-manager-toolkit/SKILL.md)
 
 ---
 
@@ -283,7 +256,7 @@ Sprint execution and backlog management tools for agile product delivery.
 3. User story writing and acceptance criteria
 4. Sprint execution and velocity tracking
 
-**Learn More:** [product-team/agile-product-owner/SKILL.md](product-team/agile-product-owner/SKILL.md)
+**Learn More:** [skills/product-team/agile-product-owner/SKILL.md](skills/product-team/agile-product-owner/SKILL.md)
 
 ---
 
@@ -305,7 +278,7 @@ Strategic planning and vision alignment for heads of product and product leaders
 3. Roadmap development and communication
 4. Team organization and scaling
 
-**Learn More:** [product-team/product-strategist/SKILL.md](product-team/product-strategist/SKILL.md)
+**Learn More:** [skills/product-team/product-strategist/SKILL.md](skills/product-team/product-strategist/SKILL.md)
 
 ---
 
@@ -327,7 +300,7 @@ User research and experience design frameworks for creating user-centered produc
 3. Persona development and validation
 4. Journey mapping and experience design
 
-**Learn More:** [product-team/ux-researcher-designer/SKILL.md](product-team/ux-researcher-designer/SKILL.md)
+**Learn More:** [skills/product-team/ux-researcher-designer/SKILL.md](skills/product-team/ux-researcher-designer/SKILL.md)
 
 ---
 
@@ -349,7 +322,7 @@ Visual design systems and component architecture for consistent user interfaces.
 3. Design system documentation
 4. Developer handoff and implementation
 
-**Learn More:** [product-team/ui-design-system/SKILL.md](product-team/ui-design-system/SKILL.md)
+**Learn More:** [skills/product-team/ui-design-system/SKILL.md](skills/product-team/ui-design-system/SKILL.md)
 
 ---
 
@@ -370,7 +343,7 @@ Strategic project management for software, SaaS, and digital applications.
 - Roadmap development and project charters
 - Atlassian MCP integration for metrics and reporting
 
-**Learn More:** See `project-management/README.md` for details
+**Learn More:** See `skills/delivery-team/README.md` for details
 
 ---
 
@@ -388,7 +361,7 @@ Agile facilitation for software development teams.
 - Team coaching on agile practices
 - Atlassian MCP integration for sprint management
 
-**Learn More:** See `project-management/README.md` for details
+**Learn More:** See `skills/delivery-team/README.md` for details
 
 ---
 
@@ -406,7 +379,7 @@ Jira configuration, JQL mastery, and technical operations.
 - Performance tuning
 - Atlassian MCP integration for all Jira operations
 
-**Learn More:** See `project-management/README.md` for details
+**Learn More:** See `skills/delivery-team/README.md` for details
 
 ---
 
@@ -424,7 +397,7 @@ Knowledge management and documentation architecture.
 - Search optimization and findability
 - Atlassian MCP integration for documentation
 
-**Learn More:** See `project-management/README.md` for details
+**Learn More:** See `skills/delivery-team/README.md` for details
 
 ---
 
@@ -442,7 +415,7 @@ System administration for Atlassian suite.
 - Disaster recovery and license management
 - Atlassian MCP integration for system administration
 
-**Learn More:** See `project-management/README.md` for details
+**Learn More:** See `skills/delivery-team/README.md` for details
 
 ---
 
@@ -460,7 +433,7 @@ Template and file creation/modification specialist.
 - Template lifecycle management
 - Atlassian MCP integration for template deployment
 
-**Learn More:** See `project-management/README.md` for details
+**Learn More:** See `skills/delivery-team/README.md` for details
 
 ---
 
@@ -481,7 +454,7 @@ System architecture design, technology stack decisions, and architecture documen
 - **System Design Workflows** - Step-by-step architecture design process
 - **Tech Decision Guide** - Framework for technology stack selection
 
-**Learn More:** See `engineering-team/README.md` for details
+**Learn More:** See `skills/engineering-team/README.md` for details
 
 ---
 
@@ -498,7 +471,7 @@ Frontend development with React, Next.js, and TypeScript.
 - **Next.js Optimization** - App Router, Server Components, performance tuning
 - **Frontend Best Practices** - Accessibility, SEO, performance optimization
 
-**Learn More:** See `engineering-team/README.md` for details
+**Learn More:** See `skills/engineering-team/README.md` for details
 
 ---
 
@@ -515,7 +488,7 @@ Backend development with Node.js, Express, GraphQL, Go, and Python.
 - **Database Optimization** - Query optimization, indexing, connection pooling
 - **Backend Security** - Authentication, authorization, data validation
 
-**Learn More:** See `engineering-team/README.md` for details
+**Learn More:** See `skills/engineering-team/README.md` for details
 
 ---
 
@@ -532,7 +505,7 @@ End-to-end application development with complete stack integration.
 - **Architecture Patterns** - Full-stack system design and integration
 - **Development Workflows** - Git, CI/CD, testing, deployment automation
 
-**Learn More:** [engineering-team/fullstack-engineer/SKILL.md](engineering-team/fullstack-engineer/SKILL.md)
+**Learn More:** [skills/engineering-team/fullstack-engineer/SKILL.md](skills/engineering-team/fullstack-engineer/SKILL.md)
 
 ---
 
@@ -549,7 +522,7 @@ Quality assurance and test automation for comprehensive testing strategies.
 - **Test Automation Patterns** - Page objects, fixtures, mocking strategies
 - **QA Best Practices** - Quality metrics, regression testing, performance testing
 
-**Learn More:** See `engineering-team/README.md` for details
+**Learn More:** See `skills/engineering-team/README.md` for details
 
 ---
 
@@ -566,7 +539,7 @@ CI/CD automation, infrastructure as code, and deployment management.
 - **Infrastructure as Code** - Terraform, CloudFormation, Kubernetes
 - **Deployment Strategies** - Blue-green, canary, rolling deployments
 
-**Learn More:** See `engineering-team/README.md` for details
+**Learn More:** See `skills/engineering-team/README.md` for details
 
 ---
 
@@ -583,7 +556,7 @@ Security operations, vulnerability management, and compliance automation.
 - **Vulnerability Management** - Detection, assessment, remediation workflows
 - **Compliance Requirements** - Compliance frameworks and automation
 
-**Learn More:** See `engineering-team/README.md` for details
+**Learn More:** See `skills/engineering-team/README.md` for details
 
 ---
 
@@ -600,7 +573,7 @@ Automated code review, quality checking, and PR analysis.
 - **Coding Standards** - Language-specific conventions and best practices
 - **Common Anti-patterns** - What to avoid and how to fix
 
-**Learn More:** See `engineering-team/README.md` for details
+**Learn More:** See `skills/engineering-team/README.md` for details
 
 ---
 
@@ -617,7 +590,7 @@ Security architecture, penetration testing, and cryptography implementation.
 - **Penetration Testing Guide** - Testing methodologies and tools
 - **Cryptography Implementation** - Encryption, hashing, secure communication
 
-**Learn More:** See `engineering-team/README.md` for details
+**Learn More:** See `skills/engineering-team/README.md` for details
 
 ---
 
@@ -638,7 +611,7 @@ Statistical modeling, experimentation, and business analytics.
 - **Experimentation Framework** - A/B testing, multi-armed bandits, Bayesian optimization
 - **Analytics Patterns** - Business metrics, dashboards, reporting
 
-**Learn More:** See `engineering-team/README.md` for details
+**Learn More:** See `skills/engineering-team/README.md` for details
 
 ---
 
@@ -655,7 +628,7 @@ Data pipeline engineering, ETL/ELT workflows, and data infrastructure.
 - **Data Quality Framework** - Validation, monitoring, lineage tracking
 - **Data Modeling Guide** - Dimensional modeling, data vault, schema design
 
-**Learn More:** See `engineering-team/README.md` for details
+**Learn More:** See `skills/engineering-team/README.md` for details
 
 ---
 
@@ -672,7 +645,7 @@ MLOps, model deployment, and LLM integration for production AI systems.
 - **LLM Integration Guide** - RAG, fine-tuning, prompt engineering
 - **Model Deployment Strategies** - Serving, scaling, monitoring
 
-**Learn More:** See `engineering-team/README.md` for details
+**Learn More:** See `skills/engineering-team/README.md` for details
 
 ---
 
@@ -689,7 +662,7 @@ LLM optimization, RAG systems, and agentic AI development.
 - **RAG Architecture Patterns** - Vector search, chunking, reranking
 - **Agent Design Patterns** - ReAct, tool use, multi-agent systems
 
-**Learn More:** See `engineering-team/README.md` for details
+**Learn More:** See `skills/engineering-team/README.md` for details
 
 ---
 
@@ -706,7 +679,7 @@ Computer vision, image/video AI, and real-time visual inference.
 - **Real-time Inference Guide** - Edge deployment, optimization, latency reduction
 - **Computer Vision Production** - Model serving, monitoring, data pipelines
 
-**Learn More:** See `engineering-team/README.md` for details
+**Learn More:** See `skills/engineering-team/README.md` for details
 
 ---
 
@@ -942,7 +915,7 @@ Claude AI can use these skills to provide specialized expertise in your conversa
 
 **Step-by-Step:**
 
-1. **Navigate to the skill folder** you want to use (e.g., `marketing-skill/content-creator/`)
+1. **Navigate to the skill folder** you want to use (e.g., `skills/marketing-team/content-creator/`)
 
 2. **Upload the SKILL.md file** to your Claude conversation:
    - Click the attachment icon 📎
@@ -1087,8 +1060,8 @@ Claude Code can execute the Python analysis tools and integrate skills into your
 
 3. **Verify installation**:
    ```bash
-   python marketing-skill/content-creator/scripts/brand_voice_analyzer.py --help
-   python marketing-skill/content-creator/scripts/seo_optimizer.py --help
+   python skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py --help
+   python skills/marketing-team/content-creator/scripts/seo_optimizer.py --help
    ```
 
 ### Using Analysis Tools
@@ -1099,10 +1072,10 @@ Analyze any text file for brand voice characteristics and readability:
 
 ```bash
 # Analyze with human-readable output
-python marketing-skill/content-creator/scripts/brand_voice_analyzer.py article.txt
+python skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py article.txt
 
 # Analyze with JSON output for automation
-python marketing-skill/content-creator/scripts/brand_voice_analyzer.py article.txt json
+python skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py article.txt json
 ```
 
 **Output includes:**
@@ -1119,10 +1092,10 @@ Comprehensive SEO analysis and optimization:
 
 ```bash
 # Basic SEO analysis
-python marketing-skill/content-creator/scripts/seo_optimizer.py blog-post.md "primary keyword"
+python skills/marketing-team/content-creator/scripts/seo_optimizer.py blog-post.md "primary keyword"
 
 # With secondary keywords
-python marketing-skill/content-creator/scripts/seo_optimizer.py blog-post.md "marketing automation" "email marketing,lead nurturing"
+python skills/marketing-team/content-creator/scripts/seo_optimizer.py blog-post.md "marketing automation" "email marketing,lead nurturing"
 ```
 
 **Output includes:**
@@ -1138,7 +1111,7 @@ python marketing-skill/content-creator/scripts/seo_optimizer.py blog-post.md "ma
 Quantify and prioritize technical debt:
 
 ```bash
-python c-level-advisor/cto-advisor/scripts/tech_debt_analyzer.py /path/to/codebase
+python skills/engineering-team/cto-advisor/scripts/tech_debt_analyzer.py /path/to/codebase
 ```
 
 #### Team Scaling Calculator (CTO Advisor)
@@ -1146,7 +1119,7 @@ python c-level-advisor/cto-advisor/scripts/tech_debt_analyzer.py /path/to/codeba
 Model engineering team growth:
 
 ```bash
-python c-level-advisor/cto-advisor/scripts/team_scaling_calculator.py --current-size 10 --target-size 50
+python skills/engineering-team/cto-advisor/scripts/team_scaling_calculator.py --current-size 10 --target-size 50
 ```
 
 #### Financial Scenario Analyzer (CEO Advisor)
@@ -1154,7 +1127,7 @@ python c-level-advisor/cto-advisor/scripts/team_scaling_calculator.py --current-
 Model business scenarios:
 
 ```bash
-python c-level-advisor/ceo-advisor/scripts/financial_scenario_analyzer.py scenarios.yaml
+python skills/engineering-team/ceo-advisor/scripts/financial_scenario_analyzer.py scenarios.yaml
 ```
 
 #### Strategy Analyzer (CEO Advisor)
@@ -1162,7 +1135,7 @@ python c-level-advisor/ceo-advisor/scripts/financial_scenario_analyzer.py scenar
 Evaluate strategic initiatives:
 
 ```bash
-python c-level-advisor/ceo-advisor/scripts/strategy_analyzer.py strategy-doc.md
+python skills/engineering-team/ceo-advisor/scripts/strategy_analyzer.py strategy-doc.md
 ```
 
 #### RICE Prioritizer (Product Manager)
@@ -1171,13 +1144,13 @@ Feature prioritization with portfolio analysis:
 
 ```bash
 # Basic prioritization
-python product-team/product-manager-toolkit/scripts/rice_prioritizer.py features.csv
+python skills/product-team/product-manager-toolkit/scripts/rice_prioritizer.py features.csv
 
 # With custom team capacity
-python product-team/product-manager-toolkit/scripts/rice_prioritizer.py features.csv --capacity 20
+python skills/product-team/product-manager-toolkit/scripts/rice_prioritizer.py features.csv --capacity 20
 
 # Output as JSON
-python product-team/product-manager-toolkit/scripts/rice_prioritizer.py features.csv --output json
+python skills/product-team/product-manager-toolkit/scripts/rice_prioritizer.py features.csv --output json
 ```
 
 #### Customer Interview Analyzer (Product Manager)
@@ -1186,10 +1159,10 @@ Extract insights from user interviews:
 
 ```bash
 # Analyze single interview
-python product-team/product-manager-toolkit/scripts/customer_interview_analyzer.py interview.txt
+python skills/product-team/product-manager-toolkit/scripts/customer_interview_analyzer.py interview.txt
 
 # Output as JSON for aggregation
-python product-team/product-manager-toolkit/scripts/customer_interview_analyzer.py interview.txt json
+python skills/product-team/product-manager-toolkit/scripts/customer_interview_analyzer.py interview.txt json
 ```
 
 #### User Story Generator (Product Owner)
@@ -1198,10 +1171,10 @@ Generate INVEST-compliant user stories:
 
 ```bash
 # Interactive mode
-python product-team/agile-product-owner/scripts/user_story_generator.py
+python skills/product-team/agile-product-owner/scripts/user_story_generator.py
 
 # Generate sprint plan with capacity
-python product-team/agile-product-owner/scripts/user_story_generator.py sprint 30
+python skills/product-team/agile-product-owner/scripts/user_story_generator.py sprint 30
 ```
 
 #### OKR Cascade Generator (Product Strategist)
@@ -1210,10 +1183,10 @@ Generate aligned OKR hierarchy:
 
 ```bash
 # Generate OKRs for growth strategy
-python product-team/product-strategist/scripts/okr_cascade_generator.py growth
+python skills/product-team/product-strategist/scripts/okr_cascade_generator.py growth
 
 # Other strategy types: retention, revenue, innovation
-python product-team/product-strategist/scripts/okr_cascade_generator.py retention
+python skills/product-team/product-strategist/scripts/okr_cascade_generator.py retention
 ```
 
 #### Persona Generator (UX Researcher)
@@ -1222,10 +1195,10 @@ Create data-driven personas:
 
 ```bash
 # Interactive persona creation
-python product-team/ux-researcher-designer/scripts/persona_generator.py
+python skills/product-team/ux-researcher-designer/scripts/persona_generator.py
 
 # Export as JSON
-python product-team/ux-researcher-designer/scripts/persona_generator.py --output json
+python skills/product-team/ux-researcher-designer/scripts/persona_generator.py --output json
 ```
 
 #### Design Token Generator (UI Designer)
@@ -1234,10 +1207,10 @@ Generate complete design system tokens:
 
 ```bash
 # Generate tokens from brand color
-python product-team/ui-design-system/scripts/design_token_generator.py "#0066CC" modern css
+python skills/product-team/ui-design-system/scripts/design_token_generator.py "#0066CC" modern css
 
 # Output formats: css, json, scss
-python product-team/ui-design-system/scripts/design_token_generator.py "#0066CC" modern json
+python skills/product-team/ui-design-system/scripts/design_token_generator.py "#0066CC" modern json
 ```
 
 #### Project Scaffolder (Fullstack Engineer)
@@ -1246,7 +1219,7 @@ Scaffold production-ready fullstack projects:
 
 ```bash
 # Create new Next.js + GraphQL + PostgreSQL project
-python engineering-team/fullstack-engineer/scripts/project_scaffolder.py my-project --type nextjs-graphql
+python skills/engineering-team/fullstack-engineer/scripts/project_scaffolder.py my-project --type nextjs-graphql
 
 # Navigate and start
 cd my-project && docker-compose up -d
@@ -1258,10 +1231,10 @@ Analyze code quality and security:
 
 ```bash
 # Analyze existing project
-python engineering-team/fullstack-engineer/scripts/code_quality_analyzer.py /path/to/project
+python skills/engineering-team/fullstack-engineer/scripts/code_quality_analyzer.py /path/to/project
 
 # Get JSON report
-python engineering-team/fullstack-engineer/scripts/code_quality_analyzer.py /path/to/project --json
+python skills/engineering-team/fullstack-engineer/scripts/code_quality_analyzer.py /path/to/project --json
 ```
 
 #### Fullstack Scaffolder (Fullstack Engineer)
@@ -1270,7 +1243,7 @@ Rapid fullstack project generation:
 
 ```bash
 # Generate fullstack application structure
-python engineering-team/fullstack-engineer/scripts/fullstack_scaffolder.py my-app --stack nextjs-graphql
+python skills/engineering-team/fullstack-engineer/scripts/fullstack_scaffolder.py my-app --stack nextjs-graphql
 ```
 
 ### Integrating with Claude Code Workflows
@@ -1281,8 +1254,8 @@ python engineering-team/fullstack-engineer/scripts/fullstack_scaffolder.py my-ap
 # In your Claude Code session:
 # 1. Write content using content-creator frameworks
 # 2. Run automated analysis
-python marketing-skill/content-creator/scripts/seo_optimizer.py output.md "target keyword"
-python marketing-skill/content-creator/scripts/brand_voice_analyzer.py output.md json
+python skills/marketing-team/content-creator/scripts/seo_optimizer.py output.md "target keyword"
+python skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py output.md json
 
 # 3. Claude Code reviews results and suggests improvements
 ```
@@ -1291,7 +1264,7 @@ python marketing-skill/content-creator/scripts/brand_voice_analyzer.py output.md
 
 ```bash
 # Run monthly tech debt analysis
-python c-level-advisor/cto-advisor/scripts/tech_debt_analyzer.py src/
+python skills/engineering-team/cto-advisor/scripts/tech_debt_analyzer.py src/
 
 # Claude Code generates report and roadmap
 # Tracks progress over time
@@ -1385,27 +1358,27 @@ pip install pyyaml  # For future features
 
 ```bash
 # Test marketing skills
-python marketing-skill/content-creator/scripts/brand_voice_analyzer.py --help
-python marketing-skill/content-creator/scripts/seo_optimizer.py --help
+python skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py --help
+python skills/marketing-team/content-creator/scripts/seo_optimizer.py --help
 
 # Test C-level advisor skills
-python c-level-advisor/cto-advisor/scripts/tech_debt_analyzer.py --help
-python c-level-advisor/cto-advisor/scripts/team_scaling_calculator.py --help
-python c-level-advisor/ceo-advisor/scripts/strategy_analyzer.py --help
-python c-level-advisor/ceo-advisor/scripts/financial_scenario_analyzer.py --help
+python skills/engineering-team/cto-advisor/scripts/tech_debt_analyzer.py --help
+python skills/engineering-team/cto-advisor/scripts/team_scaling_calculator.py --help
+python skills/engineering-team/ceo-advisor/scripts/strategy_analyzer.py --help
+python skills/engineering-team/ceo-advisor/scripts/financial_scenario_analyzer.py --help
 
 # Test product team skills
-python product-team/product-manager-toolkit/scripts/rice_prioritizer.py --help
-python product-team/product-manager-toolkit/scripts/customer_interview_analyzer.py --help
-python product-team/agile-product-owner/scripts/user_story_generator.py --help
-python product-team/product-strategist/scripts/okr_cascade_generator.py --help
-python product-team/ux-researcher-designer/scripts/persona_generator.py --help
-python product-team/ui-design-system/scripts/design_token_generator.py --help
+python skills/product-team/product-manager-toolkit/scripts/rice_prioritizer.py --help
+python skills/product-team/product-manager-toolkit/scripts/customer_interview_analyzer.py --help
+python skills/product-team/agile-product-owner/scripts/user_story_generator.py --help
+python skills/product-team/product-strategist/scripts/okr_cascade_generator.py --help
+python skills/product-team/ux-researcher-designer/scripts/persona_generator.py --help
+python skills/product-team/ui-design-system/scripts/design_token_generator.py --help
 
 # Test engineering team skills
-python engineering-team/fullstack-engineer/scripts/project_scaffolder.py --help
-python engineering-team/fullstack-engineer/scripts/code_quality_analyzer.py --help
-python engineering-team/fullstack-engineer/scripts/fullstack_scaffolder.py --help
+python skills/engineering-team/fullstack-engineer/scripts/project_scaffolder.py --help
+python skills/engineering-team/fullstack-engineer/scripts/code_quality_analyzer.py --help
+python skills/engineering-team/fullstack-engineer/scripts/fullstack_scaffolder.py --help
 ```
 
 ---
@@ -1418,7 +1391,7 @@ python engineering-team/fullstack-engineer/scripts/fullstack_scaffolder.py --hel
 
 ```bash
 # Step 1: Check SEO
-python marketing-skill/content-creator/scripts/seo_optimizer.py blog-post.md "AI automation"
+python skills/marketing-team/content-creator/scripts/seo_optimizer.py blog-post.md "AI automation"
 
 # Output: SEO Score: 68/100
 # Recommendations:
@@ -1428,7 +1401,7 @@ python marketing-skill/content-creator/scripts/seo_optimizer.py blog-post.md "AI
 # - Meta description too short (current: 120 chars, target: 150-160)
 
 # Step 2: Check brand voice
-python marketing-skill/content-creator/scripts/brand_voice_analyzer.py blog-post.md
+python skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py blog-post.md
 
 # Output:
 # Formality: 7/10 (Professional)
@@ -1446,7 +1419,7 @@ python marketing-skill/content-creator/scripts/brand_voice_analyzer.py blog-post
 
 **Using Claude AI:**
 
-1. Upload `marketing-skill/content-creator/SKILL.md`
+1. Upload `skills/marketing-team/content-creator/SKILL.md`
 2. Prompt:
    ```
    Using the content-creator skill, create a 30-day LinkedIn content calendar
@@ -1470,7 +1443,7 @@ python marketing-skill/content-creator/scripts/brand_voice_analyzer.py blog-post
 
 ```bash
 # Run tech debt analysis
-python c-level-advisor/cto-advisor/scripts/tech_debt_analyzer.py /path/to/codebase
+python skills/engineering-team/cto-advisor/scripts/tech_debt_analyzer.py /path/to/codebase
 
 # Claude Code processes results and:
 # 1. Identifies top 10 debt items by severity
@@ -1486,8 +1459,8 @@ python c-level-advisor/cto-advisor/scripts/tech_debt_analyzer.py /path/to/codeba
 
 **Using CEO Advisor Skill:**
 
-1. Upload `c-level-advisor/ceo-advisor/SKILL.md`
-2. Upload `c-level-advisor/ceo-advisor/references/board_governance_investor_relations.md`
+1. Upload `skills/engineering-team/ceo-advisor/SKILL.md`
+2. Upload `skills/engineering-team/ceo-advisor/references/board_governance_investor_relations.md`
 3. Prompt:
    ```
    Using the ceo-advisor skill, help me prepare a board presentation for Q4 2025.
@@ -1740,10 +1713,10 @@ Explore our complete ecosystem of Claude Code augmentation tools and utilities:
 - Atlassian efficiency: +70%
 
 **See detailed roadmaps:**
-- [marketing-skill/marketing_skills_roadmap.md](marketing-skill/marketing_skills_roadmap.md)
-- [product-team/product_team_implementation_guide.md](product-team/product_team_implementation_guide.md)
-- [project-management/README.md](project-management/README.md) | [project-management/REAL_WORLD_SCENARIO.md](project-management/REAL_WORLD_SCENARIO.md)
-- [engineering-team/START_HERE.md](engineering-team/START_HERE.md) | [engineering-team/TEAM_STRUCTURE_GUIDE.md](engineering-team/TEAM_STRUCTURE_GUIDE.md)
+- [skills/marketing-team/marketing_skills_roadmap.md](skills/marketing-team/marketing_skills_roadmap.md)
+- [skills/product-team/product_team_implementation_guide.md](skills/product-team/product_team_implementation_guide.md)
+- [skills/delivery-team/README.md](skills/delivery-team/README.md) | [skills/delivery-team/REAL_WORLD_SCENARIO.md](skills/delivery-team/REAL_WORLD_SCENARIO.md)
+- [skills/engineering-team/START_HERE.md](skills/engineering-team/START_HERE.md) | [skills/engineering-team/TEAM_STRUCTURE_GUIDE.md](skills/engineering-team/TEAM_STRUCTURE_GUIDE.md)
 - [ra-qm-team/README.md](ra-qm-team/README.md) | [ra-qm-team/final-complete-skills-collection.md](ra-qm-team/final-complete-skills-collection.md)
 
 ---
@@ -1816,64 +1789,60 @@ You are free to:
 
 ---
 
-## 👤 Author
+## 👤 Attribution
 
-**Alireza Rezvani**
+### Original Author
 
-Building AI-powered tools and frameworks to democratize professional expertise.
+**Alireza Rezvani** - Creator of claude-skills
 
-- 🌐 **Website:** [alirezarezvani.com](https://alirezarezvani.com)
+This repository is built on the foundational work of Alireza Rezvani, who created the original claude-skills architecture and skill library.
+
+- 🌐 **Original Repository:** [github.com/alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills)
 - 📝 **Blog:** [medium.com/@alirezarezvani](https://medium.com/@alirezarezvani)
-- 💼 **LinkedIn:** Connect for updates on new skills and AI developments
-- 📧 **Contact:** Available through website or blog
 
-### About This Project
+Alireza's vision was to **make world-class expertise accessible to everyone** through Claude AI. Each original skill represents hundreds of hours of domain expertise, distilled into actionable frameworks and automated tools.
 
-This repository emerged from years of experience building marketing strategies, leading engineering teams, and advising executives. The goal is simple: **make world-class expertise accessible to everyone** through Claude AI.
+### Pandora Edition
 
-Each skill represents hundreds of hours of domain expertise, distilled into actionable frameworks and automated tools. By sharing these openly, I hope to help teams work smarter, move faster, and achieve better results.
+This is a **Pandora-focused fork** maintained by Ricky Wilson for Pandora's internal teams. We've specialized the repository to focus on our specific operational needs:
 
-**Follow my journey** building AI-powered professional tools on [Medium](https://medium.com/@alirezarezvani).
+- **4 Core Domains:** Marketing, Product, Engineering, Delivery
+- **26 Curated Skills:** Focused on Pandora's actual use cases
+- **Pandora-Specific Workflows:** Tailored documentation and examples
+
+For the full list of contributors, see [CONTRIBUTORS.md](CONTRIBUTORS.md).
 
 ---
 
 ## 🙏 Acknowledgments
 
+- **Alireza Rezvani** - For creating the original claude-skills architecture and vision
 - **Anthropic** - For building Claude AI and Claude Code, making this possible
-- **Early Adopters** - Teams testing these skills and providing feedback
+- **Pandora Teams** - For testing and refining skills for our specific use cases
 - **Open Source Community** - For tools and libraries that power the analysis scripts
 
 ---
 
 ## 📞 Support & Feedback
 
-### Getting Help
+### For Pandora Teams
 
 - **Documentation Issues:** Open an issue in this repository
-- **Skill Requests:** Submit a feature request describing your use case
-- **General Questions:** Reach out via my [website](https://alirezarezvani.com) or [blog](https://medium.com/@alirezarezvani)
+- **Skill Requests:** Submit a feature request describing your Pandora use case
+- **General Questions:** Contact the Pandora Skills maintainer
 
-### Sharing Your Success
+### For Original claude-skills
 
-Using these skills successfully? I'd love to hear about it:
-- Share your story on social media (tag me!)
-- Write about your experience on Medium
-- Submit a case study for inclusion in this README
-
----
-
-## ⭐ Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=alirezarezvani/claude-skills&type=Date)](https://star-history.com/#alirezarezvani/claude-skills&Date)
+This is a fork of Ali Rezvani's original work. For questions about the upstream project:
+- **Original Repository:** [github.com/alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills)
+- **Creator Contact:** [alirezarezvani.com](https://alirezarezvani.com) or [blog](https://medium.com/@alirezarezvani)
 
 ---
 
 <div align="center">
 
-**⭐ Star this repository** if you find these skills useful!
+**🔗 Pandora Edition** | **🚀 Built with Claude AI** | **📦 Focused for Impact**
 
-**🔗 Share** with teams who could benefit from AI-powered expertise
-
-**🚀 Built with Claude AI** | **📦 Packaged for Impact** | **🌍 Open for All**
+**Originally created by [Ali Rezvani](https://github.com/alirezarezvani/claude-skills)**
 
 </div>

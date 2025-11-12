@@ -19,46 +19,46 @@ The cs-ux-researcher agent bridges the gap between user insights and product dec
 
 ## Skill Integration
 
-**Skill Location:** `../../product-team/ux-researcher-designer/`
+**Skill Location:** `../../skills/product-team/ux-researcher-designer/`
 
 ### Python Tools
 
 1. **Persona Generator**
    - **Purpose:** Automated generation of data-driven user personas from research data with behavioral patterns and pain points
-   - **Path:** `../../product-team/ux-researcher-designer/scripts/persona_generator.py`
-   - **Usage:** `python ../../product-team/ux-researcher-designer/scripts/persona_generator.py research-data.json --output human`
+   - **Path:** `../../skills/product-team/ux-researcher-designer/scripts/persona_generator.py`
+   - **Usage:** `python ../../skills/product-team/ux-researcher-designer/scripts/persona_generator.py research-data.json --output human`
    - **Features:** Multi-persona generation from research data, demographic segmentation, behavioral pattern analysis, goals and pain points extraction, persona validation metrics, JSON/PDF export
    - **Use Cases:** Persona development, user segmentation, design targeting, stakeholder communication
 
 ### Knowledge Bases
 
 1. **UX Research Methods**
-   - **Location:** `../../product-team/ux-researcher-designer/references/ux_research_methods.md`
+   - **Location:** `../../skills/product-team/ux-researcher-designer/references/ux_research_methods.md`
    - **Content:** Research methodologies (generative vs evaluative, qualitative vs quantitative), user interview techniques, usability testing protocols, survey design, card sorting, A/B testing, analytics analysis
    - **Use Case:** Research planning, method selection, study design
 
 2. **Persona Framework**
-   - **Location:** `../../product-team/ux-researcher-designer/references/persona_framework.md`
+   - **Location:** `../../skills/product-team/ux-researcher-designer/references/persona_framework.md`
    - **Content:** Persona development process, data-driven persona creation, proto-persona vs research-based persona, persona components (demographics, behaviors, goals, pain points), persona validation, anti-patterns to avoid
    - **Use Case:** Persona creation, persona workshops, stakeholder alignment
 
 3. **Usability Testing Guide**
-   - **Location:** `../../product-team/ux-researcher-designer/references/usability_testing_guide.md`
+   - **Location:** `../../skills/product-team/ux-researcher-designer/references/usability_testing_guide.md`
    - **Content:** Test planning, task scenario creation, moderation techniques, think-aloud protocol, severity rating, finding synthesis, reporting best practices
    - **Use Case:** Usability test planning, moderation, analysis
 
 ### Templates
 
 1. **Research Plan Template**
-   - **Location:** `../../product-team/ux-researcher-designer/assets/research-plan-template.md`
+   - **Location:** `../../skills/product-team/ux-researcher-designer/assets/research-plan-template.md`
    - **Use Case:** Study planning, stakeholder alignment, research scoping
 
 2. **Persona Template**
-   - **Location:** `../../product-team/ux-researcher-designer/assets/persona-template.md`
+   - **Location:** `../../skills/product-team/ux-researcher-designer/assets/persona-template.md`
    - **Use Case:** Manual persona creation, persona documentation
 
 3. **Usability Test Script**
-   - **Location:** `../../product-team/ux-researcher-designer/assets/usability-test-script.md`
+   - **Location:** `../../skills/product-team/ux-researcher-designer/assets/usability-test-script.md`
    - **Use Case:** Test moderation, task scenario creation
 
 ## Workflows
@@ -70,7 +70,7 @@ The cs-ux-researcher agent bridges the gap between user insights and product dec
 **Steps:**
 1. **Plan Research Study** - Define persona research scope:
    ```bash
-   cp ../../product-team/ux-researcher-designer/assets/research-plan-template.md persona-research-plan.md
+   cp ../../skills/product-team/ux-researcher-designer/assets/research-plan-template.md persona-research-plan.md
    ```
    - Research objectives: Understand user segments and their needs
    - Research questions: Who are our users? What are their goals? What problems do they face?
@@ -134,7 +134,7 @@ The cs-ux-researcher agent bridges the gap between user insights and product dec
 
 5. **Generate Personas** - Run persona generator tool:
    ```bash
-   python ../../product-team/ux-researcher-designer/scripts/persona_generator.py research-data.json --output human
+   python ../../skills/product-team/ux-researcher-designer/scripts/persona_generator.py research-data.json --output human
    ```
 
 6. **Review Generated Personas** - Validate output quality:
@@ -181,7 +181,7 @@ cat > user-research-data.json << 'EOF'
 }
 EOF
 
-python ../../product-team/ux-researcher-designer/scripts/persona_generator.py user-research-data.json
+python ../../skills/product-team/ux-researcher-designer/scripts/persona_generator.py user-research-data.json
 
 # Review generated personas and refine
 ```
@@ -199,7 +199,7 @@ python ../../product-team/ux-researcher-designer/scripts/persona_generator.py us
 
 2. **Create Test Plan** - Document study details:
    ```bash
-   cp ../../product-team/ux-researcher-designer/assets/research-plan-template.md usability-test-plan.md
+   cp ../../skills/product-team/ux-researcher-designer/assets/research-plan-template.md usability-test-plan.md
    ```
    - Research questions: What do we want to learn?
    - Tasks: 5-7 realistic user tasks
@@ -209,7 +209,7 @@ python ../../product-team/ux-researcher-designer/scripts/persona_generator.py us
 
 3. **Develop Task Scenarios** - Create realistic tasks:
    ```bash
-   cat ../../product-team/ux-researcher-designer/references/usability_testing_guide.md | grep -A 20 "Task Scenarios"
+   cat ../../skills/product-team/ux-researcher-designer/references/usability_testing_guide.md | grep -A 20 "Task Scenarios"
    ```
    - **Realistic**: Based on actual use cases
    - **Goal-oriented**: Focus on what users want to accomplish (not how)
@@ -247,7 +247,7 @@ python ../../product-team/ux-researcher-designer/scripts/persona_generator.py us
 
 7. **Rate Issue Severity** - Prioritize findings:
    ```bash
-   cat ../../product-team/ux-researcher-designer/references/usability_testing_guide.md | grep -A 15 "Severity Rating"
+   cat ../../skills/product-team/ux-researcher-designer/references/usability_testing_guide.md | grep -A 15 "Severity Rating"
    ```
    - **Critical (P0)**: Prevents task completion, affects all users
    - **High (P1)**: Major obstacle, affects most users, workarounds exist
@@ -278,7 +278,7 @@ python ../../product-team/ux-researcher-designer/scripts/persona_generator.py us
 **Steps:**
 1. **Conduct User Interviews** - Gather qualitative insights:
    ```bash
-   cat ../../product-team/ux-researcher-designer/references/ux_research_methods.md | grep -A 30 "User Interviews"
+   cat ../../skills/product-team/ux-researcher-designer/references/ux_research_methods.md | grep -A 30 "User Interviews"
    ```
    - Sample size: 10-15 interviews for pattern saturation
    - Duration: 45-60 minutes per interview
@@ -374,7 +374,7 @@ python ../../product-team/ux-researcher-designer/scripts/persona_generator.py us
 
 2. **Select Research Method** - Choose appropriate technique:
    ```bash
-   cat ../../product-team/ux-researcher-designer/references/ux_research_methods.md | grep "^## " | head -10
+   cat ../../skills/product-team/ux-researcher-designer/references/ux_research_methods.md | grep "^## " | head -10
    ```
    - **Concept Testing**: Show mockups, measure reactions
    - **Prototype Testing**: Interactive prototype, task-based testing
@@ -472,26 +472,26 @@ fi
 
 # Review persona framework
 echo "1. Persona Development Framework:"
-cat ../../product-team/ux-researcher-designer/references/persona_framework.md | head -30
+cat ../../skills/product-team/ux-researcher-designer/references/persona_framework.md | head -30
 echo ""
 
 # Generate personas (human-readable)
 echo "2. Generating Personas (Human-Readable)..."
-python ../../product-team/ux-researcher-designer/scripts/persona_generator.py "$RESEARCH_DATA" --output human > personas-report.txt
+python ../../skills/product-team/ux-researcher-designer/scripts/persona_generator.py "$RESEARCH_DATA" --output human > personas-report.txt
 
 echo "   ✅ Personas generated: personas-report.txt"
 echo ""
 
 # Generate personas (JSON)
 echo "3. Generating Personas (JSON)..."
-python ../../product-team/ux-researcher-designer/scripts/persona_generator.py "$RESEARCH_DATA" --output json > personas.json
+python ../../skills/product-team/ux-researcher-designer/scripts/persona_generator.py "$RESEARCH_DATA" --output json > personas.json
 
 echo "   ✅ Personas JSON generated: personas.json"
 echo ""
 
 # Copy persona template for manual refinement
 echo "4. Creating Persona Template..."
-cp ../../product-team/ux-researcher-designer/assets/persona-template.md persona-refinement-template.md
+cp ../../skills/product-team/ux-researcher-designer/assets/persona-template.md persona-refinement-template.md
 
 echo "   ✅ Template created: persona-refinement-template.md"
 echo ""
@@ -518,21 +518,21 @@ echo ""
 
 # Create research plan
 echo "1. Creating Research Plan..."
-cp ../../product-team/ux-researcher-designer/assets/research-plan-template.md "usability-test-plan-$TEST_NAME.md"
+cp ../../skills/product-team/ux-researcher-designer/assets/research-plan-template.md "usability-test-plan-$TEST_NAME.md"
 
 echo "   ✅ Research plan template created"
 echo ""
 
 # Create test script
 echo "2. Creating Test Script..."
-cp ../../product-team/ux-researcher-designer/assets/usability-test-script.md "test-script-$TEST_NAME.md"
+cp ../../skills/product-team/ux-researcher-designer/assets/usability-test-script.md "test-script-$TEST_NAME.md"
 
 echo "   ✅ Test script template created"
 echo ""
 
 # Review usability testing guide
 echo "3. Usability Testing Best Practices:"
-cat ../../product-team/ux-researcher-designer/references/usability_testing_guide.md | grep -A 10 "Task Scenarios"
+cat ../../skills/product-team/ux-researcher-designer/references/usability_testing_guide.md | grep -A 10 "Task Scenarios"
 echo ""
 
 echo "Next steps:"
@@ -559,20 +559,20 @@ echo "Active Research Projects: $RESEARCH_PROJECTS"
 # Review research methods
 echo ""
 echo "Available Research Methods:"
-cat ../../product-team/ux-researcher-designer/references/ux_research_methods.md | grep "^### " | head -10
+cat ../../skills/product-team/ux-researcher-designer/references/ux_research_methods.md | grep "^### " | head -10
 
 # Check for new personas
 if [ -f "personas.json" ]; then
   echo ""
   echo "Current Personas:"
-  python ../../product-team/ux-researcher-designer/scripts/persona_generator.py research-data.json --output json | grep '"name"' | head -5
+  python ../../skills/product-team/ux-researcher-designer/scripts/persona_generator.py research-data.json --output json | grep '"name"' | head -5
 fi
 
 echo ""
 echo "Research Resources:"
-echo "- Research Methods: ../../product-team/ux-researcher-designer/references/ux_research_methods.md"
-echo "- Persona Framework: ../../product-team/ux-researcher-designer/references/persona_framework.md"
-echo "- Usability Testing: ../../product-team/ux-researcher-designer/references/usability_testing_guide.md"
+echo "- Research Methods: ../../skills/product-team/ux-researcher-designer/references/ux_research_methods.md"
+echo "- Persona Framework: ../../skills/product-team/ux-researcher-designer/references/persona_framework.md"
+echo "- Usability Testing: ../../skills/product-team/ux-researcher-designer/references/usability_testing_guide.md"
 ```
 
 ## Success Metrics
@@ -609,8 +609,8 @@ echo "- Usability Testing: ../../product-team/ux-researcher-designer/references/
 
 ## References
 
-- **Skill Documentation:** [../../product-team/ux-researcher-designer/SKILL.md](../../product-team/ux-researcher-designer/SKILL.md)
-- **Product Domain Guide:** [../../product-team/CLAUDE.md](../../product-team/CLAUDE.md)
+- **Skill Documentation:** [../../skills/product-team/ux-researcher-designer/SKILL.md](../../skills/product-team/ux-researcher-designer/SKILL.md)
+- **Product Domain Guide:** [../../skills/product-team/CLAUDE.md](../../skills/product-team/CLAUDE.md)
 - **Agent Development Guide:** [../CLAUDE.md](../CLAUDE.md)
 
 ---

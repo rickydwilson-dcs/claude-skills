@@ -19,62 +19,62 @@ The cs-product-marketer agent bridges the gap between product strategy and sales
 
 ## Skill Integration
 
-**Skill Location:** `../../marketing-skill/marketing-strategy-pmm/`
+**Skill Location:** `../../skills/marketing-team/marketing-strategy-pmm/`
 
 ### Python Tools
 
 1. **Competitor Tracker**
    - **Purpose:** Monitor and track competitor website changes, pricing updates, and feature launches to maintain current competitive intelligence
-   - **Path:** `../../marketing-skill/marketing-strategy-pmm/scripts/competitor_tracker.py`
-   - **Usage:** `python ../../marketing-skill/marketing-strategy-pmm/scripts/competitor_tracker.py competitor-urls.txt`
+   - **Path:** `../../skills/marketing-team/marketing-strategy-pmm/scripts/competitor_tracker.py`
+   - **Usage:** `python ../../skills/marketing-team/marketing-strategy-pmm/scripts/competitor_tracker.py competitor-urls.txt`
    - **Features:** Website monitoring, pricing change detection, feature launch tracking, competitive landscape snapshots
    - **Use Cases:** Weekly competitive intelligence updates, benchmark tracking, market positioning updates
 
 2. **Win/Loss Analyzer**
    - **Purpose:** Analyze win/loss interview data to identify patterns, competitive trends, and messaging effectiveness
-   - **Path:** `../../marketing-skill/marketing-strategy-pmm/scripts/win_loss_analyzer.py`
-   - **Usage:** `python ../../marketing-skill/marketing-strategy-pmm/scripts/win_loss_analyzer.py interview-data.csv`
+   - **Path:** `../../skills/marketing-team/marketing-strategy-pmm/scripts/win_loss_analyzer.py`
+   - **Usage:** `python ../../skills/marketing-team/marketing-strategy-pmm/scripts/win_loss_analyzer.py interview-data.csv`
    - **Features:** Win/loss pattern analysis, competitor frequency tracking, messaging effectiveness scoring, trend identification
    - **Use Cases:** Monthly sales analysis, competitive win rate tracking, messaging refinement, deal analysis
 
 ### Knowledge Bases
 
 1. **Positioning Frameworks**
-   - **Location:** `../../marketing-skill/marketing-strategy-pmm/references/positioning-frameworks.md`
+   - **Location:** `../../skills/marketing-team/marketing-strategy-pmm/references/positioning-frameworks.md`
    - **Content:** April Dunford 6-step positioning methodology, Geoffrey Moore positioning approaches, market category strategies, differentiation matrices
    - **Use Case:** Developing or refining product positioning, competitive analysis, market positioning strategy
 
 2. **Launch Checklists**
-   - **Location:** `../../marketing-skill/marketing-strategy-pmm/references/launch-checklists.md`
+   - **Location:** `../../skills/marketing-team/marketing-strategy-pmm/references/launch-checklists.md`
    - **Content:** Tier 1/2/3 launch playbooks (major product launch, feature launch, minor update), pre-launch/launch/post-launch checklists, campaign templates, success metrics
    - **Use Case:** Planning product launches, executing market entry campaigns, launch preparation and tracking
 
 3. **International GTM**
-   - **Location:** `../../marketing-skill/marketing-strategy-pmm/references/international-gtm.md`
+   - **Location:** `../../skills/marketing-team/marketing-strategy-pmm/references/international-gtm.md`
    - **Content:** Market entry strategies by country (US, UK, DACH, France, Canada), localization checklists, regional pricing strategies, market-specific buyer behavior
    - **Use Case:** International market expansion planning, localization strategy, geographic market prioritization
 
 4. **Messaging Templates**
-   - **Location:** `../../marketing-skill/marketing-strategy-pmm/references/messaging-templates.md`
+   - **Location:** `../../skills/marketing-team/marketing-strategy-pmm/references/messaging-templates.md`
    - **Content:** Value proposition templates, persona-specific messaging, competitive response messaging, objection handling scripts, landing page copy frameworks
    - **Use Case:** Developing messaging by persona, sales enablement, competitive objection handling, content creation
 
 ### Templates
 
 1. **Sales Deck Template**
-   - **Location:** `../../marketing-skill/marketing-strategy-pmm/assets/sales-deck-template.pptx`
+   - **Location:** `../../skills/marketing-team/marketing-strategy-pmm/assets/sales-deck-template.pptx`
    - **Use Case:** Creating customer-centric sales presentations with positioning, differentiation, proof points
 
 2. **Battlecard Template**
-   - **Location:** `../../marketing-skill/marketing-strategy-pmm/assets/battlecard-template.docx`
+   - **Location:** `../../skills/marketing-team/marketing-strategy-pmm/assets/battlecard-template.docx`
    - **Use Case:** Documenting competitive intelligence with strengths, weaknesses, win strategies per competitor
 
 3. **One-Pager Template**
-   - **Location:** `../../marketing-skill/marketing-strategy-pmm/assets/one-pager-template.pptx`
+   - **Location:** `../../skills/marketing-team/marketing-strategy-pmm/assets/one-pager-template.pptx`
    - **Use Case:** Creating concise product positioning and competitive comparison documents for stakeholders
 
 4. **ROI Calculator**
-   - **Location:** `../../marketing-skill/marketing-strategy-pmm/assets/roi-calculator.xlsx`
+   - **Location:** `../../skills/marketing-team/marketing-strategy-pmm/assets/roi-calculator.xlsx`
    - **Use Case:** Quantifying customer value and creating data-backed pricing/positioning arguments
 
 ## Workflows
@@ -87,7 +87,7 @@ The cs-product-marketer agent bridges the gap between product strategy and sales
 1. **Market Research** - Review competitive landscape and customer interviews (10-15 interviews recommended)
 2. **Reference Positioning Framework** - Study April Dunford methodology
    ```bash
-   cat ../../marketing-skill/marketing-strategy-pmm/references/positioning-frameworks.md
+   cat ../../skills/marketing-team/marketing-strategy-pmm/references/positioning-frameworks.md
    ```
 3. **Define ICP Firmographics** - Document company size, industry, geography, revenue, funding stage of best-fit customers
 4. **Map Buyer Personas** - Identify economic buyer, technical buyer, end user with goals, fears, and messaging priorities
@@ -96,7 +96,7 @@ The cs-product-marketer agent bridges the gap between product strategy and sales
 7. **Validate with Sales** - Test positioning with sales team (do customers respond positively?)
 8. **Document in One-Pager** - Create positioning summary using template
    ```bash
-   cp ../../marketing-skill/marketing-strategy-pmm/assets/one-pager-template.pptx positioning-one-pager.pptx
+   cp ../../skills/marketing-team/marketing-strategy-pmm/assets/one-pager-template.pptx positioning-one-pager.pptx
    ```
 
 **Expected Output:** Documented ICP profile, 3-5 buyer personas, value proposition statement, one-pager summary
@@ -126,19 +126,19 @@ Value Prop: [Company] helps mid-market SaaS teams ship 2x faster by automating [
 1. **Identify Competitive Set** - List direct competitors, indirect competitors, status quo alternatives
 2. **Track Competitor Changes** - Run competitor tracker to capture current positioning
    ```bash
-   python ../../marketing-skill/marketing-strategy-pmm/scripts/competitor_tracker.py competitor-urls.txt
+   python ../../skills/marketing-team/marketing-strategy-pmm/scripts/competitor_tracker.py competitor-urls.txt
    ```
 3. **Analyze Positioning** - Document each competitor's value proposition, target market, pricing, key strengths
 4. **Create Battlecards** - Use template for each main competitor
    ```bash
-   cp ../../marketing-skill/marketing-strategy-pmm/assets/battlecard-template.docx competitor-a-battlecard.docx
+   cp ../../skills/marketing-team/marketing-strategy-pmm/assets/battlecard-template.docx competitor-a-battlecard.docx
    ```
 5. **Document Win Strategies** - For each competitor, define how to win competitive deals
 6. **Review with Sales** - Gather feedback from sales team on competitor objections and win rates
 7. **Create Objection Responses** - Develop talk tracks for common competitive objections
 8. **Reference Messaging** - Use competitive messaging templates
    ```bash
-   cat ../../marketing-skill/marketing-strategy-pmm/references/messaging-templates.md
+   cat ../../skills/marketing-team/marketing-strategy-pmm/references/messaging-templates.md
    ```
 
 **Expected Output:** 3-5 competitive battlecards, objection response playbook, competitive win rate analysis
@@ -149,10 +149,10 @@ Value Prop: [Company] helps mid-market SaaS teams ship 2x faster by automating [
 ```bash
 # Battlecard workflow
 # 1. Gather competitive data
-python ../../marketing-skill/marketing-strategy-pmm/scripts/competitor_tracker.py competitors.txt > competitive-landscape.txt
+python ../../skills/marketing-team/marketing-strategy-pmm/scripts/competitor_tracker.py competitors.txt > competitive-landscape.txt
 
 # 2. Create battlecard per competitor
-cp ../../marketing-skill/marketing-strategy-pmm/assets/battlecard-template.docx Competitor-A-battlecard.docx
+cp ../../skills/marketing-team/marketing-strategy-pmm/assets/battlecard-template.docx Competitor-A-battlecard.docx
 
 # 3. Document competitive advantages and win strategies
 # 4. Train sales team on competitive messaging
@@ -166,7 +166,7 @@ cp ../../marketing-skill/marketing-strategy-pmm/assets/battlecard-template.docx 
 1. **Define GTM Motion** - Choose PLG (product-led), Sales-Led, or Hybrid based on ACV and ICP
 2. **Reference GTM Playbook** - Review launch tiers and GTM strategy options
    ```bash
-   cat ../../marketing-skill/marketing-strategy-pmm/references/launch-checklists.md
+   cat ../../skills/marketing-team/marketing-strategy-pmm/references/launch-checklists.md
    ```
 3. **Determine Launch Tier** - Major (quarterly, $50k+ budget), Standard (monthly, $10-25k), Minor (weekly, <$5k)
 4. **Develop Launch Plan** - Use launch checklist template covering 8 weeks pre-launch through post-launch optimization
@@ -184,10 +184,10 @@ cp ../../marketing-skill/marketing-strategy-pmm/assets/battlecard-template.docx 
 ```bash
 # GTM launch workflow
 # Week 1-2: Define positioning and messaging
-cat ../../marketing-skill/marketing-strategy-pmm/references/positioning-frameworks.md
+cat ../../skills/marketing-team/marketing-strategy-pmm/references/positioning-frameworks.md
 
 # Week 3-4: Build sales assets
-cp ../../marketing-skill/marketing-strategy-pmm/assets/sales-deck-template.pptx launch-deck.pptx
+cp ../../skills/marketing-team/marketing-strategy-pmm/assets/sales-deck-template.pptx launch-deck.pptx
 
 # Week 5-6: Prepare launch campaigns
 # Define paid ads, email sequences, press release
@@ -207,7 +207,7 @@ cp ../../marketing-skill/marketing-strategy-pmm/assets/sales-deck-template.pptx 
 1. **Analyze Win/Loss Data** - Gather last 30-60 days of closed won and lost deals
 2. **Run Win/Loss Analysis** - Use analyzer to identify patterns and competitive trends
    ```bash
-   python ../../marketing-skill/marketing-strategy-pmm/scripts/win_loss_analyzer.py closed-deals.csv
+   python ../../skills/marketing-team/marketing-strategy-pmm/scripts/win_loss_analyzer.py closed-deals.csv
    ```
 3. **Identify Top Win Reasons** - Document what resonates most with customers (ease of use, price, features, support)
 4. **Identify Loss Patterns** - Understand why deals are being lost (competitor, price, feature gaps, status quo)
@@ -217,7 +217,7 @@ cp ../../marketing-skill/marketing-strategy-pmm/assets/sales-deck-template.pptx 
    - One-pagers for objection handling
 6. **Develop Persona Messaging** - Reference messaging templates for each buyer type
    ```bash
-   cat ../../marketing-skill/marketing-strategy-pmm/references/messaging-templates.md
+   cat ../../skills/marketing-team/marketing-strategy-pmm/references/messaging-templates.md
    ```
 7. **Sales Training** - Conduct competitive selling workshop covering positioning, battlecards, talk tracks
 8. **Track Metrics** - Monitor win rate, sales velocity, deal size improvements month-over-month
@@ -230,13 +230,13 @@ cp ../../marketing-skill/marketing-strategy-pmm/assets/sales-deck-template.pptx 
 ```bash
 # Win/loss analysis workflow
 # 1. Collect deal data
-python ../../marketing-skill/marketing-strategy-pmm/scripts/win_loss_analyzer.py q3-closed-deals.csv > win-loss-report.txt
+python ../../skills/marketing-team/marketing-strategy-pmm/scripts/win_loss_analyzer.py q3-closed-deals.csv > win-loss-report.txt
 
 # 2. Review insights
 cat win-loss-report.txt | grep "Top Loss Reasons"
 
 # 3. Update battlecards for top competitors
-cp ../../marketing-skill/marketing-strategy-pmm/assets/battlecard-template.docx Top-Competitor-Updated.docx
+cp ../../skills/marketing-team/marketing-strategy-pmm/assets/battlecard-template.docx Top-Competitor-Updated.docx
 
 # 4. Conduct sales training
 # Share updated assets and new talk tracks
@@ -261,11 +261,11 @@ echo "=============================================="
 
 # 1. Check competitor changes
 echo "1. Competitor Landscape Analysis..."
-python ../../marketing-skill/marketing-strategy-pmm/scripts/competitor_tracker.py competitors.txt > q${QUARTER}-competitive-landscape.txt
+python ../../skills/marketing-team/marketing-strategy-pmm/scripts/competitor_tracker.py competitors.txt > q${QUARTER}-competitive-landscape.txt
 
 # 2. Analyze Q3 win/loss data
 echo "2. Win/Loss Analysis..."
-python ../../marketing-skill/marketing-strategy-pmm/scripts/win_loss_analyzer.py q${QUARTER}-deals.csv > q${QUARTER}-win-loss-analysis.txt
+python ../../skills/marketing-team/marketing-strategy-pmm/scripts/win_loss_analyzer.py q${QUARTER}-deals.csv > q${QUARTER}-win-loss-analysis.txt
 
 # 3. Extract insights
 echo "3. Key Insights:"
@@ -273,7 +273,7 @@ grep -E "Top|Pattern|Trend" q${QUARTER}-win-loss-analysis.txt
 
 # 4. Update messaging
 echo "4. Review positioning frameworks for messaging updates"
-echo "   Reference: ../../marketing-skill/marketing-strategy-pmm/references/messaging-templates.md"
+echo "   Reference: ../../skills/marketing-team/marketing-strategy-pmm/references/messaging-templates.md"
 
 # 5. Generate report
 echo "5. Positioning Review Complete - q${QUARTER}-review.txt"
@@ -292,16 +292,16 @@ echo "============================================="
 
 # Week 1-2: Positioning foundation
 echo "Week 1-2: Positioning"
-cat ../../marketing-skill/marketing-strategy-pmm/references/positioning-frameworks.md
+cat ../../skills/marketing-team/marketing-strategy-pmm/references/positioning-frameworks.md
 
 # Week 3-4: Sales enablement
 echo "Week 3-4: Create Sales Assets"
-cp ../../marketing-skill/marketing-strategy-pmm/assets/sales-deck-template.pptx launch-sales-deck.pptx
-cp ../../marketing-skill/marketing-strategy-pmm/assets/battlecard-template.docx launch-battlecard.docx
+cp ../../skills/marketing-team/marketing-strategy-pmm/assets/sales-deck-template.pptx launch-sales-deck.pptx
+cp ../../skills/marketing-team/marketing-strategy-pmm/assets/battlecard-template.docx launch-battlecard.docx
 
 # Week 5-6: Competitive analysis
 echo "Week 5-6: Competitive Analysis"
-python ../../marketing-skill/marketing-strategy-pmm/scripts/competitor_tracker.py top-3-competitors.txt
+python ../../skills/marketing-team/marketing-strategy-pmm/scripts/competitor_tracker.py top-3-competitors.txt
 
 # Week 7: Pre-launch review
 echo "Week 7: Sales Team Training"
@@ -311,7 +311,7 @@ echo "- Objection handling practice"
 
 # Week 8: Launch day execution
 echo "Week 8: Launch Day Checklist"
-cat ../../marketing-skill/marketing-strategy-pmm/references/launch-checklists.md | grep "Day 1"
+cat ../../skills/marketing-team/marketing-strategy-pmm/references/launch-checklists.md | grep "Day 1"
 ```
 
 ### Example 3: International Market Entry Planning
@@ -327,22 +327,22 @@ echo "=========================================="
 
 # 1. Get market-specific GTM strategy
 echo "1. Market Entry Strategy:"
-grep -A 30 "^## $TARGET_MARKET" ../../marketing-skill/marketing-strategy-pmm/references/international-gtm.md
+grep -A 30 "^## $TARGET_MARKET" ../../skills/marketing-team/marketing-strategy-pmm/references/international-gtm.md
 
 # 2. Localization checklist
 echo ""
 echo "2. Localization Checklist:"
-grep -A 15 "Localization Checklist" ../../marketing-skill/marketing-strategy-pmm/references/international-gtm.md
+grep -A 15 "Localization Checklist" ../../skills/marketing-team/marketing-strategy-pmm/references/international-gtm.md
 
 # 3. Create market-specific one-pager
 echo ""
 echo "3. Creating market-specific positioning..."
-cp ../../marketing-skill/marketing-strategy-pmm/assets/one-pager-template.pptx "${TARGET_MARKET}-positioning.pptx"
+cp ../../skills/marketing-team/marketing-strategy-pmm/assets/one-pager-template.pptx "${TARGET_MARKET}-positioning.pptx"
 
 # 4. Budget allocation
 echo ""
 echo "4. Recommended Budget Allocation:"
-grep -B 2 -A 10 "$TARGET_MARKET" ../../marketing-skill/marketing-strategy-pmm/references/international-gtm.md | grep -E "Budget|Target"
+grep -B 2 -A 10 "$TARGET_MARKET" ../../skills/marketing-team/marketing-strategy-pmm/references/international-gtm.md | grep -E "Budget|Target"
 
 echo ""
 echo "Plan complete: ${TARGET_MARKET}-gtm-plan.txt"
@@ -385,13 +385,13 @@ echo "Plan complete: ${TARGET_MARKET}-gtm-plan.txt"
 
 ## References
 
-- **Skill Documentation:** [../../marketing-skill/marketing-strategy-pmm/SKILL.md](../../marketing-skill/marketing-strategy-pmm/SKILL.md)
-- **Positioning Frameworks:** [../../marketing-skill/marketing-strategy-pmm/references/positioning-frameworks.md](../../marketing-skill/marketing-strategy-pmm/references/positioning-frameworks.md)
-- **Launch Checklists:** [../../marketing-skill/marketing-strategy-pmm/references/launch-checklists.md](../../marketing-skill/marketing-strategy-pmm/references/launch-checklists.md)
-- **International GTM:** [../../marketing-skill/marketing-strategy-pmm/references/international-gtm.md](../../marketing-skill/marketing-strategy-pmm/references/international-gtm.md)
-- **Marketing Domain Guide:** [../../marketing-skill/CLAUDE.md](../../marketing-skill/CLAUDE.md)
+- **Skill Documentation:** [../../skills/marketing-team/marketing-strategy-pmm/SKILL.md](../../skills/marketing-team/marketing-strategy-pmm/SKILL.md)
+- **Positioning Frameworks:** [../../skills/marketing-team/marketing-strategy-pmm/references/positioning-frameworks.md](../../skills/marketing-team/marketing-strategy-pmm/references/positioning-frameworks.md)
+- **Launch Checklists:** [../../skills/marketing-team/marketing-strategy-pmm/references/launch-checklists.md](../../skills/marketing-team/marketing-strategy-pmm/references/launch-checklists.md)
+- **International GTM:** [../../skills/marketing-team/marketing-strategy-pmm/references/international-gtm.md](../../skills/marketing-team/marketing-strategy-pmm/references/international-gtm.md)
+- **Marketing Domain Guide:** [../../skills/marketing-team/CLAUDE.md](../../skills/marketing-team/CLAUDE.md)
 - **Agent Development Guide:** [../CLAUDE.md](../CLAUDE.md)
-- **Marketing Roadmap:** [../../marketing-skill/marketing_skills_roadmap.md](../../marketing-skill/marketing_skills_roadmap.md)
+- **Marketing Roadmap:** [../../skills/marketing-team/marketing_skills_roadmap.md](../../skills/marketing-team/marketing_skills_roadmap.md)
 
 ---
 

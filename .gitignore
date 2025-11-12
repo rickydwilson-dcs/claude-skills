@@ -5,7 +5,7 @@
 # Documentation (generated/internal)
 AGENTS.md
 PROMPTS.md
-documentation/GIST_CONTENT.md
+docs/GIST_CONTENT.md
 
 # Environment variables
 .env

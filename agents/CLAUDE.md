@@ -7,7 +7,7 @@ This guide provides comprehensive instructions for creating **cs-* prefixed agen
 ### What are cs-* Agents?
 
 **cs-* agents** are specialized Claude Code agents that orchestrate the 42 existing skills. Each agent:
-- References skills via relative paths (`../../marketing-skill/`)
+- References skills via relative paths (`../../skills/marketing-team/`)
 - Executes Python automation tools from skill packages
 - Follows established workflows and templates
 - Maintains skill portability and independence
@@ -116,17 +116,17 @@ After YAML frontmatter, include these sections:
 All skill references use the `../../` pattern:
 
 ```markdown
-**Skill Location:** `../../marketing-skill/content-creator/`
+**Skill Location:** `../../skills/marketing-team/content-creator/`
 
 ### Python Tools
 
 1. **Brand Voice Analyzer**
-   - **Path:** `../../marketing-skill/content-creator/scripts/brand_voice_analyzer.py`
-   - **Usage:** `python ../../marketing-skill/content-creator/scripts/brand_voice_analyzer.py content.txt`
+   - **Path:** `../../skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py`
+   - **Usage:** `python ../../skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py content.txt`
 
 2. **SEO Optimizer**
-   - **Path:** `../../marketing-skill/content-creator/scripts/seo_optimizer.py`
-   - **Usage:** `python ../../marketing-skill/content-creator/scripts/seo_optimizer.py article.md "keyword"`
+   - **Path:** `../../skills/marketing-team/content-creator/scripts/seo_optimizer.py`
+   - **Usage:** `python ../../skills/marketing-team/content-creator/scripts/seo_optimizer.py article.md "keyword"`
 ```
 
 ### Why `../../`?
@@ -146,13 +146,13 @@ Agents execute Python tools from skill packages:
 
 ```bash
 # From agent context
-python ../../marketing-skill/content-creator/scripts/brand_voice_analyzer.py input.txt
+python ../../skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py input.txt
 
 # With JSON output
-python ../../marketing-skill/content-creator/scripts/brand_voice_analyzer.py input.txt json
+python ../../skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py input.txt json
 
 # With arguments
-python ../../product-team/product-manager-toolkit/scripts/rice_prioritizer.py features.csv --capacity 20
+python ../../skills/product-team/product-manager-toolkit/scripts/rice_prioritizer.py features.csv --capacity 20
 ```
 
 ### Tool Requirements
@@ -196,7 +196,7 @@ Each workflow must include:
 **Example:**
 \`\`\`bash
 # Concrete example command
-python ../../marketing-skill/content-creator/scripts/seo_optimizer.py article.md "primary keyword"
+python ../../skills/marketing-team/content-creator/scripts/seo_optimizer.py article.md "primary keyword"
 \`\`\`
 ```
 
@@ -319,7 +319,7 @@ Test these aspects:
 ```bash
 # From agent directory
 cd agents/marketing/
-ls ../../marketing-skill/content-creator/  # Should list contents
+ls ../../skills/marketing-team/content-creator/  # Should list contents
 ```
 
 **2. Python Tool Execution**
@@ -328,7 +328,7 @@ ls ../../marketing-skill/content-creator/  # Should list contents
 echo "Test content" > test-input.txt
 
 # Execute tool
-python ../../marketing-skill/content-creator/scripts/brand_voice_analyzer.py test-input.txt
+python ../../skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py test-input.txt
 
 # Verify output
 ```
@@ -336,19 +336,19 @@ python ../../marketing-skill/content-creator/scripts/brand_voice_analyzer.py tes
 **3. Knowledge Base Access**
 ```bash
 # Verify reference files exist
-cat ../../marketing-skill/content-creator/references/brand_guidelines.md
+cat ../../skills/marketing-team/content-creator/references/brand_guidelines.md
 ```
 
 ## Domain-Specific Guidelines
 
 ### Marketing Agents (agents/marketing/)
 - Focus on content creation, SEO, demand generation
-- Reference: `../../marketing-skill/`
+- Reference: `../../skills/marketing-team/`
 - Tools: brand_voice_analyzer.py, seo_optimizer.py
 
 ### Product Agents (agents/product/)
 - Focus on prioritization, user research, agile workflows
-- Reference: `../../product-team/`
+- Reference: `../../skills/product-team/`
 - Tools: rice_prioritizer.py, user_story_generator.py, okr_cascade_generator.py
 
 ### C-Level Agents (agents/c-level/)
@@ -358,7 +358,7 @@ cat ../../marketing-skill/content-creator/references/brand_guidelines.md
 
 ### Engineering Agents (agents/engineering/)
 - Focus on scaffolding, code quality, fullstack development
-- Reference: `../../engineering-team/`
+- Reference: `../../skills/engineering-team/`
 - Tools: project_scaffolder.py, code_quality_analyzer.py
 
 ## Common Pitfalls
