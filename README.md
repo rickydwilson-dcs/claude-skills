@@ -1,6 +1,6 @@
 # Claude Skills Library by nginity (Your Agentic Startup Kit)
 
-**Production-Ready skill packages for Claude AI & Claude Code** - Reusable expertise bundles combining best practices, analysis tools, and strategic frameworks for marketing teams, executive leadership, product development, your web and mobile engineering teams. Many other teams will be included soon and regularly.
+**Production-Ready skill packages for Claude AI & Claude Code** - Reusable expertise bundles combining best practices, analysis tools, and strategic frameworks for marketing teams, executive leadership, product development, engineering teams, project management, and regulatory/quality management. Many other teams will be included soon and regularly.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Claude AI](https://img.shields.io/badge/Claude-AI-blue.svg)](https://claude.ai)
@@ -46,7 +46,7 @@ This repository provides **modular, self-contained skill packages** designed to 
 
 ## 🛠️ Production CLI Tools & Testing
 
-**67 standardized Python CLI tools** with comprehensive testing framework (v2.0.0):
+**77 standardized Python CLI tools** with comprehensive testing framework:
 
 ### CLI Features
 - **Consistent Interface** - All tools use argparse with standard flags: `--help`, `--version`, `--output`, `--file`, `--verbose`
@@ -55,9 +55,9 @@ This repository provides **modular, self-contained skill packages** designed to 
 - **Sample Data** - 24 sample input files across domains for immediate testing
 
 ### Testing Framework
-- **2,814 Automated Tests** - 100% pass rate across all scripts
-- **CI/CD Integration** - GitHub Actions with pytest
-- **Comprehensive Coverage** - Help flags, execution, output formats, error handling, unicode support
+- **Comprehensive Test Coverage** - Automated testing for CLI standards compliance
+- **CI/CD Ready** - GitHub Actions integration available
+- **Quality Assurance** - Help flags, execution, output formats, error handling, unicode support
 
 ### Quick Start
 ```bash
@@ -79,7 +79,7 @@ python3 marketing-skill/content-creator/scripts/brand_voice_analyzer.py \
 
 ## 🤖 Agent Catalog
 
-**28 specialized agents** that orchestrate skills and provide guided workflows (v1.0):
+**40 specialized agents** that orchestrate skills and provide guided workflows (v1.0):
 
 Agents are workflow orchestrators that intelligently invoke skills, coordinate Python tools, and guide you through complex multi-step processes. While skills provide the tools and knowledge, agents provide the intelligence to use them effectively.
 
@@ -118,12 +118,25 @@ Agents are workflow orchestrators that intelligently invoke skills, coordinate P
 | [cs-data-scientist](agents/engineering/cs-data-scientist.md) | Engineering | senior-data-scientist | Statistical analysis, exploratory data analysis, feature engineering, model evaluation |
 | [cs-computer-vision-engineer](agents/engineering/cs-computer-vision-engineer.md) | Engineering | senior-computer-vision | Image classification, object detection, semantic segmentation, computer vision pipelines |
 | [cs-prompt-engineer](agents/engineering/cs-prompt-engineer.md) | Engineering | senior-prompt-engineer | Prompt design, LLM optimization, RAG systems, multi-agent orchestration |
+| **Regulatory Affairs & Quality Management Agents** ||||
+| [cs-capa-officer](agents/ra-qm/cs-capa-officer.md) | RA/QM | capa-officer | CAPA management, root cause analysis, effectiveness verification |
+| [cs-fda-consultant](agents/ra-qm/cs-fda-consultant.md) | RA/QM | fda-consultant-specialist | FDA regulatory pathways, 510(k), PMA, De Novo submissions |
+| [cs-gdpr-expert](agents/ra-qm/cs-gdpr-expert.md) | RA/QM | gdpr-dsgvo-expert | GDPR/DSGVO compliance, data protection, privacy assessments |
+| [cs-iso27001-manager](agents/ra-qm/cs-iso27001-manager.md) | RA/QM | information-security-manager-iso27001 | ISO 27001 ISMS implementation, security management |
+| [cs-isms-auditor](agents/ra-qm/cs-isms-auditor.md) | RA/QM | isms-audit-expert | ISO 27001 security auditing, ISMS compliance verification |
+| [cs-mdr-specialist](agents/ra-qm/cs-mdr-specialist.md) | RA/QM | mdr-745-specialist | EU MDR 2017/745 compliance, medical device regulations |
+| [cs-qms-auditor](agents/ra-qm/cs-qms-auditor.md) | RA/QM | qms-audit-expert | ISO 13485 QMS auditing, internal audit management |
+| [cs-quality-doc-manager](agents/ra-qm/cs-quality-doc-manager.md) | RA/QM | quality-documentation-manager | Document control, change management, SOP lifecycle |
+| [cs-quality-manager](agents/ra-qm/cs-quality-manager.md) | RA/QM | quality-manager-qmr | Quality Manager Responsible Person (QMR), management review |
+| [cs-iso13485-manager](agents/ra-qm/cs-iso13485-manager.md) | RA/QM | quality-manager-qms-iso13485 | ISO 13485 QMS implementation, medical device quality systems |
+| [cs-regulatory-head](agents/ra-qm/cs-regulatory-head.md) | RA/QM | regulatory-affairs-head | Regulatory strategy, global submissions, regulatory intelligence |
+| [cs-risk-manager](agents/ra-qm/cs-risk-manager.md) | RA/QM | risk-management-specialist | ISO 14971 risk management, FMEA, risk assessment and mitigation |
 
 ### Agents vs Skills
 
 **Skills** = Tools + Knowledge + Templates
-- 42 production-ready skills
-- 97 automation tools
+- 40 production-ready skills
+- 77 automation tools
 - Domain expertise packaged
 
 **Agents** = Workflow Orchestrators
@@ -355,7 +368,7 @@ Visual design systems and component architecture for consistent user interfaces.
 
 ### Project Management Team Skills
 
-**6 world-class Atlassian expert skills** for project and agile delivery teams using Jira and Confluence.
+**4 world-class Atlassian expert skills** for project and agile delivery teams using Jira and Confluence.
 
 #### 📋 Senior Project Management Expert
 **Status:** ✅ Production Ready | **Version:** 1.0
@@ -1606,7 +1619,7 @@ Explore our complete ecosystem of Claude Code augmentation tools and utilities:
 
 ### Current Status (Q4 2025)
 
-**✅ Phase 1: Complete - 42 Production-Ready Skills**
+**✅ Phase 1: Complete - 40 Production-Ready Skills**
 
 **Marketing Skills (3):**
 - Content Creator - Brand voice analysis, SEO optimization, social media frameworks
@@ -1624,13 +1637,11 @@ Explore our complete ecosystem of Claude Code augmentation tools and utilities:
 - UX Researcher Designer - Persona generation, journey mapping, research synthesis
 - UI Design System - Design tokens, component architecture, system documentation
 
-**Project Management Skills (6):**
+**Project Management Skills (4):**
 - Senior PM Expert - Portfolio management, stakeholder alignment, executive reporting
 - Scrum Master Expert - Sprint ceremonies, agile coaching, velocity tracking
 - Atlassian Jira Expert - JQL mastery, configuration, automation, dashboards
 - Atlassian Confluence Expert - Knowledge management, documentation, templates
-- Atlassian Administrator - System administration, security, user management
-- Atlassian Template Creator - Template design, standardization, 15+ ready templates
 
 **Engineering Team Skills - Core Engineering (9):**
 - Senior Software Architect - Architecture design, tech decisions, documentation
@@ -1690,16 +1701,16 @@ Explore our complete ecosystem of Claude Code augmentation tools and utilities:
 
 | Metric | Current | Target (Q3 2026) |
 |--------|---------|------------------|
-| Available Skills | 42 | 50+ |
+| Available Skills | 40 | 50+ |
 | Skill Categories | 6 | 9 |
-| Python Tools | 97 | 130+ |
+| Python Tools | 77 | 130+ |
 | Time Savings | 70% | 85% |
 | Quality Improvement | 65% | 80% |
 | Teams Using | Early adopters | 3,000+ |
 | Organizations | 25 | 250+ |
 | Industries Covered | Tech, HealthTech | Tech, Health, Finance, Manufacturing |
 
-### ROI Metrics (Current - 42 Skills)
+### ROI Metrics (Current - 40 Skills)
 
 **Time Savings Per Organization:**
 - Marketing teams: 250 hours/month (Content + Demand Gen + PMM)
