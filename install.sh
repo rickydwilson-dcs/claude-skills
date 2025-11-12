@@ -88,11 +88,11 @@ display_welcome() {
     print_header "Claude Skills Installation"
     echo ""
     echo "This script will help you install the claude-skills repository"
-    echo "containing 40 production-ready agents and 42 skill packages."
+    echo "containing 3 production agents and 26 Pandora-focused skill packages."
     echo ""
     echo "What you'll get:"
-    echo "  • 40 specialized agents (Marketing, Engineering, Product, RA/QM, etc.)"
-    echo "  • 67 Python CLI automation tools"
+    echo "  • 3 production agents (Marketing, Product)"
+    echo "  • 77 Python CLI automation tools"
     echo "  • Comprehensive standards library"
     echo "  • Templates and workflows"
     echo ""
@@ -115,13 +115,11 @@ ask_questions() {
     # Question 2: Which agents to install
     echo ""
     echo "2. Which agent domains do you need?"
-    echo "   a) All agents (40 agents) - Recommended"
-    echo "   b) Engineering only (14 agents)"
-    echo "   c) Product & Marketing (11 agents)"
-    echo "   d) RA/QM only (12 agents)"
-    echo "   e) Custom selection"
+    echo "   a) All agents (3 production agents) - Recommended"
+    echo "   b) Marketing only (2 agents)"
+    echo "   c) Product only (1 agent)"
     echo ""
-    read -p "Choose (a/b/c/d/e) [a]: " AGENT_SELECTION
+    read -p "Choose (a/b/c) [a]: " AGENT_SELECTION
     AGENT_SELECTION=${AGENT_SELECTION:-a}
 
     # Question 3: Installation location
@@ -178,35 +176,21 @@ install_agents() {
 
     case $AGENT_SELECTION in
         a) # All agents
-            print_info "Installing all 40 agents..."
+            print_info "Installing all 3 production agents..."
             cp -r agents/* "$INSTALL_DIR/agents/" 2>/dev/null || true
-            print_success "Installed 40 agents"
+            print_success "Installed 3 production agents"
             ;;
-        b) # Engineering only
-            print_info "Installing engineering agents..."
-            mkdir -p "$INSTALL_DIR/agents/engineering"
-            cp -r agents/engineering/* "$INSTALL_DIR/agents/engineering/" 2>/dev/null || true
-            print_success "Installed 14 engineering agents"
-            ;;
-        c) # Product & Marketing
-            print_info "Installing product and marketing agents..."
-            mkdir -p "$INSTALL_DIR/agents/product"
+        b) # Marketing only
+            print_info "Installing marketing agents..."
             mkdir -p "$INSTALL_DIR/agents/marketing"
-            cp -r agents/product/* "$INSTALL_DIR/agents/product/" 2>/dev/null || true
             cp -r agents/marketing/* "$INSTALL_DIR/agents/marketing/" 2>/dev/null || true
-            print_success "Installed 11 product and marketing agents"
+            print_success "Installed 2 marketing agents"
             ;;
-        d) # RA/QM only
-            print_info "Installing RA/QM agents..."
-            mkdir -p "$INSTALL_DIR/agents/ra-qm"
-            cp -r agents/ra-qm/* "$INSTALL_DIR/agents/ra-qm/" 2>/dev/null || true
-            print_success "Installed 12 RA/QM agents"
-            ;;
-        e) # Custom
-            print_warning "Custom installation not yet implemented"
-            print_info "Installing all agents..."
-            cp -r agents/* "$INSTALL_DIR/agents/" 2>/dev/null || true
-            print_success "Installed 40 agents"
+        c) # Product only
+            print_info "Installing product agent..."
+            mkdir -p "$INSTALL_DIR/agents/product"
+            cp -r agents/product/* "$INSTALL_DIR/agents/product/" 2>/dev/null || true
+            print_success "Installed 1 product agent"
             ;;
     esac
 
@@ -217,33 +201,29 @@ install_agents() {
 install_skills() {
     print_header "Installing Skill Packages"
 
-    print_info "Installing skill packages..."
+    print_info "Installing 26 Pandora-focused skill packages..."
 
-    # Copy skill directories based on agent selection
-    case $AGENT_SELECTION in
-        a) # All skills
-            [ -d "marketing-skill" ] && cp -r marketing-skill "$INSTALL_DIR/" 2>/dev/null || true
-            [ -d "c-level-advisor" ] && cp -r c-level-advisor "$INSTALL_DIR/" 2>/dev/null || true
-            [ -d "product-team" ] && cp -r product-team "$INSTALL_DIR/" 2>/dev/null || true
-            [ -d "project-management" ] && cp -r project-management "$INSTALL_DIR/" 2>/dev/null || true
-            [ -d "engineering-team" ] && cp -r engineering-team "$INSTALL_DIR/" 2>/dev/null || true
-            [ -d "ra-qm-team" ] && cp -r ra-qm-team "$INSTALL_DIR/" 2>/dev/null || true
-            print_success "Installed all skill packages"
-            ;;
-        b) # Engineering only
-            [ -d "engineering-team" ] && cp -r engineering-team "$INSTALL_DIR/" 2>/dev/null || true
-            print_success "Installed engineering skill packages"
-            ;;
-        c) # Product & Marketing
-            [ -d "marketing-skill" ] && cp -r marketing-skill "$INSTALL_DIR/" 2>/dev/null || true
-            [ -d "product-team" ] && cp -r product-team "$INSTALL_DIR/" 2>/dev/null || true
-            print_success "Installed product and marketing skill packages"
-            ;;
-        d) # RA/QM only
-            [ -d "ra-qm-team" ] && cp -r ra-qm-team "$INSTALL_DIR/" 2>/dev/null || true
-            print_success "Installed RA/QM skill packages"
-            ;;
-    esac
+    # Copy skills directory (all 4 domains)
+    if [ -d "skills" ]; then
+        case $AGENT_SELECTION in
+            a) # All skills
+                cp -r skills "$INSTALL_DIR/" 2>/dev/null || true
+                print_success "Installed all 26 skill packages (4 domains)"
+                ;;
+            b) # Marketing only
+                mkdir -p "$INSTALL_DIR/skills"
+                [ -d "skills/marketing-team" ] && cp -r skills/marketing-team "$INSTALL_DIR/skills/" 2>/dev/null || true
+                print_success "Installed 3 marketing skill packages"
+                ;;
+            c) # Product only
+                mkdir -p "$INSTALL_DIR/skills"
+                [ -d "skills/product-team" ] && cp -r skills/product-team "$INSTALL_DIR/skills/" 2>/dev/null || true
+                print_success "Installed 5 product skill packages"
+                ;;
+        esac
+    else
+        print_warning "Skills directory not found - skipping skill installation"
+    fi
 
     echo ""
 }
@@ -252,17 +232,13 @@ install_skills() {
 install_resources() {
     print_header "Installing Resources"
 
-    print_info "Installing standards library..."
-    [ -d "standards" ] && cp -r standards "$INSTALL_DIR/" 2>/dev/null || true
-    print_success "Installed standards library"
+    print_info "Installing documentation and standards..."
+    [ -d "docs" ] && cp -r docs "$INSTALL_DIR/" 2>/dev/null || true
+    print_success "Installed docs/ (includes standards, testing guides, workflow)"
 
     print_info "Installing templates..."
     [ -d "templates" ] && cp -r templates "$INSTALL_DIR/" 2>/dev/null || true
     print_success "Installed templates"
-
-    print_info "Installing documentation..."
-    [ -d "documentation" ] && cp -r documentation "$INSTALL_DIR/" 2>/dev/null || true
-    print_success "Installed documentation"
 
     echo ""
 }
@@ -309,25 +285,28 @@ USAGE:
 
 2. Claude AI (claude.ai):
    - Upload agents from: $INSTALL_DIR/agents/
-   - Upload skills from: $INSTALL_DIR/*-skill/ or $INSTALL_DIR/*-team/
+   - Upload skills from: $INSTALL_DIR/skills/
    - Reference in your Project
 
-3. Python Tools:
-   - All scripts in: $INSTALL_DIR/*/scripts/*.py
+3. Python Tools (77 total):
+   - All scripts in: $INSTALL_DIR/skills/*/scripts/*.py
    - Run with: python3 path/to/script.py --help
 
 DOCUMENTATION:
 - Main README: $INSTALL_DIR/README.md (if exists)
 - Agent Guide: $INSTALL_DIR/agents/CLAUDE.md
-- Standards: $INSTALL_DIR/standards/
+- Standards: $INSTALL_DIR/docs/standards/
 - Templates: $INSTALL_DIR/templates/
+- Installation: $INSTALL_DIR/docs/INSTALL.md
+- Usage Guide: $INSTALL_DIR/docs/USAGE.md
+- Workflow: $INSTALL_DIR/docs/WORKFLOW.md
 
 NEXT STEPS:
-1. Read USAGE.md for detailed examples
+1. Read docs/USAGE.md for detailed examples
 2. Browse agents in: $INSTALL_DIR/agents/
 3. Try an agent: @cs-product-manager (in Claude Code)
 
-For help: See $INSTALL_DIR/documentation/
+For help: See $INSTALL_DIR/docs/
 EOF
 
     print_success "Quick start guide created"
