@@ -13,6 +13,7 @@
 ## 📚 Table of Contents
 
 - [Overview](#-overview)
+- [Documentation](#-documentation)
 - [Production CLI Tools & Testing](#%EF%B8%8F-production-cli-tools--testing)
 - [Agent Catalog](#-agent-catalog)
 - [Available Skills](#-available-skills)
@@ -25,7 +26,7 @@
 - [Roadmap](#-roadmap)
 - [Contributing](#-contributing)
 - [License](#-license)
-- [Author](#-author)
+- [Attribution](#-attribution)
 
 ---
 
@@ -43,6 +44,26 @@ This repository provides **modular, self-contained skill packages** designed spe
 - 🎯 **Focused expertise** - 26 skills across 4 core domains relevant to Pandora's operations
 - 🔧 **Practical tools** - Algorithmic analysis without external API dependencies
 - 📈 **Measurable ROI** - 40%+ time savings, 30%+ quality improvements
+
+---
+
+## 📖 Documentation
+
+**Getting Started**
+- **[Installation Guide](docs/INSTALL.md)** - Complete setup instructions for Python environment and dependencies
+- **[Usage Guide](docs/USAGE.md)** - Comprehensive examples and workflows for Claude AI and Claude Code
+
+**Testing & Quality**
+- **[Testing Guide](docs/testing/TESTING_GUIDE.md)** - Python script testing framework and CLI standards
+- **[Testing Quick Start](docs/testing/TESTING_QUICK_START.md)** - Quick reference for running tests
+
+**Workflows & Standards**
+- **[Git Workflow](docs/WORKFLOW.md)** - Branch strategy and deployment pipeline (develop → staging → main)
+- **[Standards Library](standards/)** - Communication, quality, git, documentation, and security standards
+
+**Project Info**
+- **[Changelog](CHANGELOG.md)** - Version history and notable changes
+- **[Contributors](CONTRIBUTORS.md)** - Attribution to Ali Rezvani and fork maintainers
 
 ---
 
