@@ -52,8 +52,10 @@ claude-code-skills/
 │   ├── engineering-team/      # 15 engineering skills + Python tools (includes cto-advisor)
 │   └── delivery-team/         # 6 delivery/PM skills + Atlassian MCP
 ├── agents/                    # Workflow orchestrator agents (cs-* prefix)
-│   ├── marketing/            # Marketing domain agents
-│   └── product/              # Product management agents
+│   ├── marketing/            # Marketing domain agents (3 agents)
+│   ├── product/              # Product management agents (5 agents)
+│   ├── delivery/             # Delivery/PM agents (4 agents)
+│   └── engineering/          # Engineering domain agents (15 agents)
 ├── docs/                      # Documentation and standards
 │   ├── standards/            # CLI, git, quality, security standards
 │   ├── testing/              # Testing guides and quick starts
@@ -80,17 +82,43 @@ skill-name/
 
 **Key Pattern**: Knowledge flows from `references/` → into `SKILL.md` workflows → executed via `scripts/` → applied using `assets/` templates.
 
-### Agent Architecture (v1.0)
+### Agent Architecture (v2.0)
 
-**3 production agents** orchestrate skills through guided workflows:
+**27 production agents** orchestrate skills through guided workflows:
 
 ```
 agents/
-├── marketing/
-│   ├── cs-content-creator.md         # SEO-optimized content creation
-│   └── cs-demand-gen-specialist.md   # Lead gen & conversion funnel
-└── product/
-    └── cs-product-manager.md         # RICE prioritization & roadmaps
+├── marketing/              # 3 agents
+│   ├── cs-content-creator.md
+│   ├── cs-demand-gen-specialist.md
+│   └── cs-product-marketer.md
+├── product/                # 5 agents
+│   ├── cs-product-manager.md
+│   ├── cs-agile-product-owner.md
+│   ├── cs-product-strategist.md
+│   ├── cs-ux-researcher.md
+│   └── cs-ui-designer.md
+├── delivery/               # 4 agents
+│   ├── cs-jira-expert.md
+│   ├── cs-confluence-expert.md
+│   ├── cs-scrum-master.md
+│   └── cs-senior-pm.md
+└── engineering/            # 15 agents
+    ├── cs-code-reviewer.md
+    ├── cs-architect.md
+    ├── cs-backend-engineer.md
+    ├── cs-frontend-engineer.md
+    ├── cs-fullstack-engineer.md
+    ├── cs-devops-engineer.md
+    ├── cs-security-engineer.md
+    ├── cs-secops-engineer.md
+    ├── cs-qa-engineer.md
+    ├── cs-ml-engineer.md
+    ├── cs-data-engineer.md
+    ├── cs-data-scientist.md
+    ├── cs-computer-vision.md
+    ├── cs-prompt-engineer.md
+    └── cs-cto-advisor.md
 ```
 
 **Agent Design Principles:**
@@ -498,7 +526,7 @@ claude-skills/
 ---
 
 **Last Updated:** November 12, 2025
-**Current Focus:** Clean Break restructuring for Pandora-specific deployment
-**Status:** 26 Pandora-focused skills across 4 domains, 3 production agents
+**Current Focus:** Agent completion - 27 production agents for 26 Pandora skills
+**Status:** 26 Pandora-focused skills across 4 domains, 27 production agents (v2.0)
 **Python Version:** 3.8+ required
 **Dependencies:** pyyaml>=6.0.3 (see requirements.txt)
