@@ -88,10 +88,10 @@ display_welcome() {
     print_header "Claude Skills Installation"
     echo ""
     echo "This script will help you install the claude-skills repository"
-    echo "containing 3 production agents and 26 Pandora-focused skill packages."
+    echo "containing 27 production agents and 26 Pandora-focused skill packages."
     echo ""
     echo "What you'll get:"
-    echo "  • 3 production agents (Marketing, Product)"
+    echo "  • 27 production agents (Marketing, Product, Delivery, Engineering)"
     echo "  • 77 Python CLI automation tools"
     echo "  • Comprehensive standards library"
     echo "  • Templates and workflows"
@@ -115,11 +115,13 @@ ask_questions() {
     # Question 2: Which agents to install
     echo ""
     echo "2. Which agent domains do you need?"
-    echo "   a) All agents (3 production agents) - Recommended"
-    echo "   b) Marketing only (2 agents)"
-    echo "   c) Product only (1 agent)"
+    echo "   a) All agents (27 production agents) - Recommended"
+    echo "   b) Marketing only (3 agents)"
+    echo "   c) Product only (5 agents)"
+    echo "   d) Delivery only (4 agents)"
+    echo "   e) Engineering only (15 agents)"
     echo ""
-    read -p "Choose (a/b/c) [a]: " AGENT_SELECTION
+    read -p "Choose (a/b/c/d/e) [a]: " AGENT_SELECTION
     AGENT_SELECTION=${AGENT_SELECTION:-a}
 
     # Question 3: Installation location
@@ -176,21 +178,33 @@ install_agents() {
 
     case $AGENT_SELECTION in
         a) # All agents
-            print_info "Installing all 3 production agents..."
+            print_info "Installing all 27 production agents..."
             cp -r agents/* "$INSTALL_DIR/agents/" 2>/dev/null || true
-            print_success "Installed 3 production agents"
+            print_success "Installed 27 production agents (3 marketing, 5 product, 4 delivery, 15 engineering)"
             ;;
         b) # Marketing only
             print_info "Installing marketing agents..."
             mkdir -p "$INSTALL_DIR/agents/marketing"
             cp -r agents/marketing/* "$INSTALL_DIR/agents/marketing/" 2>/dev/null || true
-            print_success "Installed 2 marketing agents"
+            print_success "Installed 3 marketing agents"
             ;;
         c) # Product only
-            print_info "Installing product agent..."
+            print_info "Installing product agents..."
             mkdir -p "$INSTALL_DIR/agents/product"
             cp -r agents/product/* "$INSTALL_DIR/agents/product/" 2>/dev/null || true
-            print_success "Installed 1 product agent"
+            print_success "Installed 5 product agents"
+            ;;
+        d) # Delivery only
+            print_info "Installing delivery agents..."
+            mkdir -p "$INSTALL_DIR/agents/delivery"
+            cp -r agents/delivery/* "$INSTALL_DIR/agents/delivery/" 2>/dev/null || true
+            print_success "Installed 4 delivery agents"
+            ;;
+        e) # Engineering only
+            print_info "Installing engineering agents..."
+            mkdir -p "$INSTALL_DIR/agents/engineering"
+            cp -r agents/engineering/* "$INSTALL_DIR/agents/engineering/" 2>/dev/null || true
+            print_success "Installed 15 engineering agents"
             ;;
     esac
 
