@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a **comprehensive skills library** for Claude AI - reusable, production-ready skill packages that bundle domain expertise, best practices, analysis tools, and strategic frameworks. The repository provides modular skills that teams can download and use directly in their workflows.
 
-**Current Scope:** 26 production-ready skills across 4 domains with 77 Python automation tools.
+**Current Scope:** 26 production-ready skills across 4 domains with 53 Python automation tools.
 
 **Key Distinction**: This is NOT a traditional application. It's a library of skill packages meant to be extracted and deployed by users into their own Claude workflows.
 
@@ -50,7 +50,7 @@ claude-code-skills/
 │   ├── marketing-team/        # 3 marketing skills + Python tools
 │   ├── product-team/          # 5 product skills + Python tools
 │   ├── engineering-team/      # 15 engineering skills + Python tools (includes cto-advisor)
-│   └── delivery-team/         # 6 delivery/PM skills + Atlassian MCP
+│   └── delivery-team/         # 4 delivery/PM skills + Atlassian MCP
 ├── agents/                    # Workflow orchestrator agents (cs-* prefix)
 │   ├── marketing/            # Marketing domain agents (3 agents)
 │   ├── product/              # Product management agents (5 agents)
@@ -252,8 +252,8 @@ python skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py con
 ## Roadmap
 
 **Phase 1 Complete:** 26 Pandora-focused skills deployed
-- Marketing (3), Product (5), Delivery/PM (6), Engineering (15 including CTO advisor)
-- 77 Python automation tools, 60+ reference guides
+- Marketing (3), Product (5), Delivery/PM (4), Engineering (15 including CTO advisor)
+- 53 Python automation tools, 60+ reference guides
 - Complete coverage for Pandora's marketing, product, engineering, and delivery teams
 
 **Next Priorities:**

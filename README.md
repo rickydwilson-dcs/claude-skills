@@ -35,7 +35,7 @@
 This repository provides **modular, self-contained skill packages** designed specifically for Pandora's teams to augment Claude AI with specialized domain expertise. Each skill includes:
 
 - **📖 Comprehensive documentation** - Workflows, best practices, and strategic frameworks tailored to Pandora's needs
-- **🛠️ Python analysis tools** - 77 CLI utilities for automated analysis and optimization
+- **🛠️ Python analysis tools** - 53 CLI utilities for automated analysis and optimization
 - **📚 Knowledge bases** - Curated reference materials and guidelines for Pandora's domains
 - **📋 Ready-to-use templates** - Customizable assets for immediate deployment
 
@@ -69,7 +69,7 @@ This repository provides **modular, self-contained skill packages** designed spe
 
 ## 🛠️ Production CLI Tools & Testing
 
-**77 standardized Python CLI tools** with comprehensive testing framework (v2.0.0):
+**53 standardized Python CLI tools** with comprehensive testing framework (v2.0.0):
 
 ### CLI Features
 - **Consistent Interface** - All tools use argparse with standard flags: `--help`, `--version`, `--output`, `--file`, `--verbose`
@@ -118,7 +118,7 @@ Agents are workflow orchestrators that intelligently invoke skills, coordinate P
 
 **Skills** = Tools + Knowledge + Templates
 - 26 Pandora-focused skills
-- 77 automation tools
+- 53 automation tools
 - Domain expertise packaged
 
 **Agents** = Workflow Orchestrators
@@ -328,7 +328,7 @@ Visual design systems and component architecture for consistent user interfaces.
 
 ### Project Management Team Skills
 
-**6 world-class Atlassian expert skills** for project and agile delivery teams using Jira and Confluence.
+**4 production-ready delivery skills** for project and agile delivery teams using Jira and Confluence.
 
 #### 📋 Senior Project Management Expert
 **Status:** ✅ Production Ready | **Version:** 1.0
@@ -396,42 +396,6 @@ Knowledge management and documentation architecture.
 - Jira integration and linking
 - Search optimization and findability
 - Atlassian MCP integration for documentation
-
-**Learn More:** See `skills/delivery-team/README.md` for details
-
----
-
-#### 🔧 Atlassian Administrator
-**Status:** ✅ Production Ready | **Version:** 1.0
-
-System administration for Atlassian suite.
-
-**What's Included:**
-- User provisioning and access management
-- Global configuration and governance
-- Security and compliance setup
-- SSO and integration deployment
-- Performance optimization
-- Disaster recovery and license management
-- Atlassian MCP integration for system administration
-
-**Learn More:** See `skills/delivery-team/README.md` for details
-
----
-
-#### 📄 Atlassian Template Creator Expert
-**Status:** ✅ Production Ready | **Version:** 1.0
-
-Template and file creation/modification specialist.
-
-**What's Included:**
-- Confluence page template design (15+ templates)
-- Jira issue template creation
-- Blueprint development for complex structures
-- Standardized content and governance
-- Dynamic content and automation
-- Template lifecycle management
-- Atlassian MCP integration for template deployment
 
 **Learn More:** See `skills/delivery-team/README.md` for details
 

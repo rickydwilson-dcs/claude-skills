@@ -158,9 +158,9 @@ chmod +x tools/test_cli_standards.sh
 | `marketing-skill/` | Marketing tools | 3 skills, Python CLI tools |
 | `c-level-advisor/` | Executive advisory | 2 skills, strategy tools |
 | `product-team/` | Product management | 5 skills, RICE prioritizer |
-| `engineering-team/` | Engineering tools | 14 skills, architecture tools |
+| `engineering-team/` | Engineering tools | 15 skills, architecture tools |
 | `ra-qm-team/` | Compliance tools | 12 skills, regulatory tools |
-| `project-management/` | PM & Atlassian | 6 skills, Jira/Confluence |
+| `delivery-team/` | PM & Atlassian | 4 skills, Jira/Confluence |
 | `tools/` | Testing scripts | CLI validation tools |
 | `documentation/` | Standards & guides | CLI standards, migration docs |
 | `templates/` | Reusable templates | Agent template, Python CLI template |
@@ -319,5 +319,5 @@ After successful installation:
 ---
 
 **Version:** 1.0.0
-**Last Updated:** November 6, 2025
+**Last Updated:** November 17, 2025
 **Compatibility:** Python 3.8+, Claude AI, Claude Code
