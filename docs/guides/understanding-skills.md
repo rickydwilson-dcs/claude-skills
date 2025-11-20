@@ -12,19 +12,19 @@ Think of a skill like a **toolbox + instruction manual + templates** for a speci
 
 ### Real-World Example
 
-Imagine you need to create marketing content:
+Imagine you need to review your application's architecture:
 
 **Without Skills:**
-- You have to remember all the best practices
-- You write content from scratch every time
-- You manually check for SEO, tone, readability
-- You create templates from memory
+- You manually review code structure for hours
+- You try to remember architecture patterns
+- You guess at potential bottlenecks
+- You create documentation from scratch
 
-**With the Content Creator Skill:**
-- You get Python tools that instantly analyze your content
-- You get proven frameworks (blog templates, social media formats)
-- You get expert knowledge (brand voice guides, SEO checklists)
-- You save 40% of your time
+**With the Senior Architect Skill:**
+- You get Python tools that instantly analyze your codebase structure
+- You get proven frameworks (C4 diagrams, ADR templates, design patterns)
+- You get expert knowledge (scalability patterns, dependency best practices)
+- You save 60% of your time and get more thorough analysis
 
 **That's what a skill does** - it packages expert knowledge + automation tools + ready-to-use templates.
 
@@ -38,81 +38,95 @@ Every skill has exactly 3 parts:
 
 **What:** Small programs that analyze or generate things automatically
 
-**Example - Brand Voice Analyzer:**
+**Example - Security Auditor:**
 ```bash
-# Instead of manually checking 100 pages for tone...
-python brand_voice_analyzer.py my-content.txt
+# Instead of manually reviewing code for vulnerabilities...
+python3 security_auditor.py --input . --verbose
 
-# Output in 2 seconds:
-# Formality: 7/10 (Professional)
-# Tone: Authoritative, Friendly
-# Readability: College level
-# Suggestions: Use more active voice
+# Output in 30 seconds:
+# OWASP Top 10: 12 issues found
+# Exposed secrets: 2 API keys detected
+# Weak cryptography: MD5 usage in auth.py
+# SQL injection risk: user_controller.py:45
+# Recommendations: 15 security fixes prioritized
 ```
 
-**Why It's Useful:** Saves hours of manual work, gives consistent results
+**Why It's Useful:** Saves hours of manual security review, catches issues developers miss
 
 ### 2. 📚 Knowledge Bases (The Expert Brain)
 
 **What:** Markdown files with expert knowledge, frameworks, best practices
 
-**Example - SEO Optimization Guide:**
-- Keyword density rules (1-2% for primary keywords)
-- Meta tag requirements (150-160 char descriptions)
-- Heading structure (H1 → H2 → H3 hierarchy)
-- Internal linking strategies
+**Example - Architecture Patterns Reference:**
+- When to use microservices vs monolithic (team size, scaling needs)
+- Event-driven architecture patterns (CQRS, event sourcing)
+- API design principles (RESTful conventions, GraphQL patterns)
+- Database scaling strategies (sharding, replication, caching)
+- Security architecture (zero-trust, defense-in-depth)
 
-**Why It's Useful:** You don't have to remember everything or Google it
+**Why It's Useful:** You don't have to remember everything or spend hours researching
 
 ### 3. 📋 Templates (The Starting Points)
 
 **What:** Ready-to-use documents you customize
 
-**Example - Content Calendar Template:**
+**Example - Architecture Decision Record (ADR) Template:**
 ```
-| Date | Platform | Topic | Keywords | Status |
-|------|----------|-------|----------|--------|
-| 11/18 | LinkedIn | AI tools | automation | Draft |
-| 11/20 | Blog | SEO guide | optimization | Planning |
+# ADR-001: Database Technology Selection
+
+## Status: Proposed
+
+## Context
+We need to choose a database for our user management system...
+
+## Decision
+Use PostgreSQL for ACID compliance and complex queries
+
+## Consequences
++ Strong consistency guarantees
++ Mature ecosystem and tooling
+- Higher operational complexity than NoSQL
 ```
 
-**Why It's Useful:** Start with proven structure, just fill in your content
+**Why It's Useful:** Start with proven structure, just customize for your decision
 
 ---
 
-## Real Example: Creating a Blog Post
+## Real Example: Prioritizing Product Roadmap
 
-### The Old Way (3 hours)
+### The Old Way (4 hours)
 
-1. Research SEO best practices (30 min)
-2. Write content (90 min)
-3. Manually check SEO (20 min)
-4. Check brand voice consistency (15 min)
-5. Fix issues found (25 min)
+1. Gather feature requests from multiple sources (60 min)
+2. Manually estimate reach for each feature (40 min)
+3. Debate impact with stakeholders (90 min)
+4. Create spreadsheet and calculate scores (30 min)
+5. Build presentation for leadership (60 min)
 
-**Total: 3 hours**
+**Total: 4 hours**
 
-### With Content Creator Skill (1.5 hours)
+### With Product Manager Toolkit Skill (1 hour)
 
-1. **Use template** from skill → Start with proven blog structure (5 min)
-2. **Write content** using framework from knowledge base (60 min)
-3. **Run SEO Optimizer tool** → Instant analysis + recommendations (2 min)
+1. **Use RICE template** from skill → Structure feature data (10 min)
+2. **Fill in estimates** using framework from knowledge base (20 min)
+3. **Run RICE Prioritizer tool** → Instant analysis + roadmap (2 min)
    ```bash
-   python seo_optimizer.py blog-post.md "marketing automation"
-   # Output: SEO Score 68/100
-   # - Add 3 more keyword mentions
-   # - Include H2 with keyword
-   # - Add 2 internal links
+   python3 rice_prioritizer.py features.csv --capacity 20
+   # Output: RICE Scores calculated
+   # Quick Wins: 5 features (high impact, low effort)
+   # Big Bets: 3 features (strategic investments)
+   # Money Pits: 2 features (avoid or revisit)
+   # Q1 Roadmap: Auto-generated with capacity planning
    ```
-4. **Run Brand Voice Analyzer** → Check consistency (2 min)
-   ```bash
-   python brand_voice_analyzer.py blog-post.md
-   # Output: Tone matches "Professional + Friendly" ✓
-   # Readability: 65 (target 60-70) ✓
+4. **Review portfolio analysis** → Data-driven insights (3 min)
    ```
-5. **Fix and re-check** (20 min)
+   # Output shows:
+   # - Features by RICE score (highest priority first)
+   # - Quarterly capacity allocation
+   # - Trade-off recommendations
+   ```
+5. **Present to stakeholders** with data backing (25 min)
 
-**Total: 1.5 hours (50% faster)**
+**Total: 1 hour (75% faster, better decisions)**
 
 ---
 
@@ -187,7 +201,7 @@ skills/
 2. **Upload** the `SKILL.md` file to your Claude conversation
 3. **Ask Claude** to use the skill:
    ```
-   Using the content-creator skill, help me write a LinkedIn post about AI automation
+   Using the senior-architect skill, analyze my application architecture and recommend improvements
    ```
 
 Claude reads the skill and follows its frameworks!
@@ -197,7 +211,14 @@ Claude reads the skill and follows its frameworks!
 1. **Clone** this repository
 2. **Run Python tools** directly:
    ```bash
-   python skills/marketing-team/content-creator/scripts/seo_optimizer.py my-content.md "AI automation"
+   # Architecture analysis
+   python3 skills/engineering-team/senior-architect/scripts/project_architect.py --input . --verbose
+
+   # Security audit
+   python3 skills/engineering-team/senior-security/scripts/security_auditor.py --input . --verbose
+
+   # RICE prioritization
+   python3 skills/product-team/product-manager-toolkit/scripts/rice_prioritizer.py features.csv --capacity 20
    ```
 3. **Reference knowledge bases** in your CLAUDE.md
 4. **Copy templates** from assets/ folder
@@ -210,20 +231,20 @@ Claude reads the skill and follows its frameworks!
 
 A **skill** is a package of tools, knowledge, and templates.
 
-**Example:** Content Creator skill has:
-- 2 Python tools (analyzers)
-- 4 knowledge bases (frameworks)
-- 6 templates (content formats)
+**Example:** Senior Architect skill has:
+- 3 Python tools (project_architect.py, dependency_analyzer.py, architecture_diagram_generator.py)
+- 3 knowledge bases (architecture patterns, system design workflows, tech decision guide)
+- ADR templates, C4 diagram templates
 
 ### Agents = The Expert Using the Toolbox
 
 An **agent** knows HOW to use the skills to accomplish specific tasks.
 
-**Example:** cs-content-creator agent:
-- Uses Content Creator skill
-- Follows 4 specific workflows
-- Guides you step-by-step
-- Knows when to use which tool
+**Example:** cs-architect agent:
+- Uses Senior Architect skill
+- Follows 4 specific workflows (system design, tech evaluation, architecture review, documentation)
+- Guides you step-by-step through architecture decisions
+- Knows when to use which tool and framework
 
 **Analogy:**
 - **Skill** = Toolbox with hammer, nails, saw, instructions
@@ -239,7 +260,7 @@ An **agent** knows HOW to use the skills to accomplish specific tasks.
 | **How many** | 26 skills | 27 agents |
 | **Purpose** | Provide capabilities | Guide processes |
 | **Use when** | You know what to do | You need step-by-step guidance |
-| **Example** | content-creator skill | cs-content-creator agent |
+| **Example** | senior-architect skill | cs-architect agent |
 
 ---
 
@@ -257,19 +278,21 @@ An **agent** knows HOW to use the skills to accomplish specific tasks.
 ### Q: Which skill should I start with?
 
 **Depends on your role:**
-- Content writer? → `content-creator`
-- Product manager? → `product-manager-toolkit`
-- Engineer? → `fullstack-engineer`
-- Scrum master? → `scrum-master`
+- Architect/Tech Lead? → `senior-architect`
+- Security Engineer? → `senior-security`
+- Product Manager? → `product-manager-toolkit`
+- Backend Engineer? → `senior-backend`
+- Scrum Master? → `scrum-master`
 
 See [using-skills.md](using-skills.md) for detailed workflows
 
 ### Q: Can I use multiple skills together?
 
 **Yes!** Skills are designed to work together:
-- Content Creator + Product Marketing = Complete content strategy
+- Senior Architect + Senior Security = Secure architecture design
 - Product Manager + Agile Owner = Full product delivery
-- Architect + Fullstack = Complete project setup
+- Senior Backend + Senior DevOps = Production-ready deployment
+- Architect + Code Reviewer = High-quality system implementation
 
 ### Q: How long does it take to learn a skill?
 

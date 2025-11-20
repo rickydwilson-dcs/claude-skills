@@ -18,144 +18,154 @@
 ┌─────────────────────────────────────────────────────────────────┐
 │                         YOU (The User)                           │
 │                                                                   │
-│  "I need to write SEO-optimized content for our product launch" │
+│  "I need to review the architecture of our microservices app"   │
 └────────────────────────────┬────────────────────────────────────┘
                              │
                              ▼
 ┌──────────────────────────────────────────────────────────────────┐
-│                    AGENT (cs-content-creator)                     │
+│                    AGENT (cs-architect)                           │
 │                                                                    │
-│  "I'll guide you through content creation step-by-step"          │
+│  "I'll guide you through architecture analysis step-by-step"     │
 │                                                                    │
-│  Workflow 1: SEO Blog Post Creation                              │
-│  Step 1: Use blog template                                       │
-│  Step 2: Write draft                                             │
-│  Step 3: Run SEO analyzer                                        │
-│  Step 4: Check brand voice                                       │
-│  Step 5: Optimize and finalize                                   │
+│  Workflow 1: Architecture Review                                 │
+│  Step 1: Run project analyzer                                    │
+│  Step 2: Review structure and patterns                           │
+│  Step 3: Analyze dependencies                                    │
+│  Step 4: Generate ADR documentation                              │
+│  Step 5: Create C4 diagrams                                      │
 └────────────────────────────┬─────────────────────────────────────┘
                              │
                              ▼
 ┌──────────────────────────────────────────────────────────────────┐
-│                  SKILL (content-creator)                          │
+│                  SKILL (senior-architect)                         │
 │                                                                    │
 │  Python Tools:                                                    │
-│  • seo_optimizer.py          → Analyze SEO instantly             │
-│  • brand_voice_analyzer.py   → Check tone/voice                  │
+│  • project_architect.py      → Analyze structure instantly       │
+│  • dependency_analyzer.py    → Check dependencies                │
 │                                                                    │
 │  Knowledge Bases:                                                 │
-│  • SEO best practices        → Expert guidelines                 │
-│  • Brand voice framework     → Tone definitions                  │
-│  • Social media guides       → Platform specifics                │
+│  • Architecture patterns     → Microservices, CQRS, DDD          │
+│  • Design principles         → SOLID, clean architecture         │
+│  • Scalability guides        → Performance, resilience           │
 │                                                                    │
 │  Templates:                                                       │
-│  • Blog post template        → Proven structure                  │
-│  • Content calendar          → Planning framework                │
-│  • Social media templates    → Ready formats                     │
+│  • ADR template              → Decision records                  │
+│  • C4 diagram templates      → Visual architecture               │
+│  • Review checklists         → Comprehensive assessment          │
 └──────────────────────────────────────────────────────────────────┘
                              │
                              ▼
 ┌──────────────────────────────────────────────────────────────────┐
 │                           OUTPUT                                   │
 │                                                                    │
-│  ✅ SEO-optimized blog post (Score: 92/100)                      │
-│  ✅ Brand voice consistent (Matches guidelines)                  │
-│  ✅ Ready to publish in 1.5 hours (vs 3 hours manually)          │
+│  ✅ Architecture review (Score: 8.5/10)                          │
+│  ✅ 3 issues identified with recommendations                     │
+│  ✅ Complete analysis in 45 minutes (vs 4 hours manually)        │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Example 1: Content Creation (Detailed)
+## Example 1: Architecture Review (Detailed)
 
 ### Scenario
 
-You need to create a blog post about "Marketing Automation for SaaS."
+You need to review the architecture of your microservices application before a major release.
 
 ### Step-by-Step Flow
 
 #### 1. You Start
 
 ```
-Your goal: Blog post, 1500 words, SEO-optimized, brand voice consistent
+Your goal: Comprehensive architecture review, identify issues, document decisions
 ```
 
 #### 2. Choose Your Path
 
 **Option A: Use Agent (Guided)**
 ```bash
-# Open cs-content-creator agent
-open agents/marketing/cs-content-creator.md
+# Open cs-architect agent
+open agents/engineering/cs-architect.md
 
 # Agent tells you:
-"Follow Workflow 2: SEO Blog Post Creation"
-# Then guides you through 6 steps
+"Follow Workflow 1: Architecture Review"
+# Then guides you through 5 steps
 ```
 
 **Option B: Use Skill Directly (Expert)**
 ```bash
 # You already know what to do, just use the tools:
-cd skills/marketing-team/content-creator/
+cd skills/engineering-team/senior-architect/
 ```
 
 #### 3. Agent Workflow (Option A)
 
-**Step 1:** Agent says "Start with our blog template"
+**Step 1:** Agent says "Run project analyzer on your codebase"
 ```bash
 # Agent runs this for you:
-cp ../../skills/marketing-team/content-creator/assets/blog-post-template.md draft.md
+python ../../skills/engineering-team/senior-architect/scripts/project_architect.py --input . --verbose
+
+# Output:
+Architecture Score: 8.2/10
+Pattern: Microservices with event-driven communication
+✓ Good domain separation
+✓ Clear API boundaries
+⚠️ Missing shared utils library
+⚠️ 3 circular dependencies detected
+❌ API gateway has single point of failure
 ```
 
-**Step 2:** Agent says "Write your draft following the template structure"
-```
-# You write for 60 minutes
-```
-
-**Step 3:** Agent says "Let's analyze SEO"
+**Step 2:** Agent says "Analyze dependency structure"
 ```bash
 # Agent runs:
-python ../../skills/marketing-team/content-creator/scripts/seo_optimizer.py draft.md "marketing automation"
+python ../../skills/engineering-team/senior-architect/scripts/project_architect.py --input . --focus dependencies
 
 # Output:
-SEO Score: 68/100
-- Keyword density: 0.8% (need 1-2%) ❌
-- H2 with keyword: Missing ❌
-- Meta description: Good ✅
-- Internal links: Need 2 more ❌
+External Dependencies: 15 packages
+⚠️ High-risk: axios@0.21.1 (CVE-2021-3749)
+⚠️ Circular deps: user-service ↔ auth-service
+✓ Python tools: Standard library only
 ```
 
-**Step 4:** Agent says "Now check brand voice"
+**Step 3:** Agent says "Review the detected patterns"
+```
+# Agent explains:
+Your architecture uses:
+- Microservices pattern (good for scalability)
+- Event-driven communication (good for decoupling)
+- No API gateway redundancy (risk)
+
+Recommendations:
+1. Add load balancer for API gateway
+2. Break circular dependency between user/auth services
+3. Create shared utils library for common code
+```
+
+**Step 4:** Agent says "Document key decisions"
 ```bash
-# Agent runs:
-python ../../skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py draft.md
+# Agent guides you to create ADR:
+cp ../../skills/engineering-team/senior-architect/assets/adr-template.md docs/architecture/ADR-001-api-gateway-redundancy.md
 
-# Output:
-Formality: 7/10 ✅
-Tone: Professional + Friendly ✅
-Readability: 65 (College) ✅
-Active voice: 62% (target 70%+) ⚠️
+# You document the API gateway decision
 ```
 
-**Step 5:** Agent says "Fix the issues I found"
+**Step 5:** Agent says "Generate architecture diagrams"
 ```
-# You fix:
-- Add keyword 3 more times
-- Create H2 with keyword
-- Add 2 internal links
-- Convert 3 sentences to active voice
-```
-
-**Step 6:** Agent says "Let's verify"
-```bash
-# Agent re-runs:
-python ../../skills/marketing-team/content-creator/scripts/seo_optimizer.py draft.md "marketing automation"
-
-# Output:
-SEO Score: 92/100 ✅
-All checks passing!
+# Agent provides C4 template:
+Use the Context diagram template to show system boundaries
+Use the Container diagram to show microservices
+Document the current state and proposed changes
 ```
 
-**Done!** 1.5 hours total (vs 3 hours without)
+**Step 6:** Agent says "Create action items"
+```
+Priority fixes:
+1. HIGH: Add API gateway redundancy (2 days)
+2. HIGH: Resolve circular dependencies (3 days)
+3. MEDIUM: Create shared utils library (5 days)
+```
+
+**Done!** 45 minutes total (vs 4 hours without)
 
 ---
 
@@ -240,14 +250,14 @@ python ../../skills/product-team/product-manager-toolkit/scripts/rice_prioritize
 ### Use SKILLS Directly When:
 
 ✅ **You're experienced** - You know exactly what you need
-✅ **Quick tasks** - "Just run the SEO analyzer"
+✅ **Quick tasks** - "Just run the architecture analyzer"
 ✅ **Automation** - Building scripts that use tools
 ✅ **Exploration** - Trying out tools to learn
 
 **Example:**
 ```bash
-# Quick SEO check before publishing
-python skills/marketing-team/content-creator/scripts/seo_optimizer.py final-draft.md "keyword"
+# Quick architecture check before release
+python skills/engineering-team/senior-architect/scripts/project_architect.py --input . --verbose
 ```
 
 ### Use AGENTS When:
@@ -259,31 +269,31 @@ python skills/marketing-team/content-creator/scripts/seo_optimizer.py final-draf
 
 **Example:**
 ```bash
-# First time creating content strategy
-# Open cs-content-creator agent
-# Follow "Workflow 4: Content Strategy Development"
+# First time conducting comprehensive architecture review
+# Open cs-architect agent
+# Follow "Workflow 1: Architecture Review"
 ```
 
 ---
 
 ## Real-World Scenarios
 
-### Scenario 1: New Content Writer
+### Scenario 1: New Software Architect
 
-**Day 1:** Uses cs-content-creator agent
-- Follows workflows step-by-step
-- Learns which tools do what
-- Understands the knowledge bases
+**Day 1:** Uses cs-architect agent
+- Follows architecture review workflow step-by-step
+- Learns which tools analyze what
+- Understands the architecture patterns
 
 **Week 2:** Mix of agent + direct tool use
-- Uses agent for complex workflows
-- Runs SEO optimizer directly for quick checks
-- References knowledge bases as needed
+- Uses agent for complex architecture decisions
+- Runs project_architect.py directly for quick checks
+- References pattern guides as needed
 
 **Month 2:** Mostly direct tool use
-- Knows all the tools
-- Has own workflows
-- Only uses agent for new types of content
+- Knows all the analysis tools
+- Has own review workflows
+- Only uses agent for new architecture patterns
 
 ### Scenario 2: Product Manager
 
@@ -312,10 +322,10 @@ python skills/marketing-team/content-creator/scripts/seo_optimizer.py final-draf
 claude-skills/
 │
 ├── agents/                          # Workflow guides
-│   ├── marketing/
-│   │   └── cs-content-creator.md   # Agent file
+│   ├── engineering/
+│   │   └── cs-architect.md         # Agent file
 │   │       ↓
-│   │       Uses skills via: ../../skills/marketing-team/content-creator/
+│   │       Uses skills via: ../../skills/engineering-team/senior-architect/
 │   │
 │   └── product/
 │       └── cs-product-manager.md    # Agent file
@@ -323,8 +333,8 @@ claude-skills/
 │           Uses skills via: ../../skills/product-team/product-manager-toolkit/
 │
 └── skills/                          # The toolboxes
-    ├── marketing-team/
-    │   └── content-creator/         # Skill package
+    ├── engineering-team/
+    │   └── senior-architect/        # Skill package
     │       ├── scripts/             # Python tools
     │       ├── references/          # Knowledge
     │       └── assets/              # Templates
@@ -341,13 +351,13 @@ claude-skills/
 **Agents use relative paths to access skills:**
 
 ```markdown
-# In: agents/marketing/cs-content-creator.md
+# In: agents/engineering/cs-architect.md
 
 ## Python Tools
 
-1. **SEO Optimizer**
-   - Path: `../../skills/marketing-team/content-creator/scripts/seo_optimizer.py`
-   - Usage: `python ../../skills/.../seo_optimizer.py file.md "keyword"`
+1. **Project Architect**
+   - Path: `../../skills/engineering-team/senior-architect/scripts/project_architect.py`
+   - Usage: `python ../../skills/.../project_architect.py --input . --verbose`
 ```
 
 This means:

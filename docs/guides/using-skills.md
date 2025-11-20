@@ -17,113 +17,136 @@ Each section shows a **real task** and **exactly how** to use skills to do it fa
 
 ---
 
-## For Content Creators & Marketers
+## For Software Architects & Engineers
 
-### Task 1: Write an SEO-Optimized Blog Post
+### Task 1: Conduct Architecture Review
 
-⏱️ **Without Skills:** 3 hours (research, write, optimize, check)
+⏱️ **Without Skills:** 4 hours (manual codebase exploration, pattern analysis, documentation review)
 
-✨ **With Content Creator Skill:** 1.5 hours
+✨ **With Senior Architect Skill:** 45 minutes
 
 **Step-by-Step:**
 
 ```bash
-# 1. Start with a template (2 minutes)
-cp skills/marketing-team/content-creator/assets/blog-post-template.md my-blog.md
+# 1. Run architecture analysis on your codebase (30 seconds)
+python skills/engineering-team/senior-architect/scripts/project_architect.py --input . --verbose
 
-# 2. Write your content using the template structure (60 min)
-# (Just write - the template already has SEO-friendly structure)
-
-# 3. Run SEO analysis (30 seconds)
-python skills/marketing-team/content-creator/scripts/seo_optimizer.py my-blog.md "your target keyword"
-
-# Output tells you EXACTLY what to fix:
-# SEO Score: 68/100
-# ❌ Keyword density: 0.8% (need 1-2%)
-# ❌ Missing H2 with keyword
-# ✓ Meta description length: 155 chars
-# ❌ Need 2 more internal links
+# Output provides comprehensive analysis:
+# === Architecture Analysis ===
+#
+# 📊 Project Structure:
+# - Pattern: Modular monorepo with domain-driven design
+# - Languages: Python (87%), Markdown (13%)
+# - Structure Score: 8.5/10
+#
+# 🏗️ Architecture Patterns Detected:
+# ✓ Skills-based modular architecture
+# ✓ Domain separation (marketing, product, engineering, delivery)
+# ✓ Tool-driven workflows (Python CLI tools)
+# ✓ Template system for consistency
+#
+# ⚠️ Issues Found (3):
+# - Missing API layer for tool integration
+# - No shared utility library across skills
+# - Documentation drift in 4 skill packages
+#
+# 💡 Recommendations:
+# 1. Create shared utils/ directory for common functions
+# 2. Add API wrapper for Python tools
+# 3. Run documentation sync script weekly
 ```
 
 ```bash
-# 4. Check brand voice (30 seconds)
-python skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py my-blog.md
+# 2. Review specific architecture concern (10 seconds)
+python skills/engineering-team/senior-architect/scripts/project_architect.py --input src/backend --focus dependencies
 
 # Output:
-# Formality: 7/10 (Professional) ✓
-# Tone: Authoritative, Informative ✓
-# Readability: 65 (College level) ✓
-# Active voice: 62% (recommend 70%+) ⚠️
+# === Dependency Analysis ===
+# External Dependencies: 12 packages
+# ⚠️ High-risk dependencies (2):
+#   - axios@0.21.1 (known CVE)
+#   - lodash@4.17.19 (outdated)
+# ✓ Python dependencies: Standard library only
 ```
 
 ```bash
-# 5. Fix issues and re-run (20 minutes)
-# 6. Done!
+# 3. Generate architecture decision record (5 minutes)
+cp skills/engineering-team/senior-architect/assets/adr-template.md docs/architecture/ADR-001-api-layer.md
+# Edit with findings from analysis
+
+# 4. Create C4 diagram (10 minutes)
+# Use C4 templates from assets/ with analysis data
 ```
 
-**Time Saved:** 1.5 hours (50%)
+**Time Saved:** 3.25 hours (81%)
 
 ---
 
-### Task 2: Create a Week of Social Media Posts
+### Task 2: Run Security Audit
 
-⏱️ **Without Skills:** 4 hours (research formats, write, optimize for each platform)
+⏱️ **Without Skills:** 3 hours (manual code review, vulnerability scanning, dependency checks)
 
-✨ **With Content Creator Skill:** 1 hour
+✨ **With Senior Security Skill:** 15 minutes
 
 **Step-by-Step:**
 
 ```bash
-# 1. Open the social media template
-open skills/marketing-team/content-creator/assets/social-media-templates.md
+# 1. Run comprehensive security scan (45 seconds)
+python skills/engineering-team/senior-security/scripts/security_auditor.py --input . --output text --verbose
 
-# You'll see ready-to-use formats for:
-# - LinkedIn (thought leadership, how-to, case study)
-# - Twitter/X (thread starters, polls, quick tips)
-# - Instagram (captions, carousel)
-
-# 2. Pick the LinkedIn "How-To" template:
+# Output provides detailed security analysis:
+# === Security Audit Report ===
+#
+# 🔒 Overall Security Score: 7.2/10
+#
+# ✅ Strengths:
+# - No hardcoded secrets detected
+# - Python tools use standard library (minimal attack surface)
+# - .gitignore properly configured for sensitive files
+#
+# ⚠️ OWASP Top 10 Issues (3 found):
+#
+# 1. A06:2021 - Vulnerable Components
+#    - Location: package.json:15
+#    - Issue: axios@0.21.1 has known CVE-2021-3749
+#    - Severity: HIGH
+#    - Fix: npm update axios
+#
+# 2. A02:2021 - Cryptographic Failures
+#    - Location: backend/auth.py:42
+#    - Issue: Using MD5 for password hashing
+#    - Severity: CRITICAL
+#    - Fix: Use bcrypt or argon2
+#
+# 3. A01:2021 - Broken Access Control
+#    - Location: api/users.py:78
+#    - Issue: Missing authorization check
+#    - Severity: HIGH
+#    - Fix: Add @require_auth decorator
 ```
-
-**Template Example:**
-```
-🎯 [Bold Statement]
-
-Here's how to [solve problem]:
-
-1. [Step 1 with emoji]
-2. [Step 2 with emoji]
-3. [Step 3 with emoji]
-
-💡 Pro tip: [insider insight]
-
-What's your experience with [topic]?
-```
-
-**Your Post (5 min per post):**
-```
-🎯 Marketing automation doesn't have to be complex
-
-Here's how to start automating your content in 3 steps:
-
-1. 📊 Analyze what's working (run metrics on top posts)
-2. 🔄 Create templates for winners (save 2-3 hours/week)
-3. 🤖 Schedule with tools like Buffer
-
-💡 Pro tip: Start with just ONE platform to avoid overwhelm
-
-What's your experience with automation?
-```
-
-**Total: 7 posts × 5 minutes = 35 minutes**
 
 ```bash
-# 3. (Optional) Check each post's tone
-python skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py post1.txt
-# Takes 10 seconds per post
+# 2. Check for exposed secrets (5 seconds)
+python skills/engineering-team/senior-security/scripts/security_auditor.py --input . --scan secrets
+
+# Output:
+# === Exposed Secrets Scan ===
+# ⚠️ 2 potential secrets found:
+# - .env.backup:3 - API_KEY=sk_test_... (Stripe test key)
+# - docs/setup.md:42 - Example includes real API key
+#
+# 💡 Recommendation: Add to .gitignore and rotate keys
 ```
 
-**Time Saved:** 3 hours (75%)
+```bash
+# 3. Generate security report (5 minutes)
+python skills/engineering-team/senior-security/scripts/security_auditor.py --input . --output json > security-report.json
+
+# 4. Review and fix critical issues (10 minutes)
+# Follow recommendations from audit output
+```
+
+**Time Saved:** 2.75 hours (92%)
 
 ---
 
@@ -387,23 +410,25 @@ python skills/product-team/agile-product-owner/scripts/user_story_generator.py s
 
 ## Common Workflows
 
-### Workflow 1: Content Creation Pipeline
+### Workflow 1: Architecture Review & Security Audit
 
 ```bash
-# Morning: Plan content
-cp skills/marketing-team/content-creator/assets/content-calendar.md this-week.md
+# Weekly: Comprehensive codebase health check
 
-# Afternoon: Write
-# (use templates from assets/)
+# 1. Run architecture analysis
+python skills/engineering-team/senior-architect/scripts/project_architect.py --input . --verbose > output/architecture/$(date +%Y-%m-%d)-review.md
 
-# Before publishing: Quality check
-python skills/marketing-team/content-creator/scripts/seo_optimizer.py post.md "keyword"
-python skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py post.md
+# 2. Run security audit
+python skills/engineering-team/senior-security/scripts/security_auditor.py --input . --verbose > output/security/$(date +%Y-%m-%d)-audit.md
 
-# Ship it! ✨
+# 3. Review findings and create action items
+# Use ADR templates from senior-architect/assets/
+
+# 4. Track security metrics over time
+cat output/security/*.md | grep "Security Score"
 ```
 
-**Daily time saved:** 2 hours
+**Weekly time saved:** 6 hours
 
 ---
 
@@ -456,32 +481,34 @@ python skills/product-team/agile-product-owner/scripts/velocity_tracker.py last-
 Add to your `~/.bashrc` or `~/.zshrc`:
 
 ```bash
-# Content tools
-alias analyze-seo='python ~/claude-skills/skills/marketing-team/content-creator/scripts/seo_optimizer.py'
-alias check-voice='python ~/claude-skills/skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py'
+# Architecture & Security tools
+alias arch-review='python ~/claude-skills/skills/engineering-team/senior-architect/scripts/project_architect.py'
+alias security-audit='python ~/claude-skills/skills/engineering-team/senior-security/scripts/security_auditor.py'
 
 # Product tools
 alias prioritize='python ~/claude-skills/skills/product-team/product-manager-toolkit/scripts/rice_prioritizer.py'
 alias analyze-interview='python ~/claude-skills/skills/product-team/product-manager-toolkit/scripts/customer_interview_analyzer.py'
 
 # Now just type:
-analyze-seo my-post.md "keyword"
+arch-review --input . --verbose
+security-audit --input . --output text
 ```
 
 ### 2. Chain Commands
 
 ```bash
-# Write, analyze, fix loop
-write-post.sh && analyze-seo post.md "keyword" && check-voice post.md
+# Weekly health check: architecture + security
+arch-review --input . --verbose && security-audit --input . --verbose
 ```
 
 ### 3. Use Output Directories
 
 ```bash
 # Keep results organized
-mkdir -p output/seo output/interviews output/priorities
+mkdir -p output/architecture output/security output/priorities
 
-analyze-seo post.md "keyword" > output/seo/$(date +%Y-%m-%d)-analysis.txt
+arch-review --input . --verbose > output/architecture/$(date +%Y-%m-%d)-review.md
+security-audit --input . --verbose > output/security/$(date +%Y-%m-%d)-audit.md
 ```
 
 ### 4. Integrate with Your IDE
@@ -508,10 +535,11 @@ python /full/path/to/claude-skills/skills/.../tool.py
 ### "ModuleNotFoundError"
 
 ```bash
-# Install dependencies
-pip install -r requirements.txt
+# All tools use Python standard library only
+# Verify Python version (requires 3.8+)
+python3 --version
 
-# Or activate virtual environment
+# If you created a virtual environment, activate it
 source claude-skills_venv/bin/activate
 ```
 
@@ -519,10 +547,10 @@ source claude-skills_venv/bin/activate
 
 ```bash
 # Check the path exists
-ls skills/marketing-team/content-creator/scripts/
+ls skills/engineering-team/senior-architect/scripts/
 
 # Use tab completion
-python skills/market[TAB] → auto-completes
+python skills/engineer[TAB] → auto-completes
 ```
 
 ---
