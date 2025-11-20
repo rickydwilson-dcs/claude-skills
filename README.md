@@ -50,7 +50,7 @@ This repository provides **modular, self-contained skill packages** designed spe
 ## 📖 Documentation
 
 **Getting Started**
-- **[Installation Guide](docs/INSTALL.md)** - Complete setup instructions for Python environment and dependencies
+- **[Installation Guide](docs/INSTALL.md)** - Complete setup instructions (Python 3.8+ only, no dependencies required)
 - **[Usage Guide](docs/USAGE.md)** - Comprehensive examples and workflows for Claude AI and Claude Code
 
 **Testing & Quality**
@@ -84,16 +84,19 @@ This repository provides **modular, self-contained skill packages** designed spe
 
 ### Quick Start
 ```bash
-# Test a single script
-./test_single_script.sh skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py \
-  skills/marketing-team/content-creator/assets/sample-content.txt
+# Test architecture analysis
+python3 skills/engineering-team/senior-architect/scripts/project_architect.py --input . --verbose
 
-# Test all scripts
-./test_cli_standards.sh
+# Test security audit
+python3 skills/engineering-team/senior-security/scripts/security_auditor.py --input . --verbose
 
-# Run script with JSON output
-python3 skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py \
-  input.txt --output json --file results.json
+# Test RICE prioritization
+python3 skills/product-team/product-manager-toolkit/scripts/rice_prioritizer.py \
+  docs/examples/sample-features.csv --capacity 20
+
+# Run with JSON output for CI/CD integration
+python3 skills/engineering-team/senior-security/scripts/security_auditor.py \
+  --input . --output json --file security-report.json
 ```
 
 **Learn More:** [TESTING_GUIDE.md](TESTING_GUIDE.md) | [docs/standards/cli-standards.md](docs/standards/cli-standards.md)
@@ -102,17 +105,43 @@ python3 skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py \
 
 ## 🤖 Agent Catalog
 
-**3 production agents** that orchestrate skills and provide guided workflows (v1.0):
+**27 production agents** that orchestrate skills and provide guided workflows (v2.0):
 
 Agents are workflow orchestrators that intelligently invoke skills, coordinate Python tools, and guide you through complex multi-step processes. While skills provide the tools and knowledge, agents provide the intelligence to use them effectively.
 
 | Agent | Domain | Skills Used | Description |
 |-------|--------|-------------|-------------|
-| **Marketing Agents** ||||
+| **Marketing Agents (3)** ||||
 | [cs-content-creator](agents/marketing/cs-content-creator.md) | Marketing | content-creator | Create SEO-optimized marketing content with brand voice consistency |
 | [cs-demand-gen-specialist](agents/marketing/cs-demand-gen-specialist.md) | Marketing | marketing-demand-acquisition | Lead generation and conversion funnel optimization |
-| **Product Agents** ||||
+| [cs-product-marketer](agents/marketing/cs-product-marketer.md) | Marketing | product-marketing | Product positioning, GTM strategy, competitive intelligence |
+| **Product Agents (5)** ||||
 | [cs-product-manager](agents/product/cs-product-manager.md) | Product | product-manager-toolkit | RICE prioritization, roadmap generation, customer discovery |
+| [cs-agile-product-owner](agents/product/cs-agile-product-owner.md) | Product | agile-product-owner | User story generation, backlog management, sprint planning |
+| [cs-product-strategist](agents/product/cs-product-strategist.md) | Product | product-strategist | OKR cascade generation, vision/strategy alignment |
+| [cs-ux-researcher](agents/product/cs-ux-researcher.md) | Product | ux-researcher-designer | User research, persona generation, UX analysis |
+| [cs-ui-designer](agents/product/cs-ui-designer.md) | Product | ui-design-system | Design systems, component libraries, design tokens |
+| **Engineering Agents (15)** ||||
+| [cs-code-reviewer](agents/engineering/cs-code-reviewer.md) | Engineering | code-reviewer | Code quality analysis, standards enforcement, PR reviews |
+| [cs-architect](agents/engineering/cs-architect.md) | Engineering | senior-architect | System design, architecture patterns, technology evaluation |
+| [cs-backend-engineer](agents/engineering/cs-backend-engineer.md) | Engineering | senior-backend | API development, database design, backend optimization |
+| [cs-frontend-engineer](agents/engineering/cs-frontend-engineer.md) | Engineering | senior-frontend | React/Next.js development, frontend architecture |
+| [cs-fullstack-engineer](agents/engineering/cs-fullstack-engineer.md) | Engineering | senior-fullstack | Full-stack development, MERN/PERN/T3 stacks |
+| [cs-devops-engineer](agents/engineering/cs-devops-engineer.md) | Engineering | senior-devops | CI/CD, infrastructure automation, cloud operations |
+| [cs-security-engineer](agents/engineering/cs-security-engineer.md) | Engineering | senior-security | Threat modeling, security auditing, penetration testing |
+| [cs-secops-engineer](agents/engineering/cs-secops-engineer.md) | Engineering | senior-secops | Security operations, incident response, compliance |
+| [cs-qa-engineer](agents/engineering/cs-qa-engineer.md) | Engineering | senior-qa | Test strategy, automation frameworks, quality assurance |
+| [cs-ml-engineer](agents/engineering/cs-ml-engineer.md) | Engineering | senior-ml-engineer | ML pipelines, model deployment, MLOps |
+| [cs-data-engineer](agents/engineering/cs-data-engineer.md) | Engineering | senior-data-engineer | Data pipelines, ETL, data warehousing |
+| [cs-data-scientist](agents/engineering/cs-data-scientist.md) | Engineering | senior-data-scientist | Statistical analysis, predictive modeling, experimentation |
+| [cs-computer-vision](agents/engineering/cs-computer-vision.md) | Engineering | senior-computer-vision | Image processing, object detection, CV pipelines |
+| [cs-prompt-engineer](agents/engineering/cs-prompt-engineer.md) | Engineering | senior-prompt-engineer | LLM integration, prompt optimization, AI workflows |
+| [cs-cto-advisor](agents/engineering/cs-cto-advisor.md) | Engineering | cto-advisor | Technical strategy, team scaling, tech debt management |
+| **Delivery Agents (4)** ||||
+| [cs-jira-expert](agents/delivery/cs-jira-expert.md) | Delivery | jira-expert | Jira workflows, automation, project tracking |
+| [cs-confluence-expert](agents/delivery/cs-confluence-expert.md) | Delivery | confluence-expert | Documentation management, knowledge bases |
+| [cs-scrum-master](agents/delivery/cs-scrum-master.md) | Delivery | scrum-master | Scrum ceremonies, team facilitation, agile coaching |
+| [cs-senior-pm](agents/delivery/cs-senior-pm.md) | Delivery | senior-pm | Project management, stakeholder communication, delivery |
 
 ### Agents vs Skills
 
@@ -126,7 +155,7 @@ Agents are workflow orchestrators that intelligently invoke skills, coordinate P
 - Guide multi-step processes
 - Coordinate tools and knowledge
 
-**Example:** The [cs-content-creator](agents/marketing/cs-content-creator.md) agent uses the content-creator skill's Python tools (brand_voice_analyzer.py, seo_optimizer.py) plus knowledge bases (brand guidelines, SEO frameworks) to guide you through professional content creation workflows.
+**Example:** The [cs-architect](agents/engineering/cs-architect.md) agent uses the senior-architect skill's Python tools (project_architect.py, dependency_analyzer.py) plus knowledge bases (architecture patterns, system design workflows) to guide you through architecture design and technical decision-making. Similarly, [cs-product-manager](agents/product/cs-product-manager.md) uses RICE prioritization tools and customer interview analyzers to drive data-informed product decisions.
 
 **Learn More:** [agents/CLAUDE.md](agents/CLAUDE.md) | [templates/agent-template.md](templates/agent-template.md)
 
@@ -1012,83 +1041,108 @@ Claude Code can execute the Python analysis tools and integrate skills into your
 
 1. **Clone this repository** into your project or workspace:
    ```bash
-   git clone https://github.com/alirezarezvani/claude-skills.git
+   git clone https://github.com/rickydwilson-dcs/claude-skills.git
    cd claude-skills
    ```
 
-2. **Install Python dependencies** (if needed):
+2. **Verify Python installation**:
    ```bash
-   # Most scripts use standard library only
-   pip install pyyaml  # Optional, for future features
+   python3 --version  # Should be 3.8 or higher
+   # No pip install needed - all scripts use standard library only!
    ```
 
-3. **Verify installation**:
+3. **Test with core software delivery tools**:
    ```bash
-   python skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py --help
-   python skills/marketing-team/content-creator/scripts/seo_optimizer.py --help
+   # Architecture analysis
+   python3 skills/engineering-team/senior-architect/scripts/project_architect.py --input . --verbose
+
+   # Security audit
+   python3 skills/engineering-team/senior-security/scripts/security_auditor.py --input . --verbose
+
+   # RICE prioritization
+   python3 skills/product-team/product-manager-toolkit/scripts/rice_prioritizer.py \
+     docs/examples/sample-features.csv --capacity 20
    ```
 
-### Using Analysis Tools
+### Using Core Analysis Tools
 
-#### Brand Voice Analyzer
+#### Architecture Analyzer
 
-Analyze any text file for brand voice characteristics and readability:
+Analyze your codebase structure, patterns, and optimization opportunities:
 
 ```bash
-# Analyze with human-readable output
-python skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py article.txt
+# Comprehensive architecture analysis
+python3 skills/engineering-team/senior-architect/scripts/project_architect.py --input . --verbose
 
-# Analyze with JSON output for automation
-python skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py article.txt json
+# JSON output for CI/CD integration
+python3 skills/engineering-team/senior-architect/scripts/project_architect.py \
+  --input . --output json --file architecture-report.json
 ```
 
 **Output includes:**
-- Formality score (informal → formal scale)
-- Tone analysis (professional, friendly, authoritative, etc.)
-- Perspective (first-person, third-person)
-- Flesch Reading Ease score
-- Sentence structure analysis
+- Project structure assessment
+- Architecture pattern detection (monolithic, microservices, event-driven)
+- Dependency analysis and circular dependency detection
+- Scalability and performance recommendations
+- Technical debt identification
 - Improvement recommendations
 
-#### SEO Optimizer
+#### Security Auditor
 
-Comprehensive SEO analysis and optimization:
+Comprehensive security analysis with OWASP Top 10 scanning:
 
 ```bash
-# Basic SEO analysis
-python skills/marketing-team/content-creator/scripts/seo_optimizer.py blog-post.md "primary keyword"
+# Full security audit
+python3 skills/engineering-team/senior-security/scripts/security_auditor.py --input . --verbose
 
-# With secondary keywords
-python skills/marketing-team/content-creator/scripts/seo_optimizer.py blog-post.md "marketing automation" "email marketing,lead nurturing"
+# JSON output for CI/CD pipelines
+python3 skills/engineering-team/senior-security/scripts/security_auditor.py \
+  --input . --output json --file security-report.json
 ```
 
 **Output includes:**
-- SEO score (0-100)
-- Keyword density analysis (primary, secondary, LSI keywords)
-- Content structure evaluation (headings, paragraphs, links)
-- Readability assessment
-- Meta tag suggestions (title, description, URL, OG tags)
-- Actionable optimization recommendations
+- OWASP Top 10 vulnerability detection (SQL injection, XSS, CSRF, etc.)
+- Exposed secrets detection (API keys, passwords, tokens)
+- Weak cryptography identification (MD5, SHA1, weak ciphers)
+- Dependency vulnerability scanning
+- Security control verification
+- Prioritized remediation recommendations
 
-#### Tech Debt Analyzer (CTO Advisor)
+#### RICE Prioritizer (Product Management)
 
-Quantify and prioritize technical debt:
-
-```bash
-python skills/engineering-team/cto-advisor/scripts/tech_debt_analyzer.py /path/to/codebase
-```
-
-#### Team Scaling Calculator (CTO Advisor)
-
-Model engineering team growth:
+Data-driven feature prioritization using RICE framework:
 
 ```bash
-python skills/engineering-team/cto-advisor/scripts/team_scaling_calculator.py --current-size 10 --target-size 50
+# Prioritize features with capacity planning
+python3 skills/product-team/product-manager-toolkit/scripts/rice_prioritizer.py \
+  docs/examples/sample-features.csv --capacity 20
+
+# JSON output for roadmap tools
+python3 skills/product-team/product-manager-toolkit/scripts/rice_prioritizer.py \
+  features.csv --capacity 20 --output json --file roadmap.json
 ```
 
-#### Financial Scenario Analyzer (CEO Advisor)
+**Output includes:**
+- RICE scores for each feature (Reach × Impact × Confidence / Effort)
+- Portfolio analysis (Quick Wins, Big Bets, Fill-Ins, Money Pits)
+- Quarterly roadmap recommendations based on capacity
+- Trade-off analysis for stakeholder alignment
 
-Model business scenarios:
+#### Customer Interview Analyzer (Product Management)
+
+Extract insights from user research transcripts:
+
+```bash
+python3 skills/product-team/product-manager-toolkit/scripts/customer_interview_analyzer.py \
+  docs/examples/sample-interview.txt
+```
+
+**Output includes:**
+- Pain points extraction with severity ratings
+- Feature requests identified from conversation
+- Jobs-to-be-done patterns
+- Sentiment analysis
+- Theme extraction across multiple interviews
 
 ```bash
 python skills/engineering-team/ceo-advisor/scripts/financial_scenario_analyzer.py scenarios.yaml
@@ -1306,19 +1360,19 @@ Each skill package follows a consistent, modular structure:
 ### Clone Repository
 
 ```bash
-git clone https://github.com/alirezarezvani/claude-skills.git
+git clone https://github.com/rickydwilson-dcs/claude-skills.git
 cd claude-skills
 ```
 
-### Install Dependencies
+### Verify Python Installation
 
-Most scripts use Python standard library only. Optional dependencies:
+All scripts use Python standard library only - **no pip install required!**
 
 ```bash
-pip install pyyaml  # For future features
+python3 --version  # Should be 3.8 or higher
 ```
 
-### Verify Installation
+### Test Installation
 
 ```bash
 # Test marketing skills

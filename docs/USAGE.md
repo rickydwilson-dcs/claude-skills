@@ -551,8 +551,8 @@ python3 marketing-skill/content-creator/scripts/seo_optimizer.py content.md "key
 
 ### Support Channels
 
-- **Bug Reports:** [GitHub Issues](https://github.com/alirezarezvani/claude-skills/issues)
-- **Questions:** [GitHub Discussions](https://github.com/alirezarezvani/claude-skills/discussions)
+- **Bug Reports:** [GitHub Issues](https://github.com/rickydwilson-dcs/claude-skills/issues)
+- **Questions:** [GitHub Discussions](https://github.com/rickydwilson-dcs/claude-skills/discussions)
 - **Contributing:** See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ---

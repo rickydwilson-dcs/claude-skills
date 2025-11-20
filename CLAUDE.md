@@ -13,12 +13,11 @@ This is a **comprehensive skills library** for Claude AI - reusable, production-
 ## Quick Start for Development
 
 ```bash
-# Setup Python environment
+# Setup Python environment (optional - no dependencies needed)
 python3 -m venv claude-skills_venv
 source claude-skills_venv/bin/activate  # On Windows: claude-skills_venv\Scripts\activate
-pip install -r requirements.txt
 
-# Test a Python tool
+# Test a Python tool - works immediately, no pip install needed!
 python skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py --help
 python skills/marketing-team/content-creator/scripts/seo_optimizer.py --help
 
@@ -64,7 +63,7 @@ claude-code-skills/
 │   └── WORKFLOW.md           # Git workflow guide
 ├── templates/                 # Reusable templates (agent, CLI, etc.)
 ├── tools/                     # Testing and validation scripts
-└── tests/                     # Automated pytest tests
+└── tests/                     # Test suite (optional)
 ```
 
 ### Skill Package Pattern
@@ -216,11 +215,8 @@ See [standards/git/git-workflow-standards.md](standards/git/git-workflow-standar
 python3 -m venv claude-skills_venv
 source claude-skills_venv/bin/activate
 
-# Install dependencies (minimal - only pyyaml currently)
-pip install -r requirements.txt
-
-# Verify setup
-python -c "import yaml; print('Environment ready')"
+# No dependencies needed - all scripts use standard library only
+python3 -c "print('Python environment ready')"
 ```
 
 **Python Scripts:**
@@ -244,10 +240,10 @@ rm test-input.txt
 python skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py content.txt json
 ```
 
-**If adding dependencies:**
+**If adding dependencies in the future:**
 - Keep scripts runnable with minimal setup (`pip install package` at most)
-- Document all dependencies in SKILL.md and update requirements.txt
-- Prefer standard library implementations
+- Create a requirements.txt file and document all dependencies in SKILL.md
+- Prefer standard library implementations whenever possible
 
 ## Roadmap
 
@@ -280,7 +276,7 @@ cp templates/skill-template.md skills/<domain-team>/<skill-name>/SKILL.md
 # All tools must:
 # - Support --help flag
 # - Accept JSON output mode
-# - Use standard library (or update requirements.txt)
+# - Use standard library only (or create requirements.txt if absolutely needed)
 # - Follow CLI-first design
 
 # 4. Add knowledge bases to references/
@@ -391,14 +387,13 @@ See `.claude/commands/` directory for available slash commands. The repository u
 ### Python Tools Not Working
 
 ```bash
-# Issue: Module not found
-# Solution: Activate virtual environment
-source claude-skills_venv/bin/activate
-pip install -r requirements.txt
+# Issue: Module not found (shouldn't happen with standard library)
+# Solution: Verify Python version
+python3 --version  # Should be 3.8+
 
 # Issue: Permission denied
 # Solution: Make script executable
-chmod +x <domain-skill>/<skill-name>/scripts/<tool>.py
+chmod +x skills/<domain-team>/<skill-name>/scripts/<tool>.py
 
 # Issue: Tool returns unexpected output
 # Solution: Test with --help first
@@ -455,10 +450,10 @@ git commit -m "chore: resolve merge conflicts"
 rm -rf claude-skills_venv
 python3 -m venv claude-skills_venv
 source claude-skills_venv/bin/activate
-pip install -r requirements.txt
+# No pip install needed - all tools use standard library
 
 # Issue: Wrong Python version in venv
-# Solution: Specify Python version
+# Solution: Specify Python version (3.8+ required)
 python3.9 -m venv claude-skills_venv
 # or
 python3.11 -m venv claude-skills_venv
@@ -540,14 +535,13 @@ claude-skills/
 ├── templates/                     # Templates
 │   ├── agent-template.md          # Agent creation template
 │   └── skill-template.md          # Skill creation template
-├── requirements.txt               # Python dependencies
 └── CLAUDE.md                      # This file
 ```
 
 ---
 
-**Last Updated:** November 12, 2025
+**Last Updated:** November 20, 2025
 **Current Focus:** Agent completion - 27 production agents for 26 Pandora skills
 **Status:** 26 Pandora-focused skills across 4 domains, 27 production agents (v2.0)
 **Python Version:** 3.8+ required
-**Dependencies:** pyyaml>=6.0.3 (see requirements.txt)
+**Dependencies:** None - all tools use Python standard library only

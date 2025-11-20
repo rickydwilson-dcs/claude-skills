@@ -1,0 +1,45 @@
+Customer Interview Transcript
+Interviewer: Product Manager
+Interviewee: Sarah (Engineering Team Lead)
+Date: 2025-11-20
+Project: Claude Skills Repository Usage
+
+Interviewer: Thanks for taking the time to talk with me today about your experience using the Claude Skills repository. Can you tell me about the first time you tried to use it?
+
+Sarah: Sure. So we heard about the skills library and thought it would be great for our team. But honestly, the initial experience was pretty frustrating. We cloned the repo and immediately got lost trying to figure out which agent to use for our use case. There's 27 agents now, which is great, but it's overwhelming when you're just starting out.
+
+Interviewer: That's helpful feedback. What would have made that easier?
+
+Sarah: I think we needed some kind of discovery system or wizard that asks you what you're trying to accomplish and then recommends the right agent and skills. Like, "Are you working on security? Try these 3 agents." That would have saved us probably 2-3 hours of reading through documentation.
+
+Interviewer: Interesting. Once you found the right agent, how did things go?
+
+Sarah: Better, but we ran into another issue. The Python tools are awesome - don't get me wrong - but we had no idea if they were working correctly. We'd run the architecture analyzer and get this big output, but we weren't sure if it was finding everything or if we should trust the results. Some kind of testing framework or validation system would give us more confidence.
+
+Interviewer: So you're saying you need more transparency into how the tools work?
+
+Sarah: Exactly. And maybe some benchmarks or test results that show "this tool was tested against X projects and found Y% of issues." That would help us understand what we're getting.
+
+Interviewer: Got it. What else has been challenging?
+
+Sarah: The documentation is extensive, which is good, but it's not always in sync. We found a few places where the INSTALL.md referenced old folder structures that don't exist anymore. That was confusing. It would be amazing if there was some automated way to keep all the docs in sync with the actual codebase structure.
+
+Interviewer: That makes sense. Have you used multiple skills together?
+
+Sarah: We tried to, but that's where we hit our biggest pain point. We wanted to use the architect tool and then feed those results into the security agent, but there's no clear workflow for that. Each skill feels isolated. We ended up manually copying data between tools, which felt inefficient.
+
+Interviewer: If you could wave a magic wand and add one feature, what would it be?
+
+Sarah: Cross-skill workflows, hands down. Like being able to chain agents together: "Run architecture analysis, then security audit, then generate a report combining both." That would be incredibly powerful. Right now it feels like we're using separate tools instead of an integrated system.
+
+Interviewer: That's super valuable feedback. What's working well for you?
+
+Sarah: When we figured out how to use them, the tools are genuinely helpful. The architecture analyzer saved us from making some bad design decisions, and the security auditor found vulnerabilities we would have missed. The RICE prioritizer helped us finally align our product roadmap. So the core value is there - it's just the user experience that needs work.
+
+Interviewer: Anything else you'd like to see?
+
+Sarah: Maybe some kind of analytics or monitoring? Like, show me which agents I'm using most, how long they take to run, what the common patterns are. That would help us optimize our workflow. Oh, and versioning for skills would be great - sometimes we want to pin to a specific version of a tool for consistency.
+
+Interviewer: Perfect. This has been incredibly helpful. Thank you!
+
+Sarah: No problem. We're excited about where this project is going. With a few UX improvements, this could be game-changing for our team.

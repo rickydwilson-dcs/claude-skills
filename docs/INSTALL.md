@@ -32,7 +32,7 @@ Before installing, ensure you have the following:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/alirezarezvani/claude-skills.git
+git clone https://github.com/rickydwilson-dcs/claude-skills.git
 cd claude-skills
 ```
 
@@ -43,15 +43,15 @@ ls -la
 ```
 
 You should see:
-- `agents/` - Workflow orchestrator agents
-- `marketing-skill/` - Marketing skills and tools
-- `c-level-advisor/` - Executive advisory skills
-- `product-team/` - Product management skills
-- `engineering-team/` - Engineering skills
-- `ra-qm-team/` - Regulatory affairs & quality management
-- `project-management/` - PM and Atlassian tools
+- `agents/` - Workflow orchestrator agents (cs-* prefix)
+- `skills/` - All skill packages organized by domain
+  - `marketing-team/` - Marketing skills and tools (3 skills)
+  - `product-team/` - Product management skills (5 skills)
+  - `engineering-team/` - Engineering skills including CTO advisor (15 skills)
+  - `delivery-team/` - Delivery/PM and Atlassian tools (4 skills)
+- `docs/` - Documentation and standards library
+- `templates/` - Reusable templates for agents and skills
 - `tools/` - Testing and validation scripts
-- `documentation/` - Standards and migration docs
 
 ### 3. Set Up Python Environment (Optional but Recommended)
 
@@ -68,35 +68,63 @@ claude-skills_venv\Scripts\activate
 # Your prompt should now show (claude-skills_venv)
 ```
 
-### 4. Install Python Dependencies (if using automation tools)
+### 4. Verify Python Installation
 
 ```bash
-# Most scripts have no external dependencies
-# If a script requires packages, it will have a requirements.txt in its directory
+# Verify Python is working (no dependencies needed)
+python3 -c "print('Python environment ready')"
 
-# Example for scripts with dependencies:
-pip install -r product-team/product-manager-toolkit/requirements.txt
+# All Python tools use standard library only - no pip install required!
 ```
 
 ### 5. Verify Installation
 
-#### Test CLI Tools
+#### Test Architecture Agent Tools
 
 ```bash
-# Test a Python CLI tool
-python3 marketing-skill/content-creator/scripts/brand_voice_analyzer.py --help
+# Test the architecture analyzer on this codebase
+python3 skills/engineering-team/senior-architect/scripts/project_architect.py --input . --verbose
 
-# Should display help text with usage examples
+# Should output comprehensive architecture analysis including:
+# - Project structure assessment
+# - Architecture pattern detection
+# - Dependency analysis
+# - Optimization recommendations
 ```
 
-#### Test with Sample Data
+#### Test Security Agent Tools
 
 ```bash
-# Run with sample input
-python3 marketing-skill/content-creator/scripts/brand_voice_analyzer.py \
-  marketing-skill/content-creator/assets/sample-content.txt
+# Test the security auditor on this codebase
+python3 skills/engineering-team/senior-security/scripts/security_auditor.py --input . --output text --verbose
 
-# Should output brand voice analysis
+# Should output security analysis covering:
+# - OWASP Top 10 vulnerability scanning
+# - Dependency vulnerability detection
+# - Exposed secrets detection
+# - Weak cryptography identification
+```
+
+#### Test Product Management Agent Tools
+
+```bash
+# Test RICE prioritizer with sample features
+python3 skills/product-team/product-manager-toolkit/scripts/rice_prioritizer.py \
+  docs/examples/sample-features.csv --capacity 20
+
+# Should output feature prioritization with:
+# - RICE scores for each feature
+# - Portfolio analysis (Quick Wins, Big Bets, Fill-Ins, Money Pits)
+# - Quarterly roadmap recommendations
+
+# Test customer interview analyzer
+python3 skills/product-team/product-manager-toolkit/scripts/customer_interview_analyzer.py \
+  docs/examples/sample-interview.txt
+
+# Should output interview analysis with:
+# - Pain points extraction with severity ratings
+# - Feature requests identified from transcript
+# - Sentiment analysis and themes
 ```
 
 #### Run Test Suite (Optional)
@@ -121,7 +149,7 @@ chmod +x tools/test_cli_standards.sh
 
 1. **Copy skill documentation** to your Claude AI conversation:
    ```bash
-   cat marketing-skill/content-creator/SKILL.md
+   cat skills/marketing-team/content-creator/SKILL.md
    ```
 
 2. **Reference** the skill in your prompts:
@@ -141,9 +169,32 @@ chmod +x tools/test_cli_standards.sh
    claude-code
    ```
 
-3. **Use agents**:
+3. **Use agents** for integrated workflows:
    ```
-   @cs-content-creator help me create a blog post about AI
+   # Architecture analysis
+   I need to analyze the architecture of this codebase. Use the cs-architect agent
+   to run the project_architect.py tool and provide recommendations.
+
+   # Security audit
+   Run a security audit using the cs-security-engineer agent. Scan for OWASP
+   vulnerabilities, exposed secrets, and weak cryptography.
+
+   # Feature prioritization
+   Use the cs-product-manager agent to analyze docs/examples/sample-features.csv
+   with the RICE framework. I have 20 person-months of capacity this quarter.
+   ```
+
+4. **Run Python tools directly** for quick analysis:
+   ```bash
+   # Architecture analysis
+   python3 skills/engineering-team/senior-architect/scripts/project_architect.py --input . --verbose
+
+   # Security audit
+   python3 skills/engineering-team/senior-security/scripts/security_auditor.py --input . --verbose
+
+   # RICE prioritization
+   python3 skills/product-team/product-manager-toolkit/scripts/rice_prioritizer.py \
+     docs/examples/sample-features.csv --capacity 20
    ```
 
 ---
@@ -154,26 +205,27 @@ chmod +x tools/test_cli_standards.sh
 
 | Directory | Purpose | Contents |
 |-----------|---------|----------|
-| `agents/` | Workflow orchestrators | 5 specialized agents (cs-*) |
-| `marketing-skill/` | Marketing tools | 3 skills, Python CLI tools |
-| `c-level-advisor/` | Executive advisory | 2 skills, strategy tools |
-| `product-team/` | Product management | 5 skills, RICE prioritizer |
-| `engineering-team/` | Engineering tools | 15 skills, architecture tools |
-| `ra-qm-team/` | Compliance tools | 12 skills, regulatory tools |
-| `delivery-team/` | PM & Atlassian | 4 skills, Jira/Confluence |
+| `agents/` | Workflow orchestrators | 27 specialized agents (cs-* prefix) |
+| `skills/` | All skill packages | Organized by domain (4 teams) |
+| `skills/marketing-team/` | Marketing skills | 3 skills with Python CLI tools |
+| `skills/product-team/` | Product skills | 5 skills including RICE prioritizer |
+| `skills/engineering-team/` | Engineering skills | 15 skills including CTO advisor |
+| `skills/delivery-team/` | Delivery/PM skills | 4 skills with Atlassian tools |
+| `docs/` | Documentation | Standards library and guides |
+| `templates/` | Reusable templates | Agent and skill templates |
 | `tools/` | Testing scripts | CLI validation tools |
-| `documentation/` | Standards & guides | CLI standards, migration docs |
-| `templates/` | Reusable templates | Agent template, Python CLI template |
+| `output/` | Agent reports | Timestamped analysis outputs (gitignored) |
 
 ### Important Files
 
 | File | Purpose |
 |------|---------|
 | `README.md` | Main documentation, skill catalog |
-| `TESTING_GUIDE.md` | Complete testing documentation |
+| `CLAUDE.md` | Development guide for Claude Code |
 | `CHANGELOG.md` | Version history |
-| `CLAUDE.md` | Development guide for Claude |
-| `USAGE.md` | Usage examples and workflows |
+| `docs/INSTALL.md` | This installation guide |
+| `docs/USAGE.md` | Usage examples and workflows |
+| `docs/WORKFLOW.md` | Git workflow and branch strategy |
 
 ---
 
@@ -221,11 +273,13 @@ After installation, verify:
 - [ ] Python 3.8+ installed and accessible
 - [ ] Can run `python3 --version`
 - [ ] Can navigate to `claude-skills/` directory
-- [ ] Can view help: `python3 marketing-skill/content-creator/scripts/brand_voice_analyzer.py --help`
-- [ ] Can run sample: `python3 marketing-skill/content-creator/scripts/brand_voice_analyzer.py marketing-skill/content-creator/assets/sample-content.txt`
-- [ ] Test scripts executable: `chmod +x tools/*.sh && ./tools/test_cli_standards.sh`
+- [ ] Directory structure matches (skills/, agents/, docs/, templates/)
+- [ ] Architecture tool works: `python3 skills/engineering-team/senior-architect/scripts/project_architect.py --input . --verbose`
+- [ ] Security tool works: `python3 skills/engineering-team/senior-security/scripts/security_auditor.py --input . --verbose`
+- [ ] RICE prioritizer works: `python3 skills/product-team/product-manager-toolkit/scripts/rice_prioritizer.py docs/examples/sample-features.csv --capacity 20`
+- [ ] Sample data files exist: `docs/examples/sample-features.csv` and `docs/examples/sample-interview.txt`
 - [ ] Optional: Virtual environment created and activated
-- [ ] Optional: Pytest installed and tests passing
+- [ ] Optional: Virtual environment works (no dependencies to install)
 
 ---
 
@@ -270,10 +324,13 @@ source claude-skills_venv/bin/activate
 python3 --version
 
 # Check file exists:
-ls -la marketing-skill/content-creator/scripts/brand_voice_analyzer.py
+ls -la skills/engineering-team/senior-architect/scripts/project_architect.py
 
 # Check file permissions:
-ls -l marketing-skill/content-creator/scripts/brand_voice_analyzer.py
+ls -l skills/engineering-team/senior-architect/scripts/project_architect.py
+
+# Test with minimal input:
+python3 skills/engineering-team/senior-architect/scripts/project_architect.py --help
 
 # Run with full python3 path:
 /usr/bin/python3 script.py
@@ -292,7 +349,7 @@ pytest tests/ -v
 pytest tests/test_cli_help.py -v
 
 # Check Python syntax:
-python3 -m compileall marketing-skill/
+python3 -m compileall skills/
 ```
 
 ---
@@ -301,19 +358,19 @@ python3 -m compileall marketing-skill/
 
 After successful installation:
 
-1. **Explore the skills** - Browse [README.md](README.md#-available-skills) for skill catalog
-2. **Try the agents** - Review [Agent Catalog](README.md#-agent-catalog)
+1. **Explore the skills** - Browse [README.md](../README.md#-available-skills) for skill catalog
+2. **Try the agents** - Review [Agent Catalog](../README.md#-agent-catalog) (27 production agents)
 3. **Run examples** - See [USAGE.md](USAGE.md) for workflow examples
-4. **Read documentation** - Check [CLAUDE.md](CLAUDE.md) for development guide
-5. **Run tests** - Validate installation with [TESTING_GUIDE.md](TESTING_GUIDE.md)
+4. **Read documentation** - Check [CLAUDE.md](../CLAUDE.md) for development guide
+5. **Review standards** - See [standards/](standards/) for best practices
 
 ---
 
 ## Getting Help
 
 - **Documentation Issues:** Check [CLAUDE.md](CLAUDE.md)
-- **Bug Reports:** [GitHub Issues](https://github.com/alirezarezvani/claude-skills/issues)
-- **Questions:** [Discussions](https://github.com/alirezarezvani/claude-skills/discussions)
+- **Bug Reports:** [GitHub Issues](https://github.com/rickydwilson-dcs/claude-skills/issues)
+- **Questions:** [Discussions](https://github.com/rickydwilson-dcs/claude-skills/discussions)
 - **Contributing:** See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ---
