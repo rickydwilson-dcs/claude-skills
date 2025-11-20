@@ -697,213 +697,6 @@ Computer vision, image/video AI, and real-time visual inference.
 
 ---
 
-### Regulatory Affairs & Quality Management Team Skills
-
-**12 world-class expert skills** for HealthTech and MedTech organizations covering regulatory compliance, quality systems, risk management, security, and audit excellence.
-
-#### 📋 Senior Regulatory Affairs Manager (Head of RA)
-**Status:** ✅ Production Ready | **Version:** 1.0
-
-Strategic regulatory leadership and cross-functional coordination for market access.
-
-**What's Included:**
-- **Regulatory Pathway Analyzer** - Analyze optimal regulatory routes (Python CLI)
-- **Submission Timeline Tracker** - Track submission progress and milestones (Python CLI)
-- **Regulatory Intelligence Monitor** - Monitor global regulatory changes (Python CLI)
-- **EU MDR Submission Guide** - Complete MDR submission process
-- **FDA Submission Guide** - FDA pathways (510k, PMA, De Novo)
-- **Global Regulatory Pathways** - International frameworks
-
-**Learn More:** See `ra-qm-team/README.md` for details
-
----
-
-#### ⭐ Senior Quality Manager Responsible Person (QMR)
-**Status:** ✅ Production Ready | **Version:** 1.0
-
-Overall quality system responsibility and regulatory compliance oversight.
-
-**What's Included:**
-- **QMS Effectiveness Monitor** - Monitor QMS performance metrics (Python CLI)
-- **Compliance Dashboard Generator** - Generate compliance reports (Python CLI)
-- **Management Review Analyzer** - Analyze management review data (Python CLI)
-- **QMR Responsibilities Framework** - Complete role definition
-- **Quality Leadership Guide** - Strategic quality management
-- **Management Review Procedures** - Effective management reviews
-
-**Learn More:** See `ra-qm-team/README.md` for details
-
----
-
-#### 📊 Senior Quality Manager - QMS ISO 13485 Specialist
-**Status:** ✅ Production Ready | **Version:** 1.0
-
-ISO 13485 QMS implementation, maintenance, and optimization.
-
-**What's Included:**
-- **QMS Compliance Checker** - Check ISO 13485 compliance (Python CLI)
-- **Design Control Tracker** - Track design control activities (Python CLI)
-- **Document Control System** - Manage controlled documents (Python CLI)
-- **ISO 13485 Implementation** - Complete implementation guide
-- **Design Controls Handbook** - Best practices
-- **Internal Audit Program** - Audit planning and execution
-
-**Learn More:** See `ra-qm-team/README.md` for details
-
----
-
-#### 🔄 Senior CAPA Officer
-**Status:** ✅ Production Ready | **Version:** 1.0
-
-Corrective and preventive action management within QMS.
-
-**What's Included:**
-- **CAPA Tracker** - Track CAPA status and effectiveness (Python CLI)
-- **Root Cause Analyzer** - Facilitate root cause analysis (Python CLI)
-- **Trend Analysis Tool** - Analyze quality trends (Python CLI)
-- **CAPA Process Guide** - Complete CAPA procedures
-- **Root Cause Analysis Methods** - 5 Whys, Fishbone, FTA
-- **Effectiveness Verification** - CAPA effectiveness assessment
-
-**Learn More:** See `ra-qm-team/README.md` for details
-
----
-
-#### 📝 Senior Quality Documentation Manager
-**Status:** ✅ Production Ready | **Version:** 1.0
-
-Documentation control and review of regulatory documentation.
-
-**What's Included:**
-- **Document Version Control** - Manage document versions (Python CLI)
-- **Technical File Builder** - Build regulatory technical files (Python CLI)
-- **Document Compliance Checker** - Verify compliance (Python CLI)
-- **Document Control Procedures** - Best practices
-- **Technical File Requirements** - Regulatory requirements
-- **Change Control Process** - Change management
-
-**Learn More:** See `ra-qm-team/README.md` for details
-
----
-
-#### ⚠️ Senior Risk Management Specialist
-**Status:** ✅ Production Ready | **Version:** 1.0
-
-ISO 14971 risk management throughout product lifecycle.
-
-**What's Included:**
-- **Risk Register Manager** - Manage product risk registers (Python CLI)
-- **FMEA Calculator** - Calculate risk priority numbers (Python CLI)
-- **Risk Control Tracker** - Track risk control effectiveness (Python CLI)
-- **ISO 14971 Implementation** - Complete risk management process
-- **Risk Analysis Methods** - FMEA, FTA, HAZOP
-- **Post-Production Monitoring** - Post-market risk management
-
-**Learn More:** See `ra-qm-team/README.md` for details
-
----
-
-#### 🔒 Senior Information Security Manager (ISO 27001/27002)
-**Status:** ✅ Production Ready | **Version:** 1.0
-
-ISMS implementation and cybersecurity compliance for medical devices.
-
-**What's Included:**
-- **ISMS Compliance Checker** - Check ISO 27001 compliance (Python CLI)
-- **Security Risk Assessor** - Assess cybersecurity risks (Python CLI)
-- **Vulnerability Tracker** - Track security vulnerabilities (Python CLI)
-- **ISO 27001 Implementation** - ISMS implementation guide
-- **Medical Device Cybersecurity** - Device security requirements
-- **Security Controls Framework** - ISO 27002 controls
-
-**Learn More:** See `ra-qm-team/README.md` for details
-
----
-
-#### 🇪🇺 Senior MDR 2017/745 Specialist
-**Status:** ✅ Production Ready | **Version:** 1.0
-
-EU MDR compliance expertise and consulting.
-
-**What's Included:**
-- **MDR Compliance Checker** - Check MDR compliance status (Python CLI)
-- **Classification Analyzer** - Support device classification (Python CLI)
-- **UDI Generator** - Generate and validate UDI codes (Python CLI)
-- **MDR Requirements Overview** - Complete MDR requirements
-- **Clinical Evaluation Guide** - Clinical evidence requirements
-- **Technical Documentation MDR** - MDR technical files
-
-**Learn More:** See `ra-qm-team/README.md` for details
-
----
-
-#### 🇺🇸 Senior FDA Consultant and Specialist
-**Status:** ✅ Production Ready | **Version:** 1.0
-
-FDA submission pathways and QSR compliance.
-
-**What's Included:**
-- **FDA Submission Packager** - Package FDA submissions (Python CLI)
-- **QSR Compliance Checker** - Check QSR compliance (Python CLI)
-- **Predicate Device Analyzer** - Analyze substantial equivalence (Python CLI)
-- **FDA Submission Pathways** - 510k, PMA, De Novo guidance
-- **QSR 820 Compliance** - Complete QSR requirements
-- **FDA Cybersecurity Guide** - FDA cybersecurity requirements
-
-**Learn More:** See `ra-qm-team/README.md` for details
-
----
-
-#### 🔍 Senior QMS Audit Expert
-**Status:** ✅ Production Ready | **Version:** 1.0
-
-Internal and external QMS auditing expertise.
-
-**What's Included:**
-- **Audit Planner** - Plan and schedule QMS audits (Python CLI)
-- **Finding Tracker** - Track audit findings and CAPAs (Python CLI)
-- **Audit Report Generator** - Generate audit reports (Python CLI)
-- **Audit Program Management** - Planning and scheduling
-- **Audit Execution Checklist** - Procedures and checklists
-- **Nonconformity Management** - Finding and CAPA management
-
-**Learn More:** See `ra-qm-team/README.md` for details
-
----
-
-#### 🔐 Senior ISMS Audit Expert
-**Status:** ✅ Production Ready | **Version:** 1.0
-
-Information security management system auditing.
-
-**What's Included:**
-- **ISMS Audit Planner** - Plan ISO 27001 audits (Python CLI)
-- **Security Controls Assessor** - Assess security controls (Python CLI)
-- **ISMS Finding Tracker** - Track security findings (Python CLI)
-- **ISO 27001 Audit Guide** - ISMS audit procedures
-- **Security Controls Assessment** - Control testing methodologies
-- **ISMS Certification Preparation** - Certification readiness
-
-**Learn More:** See `ra-qm-team/README.md` for details
-
----
-
-#### 🛡️ Senior GDPR/DSGVO Expert
-**Status:** ✅ Production Ready | **Version:** 1.0
-
-EU GDPR and German DSGVO compliance and auditing.
-
-**What's Included:**
-- **GDPR Compliance Checker** - Check GDPR compliance (Python CLI)
-- **DPIA Generator** - Generate privacy impact assessments (Python CLI)
-- **Data Breach Reporter** - Manage breach notifications (Python CLI)
-- **GDPR Compliance Framework** - Complete GDPR requirements
-- **DPIA Methodology** - Privacy impact assessment process
-- **Medical Device Privacy** - Privacy for medical devices
-
-**Learn More:** See `ra-qm-team/README.md` for details
-
----
 
 ## ⚡ Quick Start
 
@@ -965,15 +758,6 @@ Using the content-creator skill:
 2. Optimize this blog post for the keyword "marketing automation"
 3. Create a 30-day LinkedIn content calendar for our product launch
 4. Write a Twitter thread explaining our new feature
-```
-
-**CEO Advisor Skill:**
-```
-Using the ceo-advisor skill:
-1. Help me evaluate our product expansion strategy
-2. Create a board presentation for Q4 results
-3. Model financial scenarios for hiring 10 new salespeople
-4. Draft investor update email for our Series A round
 ```
 
 **CTO Advisor Skill:**
@@ -1164,18 +948,6 @@ python3 skills/product-team/product-manager-toolkit/scripts/customer_interview_a
 - Jobs-to-be-done patterns
 - Sentiment analysis
 - Theme extraction across multiple interviews
-
-```bash
-python skills/engineering-team/ceo-advisor/scripts/financial_scenario_analyzer.py scenarios.yaml
-```
-
-#### Strategy Analyzer (CEO Advisor)
-
-Evaluate strategic initiatives:
-
-```bash
-python skills/engineering-team/ceo-advisor/scripts/strategy_analyzer.py strategy-doc.md
-```
 
 #### RICE Prioritizer (Product Manager)
 
@@ -1400,11 +1172,9 @@ python3 --version  # Should be 3.8 or higher
 python skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py --help
 python skills/marketing-team/content-creator/scripts/seo_optimizer.py --help
 
-# Test C-level advisor skills
+# Test CTO advisor skills
 python skills/engineering-team/cto-advisor/scripts/tech_debt_analyzer.py --help
 python skills/engineering-team/cto-advisor/scripts/team_scaling_calculator.py --help
-python skills/engineering-team/ceo-advisor/scripts/strategy_analyzer.py --help
-python skills/engineering-team/ceo-advisor/scripts/financial_scenario_analyzer.py --help
 
 # Test product team skills
 python skills/product-team/product-manager-toolkit/scripts/rice_prioritizer.py --help
@@ -1454,71 +1224,85 @@ python skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py blo
 # Step 4: Re-run analysis to verify improvements
 ```
 
-### Example 2: LinkedIn Content Calendar
+### Example 2: User Story Generation for Sprint
 
 **Using Claude AI:**
 
-1. Upload `skills/marketing-team/content-creator/SKILL.md`
+1. Upload `skills/product-team/agile-product-owner/SKILL.md`
 2. Prompt:
    ```
-   Using the content-creator skill, create a 30-day LinkedIn content calendar
-   for our B2B SaaS company launching a new marketing automation feature.
+   Using the agile-product-owner skill, generate user stories for our authentication feature.
 
-   Target audience: Marketing directors at mid-sized companies (50-500 employees)
-   Brand voice: Expert + Friendly (from the 5 archetypes)
-   Topics: Marketing automation, lead nurturing, ROI measurement
+   Epic: User Authentication System
+   Sprint capacity: 30 story points
+   Team: 5 developers (2 backend, 2 frontend, 1 fullstack)
+
+   Must include:
+   - Login/logout functionality
+   - Password reset flow
+   - Remember me feature
+   - Session management
    ```
 
 3. Claude generates:
-   - 30-day calendar with post types (how-to, case study, tips, thought leadership)
-   - Specific post outlines using content frameworks
-   - Optimal posting times based on LinkedIn best practices
-   - Hashtag recommendations
-   - Engagement strategies
+   - 8-10 user stories with acceptance criteria
+   - Story point estimates
+   - Technical dependencies identified
+   - Backend/frontend split
+   - Test scenarios for QA
 
-### Example 3: Technical Debt Assessment
+### Example 3: React Component with Architecture Review
 
 **Using Claude Code:**
 
 ```bash
-# Run tech debt analysis
-python skills/engineering-team/cto-advisor/scripts/tech_debt_analyzer.py /path/to/codebase
+# Step 1: Generate React component
+# Ask Claude Code: "Create a reusable DataTable component with sorting, filtering, and pagination"
 
-# Claude Code processes results and:
-# 1. Identifies top 10 debt items by severity
-# 2. Estimates effort to address (hours/days)
-# 3. Calculates impact on velocity
-# 4. Generates prioritized roadmap
-# 5. Creates Jira tickets with detailed descriptions
+# Step 2: Review component architecture
+python skills/engineering-team/senior-architect/scripts/project_architect.py --input src/components --verbose
 
-# Output: Quarterly tech debt reduction plan
+# Output includes:
+# - Component structure analysis
+# - Props interface design review
+# - Performance optimization recommendations
+# - Accessibility compliance check
+# - Reusability score
+
+# Step 3: Run security audit on generated code
+python skills/engineering-team/senior-security/scripts/security_auditor.py --input src/components/DataTable.tsx
+
+# Output: XSS vulnerability checks, input sanitization, secure data handling
 ```
 
-### Example 4: Board Presentation Prep
+### Example 4: Feature Prioritization with RICE
 
-**Using CEO Advisor Skill:**
+**Using Product Manager Toolkit:**
 
-1. Upload `skills/engineering-team/ceo-advisor/SKILL.md`
-2. Upload `skills/engineering-team/ceo-advisor/references/board_governance_investor_relations.md`
-3. Prompt:
-   ```
-   Using the ceo-advisor skill, help me prepare a board presentation for Q4 2025.
+```bash
+# Step 1: Create features CSV
+cat > features.csv << 'EOF'
+feature,reach,impact,confidence,effort
+SSO Integration,1000,3,0.9,8
+Dark Mode,500,1,1.0,2
+Mobile App,2000,3,0.6,15
+API Rate Limiting,1500,2,0.8,3
+Advanced Reporting,800,2,0.7,6
+EOF
 
-   Context:
-   - SaaS company, $5M ARR, 40% YoY growth
-   - Raised Series A ($10M) 18 months ago
-   - Runway: 24 months
-   - Key decision: Expand to European market or double-down on US
+# Step 2: Run RICE prioritization
+python skills/product-team/product-manager-toolkit/scripts/rice_prioritizer.py features.csv --capacity 20
 
-   Include: Financial summary, strategic options, recommendation, Q&A prep
-   ```
-
-4. Claude generates:
-   - Structured presentation outline using board governance best practices
-   - Financial scenario models for both options
-   - Risk analysis and mitigation strategies
-   - Anticipated board questions with prepared answers
-   - Decision framework showing evaluation criteria
+# Output:
+# === RICE Prioritization Results ===
+# 1. API Rate Limiting - RICE: 750 (Quick Win ⚡)
+# 2. SSO Integration - RICE: 337 (Big Bet 🎯)
+# 3. Dark Mode - RICE: 250 (Quick Win ⚡)
+# 4. Advanced Reporting - RICE: 187
+# 5. Mobile App - RICE: 266 (over capacity)
+#
+# Recommended Q1 Roadmap: API Rate Limiting, SSO Integration, Dark Mode (18 points)
+```
 
 ---
 
