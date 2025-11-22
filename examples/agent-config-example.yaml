@@ -1,0 +1,18 @@
+# Agent Builder Configuration Example
+# Use with: python scripts/agent_builder.py --config examples/agent-config-example.yaml
+
+# Required fields
+name: cs-data-analyst
+domain: engineering
+description: Data analysis and reporting for product decisions
+skills: data-analyst-toolkit
+model: sonnet
+tools: [Read, Write, Bash, Grep, Glob]
+
+# Optional fields (for future expansion)
+# workflow_count: 4
+# workflows:
+#   - "Daily Metrics Analysis"
+#   - "Custom Report Generation"
+#   - "Dashboard Creation"
+#   - "Automated Data Pipeline"
