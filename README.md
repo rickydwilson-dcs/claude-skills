@@ -46,7 +46,7 @@ This repository provides **modular, self-contained skill packages** specifically
 
 **Key Benefits for Pandora:**
 - ⚡ **Zero dependencies** - Python 3.8+ standard library only, works across Pandora's environments
-- 🎯 **SDLC-optimized** - 42 skills covering architecture, security, product management, engineering, delivery
+- 🎯 **SDLC-optimized** - 43 skills covering architecture, security, product management, engineering, delivery
 - 🔧 **Fast analysis** - Algorithmic tools without external API dependencies or rate limits
 - 📈 **Measurable impact** - 40%+ time savings, 30%+ quality improvements, faster delivery cycles
 - 👥 **Team adoption ready** - Designed for Pandora's entire development organization to use daily
@@ -57,13 +57,13 @@ This repository provides **modular, self-contained skill packages** specifically
 
 ### Skills & Agents
 
-- **[Skills Catalog](docs/SKILLS_CATALOG.md)** - 42 production-ready skills with Python CLI tools
+- **[Skills Catalog](docs/SKILLS_CATALOG.md)** - 43 production-ready skills with Python CLI tools
   - **Marketing Skills (3)** - Content creation, demand generation, product marketing
-  - **Product Skills (5)** - Product management, agile practices, UX research, UI design
+  - **Product Skills (6)** - Product management, agile practices, UX research, UI design, business analysis
   - **Engineering Skills (15)** - Architecture, security, fullstack, DevOps, AI/ML, data, QA
   - **Delivery Skills (4)** - Jira, Confluence, Scrum, project management
 
-- **[Agents Catalog](docs/AGENTS_CATALOG.md)** - 27 workflow orchestrator agents (v2.0)
+- **[Agents Catalog](docs/AGENTS_CATALOG.md)** - 28 workflow orchestrator agents (v2.0)
   - Agents guide multi-step processes and intelligently invoke skills
   - Complete coverage for marketing, product, engineering, and delivery domains
 
@@ -223,7 +223,7 @@ See [Usage Guide](docs/USAGE.md) for comprehensive examples and patterns.
 
 ## 🛠️ Production CLI Tools
 
-**53 standardized Python CLI tools** with comprehensive testing framework (v2.0.0):
+**60 standardized Python CLI tools** with comprehensive testing framework (v2.0.0):
 
 ### CLI Features
 - **Consistent Interface** - All tools use `--help`, `--version`, `--output`, `--file`, `--verbose`
@@ -289,9 +289,9 @@ This repository is a fork of [Claude Skills Library](https://github.com/alirezar
 
 **Key Differences in Pandora Edition:**
 - Focus on Pandora's SDLC (architecture, security, product management, delivery)
-- 42 skills covering software delivery lifecycle (vs original marketing focus)
-- 53 Python CLI tools for automated analysis
-- 27 workflow orchestrator agents (v2.0)
+- 43 skills covering software delivery lifecycle (vs original marketing focus)
+- 60 Python CLI tools for automated analysis
+- 28 workflow orchestrator agents (v2.0)
 - Comprehensive testing framework (2,814 tests)
 - Zero dependencies (Python 3.8+ standard library only)
 
@@ -319,5 +319,5 @@ Special thanks to:
 
 **Version:** 1.0.0 (Pandora Edition)
 **Last Updated:** November 17, 2025
-**Status:** 42 production skills, 27 agents, 53 CLI tools, 2,814 tests
+**Status:** 43 production skills, 28 agents, 60 CLI tools, 2,814 tests
 **Compatibility:** Claude AI, Claude Code, Python 3.8+

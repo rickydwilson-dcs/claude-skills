@@ -21,6 +21,19 @@ This agent bridges the gap between "we know this process could be better" and "h
 
 **Skill Location:** `../../skills/product-team/business-analyst-toolkit/`
 
+**Output Location:** All analysis outputs should be saved to `../../output/analysis/` using the standard naming convention:
+```
+YYYY-MM-DD_HH-MM-SS_<topic>_cs-business-analyst.md
+```
+
+Example:
+```bash
+TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
+python3 ../../skills/product-team/business-analyst-toolkit/scripts/gap_analyzer.py \
+  --input process.json \
+  --output ../../output/analysis/${TIMESTAMP}_gap-analysis_cs-business-analyst.json
+```
+
 ### Python Tools
 
 1. **process_parser.py**

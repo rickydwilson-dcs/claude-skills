@@ -1,6 +1,6 @@
 # Agent Catalog
 
-**Complete catalog of 27 production agents for Pandora's SDLC (v2.0)**
+**Complete catalog of 28 production agents for Pandora's SDLC (v2.0)**
 
 Agents are workflow orchestrators that intelligently invoke skills, coordinate Python tools, and guide you through complex multi-step processes. While skills provide the tools and knowledge, agents provide the intelligence to use them effectively.
 
@@ -11,7 +11,7 @@ Agents are workflow orchestrators that intelligently invoke skills, coordinate P
 - [What Are Agents?](#what-are-agents)
 - [Agents vs Skills](#agents-vs-skills)
 - [Marketing Agents](#marketing-agents) - 3 agents
-- [Product Agents](#product-agents) - 5 agents
+- [Product Agents](#product-agents) - 6 agents
 - [Engineering Agents](#engineering-agents) - 15 agents
 - [Delivery Agents](#delivery-agents) - 4 agents
 
@@ -30,7 +30,7 @@ Agents are specialized workflow orchestrators that:
 | | Skills | Agents |
 |---|--------|--------|
 | **Purpose** | Provide tools + knowledge + templates | Orchestrate workflows and processes |
-| **Scope** | 42 Pandora-focused skills | 27 production agents |
+| **Scope** | 43 Pandora-focused skills | 28 production agents |
 | **Content** | 53 Python CLI tools, 60+ knowledge bases | Guided workflows invoking skills |
 | **Usage** | Direct tool execution | Intelligent workflow orchestration |
 | **Best For** | Quick analysis, standalone tools | Complex multi-step processes |
@@ -99,7 +99,7 @@ Product positioning, go-to-market strategy, and competitive intelligence. Applie
 
 ## Product Agents
 
-**5 product agents** covering product management, agile practices, strategy, UX research, and UI design.
+**6 product agents** covering product management, agile practices, strategy, UX research, UI design, and business analysis.
 
 ### 📊 cs-product-manager
 **Domain:** Product | **Skills Used:** product-manager-toolkit
@@ -190,6 +190,30 @@ Design systems, component libraries, accessibility standards, and visual design.
 - `accessibility_checker.py` - WCAG 2.1 AA compliance verification
 
 [View Agent →](../agents/product/cs-ui-designer.md)
+
+---
+
+### 📊 cs-business-analyst
+**Domain:** Product | **Skills Used:** business-analyst-toolkit
+
+Business process analysis, workflow mapping, gap identification, and improvement planning using systematic frameworks and automation tools.
+
+**Key Workflows:**
+- End-to-end process improvement analysis
+- Cross-functional process design with RACI clarity
+- Process performance monitoring and continuous improvement
+- Rapid process assessment and prioritization
+
+**Python Tools Used:**
+- `process_parser.py` - Parse process documentation and extract structured workflow data
+- `gap_analyzer.py` - Identify gaps in process documentation with severity scoring
+- `stakeholder_mapper.py` - Map stakeholders and generate engagement strategies
+- `raci_generator.py` - Create RACI matrices for role clarity
+- `charter_builder.py` - Generate comprehensive process improvement charters
+- `improvement_planner.py` - Build phased improvement roadmaps
+- `kpi_calculator.py` - Calculate process KPIs and efficiency metrics
+
+[View Agent →](../agents/product/cs-business-analyst.md)
 
 ---
 
@@ -566,6 +590,6 @@ Project management, resource planning, stakeholder management, and delivery exce
 
 ---
 
-**Last Updated:** November 17, 2025
-**Total Agents:** 27 production agents (v2.0)
+**Last Updated:** November 22, 2025
+**Total Agents:** 28 production agents (v2.0)
 **Agent Naming:** cs-* prefix (claude-skills)

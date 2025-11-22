@@ -1,6 +1,6 @@
 # Skills Catalog
 
-**Complete catalog of 42 production-ready skills for Pandora's SDLC**
+**Complete catalog of 43 production-ready skills for Pandora's SDLC**
 
 This document provides detailed descriptions of all available skills in the Claude Skills Library. Each skill is a self-contained package with Python CLI tools, expert knowledge bases, and ready-to-use templates.
 
@@ -9,7 +9,7 @@ This document provides detailed descriptions of all available skills in the Clau
 ## Table of Contents
 
 - [Marketing Skills](#marketing-skills) - 3 skills
-- [Product Team Skills](#product-team-skills) - 5 skills
+- [Product Team Skills](#product-team-skills) - 6 skills
 - [Engineering Team Skills](#engineering-team-skills) - 15 skills
 - [Delivery Team Skills](#delivery-team-skills) - 4 skills
 
@@ -73,7 +73,7 @@ Product marketing, positioning, GTM strategy, and competitive intelligence.
 
 ## Product Team Skills
 
-**5 comprehensive product skills** covering product management, agile practices, strategy, UX research, and UI design.
+**6 comprehensive product skills** covering product management, agile practices, strategy, UX research, UI design, and business analysis.
 
 ### 📊 Product Manager Toolkit
 **Status:** ✅ Production Ready | **Version:** 1.0
@@ -162,6 +162,28 @@ Design systems, component libraries, accessibility standards, and visual design 
 - **Handoff Documentation** - Designer-to-developer collaboration
 
 **Learn More:** [skills/product-team/ui-designer/SKILL.md](../skills/product-team/ui-designer/SKILL.md)
+
+---
+
+### 📊 Business Analyst Toolkit
+**Status:** ✅ Production Ready | **Version:** 1.0
+
+Business process analysis, workflow mapping, gap identification, and improvement planning for operational efficiency.
+
+**What's Included:**
+- **Process Parser** - Parse process documentation and extract structured workflow data (Python CLI)
+- **Gap Analyzer** - Identify gaps in process documentation with severity scoring (Python CLI)
+- **Stakeholder Mapper** - Map stakeholders and generate engagement strategies (Python CLI)
+- **RACI Generator** - Create RACI matrices for role clarity (Python CLI)
+- **Charter Builder** - Generate comprehensive process improvement charters (Python CLI)
+- **Improvement Planner** - Build phased improvement roadmaps with Gantt charts (Python CLI)
+- **KPI Calculator** - Calculate process KPIs and efficiency metrics with trend analysis (Python CLI)
+- **Process Charter Template** - Define process scope, objectives, roles, and metrics
+- **RACI Matrix Template** - Clarify roles and responsibilities across activities
+- **Improvement Proposal Template** - Build comprehensive business case with ROI analysis
+- **Stakeholder Analysis Template** - Map stakeholder landscape and develop engagement strategies
+
+**Learn More:** [skills/product-team/business-analyst-toolkit/SKILL.md](../skills/product-team/business-analyst-toolkit/SKILL.md)
 
 ---
 

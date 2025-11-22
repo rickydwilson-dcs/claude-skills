@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a **comprehensive skills library** for Claude AI - reusable, production-ready skill packages that bundle domain expertise, best practices, analysis tools, and strategic frameworks. The repository provides modular skills that teams can download and use directly in their workflows.
 
-**Current Scope:** 26 production-ready skills across 4 domains with 53 Python automation tools.
+**Current Scope:** 27 production-ready skills across 4 domains with 60 Python automation tools.
 
 **Key Distinction**: This is NOT a traditional application. It's a library of skill packages meant to be extracted and deployed by users into their own Claude workflows.
 
@@ -47,12 +47,12 @@ This repository uses **modular documentation**. For domain-specific guidance, se
 claude-code-skills/
 ├── skills/                    # All skill packages organized by domain
 │   ├── marketing-team/        # 3 marketing skills + Python tools
-│   ├── product-team/          # 5 product skills + Python tools
+│   ├── product-team/          # 6 product skills + Python tools
 │   ├── engineering-team/      # 15 engineering skills + Python tools (includes cto-advisor)
 │   └── delivery-team/         # 4 delivery/PM skills + Atlassian MCP
 ├── agents/                    # Workflow orchestrator agents (cs-* prefix)
 │   ├── marketing/            # Marketing domain agents (3 agents)
-│   ├── product/              # Product management agents (5 agents)
+│   ├── product/              # Product management agents (6 agents)
 │   ├── delivery/             # Delivery/PM agents (4 agents)
 │   └── engineering/          # Engineering domain agents (15 agents)
 ├── docs/                      # Documentation and standards
@@ -83,7 +83,7 @@ skill-name/
 
 ### Agent Architecture (v2.0)
 
-**27 production agents** orchestrate skills through guided workflows:
+**28 production agents** orchestrate skills through guided workflows:
 
 ```
 agents/
@@ -91,12 +91,13 @@ agents/
 │   ├── cs-content-creator.md
 │   ├── cs-demand-gen-specialist.md
 │   └── cs-product-marketer.md
-├── product/                # 5 agents
+├── product/                # 6 agents
 │   ├── cs-product-manager.md
 │   ├── cs-agile-product-owner.md
 │   ├── cs-product-strategist.md
 │   ├── cs-ux-researcher.md
-│   └── cs-ui-designer.md
+│   ├── cs-ui-designer.md
+│   └── cs-business-analyst.md
 ├── delivery/               # 4 agents
 │   ├── cs-jira-expert.md
 │   ├── cs-confluence-expert.md
@@ -248,8 +249,8 @@ python skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py con
 ## Roadmap
 
 **Phase 1 Complete:** 26 Pandora-focused skills deployed
-- Marketing (3), Product (5), Delivery/PM (4), Engineering (15 including CTO advisor)
-- 53 Python automation tools, 60+ reference guides
+- Marketing (3), Product (6), Delivery/PM (4), Engineering (15 including CTO advisor)
+- 60 Python automation tools, 60+ reference guides
 - Complete coverage for Pandora's marketing, product, engineering, and delivery teams
 
 **Next Priorities:**
@@ -540,8 +541,8 @@ claude-skills/
 
 ---
 
-**Last Updated:** November 20, 2025
-**Current Focus:** Agent completion - 27 production agents for 26 Pandora skills
-**Status:** 26 Pandora-focused skills across 4 domains, 27 production agents (v2.0)
+**Last Updated:** November 22, 2025
+**Current Focus:** Agent completion - 28 production agents for 27 Pandora skills
+**Status:** 27 Pandora-focused skills across 4 domains, 28 production agents (v2.0)
 **Python Version:** 3.8+ required
 **Dependencies:** None - all tools use Python standard library only

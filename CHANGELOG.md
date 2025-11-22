@@ -7,8 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Business Analyst Toolkit** (6th product skill) - Process analysis, workflow mapping, gap identification, and improvement planning
+  - 7 Python CLI tools: process_parser.py, gap_analyzer.py, stakeholder_mapper.py, raci_generator.py, charter_builder.py, improvement_planner.py, kpi_calculator.py
+  - 4 templates: Process Charter, RACI Matrix, Improvement Proposal, Stakeholder Analysis
+- **cs-business-analyst** agent (28th production agent) - Orchestrates business process analysis workflows
+
+### Changed
+- Updated skill count from 42 to 43 across all documentation
+- Updated agent count from 27 to 28 across all documentation
+- Updated AGENTS_CATALOG.md with cs-business-analyst agent entry
+- Updated SKILLS_CATALOG.md with business-analyst-toolkit skill entry
+
 ### Planned
-- Complete Anthropic best practices refactoring (37/42 skills remaining)
+- Complete Anthropic best practices refactoring (37/43 skills remaining)
 - Marketing expansion: SEO Optimizer, Social Media Manager skills
 - Additional engineering skills and templates
 
