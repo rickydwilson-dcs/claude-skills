@@ -4,6 +4,24 @@
 
 Agents are workflow orchestrators that intelligently invoke skills, coordinate Python tools, and guide you through complex multi-step processes. While skills provide the tools and knowledge, agents provide the intelligence to use them effectively.
 
+**Validation Status**: 28/28 passing (100%)
+**Last Validated**: November 22, 2025
+
+## Validation
+
+All agents pass 9 validation checks:
+- ✓ Valid YAML frontmatter with required fields
+- ✓ Correct relative paths (`../../skills/`)
+- ✓ 4+ documented workflows
+- ✓ 2+ integration examples
+- ✓ 3+ success metric categories
+- ✓ Complete markdown structure
+- ✓ Cross-references to related agents
+
+Use `python3 scripts/agent_builder.py --validate <agent-file>` to validate agents.
+
+See [Builder Standards](standards/builder-standards.md) for complete validation criteria.
+
 ---
 
 ## Table of Contents

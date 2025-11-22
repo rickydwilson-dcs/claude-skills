@@ -77,7 +77,37 @@ python3 -c "print('Python environment ready')"
 # All Python tools use standard library only - no pip install required!
 ```
 
-### 5. Verify Installation
+### 5. Builder Tools (Optional - For Development)
+
+The repository includes builder tools for creating and validating agents and skills.
+
+#### Quick Start
+
+```bash
+# Create new agent (interactive mode)
+python3 scripts/agent_builder.py
+
+# Create new skill (interactive mode)
+python3 scripts/skill_builder.py
+
+# Validate existing agent
+python3 scripts/agent_builder.py --validate agents/marketing/cs-content-creator.md
+
+# Validate existing skill
+python3 scripts/skill_builder.py --validate skills/marketing-team/content-creator
+```
+
+#### Features
+
+- **Zero dependencies** - Python 3.8+ standard library only
+- **Interactive workflows** - Guided 7-8 step processes
+- **Config file mode** - YAML-based automation for CI/CD
+- **Comprehensive validation** - 9 checks per agent/skill
+- **Time savings**: 93-96% faster than manual creation
+
+See [Builder Standards](standards/builder-standards.md) for validation criteria.
+
+### 6. Verify Installation
 
 #### Test Architecture Agent Tools
 

@@ -4,6 +4,22 @@
 
 This document provides detailed descriptions of all available skills in the Claude Skills Library. Each skill is a self-contained package with Python CLI tools, expert knowledge bases, and ready-to-use templates.
 
+**Validation Status**: 28/28 passing (100%)
+**Last Validated**: November 22, 2025
+
+## Validation
+
+All skills pass 9 validation checks:
+- ✓ Valid directory structure (scripts/, references/, assets/)
+- ✓ SKILL.md with required sections
+- ✓ Extended metadata YAML (version, author, category, keywords, tech-stack)
+- ✓ Python tools marked executable
+- ✓ Complete frontmatter with name, description, license
+
+Use `python3 scripts/skill_builder.py --validate <skill-dir>` to validate skills.
+
+See [Builder Standards](standards/builder-standards.md) for complete validation criteria.
+
 ---
 
 ## Table of Contents

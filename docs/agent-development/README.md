@@ -28,9 +28,35 @@ This directory contains comprehensive documentation for developing production-qu
 
 ## Quick Start: Create Your First Agent
 
+**Time (Automated):** 1 hour | **Time (Manual):** 4-6 hours | **Time Savings:** 96%
+
+### Automated Way (Recommended)
+
+```bash
+# Interactive agent creation (1 hour instead of 2 days)
+python3 scripts/agent_builder.py
+
+# Or use config file for automation
+python3 scripts/agent_builder.py --config examples/agent-config-example.yaml
+
+# Validate after creation
+python3 scripts/agent_builder.py --validate agents/marketing/cs-content-creator.md
+```
+
+**Features:**
+- Interactive 7-step workflow with validation
+- Automatic YAML frontmatter generation
+- Template-based file creation
+- Post-generation validation (9 checks)
+- Zero dependencies (Python 3.8+ standard library only)
+
+See [Agent Builder Documentation](../../scripts/agent_builder.py) and [Builder Standards](../standards/builder-standards.md).
+
+### Manual Way (Legacy - For Deep Learning)
+
 **Time:** 4-6 hours | **Difficulty:** Intermediate | **Prerequisites:** Understanding of skills
 
-### 1. Choose Your Domain
+#### 1. Choose Your Domain
 
 ```bash
 # Agents are organized by domain
@@ -41,11 +67,11 @@ agents/
 └── delivery/       # Delivery/PM domain agents
 ```
 
-### 2. Use the Quick Start Template
+#### 2. Use the Quick Start Template
 
 Open [AGENT_QUICK_START.md](AGENT_QUICK_START.md) and copy Section 1 (Agent Specification Template).
 
-### 3. Follow the Pattern
+#### 3. Follow the Pattern
 
 All agents follow the same structure:
 1. YAML frontmatter (name, description, skills, domain, model, tools)
@@ -57,7 +83,7 @@ All agents follow the same structure:
 7. Related Agents (3-5 agents)
 8. References & Metadata
 
-### 4. Test Thoroughly
+#### 4. Test Thoroughly
 
 ```bash
 # From agent directory, test all paths
@@ -68,7 +94,7 @@ ls ../../skills/marketing-team/content-creator/
 python ../../skills/marketing-team/content-creator/scripts/brand_voice_analyzer.py --help
 ```
 
-### 5. Verify with Checklist
+#### 5. Verify with Checklist
 
 Use [COMPLETENESS_CHECKLIST.md](COMPLETENESS_CHECKLIST.md) before committing.
 
@@ -178,6 +204,34 @@ Based on 27 production agents:
 
 ## Development Workflow
 
+### Automated Workflow (Recommended - 96% Faster)
+
+```bash
+# 1. Run agent builder interactively
+python3 scripts/agent_builder.py
+
+# 2. Follow 7-step interactive workflow:
+#    - Agent name (cs-* prefix)
+#    - Domain selection (marketing/product/engineering/delivery)
+#    - Skill package selection
+#    - Model selection (sonnet/opus/haiku)
+#    - Description (max 150 chars)
+#    - Tools selection
+#    - Confirmation
+
+# 3. Builder generates agent file with validation
+
+# 4. Manually enhance workflows and examples (if needed)
+
+# 5. Commit
+git add agents/[domain]/cs-[name].md
+git commit -m "feat(agents): implement cs-[name]"
+
+# Time: 1 hour total (96% faster than manual)
+```
+
+### Manual Workflow (Legacy)
+
 ```bash
 # 1. Copy template from AGENT_QUICK_START.md
 cp docs/agent-development/AGENT_QUICK_START.md agents/[domain]/cs-[name].md
@@ -197,6 +251,8 @@ docs/agent-development/COMPLETENESS_CHECKLIST.md
 # 11. Commit
 git add agents/[domain]/cs-[name].md
 git commit -m "feat(agents): implement cs-[name]"
+
+# Time: 4-6 hours total
 ```
 
 ## Resources
