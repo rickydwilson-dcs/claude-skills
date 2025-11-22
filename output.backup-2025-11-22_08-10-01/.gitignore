@@ -1,0 +1,10 @@
+# Agent Output Directory
+# All agent-generated outputs are saved here with timestamped filenames
+
+# Keep the directory structure but ignore all generated files by default
+*
+!.gitignore
+!README.md
+
+# Optionally, you can commit specific important reports by force-adding them:
+# git add -f output/architecture/2025-11-13_architecture-review_cs-architect.md

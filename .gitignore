@@ -40,5 +40,22 @@ venv/
 ENV/
 env/
 
+# Output directory - SESSION-BASED (git-tracked by default)
+# Only ignore temporary files and current session pointer
+output/.current-session
+output/**/.DS_Store
+output/**/tmp/
+output/**/*.swp
+output/**/*.swo
+output/**/*.bak
+output/**/backup-*/
+
+# Legacy output structure (during migration period)
+# These will be removed after migration is complete
+output/architecture/*.md
+output/analysis/*.md
+output/reviews/*.md
+output/reports/*.md
+
 # Legacy
 medium-content-pro/*

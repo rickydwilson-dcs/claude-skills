@@ -1,222 +1,385 @@
-# Agent Output Directory
+# Agent Output Directory - Session-Based Organization
 
-This directory stores all agent-generated reports, analyses, and outputs from the claude-skills repository.
+This directory stores all agent-generated reports, analyses, and outputs from the claude-skills repository using a **session-based organization system** that provides user attribution, work context tracking, and integration with knowledge management systems.
 
 ## Directory Structure
 
 ```
 output/
-├── architecture/       # Architecture reviews, diagrams, design docs
-├── reviews/           # Code reviews, PR reviews, quality assessments
-├── analysis/          # Dependency analysis, performance analysis, security scans
-├── reports/           # General reports, summaries, audits
-└── README.md          # This file
+├── sessions/                           # User session outputs (git-tracked)
+│   └── {user}/                         # User-specific directory
+│       └── {session-id}/               # Unique work session
+│           ├── .session-metadata.yaml  # Session context and tracking
+│           └── *.md                    # All outputs (flat structure, categorized via metadata)
+├── shared/                            # Cross-user shared resources
+│   ├── promoted-to-confluence/        # Outputs promoted to Confluence
+│   │   └── {space-key}/              # Confluence space
+│   │       └── {page-id}/            # Confluence page
+│   └── team-resources/               # Team-level shared resources
+│       ├── marketing/
+│       ├── product/
+│       ├── engineering/
+│       └── delivery/
+├── archive/                           # Archived sessions
+│   └── legacy-outputs/               # Migration from old system
+└── README.md                          # This file
 ```
+
+## Quick Start
+
+### 1. Create a Session
+
+```bash
+# Create a new work session
+python3 scripts/session_manager.py create \
+  --ticket PROJ-123 \
+  --project "Invoice Automation" \
+  --team engineering
+
+# Output: Session created at output/sessions/rickydwilson-dcs/2025-11-22_feature-invoice-automation_a3f42c/
+# Environment variable set: CLAUDE_SESSION_DIR
+```
+
+### 2. Generate Agent Outputs
+
+```bash
+# Get current session directory
+export CLAUDE_SESSION_DIR=$(python3 scripts/session_manager.py current | grep "Path:" | cut -d' ' -f2)
+
+# Generate outputs to current session (flat structure)
+TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
+python3 skills/product-team/business-analyst-toolkit/scripts/process_analyzer.py transcript.md \
+  > ${CLAUDE_SESSION_DIR}/${TIMESTAMP}_invoice-process-analysis_cs-business-analyst.md
+```
+
+### 3. Close Session
+
+```bash
+# Close when work is complete
+python3 scripts/session_manager.py close
+
+# Generates report and updates metadata
+```
+
+## Session Management
+
+### Create New Session
+
+```bash
+python3 scripts/session_manager.py create \
+  --ticket PROJ-123 \
+  --project "Invoice Automation" \
+  --team engineering \
+  [--retention project|sprint|temporary] \
+  [--sprint "2025-Q4-Sprint-3"] \
+  [--epic PROJ-100] \
+  [--release v2.1.0]
+```
+
+**Required Fields:**
+- `--project`: Human-readable project name
+- `--team`: One of: marketing, product, engineering, delivery
+
+**Optional Fields:**
+- `--ticket`: Jira ticket ID (recommended)
+- `--retention`: Retention policy (default: project = 6 months)
+- `--sprint`, `--epic`, `--release`: Additional context
+
+### List Sessions
+
+```bash
+# List all sessions
+python3 scripts/session_manager.py list
+
+# Filter by status
+python3 scripts/session_manager.py list --status active
+
+# Filter by team
+python3 scripts/session_manager.py list --team engineering
+
+# Filter by user
+python3 scripts/session_manager.py list --user rickydwilson-dcs
+```
+
+### Search Sessions
+
+```bash
+# Search by ticket
+python3 scripts/session_manager.py search --ticket PROJ-123
+
+# Search by project name
+python3 scripts/session_manager.py search --project "Invoice Automation"
+
+# Search by agent
+python3 scripts/session_manager.py search --agent cs-business-analyst
+
+# Search by tag
+python3 scripts/session_manager.py search --tag invoice-automation
+```
+
+### Generate Reports
+
+```bash
+# Report on current session
+python3 scripts/session_manager.py report
+
+# Report on specific session
+python3 scripts/session_manager.py report 2025-11-22_feature-invoice-automation_a3f42c
+
+# JSON format
+python3 scripts/session_manager.py report --format json
+```
+
+### Close Session
+
+```bash
+# Close current session
+python3 scripts/session_manager.py close
+
+# Close specific session
+python3 scripts/session_manager.py close 2025-11-22_feature-invoice-automation_a3f42c
+```
+
+## Session Metadata
+
+Each session includes a `.session-metadata.yaml` file with:
+
+- **Session Identity**: ID, creation time, user, team
+- **Work Context**: Branch, ticket, project, sprint, epic, release
+- **Outputs Tracking**: List of all generated files with promotion status
+- **Stakeholders**: People involved or notified
+- **Retention Policy**: Expiration date and reason
+- **Integration Links**: Jira, Confluence, OneDrive, GitHub PR
+- **Tags**: Searchable keywords
+- **Notes**: Free-form context
+
+See `templates/session-metadata-template.yaml` for complete schema.
+
+## Confluence Promotion Workflow
+
+### Manual Promotion Process
+
+1. **Identify Output for Promotion**
+   ```bash
+   python3 scripts/session_manager.py report
+   ```
+
+2. **Review and Enhance Content**
+   - Add Confluence-specific formatting (macros, @mentions)
+   - Add table of contents
+   - Add status indicators
+
+3. **Manually Copy to Confluence**
+   - Open Confluence page
+   - Paste content
+   - Enhance formatting
+   - Save page
+
+4. **Track Promotion**
+   ```bash
+   python3 scripts/promote_to_confluence.py \
+     --session 2025-11-22_feature-invoice-automation_a3f42c \
+     --file 2025-11-22_06-58-38_invoice-process-analysis_cs-business-analyst.md \
+     --confluence-url "https://company.atlassian.net/wiki/spaces/PROJ/pages/123456" \
+     --notify "sarah@company.com,mike@company.com"
+   ```
+
+This updates:
+- Session metadata (marks output as promoted)
+- Copies file to `shared/promoted-to-confluence/`
+- Creates promotion metadata for tracking
 
 ## File Naming Convention
 
-All agent outputs follow this naming pattern:
+Within sessions, outputs still use timestamped filenames:
 
 ```
 YYYY-MM-DD_HH-MM-SS_<topic>_<agent-name>.md
 ```
 
 **Examples:**
-- `2025-11-13_08-30-45_architecture-review_cs-architect.md`
-- `2025-11-13_14-22-10_code-review_cs-code-reviewer.md`
-- `2025-11-13_16-45-30_dependency-analysis_cs-architect.md`
-- `2025-11-13_09-15-00_security-scan_cs-secops.md`
-
-## Naming Components
-
-### Date/Timestamp
-- **Format:** `YYYY-MM-DD_HH-MM-SS`
-- **Purpose:** Chronological sorting and version tracking
-- **Example:** `2025-11-13_08-30-45`
-
-### Topic
-- **Format:** Kebab-case (lowercase with hyphens)
-- **Purpose:** Describes the content/type of analysis
-- **Examples:**
-  - `architecture-review`
-  - `code-review`
-  - `dependency-analysis`
-  - `security-scan`
-  - `performance-audit`
-  - `technical-debt-assessment`
-
-### Agent Name
-- **Format:** cs-agent-name (must match agent file in `agents/`)
-- **Purpose:** Identifies which agent generated the output
-- **Examples:**
-  - `cs-architect`
-  - `cs-code-reviewer`
-  - `cs-secops`
-  - `cs-backend`
-  - `cs-devops`
-
-## Usage
-
-### Creating Agent Outputs
-
-When agents generate reports, save them using this pattern:
-
-```bash
-# Get current timestamp
-TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
-
-# Save architecture review
-echo "Architecture analysis..." > output/architecture/${TIMESTAMP}_architecture-review_cs-architect.md
-
-# Save code review
-echo "Code review results..." > output/reviews/${TIMESTAMP}_code-review_cs-code-reviewer.md
-
-# Save security scan
-echo "Security scan results..." > output/analysis/${TIMESTAMP}_security-scan_cs-secops.md
-```
-
-### Agent Output Templates
-
-Each agent output should include:
-
-1. **Header Section**
-   - Title
-   - Agent name
-   - Timestamp
-   - Repository/target path
-   - Executive summary
-
-2. **Analysis Section**
-   - Detailed findings
-   - Metrics and data
-   - Visualizations (diagrams, tables)
-
-3. **Recommendations Section**
-   - Actionable items
-   - Prioritization
-   - Implementation guidance
-
-4. **Conclusion Section**
-   - Overall assessment
-   - Next steps
-   - References
+- `2025-11-22_08-30-45_invoice-process-analysis_cs-business-analyst.md`
+- `2025-11-22_14-22-10_architecture-review_cs-architect.md`
+- `2025-11-22_16-45-30_security-scan_cs-secops.md`
 
 ## Git Workflow
 
-**Default Behavior:** All files in `output/` are gitignored by default.
+### Sessions Are Git-Tracked
 
-**Rationale:** Agent outputs are typically ephemeral working files. Users can review them locally without cluttering git history.
+Unlike the old system where outputs were gitignored, **sessions are committed to git** for:
+- Complete work history
+- User attribution
+- Context preservation
+- Collaboration support
 
-**Committing Important Reports:**
-
-If you want to commit a specific report to version control:
+### Committing Sessions
 
 ```bash
-# Force-add specific report
-git add -f output/architecture/2025-11-13_08-30-45_architecture-review_cs-architect.md
+# After creating session
+git add output/sessions/rickydwilson-dcs/2025-11-22_feature-invoice-automation_a3f42c/
+git commit -m "feat(sessions): create session for invoice automation analysis
 
-# Commit with descriptive message
-git commit -m "docs(architecture): add architecture review from cs-architect"
+- Ticket: PROJ-123
+- Project: Invoice Automation System
+- Team: Engineering"
+
+# After adding outputs
+git add output/sessions/rickydwilson-dcs/2025-11-22_feature-invoice-automation_a3f42c/
+git commit -m "docs(analysis): add invoice process analysis
+
+- Agent: cs-business-analyst
+- Session: 2025-11-22_feature-invoice-automation_a3f42c
+- Output: invoice-process-analysis_cs-business-analyst.md"
+
+# After closing session
+git add output/sessions/rickydwilson-dcs/2025-11-22_feature-invoice-automation_a3f42c/.session-metadata.yaml
+git commit -m "feat(sessions): close invoice automation analysis session
+
+- Total outputs: 4
+- Promoted to Confluence: 2
+- Status: closed"
 ```
-
-## Directory Categories
-
-### architecture/
-- System architecture reviews
-- Architecture diagrams and visualizations
-- Design decision records (ADRs)
-- Technology stack evaluations
-- Scalability assessments
-
-### reviews/
-- Code review reports
-- Pull request reviews
-- Quality assessments
-- Best practice compliance checks
-
-### analysis/
-- Dependency analysis
-- Performance analysis
-- Security vulnerability scans
-- Technical debt assessments
-- Complexity metrics
-
-### reports/
-- General reports and summaries
-- Audit reports
-- Status reports
-- Comparative analyses
-- Benchmark results
 
 ## Integration with Agents
 
-### Architecture Agent (cs-architect)
+### Updated Agent Pattern
+
+Agents now write to `$CLAUDE_SESSION_DIR` instead of flat directories:
+
 ```bash
-python3 skills/engineering-team/senior-architect/scripts/project_architect.py --input . > output/architecture/$(date +"%Y-%m-%d_%H-%M-%S")_architecture-review_cs-architect.md
+# Old pattern (deprecated)
+TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
+python3 skills/product-team/business-analyst-toolkit/scripts/process_analyzer.py transcript.md \
+  > output/${TIMESTAMP}_invoice-process-analysis_cs-business-analyst.md
+
+# New pattern (session-based)
+export CLAUDE_SESSION_DIR=$(python3 scripts/session_manager.py current | grep "Path:" | cut -d' ' -f2)
+TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
+python3 skills/product-team/business-analyst-toolkit/scripts/process_analyzer.py transcript.md \
+  > ${CLAUDE_SESSION_DIR}/${TIMESTAMP}_invoice-process-analysis_cs-business-analyst.md
 ```
 
-### Code Reviewer Agent (cs-code-reviewer)
+### Agent Examples
+
+#### Business Analyst (cs-business-analyst)
 ```bash
-python3 skills/engineering-team/code-reviewer/scripts/code_quality_checker.py ./src > output/reviews/$(date +"%Y-%m-%d_%H-%M-%S")_code-review_cs-code-reviewer.md
+# Create session
+python3 scripts/session_manager.py create --ticket PROJ-123 --project "Invoice Process" --team delivery
+
+# Run analysis
+export CLAUDE_SESSION_DIR=$(python3 scripts/session_manager.py current | grep "Path:" | cut -d' ' -f2)
+TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
+python3 skills/product-team/business-analyst-toolkit/scripts/process_analyzer.py transcript.md \
+  > ${CLAUDE_SESSION_DIR}/${TIMESTAMP}_process-analysis_cs-business-analyst.md
+
+# Close session
+python3 scripts/session_manager.py close
 ```
 
-### Security Agent (cs-secops)
+#### Architect (cs-architect)
 ```bash
-python3 skills/engineering-team/senior-secops/scripts/security_scanner.py --input . > output/analysis/$(date +"%Y-%m-%d_%H-%M-%S")_security-scan_cs-secops.md
+# Create session
+python3 scripts/session_manager.py create --ticket PROJ-123 --project "System Architecture" --team engineering
+
+# Generate architecture review
+export CLAUDE_SESSION_DIR=$(python3 scripts/session_manager.py current | grep "Path:" | cut -d' ' -f2)
+TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
+python3 skills/engineering-team/senior-architect/scripts/project_architect.py --input . \
+  > ${CLAUDE_SESSION_DIR}/${TIMESTAMP}_architecture-review_cs-architect.md
+
+# Close session
+python3 scripts/session_manager.py close
 ```
 
-## Maintenance
+## Migration from Legacy System
 
-### Cleanup Old Reports
-
-```bash
-# Remove reports older than 30 days
-find output/ -name "*.md" -mtime +30 -delete
-
-# Remove all reports except README
-find output/ -name "*.md" ! -name "README.md" -delete
+All previous outputs have been migrated to:
+```
+output/sessions/rickydwilson-dcs/2025-11-22_migration-legacy-outputs_000000/
 ```
 
-### Archiving
+This migration session contains all 10 files from the old flat structure with preserved timestamps and names.
 
-For long-term storage of important reports:
+## Retention Policies
+
+### Policy Types
+
+1. **project** (default) - 6 months
+   - For project-related work
+   - Keep until post-launch retrospective
+
+2. **sprint** - 3 weeks
+   - For sprint-specific work
+   - Keep until sprint complete + 1 sprint buffer
+
+3. **temporary** - 30 days
+   - For ad-hoc analyses
+   - Short-term investigations
+
+### Cleanup
 
 ```bash
-# Create archive directory
-mkdir -p archives/2025-Q4/
+# Find expired sessions
+python3 scripts/session_manager.py search --expiring-within 30
 
-# Move important reports
-mv output/architecture/2025-11-13_*_architecture-review_*.md archives/2025-Q4/
+# Archive old sessions (manual process)
+# Review outputs before archiving
+python3 scripts/session_manager.py archive {session-id}
 ```
 
 ## Best Practices
 
-1. **Timestamp Precision** - Always use full timestamp (date + time) for unique filenames
-2. **Descriptive Topics** - Use clear, searchable topic names
-3. **Agent Attribution** - Always include agent name for traceability
-4. **Consistent Format** - Follow markdown formatting for all reports
-5. **Executive Summaries** - Always include a summary at the top
-6. **Actionable Recommendations** - Provide clear next steps
-7. **Version Context** - Include git commit hash or branch name in reports
+1. **Create Sessions Before Work** - Always start with session creation
+2. **Descriptive Project Names** - Use clear, searchable project names
+3. **Add Ticket Numbers** - Link to Jira tickets for context
+4. **Close When Complete** - Mark sessions as closed when work is done
+5. **Promote Important Outputs** - Use promotion workflow for Confluence
+6. **Commit to Git** - Commit sessions for history and collaboration
+7. **Update Metadata** - Add stakeholders, tags, and notes as work progresses
+8. **Review Before Expiration** - Check expiring sessions periodically
 
-## Examples
+## Troubleshooting
 
-### Good Filenames ✅
-- `2025-11-13_08-30-45_architecture-review_cs-architect.md`
-- `2025-11-13_14-22-10_dependency-analysis_cs-architect.md`
-- `2025-11-13_16-45-30_security-vulnerability-scan_cs-secops.md`
-- `2025-11-13_09-15-00_code-quality-assessment_cs-code-reviewer.md`
+### No Current Session
 
-### Bad Filenames ❌
-- `architecture-review.md` (no timestamp, no agent)
-- `review_11-13.md` (ambiguous, no agent, incomplete date)
-- `cs-architect-output.md` (no topic, no timestamp)
-- `2025-11-13-report.md` (no time, vague topic, no agent)
+```bash
+# Check if session exists
+python3 scripts/session_manager.py current
+
+# If none, create one
+python3 scripts/session_manager.py create --project "Your Project" --team engineering
+```
+
+### Cannot Find Session
+
+```bash
+# Search for session
+python3 scripts/session_manager.py search --project "Your Project"
+
+# List all sessions
+python3 scripts/session_manager.py list
+```
+
+### Git Conflicts
+
+Sessions are user-isolated, so conflicts are rare. If they occur:
+```bash
+# Pull latest
+git pull origin develop
+
+# Sessions are in separate user directories, so conflicts are minimal
+```
+
+## Additional Resources
+
+- **Session Guide**: `docs/workflows/session-based-outputs.md`
+- **Metadata Template**: `templates/session-metadata-template.yaml`
+- **ADR**: `output/sessions/rickydwilson-dcs/2025-11-22_migration-legacy-outputs_000000/2025-11-22_07-53-43_session-based-output-adr_cs-architect.md`
 
 ---
 
-**Last Updated:** 2025-11-13
-**Version:** 1.0.0
-**Status:** ✅ Ready to use
+**Last Updated:** 2025-11-22
+**Version:** 2.0.0 (Session-Based)
+**Status:** ✅ Production Ready
 
-**Keep your agent outputs organized and discoverable!** 🚀
+**Organize your work with sessions!** 🚀

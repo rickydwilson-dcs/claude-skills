@@ -1,0 +1,101 @@
+# Session Metadata Template
+# This template provides the complete schema for session metadata files
+# Copy to session directory as .session-metadata.yaml
+
+# ============================================================================
+# SESSION IDENTITY
+# ============================================================================
+session_id: ""  # Auto-generated: YYYY-MM-DD_{branch-slug}_{short-hash}
+created_at: ""  # Auto-generated: ISO 8601 timestamp (UTC)
+created_by:
+  user: ""      # Auto-populated from git config user.name (sanitized)
+  email: ""     # Auto-populated from git config user.email
+  team: ""      # REQUIRED: marketing | product | engineering | delivery
+
+# ============================================================================
+# WORK CONTEXT
+# ============================================================================
+context:
+  branch: ""    # Auto-populated from git current branch
+  ticket: ""    # RECOMMENDED: Jira ticket ID (e.g., PROJ-123)
+  project: ""   # REQUIRED: Human-readable project name
+  sprint: ""    # Optional: Sprint identifier (e.g., 2025-Q4-Sprint-3)
+  epic: ""      # Optional: Parent epic ticket (e.g., PROJ-100)
+  release: ""   # Optional: Target release version (e.g., v2.1.0)
+
+# ============================================================================
+# SESSION STATUS
+# ============================================================================
+status:
+  current: "active"     # active | closed | archived
+  closed_at: null       # Set automatically when session closed
+  archived_at: null     # Set automatically when session archived
+
+# ============================================================================
+# OUTPUTS TRACKING
+# ============================================================================
+# Auto-populated when outputs are added to session
+# DO NOT manually edit - use session_manager.py add-output
+outputs: []
+# Example entry (flat structure - files in session root):
+# - file: "2025-11-22_06-58-38_invoice-process-analysis_cs-business-analyst.md"
+#   agent: "cs-business-analyst"
+#   type: "analysis"  # architecture | analysis | reviews | reports | artifacts
+#   created_at: "2025-11-22T06:58:38Z"
+#   promoted: false
+#   promoted_to: null
+
+# ============================================================================
+# STAKEHOLDERS
+# ============================================================================
+stakeholders: []
+# Example entries:
+# - name: "Sarah Chen"
+#   role: "Product Manager"
+#   email: "sarah.chen@company.com"
+# - name: "Mike Johnson"
+#   role: "Business Analyst"
+#   email: "mike.johnson@company.com"
+
+# ============================================================================
+# RETENTION POLICY
+# ============================================================================
+retention:
+  policy: "project"     # project | sprint | temporary
+  expires_at: ""        # Auto-calculated based on policy
+  reason: ""            # Optional: Human-readable explanation
+
+# Policy defaults:
+# - project: 6 months from creation
+# - sprint: 3 weeks from creation (sprint + 1 sprint buffer)
+# - temporary: 30 days from creation
+
+# ============================================================================
+# INTEGRATION LINKS
+# ============================================================================
+links:
+  jira: ""              # Optional: Direct link to Jira ticket
+  confluence: ""        # Optional: Direct link to Confluence page
+  onedrive: ""          # Optional: OneDrive folder/file link
+  github_pr: ""         # Optional: GitHub pull request link
+
+# ============================================================================
+# TAGS FOR SEARCHABILITY
+# ============================================================================
+tags: []
+# Example tags (kebab-case):
+# - "invoice-automation"
+# - "process-improvement"
+# - "business-analysis"
+# - "architecture-review"
+
+# ============================================================================
+# NOTES
+# ============================================================================
+notes: |
+  Add free-form markdown notes here to provide additional context about
+  this work session. Include information like:
+  - Meeting notes that triggered this work
+  - Important decisions made
+  - Open questions or blockers
+  - Links to related sessions or documentation

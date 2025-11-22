@@ -292,10 +292,12 @@ cp templates/skill-template.md skills/<domain-team>/<skill-name>/SKILL.md
 # 6. Test skill integration
 python skills/<domain-team>/<skill-name>/scripts/<tool>.py --help
 
-# 7. Save any analysis outputs to output/ directory
-# Use timestamped filenames: YYYY-MM-DD_HH-MM-SS_topic_agent-name.md
+# 7. Save any analysis outputs to output/sessions/ directory
+# Create session first, then save outputs (flat structure)
+python scripts/session_manager.py create --name skill-analysis --team engineering-team
+CLAUDE_SESSION_DIR=$(python scripts/session_manager.py current | grep "Path:" | cut -d' ' -f2)
 TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
-echo "Analysis results..." > output/analysis/${TIMESTAMP}_skill-analysis_cs-agent.md
+echo "Analysis results..." > ${CLAUDE_SESSION_DIR}/${TIMESTAMP}_skill-analysis_cs-agent.md
 ```
 
 ### Creating a New Agent
@@ -462,36 +464,70 @@ python3.11 -m venv claude-skills_venv
 
 ## Agent Output Directory
 
-All agent-generated reports, analyses, and outputs are saved to the `output/` directory with timestamped filenames.
+All agent-generated reports, analyses, and outputs are saved using a **session-based organization system** that provides user attribution, work context tracking, and integration with knowledge management systems (Confluence, Jira).
 
-**Naming Convention:** `YYYY-MM-DD_HH-MM-SS_<topic>_<agent-name>.md`
+### Session-Based System (v2.0)
 
-**Examples:**
-- `2025-11-13_13-55-52_architecture-review_cs-architect.md`
-- `2025-11-13_14-22-10_code-review_cs-code-reviewer.md`
-- `2025-11-13_16-45-30_security-scan_cs-secops.md`
+**Key Features:**
+- User-isolated session directories
+- Rich metadata (ticket, project, team, stakeholders)
+- Git-tracked for collaboration
+- Manual Confluence promotion workflow
+- Retention policies (project, sprint, temporary)
+
+**Quick Start:**
+```bash
+# 1. Create a work session
+python3 scripts/session_manager.py create \
+  --ticket PROJ-123 \
+  --project "Invoice Automation" \
+  --team engineering
+
+# 2. Generate outputs to session (flat structure)
+export CLAUDE_SESSION_DIR=$(python3 scripts/session_manager.py current | grep "Path:" | cut -d' ' -f2)
+TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
+python3 skills/product-team/business-analyst-toolkit/scripts/process_analyzer.py transcript.md \
+  > ${CLAUDE_SESSION_DIR}/${TIMESTAMP}_invoice-process-analysis_cs-business-analyst.md
+
+# 3. Close session when complete
+python3 scripts/session_manager.py close
+```
 
 **Directory Structure:**
-- `output/architecture/` - Architecture reviews, diagrams, design docs
-- `output/reviews/` - Code reviews, quality assessments
-- `output/analysis/` - Dependency, performance, security analysis
-- `output/reports/` - General reports and summaries
-
-**Usage:**
-```bash
-# Save agent output with timestamp
-TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
-python3 skills/engineering-team/senior-architect/scripts/project_architect.py --input . \
-  > output/architecture/${TIMESTAMP}_architecture-review_cs-architect.md
+```
+output/
+├── sessions/                           # User session outputs (git-tracked)
+│   └── {user}/
+│       └── {session-id}/
+│           ├── .session-metadata.yaml  # Session context
+│           └── *.md                    # All outputs (flat structure, categorized via metadata)
+├── shared/
+│   ├── promoted-to-confluence/         # Manually promoted outputs
+│   └── team-resources/                 # Team-shared resources
+└── archive/                            # Archived sessions
 ```
 
-**Git Workflow:** By default, all `output/` files are gitignored. To commit a specific report:
+**Session Management:**
 ```bash
-git add -f output/architecture/2025-11-13_13-55-52_architecture-review_cs-architect.md
-git commit -m "docs(architecture): add architecture review from cs-architect"
+# List sessions
+python3 scripts/session_manager.py list --status active
+
+# Search sessions
+python3 scripts/session_manager.py search --ticket PROJ-123
+
+# Generate report
+python3 scripts/session_manager.py report
 ```
 
-See [output/README.md](output/README.md) for complete guidelines.
+**Git Workflow:** Sessions are **git-tracked** (unlike old system). Commit sessions for collaboration:
+```bash
+git add output/sessions/rickydwilson-dcs/2025-11-22_feature-invoice-automation_a3f42c/
+git commit -m "feat(sessions): create session for invoice automation analysis"
+```
+
+**Migration:** All previous outputs migrated to `output/sessions/rickydwilson-dcs/2025-11-22_migration-legacy-outputs_000000/`
+
+See [output/README.md](output/README.md) for complete session-based workflow guide.
 
 ## Additional Resources
 

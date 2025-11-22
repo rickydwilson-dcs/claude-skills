@@ -21,18 +21,44 @@ This agent bridges the gap between "we know this process could be better" and "h
 
 **Skill Location:** `../../skills/product-team/business-analyst-toolkit/`
 
-**Output Location:** All analysis outputs should be saved to `../../output/analysis/` using the standard naming convention:
+**Output Strategy:** This agent uses the **session-based output system** (v2.0) for organized, trackable analysis deliverables.
+
+### Session-Based Outputs
+
+All analysis outputs are saved to work sessions with rich metadata tracking:
+
+```bash
+# 1. Create session for your work
+python3 ../../scripts/session_manager.py create \
+  --ticket PROJ-123 \
+  --project "Invoice Process Improvement" \
+  --team delivery
+
+# 2. Get session directory
+export CLAUDE_SESSION_DIR=$(python3 ../../scripts/session_manager.py current | grep "Path:" | cut -d' ' -f2)
+
+# 3. Generate outputs to session
+TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
+python3 ../../skills/product-team/business-analyst-toolkit/scripts/process_parser.py transcript.md \
+  --output ${CLAUDE_SESSION_DIR}/analysis/${TIMESTAMP}_invoice-process-analysis_cs-business-analyst.json
+
+# 4. Close session when complete
+python3 ../../scripts/session_manager.py close
+```
+
+**Benefits:**
+- User attribution (who did the analysis)
+- Work context (ticket, project, stakeholders)
+- Git-tracked for collaboration
+- Confluence promotion workflow
+- Retention policies (project, sprint, temporary)
+
+**File Naming Within Sessions:**
 ```
 YYYY-MM-DD_HH-MM-SS_<topic>_cs-business-analyst.md
 ```
 
-Example:
-```bash
-TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
-python3 ../../skills/product-team/business-analyst-toolkit/scripts/gap_analyzer.py \
-  --input process.json \
-  --output ../../output/analysis/${TIMESTAMP}_gap-analysis_cs-business-analyst.json
-```
+See [Session-Based Output Workflow Guide](../../docs/workflows/session-based-outputs.md) for complete documentation.
 
 ### Python Tools
 
