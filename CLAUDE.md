@@ -180,18 +180,18 @@ python ../../skills/domain-team/skill-package/scripts/tool.py input.txt
 
 ## Git Workflow
 
-**Branch Strategy:** feature → dev → main (PR only)
+**Branch Strategy:** develop → staging → main (quality gates)
 
 **Branch Protection Active:** Main branch requires PR approval. Direct pushes blocked.
 
 ### Quick Start
 
 ```bash
-# 1. Always start from dev
-git checkout dev
-git pull origin dev
+# 1. Work on develop branch (or create feature branch)
+git checkout develop
+git pull origin develop
 
-# 2. Create feature branch
+# 2. Create feature branch (optional, for large features)
 git checkout -b feature/agents-{name}
 
 # 3. Work and commit (conventional commits)
@@ -199,21 +199,30 @@ feat(agents): implement cs-{agent-name}
 fix(tool): correct calculation logic
 docs(workflow): update branch strategy
 
-# 4. Push and create PR to dev
-git push origin feature/agents-{name}
-gh pr create --base dev --head feature/agents-{name}
+# 4. Merge feature to develop (if using feature branch)
+git checkout develop
+git merge feature/agents-{name}
+git push origin develop
 
-# 5. After approval, PR merges to dev
-# 6. Periodically, dev merges to main via PR
+# 5. Promote to staging
+git checkout staging
+git merge develop
+git push origin staging
+
+# 6. Deploy to production
+git checkout main
+git merge staging
+git push origin main
 ```
 
 **Branch Protection Rules:**
-- ✅ Main: Requires PR approval, no direct push
-- ✅ Dev: Unprotected, but PRs recommended
+- ✅ Main: Production-ready code only, requires validation
+- ✅ Staging: Pre-production validation environment
+- ✅ Develop: Primary development branch
 - ✅ All: Conventional commits enforced
 
-See [documentation/WORKFLOW.md](documentation/WORKFLOW.md) for complete workflow guide.
-See [standards/git/git-workflow-standards.md](standards/git/git-workflow-standards.md) for commit standards.
+See [docs/WORKFLOW.md](docs/WORKFLOW.md) for complete workflow guide.
+See [docs/standards/git/git-workflow-standards.md](docs/standards/git/git-workflow-standards.md) for commit standards.
 
 ## Development Environment
 
