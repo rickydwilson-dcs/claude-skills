@@ -8,9 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Planned
-- Complete Anthropic best practices refactoring (37/43 skills remaining)
-- Marketing expansion: SEO Optimizer, Social Media Manager skills
-- Additional engineering skills and templates
+- Slash command library
+- Documentation agent
 
 ---
 
