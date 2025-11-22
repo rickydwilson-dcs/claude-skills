@@ -1,7 +1,7 @@
 ---
 name: cs-content-creator
 description: AI-powered content creation specialist for brand voice consistency, SEO optimization, and multi-platform content strategy
-skills: marketing-skill/content-creator
+skills: marketing-team/content-creator
 domain: marketing
 model: sonnet
 tools: [Read, Write, Bash, Grep, Glob]

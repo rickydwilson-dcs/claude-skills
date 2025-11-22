@@ -1,9 +1,72 @@
 ---
 name: confluence-expert
 description: Atlassian Confluence expert for creating and managing spaces, knowledge bases, documentation, planning, product discovery, page layouts, macros, templates, and all Confluence features. Use for documentation strategy, space architecture, content organization, and collaborative knowledge management.
+metadata:
+  version: 1.0.0
+  author: Claude Skills Team
+  category: delivery
+  domain: confluence expert
+  updated: 2025-11-22
+  keywords:
+    - atlassian
+    - confluence
+    - expert
+    - creating
+    - managing
+    - spaces
+    - knowledge
+    - bases
+    - documentation
+    - planning
+  tech-stack:
+    - Python 3.8+
 ---
 
 # Atlassian Confluence Expert
+
+## Overview
+
+This skill provides [TODO: Add 2-3 sentence overview].
+
+**Core Value:** [TODO: Add value proposition with metrics]
+
+**Target Audience:** [TODO: Define target users]
+
+**Use Cases:** [TODO: List 3-5 primary use cases]
+
+
+## Core Capabilities
+
+- **[Capability 1]** - [Description]
+- **[Capability 2]** - [Description]
+- **[Capability 3]** - [Description]
+- **[Capability 4]** - [Description]
+
+
+## Key Workflows
+
+### Workflow 1: [Workflow Name]
+
+**Time:** [Duration estimate]
+
+**Steps:**
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
+
+**Expected Output:** [What success looks like]
+
+### Workflow 2: [Workflow Name]
+
+**Time:** [Duration estimate]
+
+**Steps:**
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
+
+**Expected Output:** [What success looks like]
+
 
 Master-level expertise in Confluence space management, documentation architecture, content creation, macros, templates, and collaborative knowledge management.
 

@@ -479,32 +479,32 @@ echo "📊 Generating Monthly Portfolio Report for $MONTH"
 cat > "$REPORT_DIR/portfolio-summary.md" << 'EOF'
 # Portfolio Summary Report
 
-## Portfolio Overview
+### Portfolio Overview
 - Total Active Projects: 5
 - Total Budget: $1.2M
 - Total Team Size: 32 FTE
 - Portfolio Health: 🟢 GREEN
 
-## Project Status Summary
+### Project Status Summary
 1. Project Alpha (Mobile Redesign): 🟢 On Track
 2. Project Beta (API Platform): 🟡 Delayed 1 week
 3. Project Gamma (Analytics Dashboard): 🟢 On Track
 4. Project Delta (Customer Portal): 🟢 Planning Phase
 5. Project Epsilon (Infrastructure Upgrade): 🟢 On Track
 
-## Key Metrics
+### Key Metrics
 - On-Time Delivery Rate: 80% (4 of 5 projects)
 - Budget Variance: -2% (under budget)
 - Resource Utilization: 87% (healthy)
 - Critical Risks: 0
 - High Risks: 2 (both mitigated)
 
-## Executive Summary
+### Executive Summary
 Portfolio is healthy with 4 of 5 projects on track. Project Beta experiencing
 minor delay due to performance optimization work, now targeted for Nov 25 launch.
 All projects within budget. Q4 delivery targets achievable.
 
-## Recommendations
+### Recommendations
 1. Allocate 2 additional backend engineers to Project Beta for 2 weeks
 2. Begin Q1 2026 portfolio planning by Nov 20
 3. Schedule executive review for Dec 5 to finalize Q1 priorities
@@ -562,14 +562,14 @@ mkdir -p "$RISK_DIR"
 cat > "$RISK_DIR/risk-template.md" << 'EOF'
 # Risk Assessment Template
 
-## Instructions
+### Instructions
 1. Identify risks across categories: Technical, Resource, Schedule, Budget, External
 2. Score Impact (1-5): 1=Minimal, 2=Low, 3=Medium, 4=High, 5=Critical
 3. Score Probability (1-5): 1=<20%, 2=20-40%, 3=40-60%, 4=60-80%, 5=>80%
 4. Calculate Risk Score: Impact × Probability
 5. Prioritize: Critical (15-25), High (9-14), Medium (4-8), Low (1-3)
 
-## Risk Categories
+### Risk Categories
 
 ### Technical Risks
 - [ ] Technology/Architecture risks
@@ -626,7 +626,7 @@ cat > "$RISK_DIR/risk-scoring-guide.md" << 'EOF'
 | 2 | Low | 20-40% chance |
 | 1 | Very Low | <20% chance |
 
-## Risk Score Matrix
+### Risk Score Matrix
 
 |   | Probability 1 | Probability 2 | Probability 3 | Probability 4 | Probability 5 |
 |---|---------------|---------------|---------------|---------------|---------------|
@@ -636,7 +636,7 @@ cat > "$RISK_DIR/risk-scoring-guide.md" << 'EOF'
 | **Impact 2** | 2 (Low) | 4 (Medium) | 6 (Medium) | 8 (Medium) | 10 (High) |
 | **Impact 1** | 1 (Low) | 2 (Low) | 3 (Low) | 4 (Medium) | 5 (Medium) |
 
-## Escalation Thresholds
+### Escalation Thresholds
 - **Critical Risks (15-25):** Immediate escalation to executive sponsor
 - **High Risks (9-14):** Escalate to project stakeholders, weekly review
 - **Medium Risks (4-8):** Monitor closely, bi-weekly review

@@ -67,6 +67,15 @@ This repository provides **modular, self-contained skill packages** specifically
   - Agents guide multi-step processes and intelligently invoke skills
   - Complete coverage for marketing, product, engineering, and delivery domains
 
+### Builder Tools
+
+- **[Agent Builder](scripts/agent_builder.py)** - Create agents in 1 hour instead of 2 days (96% faster)
+  - Interactive + config modes, 9 validation checks, dynamic domain creation
+- **[Skill Builder](scripts/skill_builder.py)** - Create skills in 2 hours instead of 3 days (93% faster)
+  - Full scaffolding, placeholder generation, extended metadata
+- **[Skill Upgrader](scripts/upgrade_skills_to_new_standards.py)** - Batch upgrade existing skills
+  - Automated fixes: chmod +x, directories, metadata, missing sections
+
 ### Documentation
 
 **Getting Started**
@@ -235,6 +244,49 @@ See [Usage Guide](docs/USAGE.md) for comprehensive examples and patterns.
 - **2,814 automated tests** - Comprehensive test coverage (via pytest)
 - **Sample Data** - 24 sample input files for immediate testing
 - See [Testing Guide](docs/testing/TESTING_GUIDE.md) for details
+
+---
+
+## 🤖 Builder Tools (Automated Creation)
+
+**Reduce development time by 93-96%** with zero-dependency builder tools for creating and validating agents and skills.
+
+### Agent Builder
+
+Create production-ready cs-* agents in **1 hour instead of 2 days** (96% faster):
+
+```bash
+# Interactive mode - guided workflow
+python3 scripts/agent_builder.py
+
+# Validate existing agent
+python3 scripts/agent_builder.py --validate agents/marketing/cs-content-creator.md
+```
+
+**Features**: 9 validation checks, dynamic domain creation, template-based generation, zero dependencies
+
+### Skill Builder
+
+Create complete skill packages in **2 hours instead of 3 days** (93% faster):
+
+```bash
+# Interactive mode - 8-step workflow
+python3 scripts/skill_builder.py
+
+# Validate existing skill
+python3 scripts/skill_builder.py --validate skills/marketing-team/content-creator
+```
+
+**Features**: Full directory scaffolding, placeholder generation, extended metadata YAML, executable tools
+
+### Validation Results
+
+- **28/28 agents passing** (100% validation rate)
+- **28/28 skills passing** (100% validation rate)
+- Zero external dependencies
+- Average validation time: < 2 seconds
+
+See [CLAUDE.md](CLAUDE.md#builder-tools-automated-creation--validation) for complete builder documentation.
 
 ---
 

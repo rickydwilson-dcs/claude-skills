@@ -1,7 +1,7 @@
 ---
 name: cs-product-marketer
 description: Product marketing specialist for positioning strategy, GTM execution, competitive intelligence, and product launch planning
-skills: marketing-skill/marketing-strategy-pmm
+skills: marketing-team/marketing-strategy-pmm
 domain: marketing
 model: sonnet
 tools: [Read, Write, Bash, Grep, Glob]

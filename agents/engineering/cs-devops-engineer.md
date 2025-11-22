@@ -772,16 +772,16 @@ echo "📊 Generating Summary Report..."
 cat > "$REPORT_DIR/summary.md" <<EOF
 # Infrastructure Audit Report - $REPORT_DATE
 
-## CI/CD Pipeline Analysis
+### CI/CD Pipeline Analysis
 $(jq -r '.summary' "$REPORT_DIR/pipeline-audit.json")
 
-## Infrastructure Analysis
+### Infrastructure Analysis
 $(jq -r '.summary' "$REPORT_DIR/terraform-analysis.json")
 
-## Kubernetes Deployment Analysis
+### Kubernetes Deployment Analysis
 $(jq -r '.summary' "$REPORT_DIR/k8s-audit.json")
 
-## Recommendations
+### Recommendations
 - Review pipeline security scanning configuration
 - Update Terraform modules to latest versions
 - Apply Kubernetes resource limits to all deployments

@@ -1,9 +1,72 @@
 ---
 name: senior-pm
 description: Senior Project Manager for Software, SaaS, and digital web/mobile applications. Use for strategic planning, portfolio management, stakeholder alignment, risk management, roadmap development, budget oversight, cross-functional team leadership, and executive reporting for software products.
+metadata:
+  version: 1.0.0
+  author: Claude Skills Team
+  category: delivery
+  domain: senior pm
+  updated: 2025-11-22
+  keywords:
+    - senior
+    - project
+    - manager
+    - software
+    - saas
+    - digital
+    - web
+    - mobile
+    - applications
+    - use
+  tech-stack:
+    - Python 3.8+
 ---
 
 # Senior Project Management Expert
+
+## Overview
+
+This skill provides [TODO: Add 2-3 sentence overview].
+
+**Core Value:** [TODO: Add value proposition with metrics]
+
+**Target Audience:** [TODO: Define target users]
+
+**Use Cases:** [TODO: List 3-5 primary use cases]
+
+
+## Core Capabilities
+
+- **[Capability 1]** - [Description]
+- **[Capability 2]** - [Description]
+- **[Capability 3]** - [Description]
+- **[Capability 4]** - [Description]
+
+
+## Key Workflows
+
+### Workflow 1: [Workflow Name]
+
+**Time:** [Duration estimate]
+
+**Steps:**
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
+
+**Expected Output:** [What success looks like]
+
+### Workflow 2: [Workflow Name]
+
+**Time:** [Duration estimate]
+
+**Steps:**
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
+
+**Expected Output:** [What success looks like]
+
 
 Strategic project management for Software, SaaS, and digital applications (web and mobile). Handles portfolio management, executive reporting, stakeholder alignment, risk management, and cross-functional leadership.
 

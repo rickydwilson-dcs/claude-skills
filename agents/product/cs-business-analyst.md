@@ -1,6 +1,6 @@
 ---
 name: cs-business-analyst
-description: Orchestrates business process analysis, workflow mapping, gap identification, and improvement planning using systematic frameworks and automation tools
+description: Business process analysis, workflow mapping, gap identification, and improvement planning using systematic frameworks and automation tools
 skills: business-analyst-toolkit
 domain: product
 model: sonnet

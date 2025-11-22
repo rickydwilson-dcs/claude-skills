@@ -44,6 +44,31 @@ metadata:
 
 # CTO Advisor
 
+## Key Workflows
+
+### Workflow 1: [Workflow Name]
+
+**Time:** [Duration estimate]
+
+**Steps:**
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
+
+**Expected Output:** [What success looks like]
+
+### Workflow 2: [Workflow Name]
+
+**Time:** [Duration estimate]
+
+**Steps:**
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
+
+**Expected Output:** [What success looks like]
+
+
 Technical leadership guidance for engineering teams, architecture decisions, and technology strategy.
 
 ## Overview

@@ -762,6 +762,39 @@ python ../../skills/engineering-team/senior-backend/scripts/database_migration_t
 3. Use `_count` instead of loading full relations when only count needed
 4. Batch queries where possible
 
+## Integration Examples
+
+### Example 1: API Development Workflow
+
+```bash
+# Complete backend API development workflow
+cd my-project
+python3 ../../skills/engineering-team/senior-backend/scripts/api_scaffolder.py \
+  --name UserAPI \
+  --endpoints "GET /users, POST /users, GET /users/:id" \
+  --database postgres
+
+# Output: API scaffolding with routes, controllers, tests
+```
+
+### Example 2: Performance Optimization Pipeline
+
+```bash
+# Run performance analysis and optimization
+python3 ../../skills/engineering-team/senior-backend/scripts/performance_analyzer.py \
+  --endpoint /api/users \
+  --load-test 1000 \
+  --optimize caching,queries
+
+# Output: Performance report with recommendations
+```
+
+## Related Agents
+
+- [cs-frontend-engineer](cs-frontend-engineer.md) - Consumes backend APIs
+- [cs-devops-engineer](cs-devops-engineer.md) - Deploys backend services
+- [cs-security-engineer](cs-security-engineer.md) - Secures backend infrastructure
+
 ## Integration with Other Skills
 
 **Frontend Integration:**
@@ -782,7 +815,7 @@ python ../../skills/engineering-team/senior-backend/scripts/database_migration_t
 - Performance benchmarking in CI pipeline
 - Security scanning (OWASP ZAP)
 
-## Additional Resources
+## References
 
 **Skill Documentation:**
 - `../../skills/engineering-team/senior-backend/SKILL.md` - Complete skill overview

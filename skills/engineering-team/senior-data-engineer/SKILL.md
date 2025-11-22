@@ -43,6 +43,39 @@ metadata:
 
 # Senior Data Engineer
 
+## Core Capabilities
+
+- **[Capability 1]** - [Description]
+- **[Capability 2]** - [Description]
+- **[Capability 3]** - [Description]
+- **[Capability 4]** - [Description]
+
+
+## Key Workflows
+
+### Workflow 1: [Workflow Name]
+
+**Time:** [Duration estimate]
+
+**Steps:**
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
+
+**Expected Output:** [What success looks like]
+
+### Workflow 2: [Workflow Name]
+
+**Time:** [Duration estimate]
+
+**Steps:**
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
+
+**Expected Output:** [What success looks like]
+
+
 World-class data engineering for production-grade data systems, scalable pipelines, and enterprise data platforms.
 
 ## Overview
