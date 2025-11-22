@@ -17,6 +17,50 @@ metadata:
 
 # Business Analyst Toolkit
 
+## Overview
+
+This skill provides [TODO: Add 2-3 sentence overview].
+
+**Core Value:** [TODO: Add value proposition with metrics]
+
+**Target Audience:** [TODO: Define target users]
+
+**Use Cases:** [TODO: List 3-5 primary use cases]
+
+
+## Core Capabilities
+
+- **[Capability 1]** - [Description]
+- **[Capability 2]** - [Description]
+- **[Capability 3]** - [Description]
+- **[Capability 4]** - [Description]
+
+
+## Key Workflows
+
+### Workflow 1: [Workflow Name]
+
+**Time:** [Duration estimate]
+
+**Steps:**
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
+
+**Expected Output:** [What success looks like]
+
+### Workflow 2: [Workflow Name]
+
+**Time:** [Duration estimate]
+
+**Steps:**
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
+
+**Expected Output:** [What success looks like]
+
+
 ## Keywords
 
 business analysis, process mapping, workflow documentation, requirements gathering, process improvement, stakeholder analysis, RACI matrix, process charter, business process modeling, gap analysis, root cause analysis, as-is to-be analysis, process optimization, operational efficiency, change management, business requirements, functional requirements, process documentation, improvement proposals, business case development

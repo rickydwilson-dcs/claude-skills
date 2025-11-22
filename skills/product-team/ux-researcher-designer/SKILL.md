@@ -37,6 +37,50 @@ metadata:
 
 # UX Researcher & Designer
 
+## Overview
+
+This skill provides [TODO: Add 2-3 sentence overview].
+
+**Core Value:** [TODO: Add value proposition with metrics]
+
+**Target Audience:** [TODO: Define target users]
+
+**Use Cases:** [TODO: List 3-5 primary use cases]
+
+
+## Core Capabilities
+
+- **[Capability 1]** - [Description]
+- **[Capability 2]** - [Description]
+- **[Capability 3]** - [Description]
+- **[Capability 4]** - [Description]
+
+
+## Key Workflows
+
+### Workflow 1: [Workflow Name]
+
+**Time:** [Duration estimate]
+
+**Steps:**
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
+
+**Expected Output:** [What success looks like]
+
+### Workflow 2: [Workflow Name]
+
+**Time:** [Duration estimate]
+
+**Steps:**
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
+
+**Expected Output:** [What success looks like]
+
+
 Comprehensive toolkit for user-centered research and experience design. This skill provides Python tools for persona generation, research frameworks for validation, and battle-tested templates for interviews and journey mapping.
 
 **What This Skill Provides:**
