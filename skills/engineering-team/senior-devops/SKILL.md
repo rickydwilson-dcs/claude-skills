@@ -1,7 +1,26 @@
 ---
 name: senior-devops
 description: Comprehensive DevOps skill for CI/CD, infrastructure automation, containerization, and cloud platforms (AWS, GCP, Azure). Includes pipeline setup, infrastructure as code, deployment automation, and monitoring. Use when setting up pipelines, deploying applications, managing infrastructure, implementing monitoring, or optimizing deployment processes.
+license: MIT
+metadata:
+  version: 1.0.0
+  author: Claude Skills Team
+  category: Engineering
+  domain: engineering
+  updated: 2025-11-23
+  keywords:
+  - engineering
+  - senior
+  - devops
+  tech-stack:
+  - Python 3.8+
+  - Markdown
+  python-tools:
+  - deployment_manager.py
+  - pipeline_generator.py
+  - terraform_scaffolder.py
 ---
+
 
 license: MIT
 metadata:
@@ -46,6 +65,14 @@ metadata:
 
 Complete toolkit for senior devops with modern tools and best practices.
 
+## Overview
+
+This skill provides comprehensive DevOps capabilities through three core Python automation tools and extensive reference documentation. Whether setting up CI/CD pipelines, automating infrastructure, deploying containerized applications, or implementing monitoring, this skill delivers production-ready DevOps solutions.
+
+Senior DevOps engineers use this skill for continuous integration/deployment, infrastructure as code (Terraform), containerization (Docker, Kubernetes), cloud platforms (AWS, GCP, Azure), pipeline automation (GitHub Actions, CircleCI), and observability (Prometheus, Grafana). The skill covers deployment strategies, infrastructure automation, and reliability engineering.
+
+**Core Value:** Accelerate deployment pipelines by 75%+ while improving reliability, consistency, and infrastructure automation through proven DevOps patterns and tools.
+
 ## Quick Start
 
 ### Main Capabilities
@@ -65,50 +92,112 @@ python scripts/deployment_manager.py [options]
 
 ## Core Capabilities
 
+- **CI/CD Pipeline Setup** - GitHub Actions, CircleCI, GitLab CI configuration with automated testing, building, and deployment
+- **Infrastructure as Code** - Terraform scaffolding for AWS, GCP, Azure with modular architecture and state management
+- **Container Orchestration** - Docker and Kubernetes configuration, Helm charts, service mesh setup
+- **Deployment Automation** - Blue-green, canary, rolling deployments with automated rollback strategies
+- **Monitoring & Observability** - Prometheus, Grafana dashboards, logging (ELK/EFK), alerting, and incident response
+- **Security & Compliance** - Secret management, RBAC, network policies, security scanning in pipelines
+
+## Python Tools
+
 ### 1. Pipeline Generator
 
-Automated tool for pipeline generator tasks.
+Generate production-ready CI/CD pipelines for multiple platforms.
 
-**Features:**
-- Automated scaffolding
-- Best practices built-in
-- Configurable templates
-- Quality checks
+**Key Features:**
+- GitHub Actions workflow generation
+- CircleCI config creation
+- GitLab CI pipeline templates
+- Multi-stage builds (test, build, deploy)
+- Automated testing integration
+- Docker image building and pushing
 
-**Usage:**
+**Common Usage:**
 ```bash
-python scripts/pipeline_generator.py <project-path> [options]
+# Generate GitHub Actions pipeline
+python scripts/pipeline_generator.py --platform github --language nodejs --output .github/workflows/
+
+# CircleCI pipeline
+python scripts/pipeline_generator.py --platform circleci --language python --test pytest
+
+# Full stack pipeline
+python scripts/pipeline_generator.py --platform github --stack fullstack --deploy kubernetes
+
+# Help
+python scripts/pipeline_generator.py --help
 ```
+
+**Use Cases:**
+- Setting up CI/CD for new projects
+- Standardizing pipelines across teams
+- Adding deployment stages to existing pipelines
 
 ### 2. Terraform Scaffolder
 
-Comprehensive analysis and optimization tool.
+Scaffold infrastructure as code with Terraform best practices.
 
-**Features:**
-- Deep analysis
-- Performance metrics
-- Recommendations
-- Automated fixes
+**Key Features:**
+- Modular Terraform structure generation
+- AWS, GCP, Azure provider templates
+- Remote state configuration (S3, GCS, Azure Blob)
+- Module organization (networking, compute, database)
+- Variable and output management
+- Security best practices built-in
 
-**Usage:**
+**Common Usage:**
 ```bash
-python scripts/terraform_scaffolder.py <target-path> [--verbose]
+# Scaffold AWS infrastructure
+python scripts/terraform_scaffolder.py --provider aws --modules vpc,eks,rds --output infrastructure/
+
+# GCP infrastructure
+python scripts/terraform_scaffolder.py --provider gcp --modules gke,cloudsql --remote-state gcs
+
+# Multi-environment setup
+python scripts/terraform_scaffolder.py --provider aws --environments dev,staging,prod
+
+# Help
+python scripts/terraform_scaffolder.py --help
 ```
+
+**Use Cases:**
+- Starting new infrastructure projects
+- Organizing existing Terraform code
+- Creating reusable infrastructure modules
 
 ### 3. Deployment Manager
 
-Advanced tooling for specialized tasks.
+Automate application deployments with multiple strategies.
 
-**Features:**
-- Expert-level automation
-- Custom configurations
-- Integration ready
-- Production-grade output
+**Key Features:**
+- Blue-green deployment automation
+- Canary release management
+- Rolling update strategies
+- Automated rollback on failure
+- Health check integration
+- Multi-environment deployment
 
-**Usage:**
+**Common Usage:**
 ```bash
-python scripts/deployment_manager.py [arguments] [options]
+# Blue-green deployment
+python scripts/deployment_manager.py --strategy blue-green --app myapp --version v2.0
+
+# Canary deployment
+python scripts/deployment_manager.py --strategy canary --app myapp --version v2.0 --canary-percentage 10
+
+# Rollback
+python scripts/deployment_manager.py --rollback --app myapp --to-version v1.9
+
+# Help
+python scripts/deployment_manager.py --help
 ```
+
+**Use Cases:**
+- Zero-downtime deployments
+- Testing new releases with minimal risk
+- Automating deployment workflows
+
+See [cicd_pipeline_guide.md](references/cicd_pipeline_guide.md) for comprehensive documentation.
 
 ## Reference Documentation
 
@@ -150,6 +239,71 @@ Technical reference guide in `references/deployment_strategies.md`:
 **Database:** PostgreSQL, Prisma, NeonDB, Supabase
 **DevOps:** Docker, Kubernetes, Terraform, GitHub Actions, CircleCI
 **Cloud:** AWS, GCP, Azure
+
+## Key Workflows
+
+### 1. CI/CD Pipeline Setup
+
+**Time:** 2-3 hours for complete pipeline
+
+1. **Define Pipeline Stages** - Test, build, scan, deploy stages with appropriate triggers
+2. **Generate Pipeline Configuration** - Use pipeline generator for platform-specific config
+   ```bash
+   # Generate GitHub Actions pipeline
+   python scripts/pipeline_generator.py --platform github --language nodejs --deploy kubernetes
+   ```
+3. **Configure Secrets** - Setup repository secrets for cloud credentials, API keys
+4. **Test Pipeline** - Trigger test run, validate all stages execute correctly
+5. **Enable Branch Protection** - Require pipeline success before merging
+
+See [cicd_pipeline_guide.md](references/cicd_pipeline_guide.md) for pipeline patterns.
+
+### 2. Infrastructure Provisioning with Terraform
+
+**Time:** 4-6 hours for initial infrastructure
+
+1. **Design Infrastructure** - Define required resources (networking, compute, database, storage)
+2. **Scaffold Terraform** - Generate modular Terraform structure
+   ```bash
+   # Scaffold AWS infrastructure
+   python scripts/terraform_scaffolder.py --provider aws --modules vpc,eks,rds --output infrastructure/
+   ```
+3. **Configure Remote State** - Setup S3/GCS backend for state management
+4. **Apply Infrastructure** - Plan and apply Terraform configuration
+   ```bash
+   terraform init
+   terraform plan -out=tfplan
+   terraform apply tfplan
+   ```
+5. **Document Architecture** - Create diagrams and runbooks
+
+See [infrastructure_as_code.md](references/infrastructure_as_code.md) for IaC best practices.
+
+### 3. Kubernetes Application Deployment
+
+**Time:** 3-4 hours for initial deployment
+
+1. **Containerize Application** - Create optimized Dockerfile with multi-stage build
+2. **Create Kubernetes Manifests** - Deployment, Service, Ingress, ConfigMap, Secret
+3. **Deploy Application** - Use deployment manager for controlled rollout
+   ```bash
+   # Blue-green deployment
+   python scripts/deployment_manager.py --strategy blue-green --app myapp --version v1.0
+   ```
+4. **Configure Monitoring** - Setup Prometheus metrics, Grafana dashboards
+5. **Test & Validate** - Health checks, load testing, rollback testing
+
+### 4. Monitoring & Alerting Setup
+
+**Time:** 2-3 hours for complete observability stack
+
+1. **Deploy Monitoring Stack** - Prometheus, Grafana, Alertmanager
+2. **Configure Metrics Collection** - Application metrics, infrastructure metrics, logs
+3. **Create Dashboards** - Service health, resource usage, error rates
+4. **Setup Alerts** - Error rate thresholds, latency SLOs, capacity warnings
+5. **Test Incident Response** - Validate alerting, runbooks, escalation
+
+See [deployment_strategies.md](references/deployment_strategies.md) for deployment and monitoring patterns.
 
 ## Development Workflow
 

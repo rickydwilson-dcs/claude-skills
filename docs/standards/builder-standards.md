@@ -1,7 +1,7 @@
 # Builder Standards
 
-**Version**: 1.0.0
-**Last Updated**: November 22, 2025
+**Version**: 1.1.0
+**Last Updated**: November 23, 2025
 **Status**: Production
 
 This document defines validation standards and quality criteria for agent and skill builders in the Claude Skills repository.
@@ -343,7 +343,7 @@ skill-name/
 **Required Fields**:
 ```yaml
 ---
-name: Skill Name
+name: skill-name              # MUST be kebab-case
 description: Brief description
 license: MIT
 metadata:
@@ -365,11 +365,26 @@ metadata:
 
 **Validation Checks**:
 - ✓ Basic fields: name, description, license
+- ✓ **Name is kebab-case** (lowercase with hyphens, e.g., `content-creator`, `data-analyst`)
 - ✓ Extended metadata section present
 - ✓ Version follows semver (X.Y.Z)
 - ✓ Updated date in ISO format (YYYY-MM-DD)
 - ✓ Keywords is array with 3+ items
 - ✓ Tech-stack is array with 1+ items
+
+**Name Format Requirement** (v1.1.0):
+```python
+# Valid names
+✓ content-creator
+✓ senior-architect
+✓ data-analyst-toolkit
+
+# Invalid names
+❌ Content-Creator     (Title Case)
+❌ content_creator     (snake_case)
+❌ contentCreator      (camelCase)
+❌ cs-content-creator  (cs- prefix reserved for agents)
+```
 
 ---
 
@@ -434,6 +449,124 @@ chmod +x scripts/*.py
 - Accept `--output json` for machine-readable format
 - Use standard exit codes (0 = success, 1 = error)
 - Handle UTF-8 encoding
+
+**When to Use Python Guidance** (v1.1.0):
+
+The skill builder now provides interactive guidance on when Python tools are appropriate:
+
+**✓ Use Python when skill needs:**
+- Mathematical calculations or data processing
+- File generation (Excel, PDF, CSV, JSON)
+- Complex algorithms or transformations
+- API interactions or external integrations
+
+**✗ Don't use Python when skill is:**
+- Purely instructional (style guides, tone of voice)
+- Simple template/framework application
+- Decision-making guidance or advisory
+- Prompt-based formatting or content generation
+
+---
+
+### 5. File Cleanliness Validation (v1.1.0)
+
+**Standard**: Skill directories **MUST** be clean for production deployment
+
+**Artifacts to Avoid**:
+
+**Backup Files**:
+```
+❌ *.backup
+❌ *.bak
+❌ *.old
+❌ *~
+```
+
+**Python Cache**:
+```
+❌ __pycache__/
+❌ *.pyc
+❌ *.pyo
+```
+
+**Internal Documentation**:
+```
+❌ *_SUMMARY.md
+❌ *_NOTES.md
+❌ *_INTERNAL.md
+```
+
+**Temporary Files**:
+```
+❌ *.tmp
+❌ *.temp
+❌ .DS_Store (macOS)
+❌ Thumbs.db (Windows)
+```
+
+**Validation Command**:
+```bash
+python3 scripts/skill_builder.py --validate skills/domain/skill/ --validate-cleanup
+```
+
+**Cleanup Recommendations**:
+When validation fails, the tool provides cleanup guidance:
+```
+• Remove backup files (.backup, .bak, .old)
+• Delete __pycache__/ directories
+• Remove internal summary/notes documents
+• Delete temporary files (.tmp, .temp, .DS_Store)
+```
+
+**Note**: This check is **optional** and only runs with `--validate-cleanup` flag. Standard validation focuses on structural and content requirements.
+
+---
+
+### 6. HOW_TO_USE.md Generation (v1.1.0)
+
+**Standard**: All skills **MUST** include a HOW_TO_USE.md file
+
+**Purpose**: Provides user-friendly invocation examples and usage patterns
+
+**Generated Structure**:
+```markdown
+# How to Use the [Skill Name] Skill
+
+## Quick Start
+Hey Claude—I just added the "skill-name" skill. Can you help me with [task]?
+
+## Example Invocations
+### Example 1: Basic Usage
+### Example 2: Advanced Usage
+### Example 3: Integration with Other Skills
+
+## What to Provide
+- Primary Input
+- Context (optional)
+- Preferences (optional)
+
+## What You'll Get
+- Output Format
+- Analysis
+- Deliverables
+
+## Python Tools Available
+- List of available tools with descriptions
+
+## Tips for Best Results
+1. Be Specific
+2. Provide Context
+3. Iterate
+4. Combine Skills
+
+## Related Skills
+- Related skill 1
+- Related skill 2
+```
+
+**File Location**: `skills/domain/skill-name/HOW_TO_USE.md`
+
+**Auto-Generation**: Created automatically when using `skill_builder.py` in interactive or config mode
 
 ---
 
@@ -607,6 +740,15 @@ python3 scripts/skill_builder.py  # Run interactive mode, test all inputs
 ---
 
 ## Version History
+
+**v1.1.0** (November 23, 2025)
+- Added YAML frontmatter kebab-case validation for skill names
+- Added file cleanliness validation (backup files, __pycache__, temp files)
+- Added --validate-cleanup flag for optional cleanup checks
+- Added HOW_TO_USE.md auto-generation to skill builder
+- Added "When to Use Python" interactive guidance
+- Updated SKILL.md template with enhanced Composability & Integration section
+- Skill validation: Now 10 checks (added file_cleanliness check, optional)
 
 **v1.0.0** (November 22, 2025)
 - Initial builder standards documentation

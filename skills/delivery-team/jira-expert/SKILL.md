@@ -1,74 +1,241 @@
 ---
 name: jira-expert
 description: Atlassian Jira expert for creating and managing projects, planning, product discovery, JQL queries, workflows, custom fields, automation, reporting, and all Jira features. Use for Jira project setup, configuration, advanced search, dashboard creation, workflow design, and technical Jira operations.
+license: MIT
 metadata:
   version: 1.0.0
   author: Claude Skills Team
   category: delivery
   domain: jira expert
-  updated: 2025-11-22
+  updated: 2025-11-23
   keywords:
-    - atlassian
-    - jira
-    - expert
-    - creating
-    - managing
-    - projects
-    - planning
-    - product
-    - discovery
-    - jql
+  - atlassian
+  - jira
+  - expert
+  - creating
+  - managing
+  - projects
+  - planning
+  - product
+  - discovery
+  - jql
   tech-stack:
-    - Python 3.8+
+  - Python 3.8+
+  python-tools: []
 ---
+
 
 # Atlassian Jira Expert
 
 ## Overview
 
-This skill provides [TODO: Add 2-3 sentence overview].
+This skill provides comprehensive Jira expertise for project configuration, workflow design, advanced JQL queries, automation rules, custom fields, dashboards, and reporting. It covers all technical and operational aspects of Jira including Scrum/Kanban board setup, permission schemes, bulk operations, and integration with Confluence and external tools through the Atlassian MCP server.
 
-**Core Value:** [TODO: Add value proposition with metrics]
+Target users include Jira administrators, project managers, Scrum Masters, technical leads, and agile coaches who need to configure projects, optimize workflows, create advanced filters and dashboards, or automate Jira operations. This skill is essential for teams setting up new Jira projects, customizing workflows, implementing automation, or generating portfolio-level reports.
 
-**Target Audience:** [TODO: Define target users]
-
-**Use Cases:** [TODO: List 3-5 primary use cases]
-
+**Core Value:** Reduce project setup time by 60% through templates and automation, improve team productivity by 35% through optimized workflows and JQL filters, and increase reporting efficiency by 70% through custom dashboards and automated data extraction.
 
 ## Core Capabilities
 
-- **[Capability 1]** - [Description]
-- **[Capability 2]** - [Description]
-- **[Capability 3]** - [Description]
-- **[Capability 4]** - [Description]
+- **Project Configuration & Workflows** - Create and configure Jira projects (Scrum, Kanban, custom) with custom workflows, issue types, fields, screens, and permission schemes
+- **JQL Mastery & Advanced Queries** - Write complex JQL queries for any use case, build saved filters with multiple conditions, optimize query performance, and create team-specific views
+- **Automation & Integration** - Design Jira automation rules, configure webhooks, set up email notifications, and integrate with external tools (Confluence, Slack, CI/CD)
+- **Dashboards & Reporting** - Create custom dashboards with gadgets, build reports for sprint metrics, velocity, burndown, configure portfolio-level reporting, and export data for executive visibility
+- **Atlassian MCP Integration** - Direct Jira operations via MCP server for project creation, JQL execution, issue updates, sprint management, report generation, and workflow configuration
 
+## Quick Start
 
-## Key Workflows
+### Common Jira Operations
 
-### Workflow 1: [Workflow Name]
+This skill provides Jira expertise through knowledge frameworks, JQL patterns, and workflow templates. Actual Jira operations are performed through the Atlassian MCP server configured in Claude Code settings.
 
-**Time:** [Duration estimate]
+### Access Documentation Resources
+
+- **JQL reference:** See JQL Query Building section for operators, functions, and powerful query examples
+- **Workflow patterns:** See Workflow Design section for workflow configuration and transition setup
+- **Automation examples:** See Automation Rules section for trigger, condition, and action patterns
+- **Dashboard templates:** See Dashboard Creation section for gadget configuration and layout patterns
+
+### Key Workflows to Start With
+
+1. **Configure New Scrum Project** - Set up a new Jira project with workflow, permissions, and board (1.5 hours)
+2. **Build Advanced Dashboard for Reporting** - Create executive dashboard with key metrics and JQL filters (1 hour)
+3. **Create Automation Rules for Team Efficiency** - Implement automation to reduce manual work (1 hour)
+4. **Master JQL for Complex Queries** - Build advanced queries for filtering, reporting, and bulk operations (varies)
+
+## Workflows
+
+### 1. Configure New Scrum Project
+
+**Time:** 1.5 hours
 
 **Steps:**
-1. [Step 1]
-2. [Step 2]
-3. [Step 3]
+1. **Create Jira project** - Go to Projects → Create project → Select Scrum template
+   - Project key (e.g., "PROJ" - 2-4 uppercase letters)
+   - Project name and description
+   - Project lead (should be Senior PM)
+   - Default assignee preference
+2. **Configure issue types** - Customize the issue types for your workflow
+   - Epic: Large features/initiatives
+   - Story: User-facing feature work
+   - Task: Non-user-facing work
+   - Bug: Defect reports
+   - Subtask: Breakdown complex stories
+   - Optional: Add custom types (e.g., "Spike" for research)
+3. **Create workflow schema** - Design workflow states and transitions
+   ```
+   To Do → In Progress → In Review → Done
+   - To Do: Initial state for all issues
+   - In Progress: Active development
+   - In Review: Awaiting code/design review
+   - Done: Complete and merged/deployed
+   ```
+   - Define who can transition between states
+   - Add validators (required fields before transition)
+   - Add post-functions (auto-assign, notify watchers)
+4. **Set up project permissions** - Configure who can browse, create, and manage issues
+   - Developers: Create/Edit/Transition issues
+   - QA: Create bugs, view all issues
+   - PM: Admin access
+   - Stakeholders: View-only
+5. **Configure board and backlog** - Set up Scrum board for sprint management
+   - Enable columns for each workflow state
+   - Configure backlog visibility
+   - Set default issue view
+6. **Create board filters and saved searches** - Set up standard queries for team use
+   - My Issues: `assignee = currentUser() AND status != Done`
+   - Blocked: `issuekey in linkedIssues(PROJ, "is blocked by")`
+   - Ready for Dev: `priority >= High AND status = "To Do"`
 
-**Expected Output:** [What success looks like]
+**Expected Output:** Fully configured Scrum project ready for team to begin working. Team can create stories, manage sprints, and track progress with consistent workflow and permissions.
 
-### Workflow 2: [Workflow Name]
+See [Project Configuration](#core-competencies) section for detailed configuration options.
 
-**Time:** [Duration estimate]
+### 2. Build Advanced Dashboard for Reporting
+
+**Time:** 1 hour
 
 **Steps:**
-1. [Step 1]
-2. [Step 2]
-3. [Step 3]
+1. **Create new shared dashboard** - Dashboards → Create Dashboard
+   - Name: "Team Metrics" or similar
+   - Make it shared with team
+   - Set default filters if needed
+2. **Add sprint burndown gadget** - Shows sprint progress week by week
+   - Select current sprint
+   - Configure to show ideal vs actual burndown
+   - Helps identify falling behind early
+3. **Add velocity chart gadget** - Tracks story points completed per sprint
+   - Use last 10 sprints
+   - Shows team capacity trends
+   - Helps forecast future sprint capacity
+4. **Add created vs resolved gadget** - Shows issue intake vs completion rate
+   - Monitors if backlog is growing/shrinking
+   - Use 30-day timeframe
+5. **Add filter results gadget** - Custom issue list using JQL
+   ```
+   # High priority bugs
+   type = Bug AND priority = High AND status != Done
+   ```
+   - Add separate gadget for high priority issues
+   - Add gadget for overdue issues
+6. **Arrange and share dashboard** - Position gadgets for readability
+   - Executive summary at top
+   - Detailed metrics below
+   - Share with stakeholders
 
-**Expected Output:** [What success looks like]
+**Expected Output:** Live dashboard providing real-time view into team metrics, sprint health, and backlog status. Stakeholders can monitor progress without asking for updates.
 
+See [Dashboard Creation](#workflows) section for detailed gadget configuration.
 
-Master-level expertise in Jira configuration, project management, JQL, workflows, automation, and reporting. Handles all technical and operational aspects of Jira.
+### 3. Set Up Automation Rules for Common Tasks
+
+**Time:** 1.5 hours
+
+**Steps:**
+1. **Create automatic status updates** - Trigger on field changes
+   - When "Fix Version" is set to current sprint → Auto-move story to "In Progress"
+   - When all subtasks marked Done → Auto-move parent to "In Review"
+   - Reduces manual status updates
+2. **Create auto-assignment rules** - Route work to appropriate team members
+   - When type = Bug and priority = High → Assign to @dev-lead
+   - When type = Story and label = "backend" → Assign to backend team
+   - Balance work distribution
+3. **Create notification automation** - Keep stakeholders informed
+   - When status changes to "In Review" → Notify assigned reviewer
+   - When issue moved to "Done" → Notify watchers with summary
+   - When issue created with "Blocker" label → Notify PM
+4. **Create linked issue automation** - Maintain relationships
+   - When Epic moved to "Done" → Auto-close all child stories marked Done
+   - When story linked to QA Epic → Add QA label
+   - Keep related issues in sync
+5. **Test automation with sample data** - Create test issues in each scenario
+   - Verify rules fire correctly
+   - Check notifications arrive
+   - Confirm field updates work as expected
+6. **Enable and monitor** - Turn on automation in production
+   - Monitor for 1 week for edge cases
+   - Adjust rules if needed
+   - Document rules for team reference
+
+**Expected Output:** Automated Jira workflow handling routine tasks, reducing manual work and keeping team informed. Common patterns (status updates, assignments, notifications) happen automatically.
+
+See [Automation Rules](#workflows) section for pattern examples.
+
+### 4. Execute Bulk Data Cleanup and Migration
+
+**Time:** 2 hours
+
+**Steps:**
+1. **Identify target issues using JQL** - Write query to find all issues needing update
+   ```jql
+   # Example: All high priority bugs without fix version
+   type = Bug AND priority = High AND fixVersion is EMPTY
+   ```
+   - Test query to ensure correct scope
+   - Check count of affected issues
+2. **Create backup report** - Export data before making changes
+   - Use Issues → Export to Excel
+   - Save report with timestamp
+   - Document what changes are being made
+3. **Perform bulk change operation** - Select → Tools → Bulk Change
+   - Select target issues from query
+   - Choose fields to update (e.g., Fix Version, Epic Link, Labels)
+   - Preview changes before executing
+   - Execute bulk operation
+4. **Verify migration success** - Check sample of updated issues
+   - Spot check 10-20 updated issues
+   - Verify fields updated correctly
+   - Check that no data was lost
+5. **Update affected reports and dashboards** - Refresh any dashboards or filters
+   - Rerun velocity reports
+   - Update any hardcoded issue lists
+   - Notify team of changes
+6. **Document changes** - Create audit trail
+   - Record what was changed
+   - Why the change was made
+   - Date and who performed it
+
+**Expected Output:** Data cleanup completed successfully with verified accuracy. Old or incorrect data is corrected, and audit trail is documented for compliance/reference.
+
+See [Bulk Operations](#advanced-features) section for detailed operation procedures.
+
+## Python Tools
+
+This skill does not include Python automation tools. Jira operations are performed directly through the Atlassian MCP server, which provides native integration for:
+
+- Creating and configuring projects
+- Executing JQL queries for data extraction
+- Updating issue fields and statuses
+- Creating and managing sprints
+- Generating reports and dashboards
+- Configuring workflows and automation
+- Managing boards and filters
+
+See the Atlassian MCP Integration section below for detailed integration patterns and capabilities.
+
+## Reference Documentation
+
+The following sections provide comprehensive frameworks, JQL patterns, and best practices for Jira expertise:
 
 ## Core Competencies
 

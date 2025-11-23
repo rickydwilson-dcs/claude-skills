@@ -41,52 +41,98 @@ def simple_yaml_parse(yaml_str: str) -> Dict:
     """
     Simple YAML parser for skill frontmatter (standard library only)
 
-    Handles basic key-value pairs and lists.
-    Does NOT support nested objects or complex YAML features.
+    Handles basic key-value pairs, lists, and one level of nesting.
+    Supports nested metadata objects.
     """
     result = {}
     current_key = None
     list_items = []
+    in_nested = False
+    nested_key = None
+    nested_dict = {}
 
     for line in yaml_str.strip().split('\n'):
-        line = line.strip()
+        stripped = line.strip()
+        indent = len(line) - len(line.lstrip())
 
-        if not line or line.startswith('#'):
+        if not stripped or stripped.startswith('#'):
             continue
 
         # List item
-        if line.startswith('- '):
-            item = line[2:].strip()
+        if stripped.startswith('- '):
+            item = stripped[2:].strip()
             list_items.append(item)
             continue
 
         # Key-value pair
-        if ':' in line:
+        if ':' in stripped:
             # Save previous list if any
             if current_key and list_items:
-                result[current_key] = list_items
+                if in_nested:
+                    nested_dict[current_key] = list_items
+                else:
+                    result[current_key] = list_items
                 list_items = []
 
-            key, value = line.split(':', 1)
+            key, value = stripped.split(':', 1)
             key = key.strip()
             value = value.strip()
 
-            # Handle inline lists [item1, item2]
-            if value.startswith('[') and value.endswith(']'):
-                items = value[1:-1].split(',')
-                result[key] = [item.strip() for item in items]
-                current_key = None
-            # Empty value - expect list on next lines
-            elif not value:
-                current_key = key
-            # Simple value
+            # Nested object (indented with 2+ spaces)
+            if indent >= 2:
+                in_nested = True
+                # Handle inline lists [item1, item2]
+                if value.startswith('[') and value.endswith(']'):
+                    if value == '[]':
+                        nested_dict[key] = []
+                    else:
+                        items = value[1:-1].split(',')
+                        nested_dict[key] = [item.strip() for item in items]
+                    current_key = None
+                # Empty value - expect list on next lines
+                elif not value:
+                    current_key = key
+                # Simple value
+                else:
+                    nested_dict[key] = value
+                    current_key = None
+            # Top-level key
             else:
-                result[key] = value
-                current_key = None
+                # Save previous nested dict if any
+                if in_nested and nested_key:
+                    result[nested_key] = nested_dict
+                    nested_dict = {}
+
+                in_nested = False
+
+                # Handle inline lists [item1, item2]
+                if value.startswith('[') and value.endswith(']'):
+                    if value == '[]':
+                        result[key] = []
+                    else:
+                        items = value[1:-1].split(',')
+                        result[key] = [item.strip() for item in items]
+                    current_key = None
+                # Empty value - could be nested object or list
+                elif not value:
+                    current_key = key
+                    nested_key = key
+                    in_nested = False
+                # Simple value
+                else:
+                    result[key] = value
+                    current_key = None
 
     # Save final list if any
     if current_key and list_items:
-        result[current_key] = list_items
+        if in_nested:
+            nested_dict[current_key] = list_items
+        else:
+            result[current_key] = list_items
+
+    # Save final nested dict if any
+    if in_nested and nested_key:
+        result[nested_key] = nested_dict
 
     return result
 
@@ -358,6 +404,11 @@ class SkillValidator:
         if missing:
             return False, f"Missing YAML fields: {', '.join(missing)}"
 
+        # Validate name is kebab-case
+        name = metadata.get('name', '')
+        if not re.match(r'^[a-z][a-z0-9-]+$', name):
+            return False, f"YAML name must be kebab-case: {name}"
+
         # Check nested metadata
         if isinstance(metadata.get('metadata'), dict):
             meta_required = ['version', 'updated', 'keywords']
@@ -429,13 +480,63 @@ class SkillValidator:
 
         return True, f"Valid ({len([l for l in links if not l[1].startswith('http')])} internal links)"
 
-    def run_all_checks(self, skill_path: Path) -> Dict:
-        """Run all validation checks and return results"""
+    def validate_cleanup(self, skill_path: Path) -> Tuple[bool, str]:
+        """Validate skill directory is clean (no backup files or artifacts)"""
+        if not skill_path.exists():
+            return False, f"Skill directory not found: {skill_path}"
+
+        artifacts = []
+
+        # Check for backup files
+        backup_patterns = ['*.backup', '*.bak', '*.old', '*~']
+        for pattern in backup_patterns:
+            found = list(skill_path.rglob(pattern))
+            if found:
+                artifacts.extend([f.name for f in found[:3]])  # Show first 3
+
+        # Check for __pycache__ directories
+        pycache_dirs = list(skill_path.rglob('__pycache__'))
+        if pycache_dirs:
+            artifacts.extend(['__pycache__/' for _ in pycache_dirs[:3]])
+
+        # Check for .pyc files
+        pyc_files = list(skill_path.rglob('*.pyc'))
+        if pyc_files:
+            artifacts.extend([f.name for f in pyc_files[:3]])
+
+        # Check for internal summary/notes documents
+        summary_patterns = ['*_SUMMARY.md', '*_NOTES.md', '*_INTERNAL.md']
+        for pattern in summary_patterns:
+            found = list(skill_path.rglob(pattern))
+            if found:
+                artifacts.extend([f.name for f in found[:3]])
+
+        # Check for temporary files
+        temp_patterns = ['*.tmp', '*.temp', '.DS_Store', 'Thumbs.db']
+        for pattern in temp_patterns:
+            found = list(skill_path.rglob(pattern))
+            if found:
+                artifacts.extend([f.name for f in found[:3]])
+
+        if artifacts:
+            return False, f"Found artifacts: {', '.join(artifacts[:5])}"
+
+        return True, "Clean (no artifacts)"
+
+    def run_all_checks(self, skill_path: Path, include_cleanup: bool = False) -> Dict:
+        """Run all validation checks and return results
+
+        Args:
+            skill_path: Path to skill directory
+            include_cleanup: Whether to include cleanup validation (default: False)
+        """
+        checks_total = 10 if include_cleanup else 9
+
         if not skill_path.exists():
             return {
                 'status': 'failed',
                 'checks_passed': 0,
-                'checks_total': 9,
+                'checks_total': checks_total,
                 'error': f"Skill directory not found: {skill_path}"
             }
 
@@ -514,6 +615,15 @@ class SkillValidator:
             'status': 'passed' if valid else 'failed',
             'message': msg
         })
+
+        # Check 10: File cleanliness (optional)
+        if include_cleanup:
+            valid, msg = self.validate_cleanup(skill_path)
+            checks.append({
+                'name': 'file_cleanliness',
+                'status': 'passed' if valid else 'failed',
+                'message': msg
+            })
 
         checks_passed = sum(1 for c in checks if c['status'] == 'passed')
 
@@ -872,6 +982,96 @@ class DirectoryScaffolder:
         (assets_dir / ".gitkeep").write_text("")
         print(f"✓ Created assets/.gitkeep")
 
+        # Create HOW_TO_USE.md
+        try:
+            how_to_use = self._generate_how_to_use(config)
+            (base_path / "HOW_TO_USE.md").write_text(how_to_use)
+            print(f"✓ Created HOW_TO_USE.md")
+        except Exception as e:
+            print(f"⚠️  HOW_TO_USE.md creation failed: {e}")
+
+    def _generate_how_to_use(self, config: Dict) -> str:
+        """Generate HOW_TO_USE.md content"""
+        skill_name_title = config['name'].replace('-', ' ').title()
+
+        content = f"""# How to Use the {skill_name_title} Skill
+
+## Quick Start
+
+Hey Claude—I just added the "{config['name']}" skill. Can you help me with [describe your task]?
+
+## Example Invocations
+
+### Example 1: Basic Usage
+```
+Hey Claude—I just added the "{config['name']}" skill. Can you [specific task related to this skill]?
+```
+
+### Example 2: Advanced Usage
+```
+Hey Claude—I just added the "{config['name']}" skill. Can you [more complex task with specific requirements]?
+```
+
+### Example 3: Integration with Other Skills
+```
+Hey Claude—I just added the "{config['name']}" skill. Can you use it together with [another skill] to [combined task]?
+```
+
+## What to Provide
+
+When using this skill, provide:
+
+- **Primary Input**: [Describe the main input needed]
+- **Context** (optional): [What context helps improve results]
+- **Preferences** (optional): [Any customization options]
+
+## What You'll Get
+
+This skill will provide:
+
+- **Output Format**: {config.get('output_format', 'Results formatted according to skill specifications')}
+- **Analysis**: Insights and recommendations based on the input
+- **Deliverables**: {', '.join(config.get('tools', ['Reports and actionable outputs']))}
+
+## Python Tools Available
+
+This skill includes the following Python tools:
+
+"""
+        for tool in config.get('tools', []):
+            tool_name = tool.replace('.py', '').replace('_', ' ').title()
+            content += f"- **{tool}**: {tool_name} functionality\n"
+
+        content += f"""
+You can also run these tools directly:
+
+```bash
+python scripts/{config.get('tools', ['tool_name.py'])[0]} --help
+```
+
+## Tips for Best Results
+
+1. **Be Specific**: Provide clear, detailed requirements for better results
+2. **Provide Context**: Include relevant background information
+3. **Iterate**: Start simple, then refine based on initial results
+4. **Combine Skills**: This skill works well with other {config['domain'].replace('-team', '')} skills
+
+## Related Skills
+
+Consider using these skills together:
+
+- [List related skills from the same domain]
+- [Skills that complement this one]
+
+---
+
+**Skill**: {config['name']}
+**Domain**: {config['domain']}
+**Version**: 1.0.0
+**Last Updated**: {datetime.now().strftime('%Y-%m-%d')}
+"""
+        return content
+
 
 class SkillBuilder:
     """Main orchestrator for skill creation"""
@@ -1098,6 +1298,20 @@ class SkillBuilder:
         """Prompt for Python tools"""
         print("Step 6/8: Python Tools")
         print("-" * 50)
+        print()
+        print("When to Use Python Tools:")
+        print("  ✓ USE Python when skill needs:")
+        print("    - Mathematical calculations or data processing")
+        print("    - File generation (Excel, PDF, CSV, JSON)")
+        print("    - Complex algorithms or transformations")
+        print("    - API interactions or external integrations")
+        print()
+        print("  ✗ DON'T use Python when skill is:")
+        print("    - Purely instructional (style guides, tone of voice)")
+        print("    - Simple template/framework application")
+        print("    - Decision-making guidance or advisory")
+        print("    - Prompt-based formatting or content generation")
+        print()
         print("How many Python CLI tools will this skill have?")
         print("Minimum: 1, Recommended: 2-4")
         print()
@@ -1206,6 +1420,7 @@ class SkillBuilder:
         print("Directory structure to create:")
         print(f"skills/{config['domain']}/{config['name']}/")
         print("├── SKILL.md")
+        print("├── HOW_TO_USE.md")
         print("├── scripts/")
         for tool in config['tools']:
             print(f"│   ├── {tool}")
@@ -1282,8 +1497,13 @@ class SkillBuilder:
 
         self.generate_skill(config)
 
-    def validate_existing(self, skill_path: str) -> int:
-        """Validate an existing skill package"""
+    def validate_existing(self, skill_path: str, include_cleanup: bool = False) -> int:
+        """Validate an existing skill package
+
+        Args:
+            skill_path: Path to skill directory
+            include_cleanup: Whether to include cleanup validation
+        """
         path = Path(skill_path)
 
         if not path.is_absolute():
@@ -1291,9 +1511,13 @@ class SkillBuilder:
 
         print(f"Validating skill: {path.name}")
         print("=" * 50)
+        if include_cleanup:
+            print("Mode: Full validation (including file cleanliness)")
+        else:
+            print("Mode: Standard validation")
         print()
 
-        result = self.validator.run_all_checks(path)
+        result = self.validator.run_all_checks(path, include_cleanup=include_cleanup)
 
         # Print results
         for check in result['checks']:
@@ -1309,6 +1533,13 @@ class SkillBuilder:
             return EXIT_SUCCESS
         else:
             print("❌ Skill validation failed")
+            if include_cleanup:
+                print()
+                print("Cleanup recommendations:")
+                print("  • Remove backup files (.backup, .bak, .old)")
+                print("  • Delete __pycache__/ directories")
+                print("  • Remove internal summary/notes documents")
+                print("  • Delete temporary files (.tmp, .temp, .DS_Store)")
             return EXIT_VALIDATION_FAILED
 
 
@@ -1319,10 +1550,11 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python skill_builder.py                                    # Interactive mode
-  python skill_builder.py --config skill-config.yaml        # Config file mode
-  python skill_builder.py --validate skills/team/skill/     # Validation mode
-  python skill_builder.py --dry-run --config config.yaml    # Dry run
+  python skill_builder.py                                             # Interactive mode
+  python skill_builder.py --config skill-config.yaml                 # Config file mode
+  python skill_builder.py --validate skills/team/skill/              # Standard validation
+  python skill_builder.py --validate skills/team/skill/ --validate-cleanup  # Full validation with cleanup checks
+  python skill_builder.py --dry-run --config config.yaml             # Dry run
 
 For more information, see: docs/CLAUDE.md
 """
@@ -1338,6 +1570,12 @@ For more information, see: docs/CLAUDE.md
         '--validate',
         help='Validate existing skill package',
         default=None
+    )
+
+    parser.add_argument(
+        '--validate-cleanup',
+        action='store_true',
+        help='Include file cleanliness validation (checks for backup files, __pycache__, etc.)'
     )
 
     parser.add_argument(
@@ -1357,7 +1595,7 @@ For more information, see: docs/CLAUDE.md
     try:
         # Validation mode
         if args.validate:
-            exit_code = builder.validate_existing(args.validate)
+            exit_code = builder.validate_existing(args.validate, include_cleanup=args.validate_cleanup)
             sys.exit(exit_code)
 
         # Config mode

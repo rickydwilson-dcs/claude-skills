@@ -1,7 +1,25 @@
 ---
 name: senior-qa
 description: Comprehensive QA and testing skill for quality assurance, test automation, and testing strategies for ReactJS, NextJS, NodeJS applications. Includes test suite generation, coverage analysis, E2E testing setup, and quality metrics. Use when designing test strategies, writing test cases, implementing test automation, performing manual testing, or analyzing test coverage.
+license: MIT
+metadata:
+  version: 1.0.0
+  author: Claude Skills Team
+  category: Engineering
+  domain: engineering
+  updated: 2025-11-23
+  keywords:
+  - engineering
+  - senior
+  tech-stack:
+  - Python 3.8+
+  - Markdown
+  python-tools:
+  - coverage_analyzer.py
+  - e2e_test_scaffolder.py
+  - test_suite_generator.py
 ---
+
 
 license: MIT
 metadata:
@@ -41,9 +59,17 @@ metadata:
     - coverage_analyzer.py
     - e2e_test_scaffolder.py
 
-# Senior Qa
+# Senior QA
 
-Complete toolkit for senior qa with modern tools and best practices.
+Complete toolkit for senior QA engineers with comprehensive testing strategies, automation frameworks, and quality assurance best practices.
+
+## Overview
+
+The Senior QA skill provides world-class testing frameworks, automation tools, and quality assurance methodologies for modern software development. This skill covers unit testing, integration testing, E2E testing, test coverage analysis, and quality metrics used by leading engineering teams.
+
+Designed for senior QA engineers and test automation specialists, this skill includes proven patterns for React/Next.js/Node.js applications, test suite generation, coverage optimization, and E2E test scaffolding. All content focuses on production-grade testing with industry best practices.
+
+**Core Value:** Build comprehensive test suites that catch 90%+ of bugs before production while maintaining fast CI/CD pipelines and high developer productivity.
 
 ## Quick Start
 
@@ -108,6 +134,141 @@ Advanced tooling for specialized tasks.
 ```bash
 python scripts/e2e_test_scaffolder.py [arguments] [options]
 ```
+
+## Key Workflows
+
+### 1. Design Test Strategy for New Feature
+
+**Time:** 2-3 hours
+
+1. **Analyze Feature Requirements** - Understand what needs testing
+2. **Identify Test Scenarios** - Map out happy path, edge cases, error conditions
+3. **Generate Test Suite** - Use test_suite_generator.py to scaffold tests
+4. **Implement Tests** - Write unit, integration, and E2E tests
+5. **Verify Coverage** - Run coverage_analyzer.py to ensure adequate coverage
+
+**Expected Output:** Comprehensive test suite with >80% coverage
+
+### 2. Improve Test Coverage
+
+**Time:** 4-6 hours
+
+1. **Run Coverage Analysis** - Identify gaps with coverage_analyzer.py
+2. **Prioritize Coverage Gaps** - Focus on critical paths first
+3. **Write Missing Tests** - Add tests for uncovered code
+4. **Refactor for Testability** - Break down complex functions
+5. **Verify Improvement** - Re-run coverage analysis
+
+**Expected Output:** Test coverage increased by 15-30%
+
+### 3. Set Up E2E Testing
+
+**Time:** 1-2 days
+
+1. **Design E2E Test Scenarios** - Identify critical user journeys
+2. **Scaffold E2E Framework** - Use e2e_test_scaffolder.py
+3. **Implement Test Cases** - Write Cypress or Playwright tests
+4. **Integrate with CI/CD** - Add E2E tests to pipeline
+5. **Monitor and Maintain** - Keep tests stable and fast
+
+**Expected Output:** Production E2E test suite running in CI/CD
+
+## Python Tools
+
+### test_suite_generator.py
+
+Generates comprehensive test suites from source code analysis with unit, integration, and edge case coverage.
+
+**Key Features:**
+- Automated test scaffolding for React/Next.js/Node.js
+- Unit test generation with Jest/React Testing Library patterns
+- Integration test templates with database and API mocking
+- Edge case identification and test generation
+- Test naming conventions and file structure automation
+
+**Common Usage:**
+```bash
+# Generate test suite for component
+python scripts/test_suite_generator.py src/components/Button.tsx
+
+# Generate tests for entire directory
+python scripts/test_suite_generator.py src/components/ --recursive
+
+# Help
+python scripts/test_suite_generator.py --help
+```
+
+**Use Cases:**
+- Scaffolding tests for new components or modules
+- Ensuring consistent test structure across codebase
+- Accelerating test development for large codebases
+- Training junior engineers on testing patterns
+
+### coverage_analyzer.py
+
+Analyzes test coverage with detailed gap identification and actionable recommendations for improvement.
+
+**Key Features:**
+- Line, branch, and function coverage metrics
+- Coverage gap identification by file and function
+- Priority scoring (critical paths vs. utility functions)
+- Historical trend analysis
+- Integration with Jest, Istanbul, and NYC coverage tools
+- Visual coverage reports with heat maps
+
+**Common Usage:**
+```bash
+# Analyze coverage for project
+python scripts/coverage_analyzer.py .
+
+# Detailed report with recommendations
+python scripts/coverage_analyzer.py . --verbose
+
+# JSON output for CI/CD integration
+python scripts/coverage_analyzer.py . --output json
+
+# Help
+python scripts/coverage_analyzer.py --help
+```
+
+**Use Cases:**
+- Identifying untested code before production
+- Setting coverage targets and tracking progress
+- Prioritizing test development efforts
+- Generating coverage reports for stakeholders
+
+### e2e_test_scaffolder.py
+
+Scaffolds end-to-end test infrastructure with Cypress or Playwright including page objects, test data, and CI/CD integration.
+
+**Key Features:**
+- E2E framework setup (Cypress or Playwright)
+- Page Object Model pattern generation
+- Test data management and fixtures
+- CI/CD pipeline integration (GitHub Actions, CircleCI)
+- Visual regression testing setup
+- Parallelization and sharding configuration
+
+**Common Usage:**
+```bash
+# Scaffold Cypress E2E tests
+python scripts/e2e_test_scaffolder.py --framework cypress
+
+# Scaffold Playwright tests
+python scripts/e2e_test_scaffolder.py --framework playwright
+
+# With CI/CD integration
+python scripts/e2e_test_scaffolder.py --framework cypress --ci github-actions
+
+# Help
+python scripts/e2e_test_scaffolder.py --help
+```
+
+**Use Cases:**
+- Setting up E2E testing for new applications
+- Migrating from Selenium to modern frameworks
+- Implementing visual regression testing
+- Establishing E2E testing standards across teams
 
 ## Reference Documentation
 

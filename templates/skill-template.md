@@ -435,18 +435,57 @@ python scripts/tool2.py results.json --format report
 
 **Expected Outcome:** [What success looks like]
 
-## Integration with Other Skills
+## Composability & Integration
 
 <!--
-  Optional section - document how this skill complements other skills.
-  Cross-reference related skills in the same or different domains.
+  IMPORTANT: Document how this skill works with other skills (composability).
+  Show how output from one skill can feed into another.
+  Explain which skills complement this one in workflows.
+  This is KEY for users to understand how to combine skills effectively.
 -->
 
-**[Related Skill 1]:** How these skills work together
+### Skill Composition Patterns
 
-**[Related Skill 2]:** How these skills work together
+**This skill receives input from:**
+- **[Upstream Skill 1]:** Takes output from [skill-name] (describe what format/data flows in)
+- **[Upstream Skill 2]:** Can use results from [skill-name] to enhance its analysis
+- **[Data Source]:** Works with raw data from [source type]
 
-**[Related Skill 3]:** How these skills work together
+**This skill provides output to:**
+- **[Downstream Skill 1]:** Output can feed directly into [skill-name] for [purpose]
+- **[Downstream Skill 2]:** Results can be consumed by [skill-name] for [purpose]
+- **[Export Format]:** Can export to [format] for use in [tools/platforms]
+
+### Recommended Skill Combinations
+
+**Workflow Pattern 1: [Name]**
+```
+[skill-a] → [this-skill] → [skill-b]
+```
+Use this pattern when you need to [describe the end-to-end workflow].
+
+**Workflow Pattern 2: [Name]**
+```
+[skill-x] → [this-skill] → [skill-y]
+```
+Use this pattern when you need to [describe the alternative workflow].
+
+### Integration with Other Skills
+
+**[Related Skill 1]** (`../../domain-team/skill-name/`)
+- How these skills work together
+- What data flows between them
+- When to use them in combination
+
+**[Related Skill 2]** (`../../domain-team/skill-name/`)
+- How these skills work together
+- What data flows between them
+- When to use them in combination
+
+**[Related Skill 3]** (`../../another-team/skill-name/`)
+- Cross-domain integration
+- Use cases for combining these skills
+- Expected benefits
 
 ## Benefits
 
