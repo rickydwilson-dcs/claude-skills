@@ -5,6 +5,11 @@ skills: marketing-team/marketing-demand-acquisition
 domain: marketing
 model: sonnet
 tools: [Read, Write, Bash, Grep, Glob]
+color: orange
+field: content
+expertise: expert
+execution: parallel
+mcp_tools: []
 ---
 
 # Demand Generation Specialist Agent

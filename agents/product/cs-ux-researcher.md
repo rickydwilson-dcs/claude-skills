@@ -5,6 +5,11 @@ skills: product-team/ux-researcher-designer
 domain: product
 model: sonnet
 tools: [Read, Write, Bash, Grep, Glob]
+color: blue
+field: research
+expertise: expert
+execution: parallel
+mcp_tools: []
 ---
 
 # UX Researcher Agent

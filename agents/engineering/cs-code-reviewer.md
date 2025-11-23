@@ -5,6 +5,11 @@ skills: code-reviewer
 domain: engineering
 model: sonnet
 tools: [Read, Write, Bash, Grep, Glob]
+color: red
+field: quality
+expertise: expert
+execution: sequential
+mcp_tools: [mcp__github]
 ---
 
 # Code Reviewer

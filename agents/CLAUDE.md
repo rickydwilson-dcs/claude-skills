@@ -58,6 +58,202 @@ This guide provides comprehensive instructions for creating **cs-* prefixed agen
 
 **Template Available**: [templates/agent-template.md](../templates/agent-template.md) (318 lines) - Use this to create new agents
 
+## Agent Type Classification System
+
+Agents are classified into four distinct types based on their operational characteristics, resource usage, and execution patterns:
+
+| Type | Color | Tools | Execution | Process Count | Model | Examples |
+|------|-------|-------|-----------|---------------|-------|----------|
+| **Strategic** | 🔵 Blue | Read, Write, Grep | Parallel (4-5) | 15-20 | opus/sonnet | cs-product-strategist, cs-ceo-advisor, cs-ux-researcher |
+| **Implementation** | 🟢 Green | Full tools | Coordinated (2-3) | 20-30 | sonnet | cs-fullstack, cs-backend-engineer, cs-frontend-engineer |
+| **Quality** | 🔴 Red | Full + Heavy Bash | Sequential (1) | 12-18 | sonnet | cs-code-reviewer, cs-qa-engineer, cs-security-engineer |
+| **Coordination** | 🟣 Purple | Read, Write, Grep | Lightweight | 10-15 | opus | cs-architect, cs-team-coordinator, cs-cto-advisor |
+
+### Agent Type Details
+
+#### Strategic Agents (Blue)
+- **Purpose:** Planning, research, analysis, and strategic decision-making
+- **Characteristics:** Read-heavy operations, no code execution, document generation
+- **Resource Usage:** Low CPU, moderate memory, minimal I/O
+- **Concurrency:** Safe to run 4-5 agents in parallel
+- **Examples:** Product strategy, market analysis, UX research, business planning
+- **Tools:** Primarily Read, Write, and Grep for knowledge extraction
+
+#### Implementation Agents (Green)
+- **Purpose:** Active code development, feature building, system implementation
+- **Characteristics:** Full tool access, code generation, file modifications
+- **Resource Usage:** Moderate CPU, high memory, high I/O
+- **Concurrency:** Run 2-3 agents with coordination to avoid conflicts
+- **Examples:** Frontend/backend development, API creation, database work
+- **Tools:** Full toolset including Bash for builds and execution
+
+#### Quality Agents (Red)
+- **Purpose:** Testing, validation, code review, security scanning
+- **Characteristics:** Heavy Bash operations, test runners, linting, scanning
+- **Resource Usage:** High CPU, high memory, intensive I/O operations
+- **Concurrency:** MUST run sequentially (1 at a time) to avoid resource contention
+- **Examples:** Automated testing, security audits, performance profiling
+- **Tools:** Full tools with extensive Bash for test execution
+
+#### Coordination Agents (Purple)
+- **Purpose:** Orchestrate other agents, manage workflows, delegate tasks
+- **Characteristics:** Lightweight operations, workflow coordination, delegation
+- **Resource Usage:** Low across all metrics
+- **Concurrency:** Can run alongside other agents as they delegate work
+- **Examples:** Architecture planning, team coordination, workflow management
+- **Tools:** Limited toolset focused on reading and coordination
+
+## Execution Safety Rules
+
+### ✅ SAFE - Parallel Execution
+
+**Strategic Agents in Parallel (4-5 agents max):**
+```bash
+# Safe to run together - low resource usage
+cs-product-strategist &
+cs-ux-researcher &
+cs-ceo-advisor &
+cs-product-marketer &
+wait
+```
+
+**Why it's safe:** Strategic agents primarily read and analyze, with minimal resource contention.
+
+### ✅ SAFE - Coordinated Execution
+
+**Implementation Agents with Coordination (2-3 agents):**
+```bash
+# Frontend and backend development with coordination
+cs-frontend-engineer --component user-dashboard &
+cs-backend-engineer --api user-endpoints &
+wait
+
+# Ensure no file conflicts before continuing
+cs-fullstack --integrate
+```
+
+**Why it's safe:** Limited concurrency with explicit coordination prevents file conflicts.
+
+### ❌ UNSAFE - Never Do This
+
+**Quality Agents in Parallel - SYSTEM CRASH RISK:**
+```bash
+# DANGEROUS - Will cause system overload
+cs-qa-engineer --full-suite &
+cs-code-reviewer --deep-analysis &
+cs-security-engineer --full-scan &
+# DON'T DO THIS - System will become unresponsive
+```
+
+**Why it's dangerous:** Quality agents spawn multiple sub-processes (test runners, linters, scanners) that quickly exhaust system resources.
+
+### Process Count Monitoring
+
+Monitor system load with this command:
+```bash
+ps aux | grep -E "mcp|npm|claude|python|node" | wc -l
+```
+
+**Safe Operating Ranges:**
+
+| State | Process Count | Status | Action |
+|-------|--------------|--------|--------|
+| Idle | 6-10 | ✅ Normal | Ready for work |
+| Strategic (4-5 agents) | 15-20 | ✅ Safe | Operating normally |
+| Implementation (2-3 agents) | 20-30 | ✅ Safe | Monitor closely |
+| Quality (1 agent) | 12-18 | ✅ Safe | Single agent only |
+| Warning Zone | 30-40 | ⚠️ Warning | Complete current, avoid new |
+| High Load | 40-60 | ⚠️ High | Stop non-critical agents |
+| Critical | >60 | 🚫 Critical | Restart required |
+
+**Emergency Recovery:**
+```bash
+# If system becomes unresponsive
+killall -9 node python npm
+# Restart Claude Code
+```
+
+## Model Selection by Agent Type
+
+Choose the appropriate Claude model based on agent type and task complexity:
+
+### Opus (Complex Reasoning)
+**When to use:** Deep analysis, strategic planning, complex coordination
+- **Strengths:** Superior reasoning, nuanced understanding, strategic thinking
+- **Best for:** Strategic planning requiring deep analysis, complex workflow coordination, architectural decisions
+- **Examples:**
+  - `cs-ceo-advisor` - Business strategy and vision
+  - `cs-architect` - System design and patterns
+  - `cs-product-strategist` - Product vision and roadmaps
+
+### Sonnet (Balanced Performance - Default)
+**When to use:** Most implementation and quality tasks
+- **Strengths:** Excellent code generation, fast execution, reliable output
+- **Best for:** Code development, testing, review, general-purpose tasks
+- **Examples:**
+  - `cs-code-reviewer` - Code quality assessment
+  - `cs-fullstack` - Full application development
+  - `cs-backend-engineer` - API and service development
+  - `cs-qa-engineer` - Test automation
+
+### Haiku (Fast, Simple Tasks)
+**When to use:** Simple, repetitive, or time-sensitive tasks
+- **Strengths:** Very fast response, low resource usage, cost-effective
+- **Best for:** Simple automation, data formatting, quick checks
+- **Examples:**
+  - `cs-data-formatter` - Data transformation tasks
+  - `cs-status-checker` - Quick system checks
+  - `cs-doc-generator` - Template-based documentation
+
+## MCP Integration Patterns
+
+Modern agents can leverage MCP (Model Context Protocol) servers for enhanced capabilities:
+
+### Common MCP Servers
+
+#### mcp__github
+- **Purpose:** GitHub integration for PRs, issues, and code review
+- **Use with:** `cs-code-reviewer`, `cs-qa-engineer`
+- **Example:**
+```bash
+# Review PR with GitHub MCP
+cs-code-reviewer --mcp github --pr 123
+```
+
+#### mcp__playwright
+- **Purpose:** Browser automation, E2E testing, visual regression
+- **Use with:** `cs-qa-engineer`, `cs-frontend-engineer`
+- **Example:**
+```bash
+# Run E2E tests with screenshots
+cs-qa-engineer --mcp playwright --test-suite e2e
+```
+
+#### mcp__context7
+- **Purpose:** Documentation search and knowledge extraction
+- **Use with:** `cs-tech-writer`, `cs-architect`
+- **Example:**
+```bash
+# Search documentation
+cs-tech-writer --mcp context7 --query "API patterns"
+```
+
+#### mcp__atlassian
+- **Purpose:** Jira and Confluence integration
+- **Use with:** `cs-jira-expert`, `cs-confluence-expert`, `cs-scrum-master`
+- **Example:**
+```bash
+# Update Jira tickets
+cs-jira-expert --mcp atlassian --update-sprint
+```
+
+### MCP Best Practices
+
+1. **Check MCP availability:** Not all environments have MCP servers
+2. **Graceful fallback:** Agents should work without MCP when unavailable
+3. **Resource awareness:** MCP servers add to process count
+4. **Security:** MCP servers may require authentication tokens
+
 ### Agent vs Skill
 
 | Aspect | Agent (cs-*) | Skill |

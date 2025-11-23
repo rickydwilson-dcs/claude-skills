@@ -5,6 +5,11 @@ skills: senior-fullstack
 domain: engineering
 model: sonnet
 tools: [Read, Write, Bash, Grep, Glob]
+color: green
+field: fullstack
+expertise: expert
+execution: coordinated
+mcp_tools: []
 ---
 
 # Fullstack Engineer Agent

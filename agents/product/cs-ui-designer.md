@@ -5,6 +5,11 @@ skills: product-team/ui-design-system
 domain: product
 model: sonnet
 tools: [Read, Write, Bash, Grep, Glob]
+color: orange
+field: design
+expertise: expert
+execution: parallel
+mcp_tools: []
 ---
 
 # UI Designer Agent

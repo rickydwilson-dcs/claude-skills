@@ -5,6 +5,11 @@ skills: senior-ml-engineer
 domain: engineering
 model: sonnet
 tools: [Read, Write, Bash, Grep, Glob]
+color: green
+field: ai
+expertise: expert
+execution: coordinated
+mcp_tools: []
 ---
 
 # ML Engineer Agent

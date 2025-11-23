@@ -5,6 +5,11 @@ skills: confluence-expert
 domain: delivery
 model: sonnet
 tools: [Read, Write, Bash, Grep, Glob]
+color: orange
+field: tools
+expertise: expert
+execution: parallel
+mcp_tools: [mcp__atlassian]
 ---
 
 # Confluence Expert Agent

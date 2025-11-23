@@ -5,6 +5,11 @@ skills: senior-secops
 domain: engineering
 model: sonnet
 tools: [Read, Write, Bash, Grep, Glob]
+color: red
+field: security
+expertise: expert
+execution: sequential
+mcp_tools: []
 ---
 
 # SecOps Engineer Agent

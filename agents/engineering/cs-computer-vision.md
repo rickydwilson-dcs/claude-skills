@@ -5,6 +5,11 @@ skills: senior-computer-vision
 domain: engineering
 model: sonnet
 tools: [Read, Write, Bash, Grep, Glob]
+color: orange
+field: ai
+expertise: expert
+execution: coordinated
+mcp_tools: []
 ---
 
 # Computer Vision Engineer Agent

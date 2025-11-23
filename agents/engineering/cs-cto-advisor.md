@@ -5,6 +5,11 @@ skills: cto-advisor
 domain: engineering
 model: sonnet
 tools: [Read, Write, Bash, Grep, Glob]
+color: purple
+field: architecture
+expertise: expert
+execution: parallel
+mcp_tools: []
 ---
 
 # CTO Advisor Agent
