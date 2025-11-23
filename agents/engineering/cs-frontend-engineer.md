@@ -5,6 +5,11 @@ skills: engineering-team/senior-frontend
 domain: engineering
 model: sonnet
 tools: [Read, Write, Bash, Grep, Glob]
+color: green
+field: frontend
+expertise: expert
+execution: coordinated
+mcp_tools: []
 ---
 
 # Frontend Engineer Agent

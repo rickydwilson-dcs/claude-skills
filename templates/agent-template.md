@@ -5,7 +5,109 @@ skills: skill-folder-name
 domain: domain-name
 model: sonnet
 tools: [Read, Write, Bash, Grep, Glob]
+color: blue
+field: product
+expertise: expert
+execution: parallel
+mcp_tools: []
 ---
+
+<!--
+  YAML FRONTMATTER FIELD GUIDE:
+
+  REQUIRED FIELDS:
+  - name: Agent identifier (kebab-case with cs- prefix, e.g., cs-content-creator)
+  - description: One-line summary (max 150 chars)
+  - skills: Folder name of skill package (e.g., content-creator)
+  - domain: Domain category (marketing-team, product-team, engineering-team, delivery-team)
+  - model: AI model (sonnet, haiku, opus)
+  - tools: Array of required tools [Read, Write, Bash, Grep, Glob, WebSearch, etc.]
+
+  ENHANCED FIELDS:
+
+  color: Visual category for agent classification
+    - blue: Strategic planning, analysis, decision-making (CEO, CTO, Product Manager)
+    - green: Implementation, building, development (Frontend Dev, Fullstack Dev, AI Engineer)
+    - red: Quality assurance, testing, review (QA Engineer, Code Reviewer)
+    - purple: Coordination, orchestration, multi-agent workflows (Project Manager, Scrum Master)
+    - orange: Domain-specific expertise (Content Creator, SEO Specialist, Data Scientist)
+
+  field: Expertise area for specialized knowledge
+    - quality: QA, testing, code review, validation
+    - frontend: UI/UX, React, Vue, Angular, design systems
+    - backend: APIs, databases, server-side logic, microservices
+    - fullstack: End-to-end development, both frontend and backend
+    - product: Product management, roadmaps, strategy, user research
+    - architecture: System design, technical architecture, patterns
+    - testing: Test automation, test strategy, QA processes
+    - devops: CI/CD, infrastructure, deployment, monitoring
+    - data: Data analysis, ETL, data pipelines, analytics
+    - ai: Machine learning, AI/ML, model training, LLMs
+    - security: Security audits, penetration testing, compliance
+    - performance: Optimization, profiling, scaling, load testing
+    - design: UI/UX design, design systems, accessibility
+    - research: User research, market research, competitive analysis
+    - content: Content creation, copywriting, SEO, brand voice
+    - finance: Financial analysis, budgeting, forecasting, metrics
+    - agile: Agile methodologies, scrum, sprint planning, ceremonies
+    - tools: Specialized tools expertise (Jira, Confluence, etc.)
+
+  expertise: Complexity level of operations
+    - beginner: Simple, single-step tasks; basic workflows; minimal decision-making
+    - intermediate: Moderate complexity; multi-step processes; some analysis required
+    - expert: Complex operations; advanced analysis; strategic decision-making; multi-tool orchestration
+
+  execution: Concurrent execution safety pattern
+    - parallel: Safe to run 4-5 agents simultaneously; independent operations; no resource conflicts
+    - coordinated: Safe for 2-3 agents; some shared resources; requires coordination
+    - sequential: One agent only; critical operations; file locking; exclusive access needed
+
+  mcp_tools: Optional MCP (Model Context Protocol) server tools
+    - Examples: [mcp__github, mcp__playwright, mcp__context7, mcp__atlassian]
+    - Leave empty [] if no MCP tools required
+    - GitHub operations: mcp__github
+    - Browser automation: mcp__playwright
+    - Context management: mcp__context7
+    - Atlassian/Jira: mcp__atlassian
+    - Multiple tools: [mcp__github, mcp__playwright]
+
+  EXAMPLES BY AGENT TYPE:
+
+  Strategic Planning Agent:
+    color: blue
+    field: product
+    expertise: expert
+    execution: coordinated
+    mcp_tools: []
+
+  Implementation Agent:
+    color: green
+    field: fullstack
+    expertise: intermediate
+    execution: parallel
+    mcp_tools: [mcp__github]
+
+  Quality Assurance Agent:
+    color: red
+    field: quality
+    expertise: intermediate
+    execution: sequential
+    mcp_tools: [mcp__playwright]
+
+  Coordination Agent:
+    color: purple
+    field: product
+    expertise: expert
+    execution: coordinated
+    mcp_tools: [mcp__atlassian]
+
+  Domain Expert Agent:
+    color: orange
+    field: content
+    expertise: intermediate
+    execution: parallel
+    mcp_tools: []
+-->
 
 # Agent Name
 
@@ -15,10 +117,11 @@ tools: [Read, Write, Bash, Grep, Glob]
   1. Replace "cs-agent-name" with your agent's name (use kebab-case with cs- prefix)
   2. Replace "Agent Name" with the display name (Title Case)
   3. Fill in all sections below following the structure
-  4. Test all relative paths (../../) before committing
-  5. Ensure minimum 3 workflows documented
-  6. Provide concrete integration examples
-  7. Define measurable success metrics
+  4. Configure YAML frontmatter fields (see guide above)
+  5. Test all relative paths (../../) before committing
+  6. Ensure minimum 3 workflows documented
+  7. Provide concrete integration examples
+  8. Define measurable success metrics
 
   EXAMPLES OF COMPLETED AGENTS:
   - agents/marketing/cs-content-creator.md

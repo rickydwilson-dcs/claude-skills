@@ -258,6 +258,33 @@ class AgentValidator:
             if tool not in valid_tools:
                 return False, f"Invalid tool: {tool}"
 
+        # Optional fields validation
+        if 'color' in frontmatter:
+            valid_colors = ['blue', 'green', 'red', 'purple', 'orange']
+            if frontmatter['color'] not in valid_colors:
+                return False, f"Invalid color: {frontmatter['color']} (must be: {', '.join(valid_colors)})"
+
+        if 'field' in frontmatter:
+            valid_fields = ['quality', 'frontend', 'backend', 'fullstack', 'product', 'architecture',
+                          'testing', 'devops', 'data', 'ai', 'security', 'performance', 'design',
+                          'research', 'content', 'finance', 'agile', 'tools']
+            if frontmatter['field'] not in valid_fields:
+                return False, f"Invalid field: {frontmatter['field']} (must be one of: {', '.join(valid_fields)})"
+
+        if 'expertise' in frontmatter:
+            valid_expertise = ['beginner', 'intermediate', 'expert']
+            if frontmatter['expertise'] not in valid_expertise:
+                return False, f"Invalid expertise: {frontmatter['expertise']} (must be: {', '.join(valid_expertise)})"
+
+        if 'execution' in frontmatter:
+            valid_execution = ['parallel', 'coordinated', 'sequential']
+            if frontmatter['execution'] not in valid_execution:
+                return False, f"Invalid execution: {frontmatter['execution']} (must be: {', '.join(valid_execution)})"
+
+        if 'mcp_tools' in frontmatter:
+            if not isinstance(frontmatter['mcp_tools'], list):
+                return False, "mcp_tools must be a list"
+
         return True, "Valid"
 
     def validate_relative_paths(self, agent_path: Path, content: str) -> Tuple[bool, List[str]]:
@@ -513,15 +540,35 @@ class TemplateLoader:
         """Replace placeholders with actual values"""
         template = self.load_template()
 
-        # Replace YAML frontmatter
-        yaml_section = f"""---
-name: {config['name']}
-description: {config['description']}
-skills: {config['skills']}
-domain: {config['domain']}
-model: {config['model']}
-tools: {config['tools']}
----"""
+        # Build YAML frontmatter with optional fields
+        yaml_lines = [
+            '---',
+            f"name: {config['name']}",
+            f"description: {config['description']}",
+            f"skills: {config['skills']}",
+            f"domain: {config['domain']}",
+            f"model: {config['model']}",
+            f"tools: {config['tools']}"
+        ]
+
+        # Add optional fields if present
+        if 'color' in config:
+            yaml_lines.append(f"color: {config['color']}")
+
+        if 'field' in config:
+            yaml_lines.append(f"field: {config['field']}")
+
+        if 'expertise' in config:
+            yaml_lines.append(f"expertise: {config['expertise']}")
+
+        if 'execution' in config:
+            yaml_lines.append(f"execution: {config['execution']}")
+
+        if 'mcp_tools' in config and config['mcp_tools']:
+            yaml_lines.append(f"mcp_tools: {config['mcp_tools']}")
+
+        yaml_lines.append('---')
+        yaml_section = '\n'.join(yaml_lines)
 
         # Replace first YAML block
         template = re.sub(
@@ -628,7 +675,7 @@ class AgentBuilder:
         print()
 
         # Step 1: Agent Name
-        print("Step 1/7: Agent Name")
+        print("Step 1/8: Agent Name")
         print("-" * 50)
         print("Enter agent name (kebab-case with cs- prefix):")
         print("Example: cs-data-analyst, cs-backend-engineer")
@@ -647,7 +694,7 @@ class AgentBuilder:
         print()
 
         # Step 2: Domain Selection
-        print("Step 2/7: Domain")
+        print("Step 2/8: Domain")
         print("-" * 50)
 
         existing_domains = self.domain_manager.get_existing_domains()
@@ -675,7 +722,7 @@ class AgentBuilder:
         print()
 
         # Step 3: Description
-        print("Step 3/7: Description")
+        print("Step 3/8: Description")
         print("-" * 50)
         print("Enter one-line description (under 150 chars):")
         print('Example: "Data analysis and reporting for product decisions"')
@@ -692,7 +739,7 @@ class AgentBuilder:
         print()
 
         # Step 4: Skills Integration
-        print("Step 4/7: Skills Integration")
+        print("Step 4/8: Skills Integration")
         print("-" * 50)
 
         skill_team = self.domain_manager.map_domain_to_skill_team(domain)
@@ -736,7 +783,7 @@ class AgentBuilder:
         print()
 
         # Step 5: Model Selection
-        print("Step 5/7: Model Selection")
+        print("Step 5/8: Model Selection")
         print("-" * 50)
         print("Select model:")
         print("1. sonnet (recommended - balanced performance)")
@@ -757,7 +804,7 @@ class AgentBuilder:
         print()
 
         # Step 6: Tools Selection
-        print("Step 6/7: Tools Selection")
+        print("Step 6/8: Tools Selection")
         print("-" * 50)
         print("Select tools (comma-separated):")
         print("Available: Read, Write, Bash, Grep, Glob, Edit, NotebookEdit")
@@ -774,8 +821,87 @@ class AgentBuilder:
         print(f"✓ Tools: {tools}")
         print()
 
-        # Step 7: Preview and Confirm
-        print("Step 7/7: Preview")
+        # Step 7: Agent Type Classification
+        print("Step 7/8: Agent Type Classification (Optional)")
+        print("-" * 50)
+        print("Configure agent type metadata for resource management and execution patterns.")
+        print()
+
+        # Determine intelligent defaults based on domain and tools
+        default_color = 'blue'  # Strategic by default
+        default_field = None
+        default_expertise = 'intermediate'
+        default_execution = 'coordinated'
+
+        # Suggest field based on domain
+        domain_to_field = {
+            'engineering': 'backend',
+            'product': 'product',
+            'marketing': 'content',
+            'c-level': 'architecture',
+            'delivery': 'coordination'
+        }
+        if domain in domain_to_field:
+            default_field = domain_to_field[domain]
+
+        # Adjust defaults based on tools
+        if 'Bash' in tools and len(tools) >= 5:
+            default_color = 'green'  # Implementation agent
+            default_execution = 'coordinated'
+        elif 'Bash' in tools and 'Edit' in tools:
+            default_color = 'red'  # Quality agent (heavy Bash usage)
+            default_execution = 'sequential'
+        elif len(tools) <= 3:
+            default_color = 'blue'  # Strategic agent (minimal tools)
+            default_execution = 'parallel'
+
+        print(f"1. Color (agent type): blue=Strategic, green=Implementation, red=Quality, purple=Coordination")
+        print(f"   Default: {default_color}")
+        color_input = input(f"   Color (Enter for default): ").strip().lower()
+        color = color_input if color_input in ['blue', 'green', 'red', 'purple', 'orange'] else default_color
+
+        print()
+        print(f"2. Field (specialization): quality, frontend, backend, fullstack, product, architecture,")
+        print(f"                          testing, devops, data, ai, security, performance, design,")
+        print(f"                          research, content, finance, agile, tools")
+        if default_field:
+            print(f"   Default: {default_field}")
+            field_input = input(f"   Field (Enter for default): ").strip().lower()
+            field = field_input if field_input else default_field
+        else:
+            field_input = input(f"   Field (Enter to skip): ").strip().lower()
+            field = field_input if field_input else None
+
+        print()
+        print(f"3. Expertise level: beginner, intermediate, expert")
+        print(f"   Default: {default_expertise}")
+        expertise_input = input(f"   Expertise (Enter for default): ").strip().lower()
+        expertise = expertise_input if expertise_input in ['beginner', 'intermediate', 'expert'] else default_expertise
+
+        print()
+        print(f"4. Execution pattern: parallel (4-5 agents), coordinated (2-3 agents), sequential (1 agent)")
+        print(f"   Default: {default_execution}")
+        execution_input = input(f"   Execution (Enter for default): ").strip().lower()
+        execution = execution_input if execution_input in ['parallel', 'coordinated', 'sequential'] else default_execution
+
+        print()
+        print(f"5. MCP Tools (comma-separated, e.g., github, playwright, atlassian)")
+        mcp_input = input(f"   MCP Tools (Enter to skip): ").strip()
+        mcp_tools = [t.strip() for t in mcp_input.split(',')] if mcp_input else []
+
+        print()
+        print("✓ Agent type classification configured:")
+        print(f"  Color: {color}")
+        if field:
+            print(f"  Field: {field}")
+        print(f"  Expertise: {expertise}")
+        print(f"  Execution: {execution}")
+        if mcp_tools:
+            print(f"  MCP Tools: {mcp_tools}")
+        print()
+
+        # Step 8: Preview and Confirm
+        print("Step 8/8: Preview")
         print("-" * 50)
         print("Review your agent configuration:")
         print()
@@ -785,6 +911,13 @@ class AgentBuilder:
         print(f"Skills:      {skills}")
         print(f"Model:       {model}")
         print(f"Tools:       {tools}")
+        print(f"Color:       {color}")
+        if field:
+            print(f"Field:       {field}")
+        print(f"Expertise:   {expertise}")
+        print(f"Execution:   {execution}")
+        if mcp_tools:
+            print(f"MCP Tools:   {mcp_tools}")
         print()
         print("Files to create:")
         print(f"- agents/{domain}/{name}.md")
@@ -806,8 +939,19 @@ class AgentBuilder:
             'description': description,
             'skills': skills,
             'model': model,
-            'tools': tools
+            'tools': tools,
+            'color': color,
+            'expertise': expertise,
+            'execution': execution
         }
+
+        # Add optional field if provided
+        if field:
+            config['field'] = field
+
+        # Add MCP tools if provided
+        if mcp_tools:
+            config['mcp_tools'] = mcp_tools
 
         self.generate_agent(config)
 
@@ -883,6 +1027,16 @@ class AgentBuilder:
         if missing:
             print(f"❌ Missing required fields in config: {', '.join(missing)}")
             sys.exit(EXIT_CONFIG_ERROR)
+
+        # Set defaults for optional fields if not provided
+        if 'color' not in config:
+            config['color'] = 'blue'
+        if 'expertise' not in config:
+            config['expertise'] = 'intermediate'
+        if 'execution' not in config:
+            config['execution'] = 'coordinated'
+        if 'mcp_tools' not in config:
+            config['mcp_tools'] = []
 
         # Generate agent
         self.generate_agent(config)

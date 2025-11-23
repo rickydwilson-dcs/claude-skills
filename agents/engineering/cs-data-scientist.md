@@ -5,6 +5,11 @@ skills: senior-data-scientist
 domain: engineering
 model: sonnet
 tools: [Read, Write, Bash, Grep, Glob]
+color: orange
+field: data
+expertise: expert
+execution: coordinated
+mcp_tools: []
 ---
 
 # Data Scientist Agent

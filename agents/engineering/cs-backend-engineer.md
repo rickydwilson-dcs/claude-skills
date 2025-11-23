@@ -5,6 +5,11 @@ skills: senior-backend
 domain: engineering
 model: sonnet
 tools: [Read, Write, Bash, Grep, Glob]
+color: green
+field: backend
+expertise: expert
+execution: coordinated
+mcp_tools: []
 ---
 
 # Backend Engineer Agent

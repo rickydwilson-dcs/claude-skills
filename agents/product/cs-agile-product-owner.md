@@ -5,6 +5,11 @@ skills: product-team/agile-product-owner
 domain: product
 model: sonnet
 tools: [Read, Write, Bash, Grep, Glob]
+color: purple
+field: product
+expertise: expert
+execution: parallel
+mcp_tools: [mcp__atlassian]
 ---
 
 # Agile Product Owner Agent
