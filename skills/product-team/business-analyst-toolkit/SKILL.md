@@ -165,9 +165,9 @@ Map influence networks, assess engagement needs, and create communication strate
 
 ---
 
-## Scripts
+## Python Tools
 
-### 1. process_parser.py
+### process_parser.py
 Parses business process documentation and extracts structured workflow information for analysis and visualization.
 
 **Usage:**
@@ -190,7 +190,7 @@ python scripts/process_parser.py <input-file> [--output json|markdown] [--visual
 
 ---
 
-### 2. charter_builder.py
+### charter_builder.py
 Generates comprehensive process improvement charters from objectives, gap analysis, and stakeholder data.
 
 **Usage:**
@@ -222,7 +222,7 @@ python scripts/charter_builder.py --process "Customer Onboarding" \
 
 ---
 
-### 3. stakeholder_mapper.py
+### stakeholder_mapper.py
 Maps stakeholders and generates engagement strategies based on influence and interest analysis.
 
 **Usage:**
@@ -252,7 +252,7 @@ python scripts/stakeholder_mapper.py stakeholders.json --output mermaid > diagra
 
 ---
 
-### 4. raci_generator.py
+### raci_generator.py
 Creates RACI (Responsible, Accountable, Consulted, Informed) matrices from process documentation.
 
 **Usage:**
@@ -282,7 +282,7 @@ python scripts/raci_generator.py process.csv --template raci-template.csv --vali
 
 ---
 
-### 5. gap_analyzer.py
+### gap_analyzer.py
 Identifies gaps and missing elements in process documentation with severity scoring.
 
 **Usage:**
@@ -312,7 +312,7 @@ python scripts/gap_analyzer.py --input process.json --severity-threshold high --
 
 ---
 
-### 6. improvement_planner.py
+### improvement_planner.py
 Generates detailed improvement plans from gap analysis with phased implementation roadmaps.
 
 **Usage:**
@@ -342,7 +342,7 @@ python scripts/improvement_planner.py --gaps gaps.json --output gantt > timeline
 
 ---
 
-### 7. kpi_calculator.py
+### kpi_calculator.py
 Calculates process KPIs and efficiency metrics from execution data with baseline comparison.
 
 **Usage:**

@@ -66,6 +66,14 @@ metadata:
 
 World-class senior computer vision engineer skill for production-grade AI/ML/Data systems.
 
+## Overview
+
+This skill provides world-class computer vision engineering capabilities through three core Python automation tools and comprehensive reference documentation. Whether building object detection systems, training custom vision models, optimizing inference pipelines, or deploying production vision AI, this skill delivers expert-level solutions.
+
+Senior computer vision engineers use this skill for image/video processing, object detection (YOLO, Faster R-CNN, SAM), semantic segmentation, 3D vision, video analysis, real-time processing, and production deployment. Expertise covers PyTorch, TensorFlow, OpenCV, vision transformers, diffusion models, and deployment optimization (TensorRT, ONNX).
+
+**Core Value:** Accelerate vision AI development by 70%+ while improving model accuracy, inference speed, and production reliability through proven architectures and automated pipelines.
+
 ## Quick Start
 
 ### Main Capabilities
@@ -80,6 +88,112 @@ python scripts/inference_optimizer.py --target project/ --analyze
 # Core Tool 3
 python scripts/dataset_pipeline_builder.py --config config.yaml --deploy
 ```
+
+## Core Capabilities
+
+- **Vision Model Training** - Object detection, semantic segmentation, instance segmentation using PyTorch, TensorFlow, YOLO, Faster R-CNN, SAM
+- **Inference Optimization** - Model quantization, TensorRT optimization, ONNX export, batch processing for production deployment
+- **Dataset Pipeline Building** - Data augmentation, annotation tools integration, train/val/test splits, quality validation
+- **Real-Time Video Processing** - Frame extraction, object tracking, scene detection, multi-camera processing
+- **3D Computer Vision** - Depth estimation, point cloud processing, SLAM, 3D reconstruction
+- **Production Deployment** - Containerized model serving, REST API generation, load balancing, monitoring dashboards
+
+## Python Tools
+
+### 1. Vision Model Trainer
+
+Train production-ready computer vision models with automated pipelines.
+
+**Key Features:**
+- Object detection (YOLO, Faster R-CNN, RetinaNet)
+- Semantic segmentation (U-Net, DeepLab, Mask R-CNN)
+- Transfer learning from pre-trained models
+- Automated hyperparameter tuning
+- Training metrics and visualization
+
+**Common Usage:**
+```bash
+# Train object detection model
+python scripts/vision_model_trainer.py --task detection --data ./dataset --model yolov8
+
+# Train segmentation model
+python scripts/vision_model_trainer.py --task segmentation --data ./dataset --model unet
+
+# Resume training from checkpoint
+python scripts/vision_model_trainer.py --resume checkpoints/best.pth
+
+# Help
+python scripts/vision_model_trainer.py --help
+```
+
+**Use Cases:**
+- Training custom object detectors for specific domains
+- Fine-tuning pre-trained models on new datasets
+- Experimenting with different architectures
+
+### 2. Inference Optimizer
+
+Optimize trained models for production deployment.
+
+**Key Features:**
+- Model quantization (INT8, FP16)
+- TensorRT optimization for NVIDIA GPUs
+- ONNX export for cross-platform deployment
+- Batch inference optimization
+- Latency and throughput profiling
+
+**Common Usage:**
+```bash
+# Optimize model for deployment
+python scripts/inference_optimizer.py --model model.pth --target tensorrt
+
+# Export to ONNX
+python scripts/inference_optimizer.py --model model.pth --export onnx
+
+# Benchmark inference
+python scripts/inference_optimizer.py --model model.pth --benchmark
+
+# Help
+python scripts/inference_optimizer.py --help
+```
+
+**Use Cases:**
+- Reducing inference latency for real-time applications
+- Optimizing models for edge devices
+- Cross-platform model deployment
+
+### 3. Dataset Pipeline Builder
+
+Build robust dataset pipelines with quality validation.
+
+**Key Features:**
+- Automated data augmentation (rotation, flip, color jitter, mixup)
+- Train/validation/test splitting strategies
+- Annotation format conversion (COCO, YOLO, Pascal VOC)
+- Data quality validation and outlier detection
+- Dataset versioning and tracking
+
+**Common Usage:**
+```bash
+# Build dataset pipeline
+python scripts/dataset_pipeline_builder.py --input raw_data/ --output processed/
+
+# Apply augmentation
+python scripts/dataset_pipeline_builder.py --input data/ --augment --factor 3
+
+# Validate dataset quality
+python scripts/dataset_pipeline_builder.py --input data/ --validate
+
+# Help
+python scripts/dataset_pipeline_builder.py --help
+```
+
+**Use Cases:**
+- Preparing datasets for model training
+- Expanding small datasets through augmentation
+- Ensuring dataset quality and consistency
+
+See [computer_vision_architectures.md](references/computer_vision_architectures.md) for comprehensive tool documentation and advanced examples.
 
 ## Core Expertise
 
@@ -105,6 +219,74 @@ This skill covers world-class capabilities in:
 **Deployment:** Docker, Kubernetes, AWS/GCP/Azure
 **Monitoring:** MLflow, Weights & Biases, Prometheus
 **Databases:** PostgreSQL, BigQuery, Snowflake, Pinecone
+
+## Key Workflows
+
+### 1. Object Detection Model Training
+
+**Time:** 2-4 hours for training, 1 hour for optimization
+
+1. **Prepare Dataset** - Collect and annotate images, validate quality
+   ```bash
+   # Build dataset pipeline with augmentation
+   python scripts/dataset_pipeline_builder.py --input raw_data/ --output dataset/ --augment --factor 3
+   ```
+2. **Train Model** - Train object detection model with optimal hyperparameters
+   ```bash
+   # Train YOLO model
+   python scripts/vision_model_trainer.py --task detection --data dataset/ --model yolov8 --epochs 100
+   ```
+3. **Evaluate Performance** - Test on validation set, analyze mAP, precision, recall
+4. **Optimize for Deployment** - Quantize and optimize for production inference
+   ```bash
+   # Optimize with TensorRT
+   python scripts/inference_optimizer.py --model checkpoints/best.pth --target tensorrt
+   ```
+
+See [object_detection_optimization.md](references/object_detection_optimization.md) for detailed walkthrough.
+
+### 2. Real-Time Video Processing Pipeline
+
+**Time:** 4-6 hours for initial setup
+
+1. **Design Architecture** - Define input sources, processing pipeline, output formats
+2. **Implement Frame Processing** - Object detection, tracking, scene analysis per frame
+3. **Optimize Performance** - Batch processing, GPU utilization, multi-threading
+   ```bash
+   # Benchmark inference speed
+   python scripts/inference_optimizer.py --model model.pth --benchmark --batch-size 16
+   ```
+4. **Deploy Pipeline** - Containerize, setup monitoring, configure auto-scaling
+
+### 3. Production Model Deployment
+
+**Time:** 2-3 hours for containerization and deployment
+
+1. **Optimize Model** - Quantization, pruning, TensorRT optimization
+   ```bash
+   # Full optimization pipeline
+   python scripts/inference_optimizer.py --model model.pth --optimize-all --target production
+   ```
+2. **Containerize** - Create Docker image with model serving API
+3. **Deploy to Cloud** - Kubernetes deployment, load balancer configuration
+4. **Setup Monitoring** - Latency tracking, error rates, model drift detection
+
+### 4. Custom Dataset Preparation
+
+**Time:** 2-4 hours depending on dataset size
+
+1. **Collect Data** - Gather images/videos from relevant sources
+2. **Annotate** - Use CVAT, LabelImg, or Roboflow for annotations
+3. **Validate Quality** - Check for annotation errors, class imbalance
+   ```bash
+   # Validate dataset quality
+   python scripts/dataset_pipeline_builder.py --input data/ --validate --report quality.json
+   ```
+4. **Apply Augmentation** - Expand dataset with synthetic variations
+   ```bash
+   # Apply augmentation
+   python scripts/dataset_pipeline_builder.py --input data/ --augment --factor 5 --output augmented/
+   ```
 
 ## Reference Documentation
 

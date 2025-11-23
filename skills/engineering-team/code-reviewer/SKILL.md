@@ -75,7 +75,35 @@ This skill delivers production-ready code review capabilities through three Pyth
 - Generating comprehensive review reports
 - Training team members on best practices
 
+## Quick Start
+
+### Analyze a Pull Request
+```bash
+# Basic PR analysis
+python scripts/pr_analyzer.py 123 --repo=company/project
+
+# Full quality check on codebase
+python scripts/code_quality_checker.py ./src --language=typescript
+
+# Generate comprehensive review report
+python scripts/review_report_generator.py 123 --format=markdown
+```
+
+### Access Documentation
+- Review Checklist: `references/code_review_checklist.md`
+- Coding Standards: `references/coding_standards.md`
+- Anti-Patterns Guide: `references/common_antipatterns.md`
+
 ## Core Capabilities
+
+- **Automated Pull Request Analysis** - Comprehensive PR analysis with metrics, complexity scores, and review priority recommendations
+- **Multi-Language Code Quality Checking** - Support for TypeScript, JavaScript, Python, Swift, Kotlin, and Go with SOLID principles validation
+- **Security Vulnerability Detection** - Identify SQL injection, XSS, authentication issues, and other security concerns
+- **Best Practice Enforcement** - Language-specific coding standards, naming conventions, and patterns
+- **Anti-Pattern Detection** - Catalog of common anti-patterns across languages, databases, and testing
+- **Automated Review Report Generation** - Detailed, actionable reports with categorized findings and feedback suggestions
+
+## Python Tools
 
 ### 1. PR Analyzer
 
@@ -199,7 +227,7 @@ Detailed guides available in the `references/` directory:
 - Performance issues (unnecessary re-renders, bulk loading)
 - Testing anti-patterns (implementation testing, test interdependence)
 
-## Quick Start Workflows
+## Key Workflows
 
 ### Workflow 1: Pull Request Review
 

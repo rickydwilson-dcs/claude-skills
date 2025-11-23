@@ -69,6 +69,14 @@ metadata:
 
 Complete toolkit for senior architect with modern tools and best practices.
 
+## Overview
+
+This skill provides comprehensive system architecture capabilities through three core Python automation tools and extensive reference documentation. Whether designing microservices architectures, making technology stack decisions, or optimizing system performance, this skill delivers production-ready architectural patterns and automated analysis.
+
+Senior architects use this skill to design scalable, maintainable systems across modern tech stacks including React, Next.js, Node.js, GraphQL, PostgreSQL, Go, Python, and cloud platforms (AWS, GCP, Azure). The skill covers microservices, clean architecture, domain-driven design, API design, performance optimization, and infrastructure planning.
+
+**Core Value:** Accelerate architecture design by 60%+ while improving system scalability, maintainability, and performance through proven patterns and automated analysis tools.
+
 ## Quick Start
 
 ### Main Capabilities
@@ -87,6 +95,15 @@ python scripts/dependency_analyzer.py [options]
 ```
 
 ## Core Capabilities
+
+- **System Architecture Design** - Design scalable, maintainable systems using microservices, clean architecture, and domain-driven design patterns
+- **Technology Stack Decision Making** - Evaluate and select optimal technologies (React, Next.js, Node.js, GraphQL, PostgreSQL, Go, Python) based on requirements
+- **Architecture Diagram Generation** - Automated creation of system architecture diagrams showing components, data flow, and integration patterns
+- **Dependency Analysis** - Analyze and optimize service dependencies, identify circular dependencies, and improve modularity
+- **Performance & Scalability Planning** - Design for horizontal scaling, caching strategies, database optimization, and load balancing
+- **Integration Pattern Design** - Define API contracts, event-driven architectures, and service communication patterns
+
+## Python Tools
 
 ### 1. Architecture Diagram Generator
 
@@ -173,6 +190,65 @@ Technical reference guide in `references/tech_decision_guide.md`:
 **Database:** PostgreSQL, Prisma, NeonDB, Supabase
 **DevOps:** Docker, Kubernetes, Terraform, GitHub Actions, CircleCI
 **Cloud:** AWS, GCP, Azure
+
+## Key Workflows
+
+### 1. System Architecture Design
+
+**Time:** 2-4 hours for initial design
+
+1. **Gather Requirements** - Understand functional and non-functional requirements, constraints, and success criteria
+2. **Identify Components** - Break system into services, databases, queues, caches, and external integrations
+   ```bash
+   # Generate architecture diagram
+   python scripts/architecture_diagram_generator.py --requirements requirements.md
+   ```
+3. **Define Integration Patterns** - Specify API contracts, event schemas, and communication protocols
+4. **Analyze Dependencies** - Review service dependencies and data flows
+   ```bash
+   # Analyze dependencies
+   python scripts/dependency_analyzer.py --services services/
+   ```
+5. **Document Architecture** - Create comprehensive architecture documentation with diagrams and decision records
+
+See [architecture_patterns.md](references/architecture_patterns.md) for detailed patterns and examples.
+
+### 2. Technology Stack Selection
+
+**Time:** 1-2 hours per major technology decision
+
+1. **Define Criteria** - List requirements (performance, scalability, team expertise, ecosystem, cost)
+2. **Research Options** - Evaluate 3-5 technology options against criteria
+3. **Prototype & Benchmark** - Build proof-of-concept implementations
+4. **Document Decision** - Create Architecture Decision Record (ADR) with rationale
+
+See [tech_decision_guide.md](references/tech_decision_guide.md) for evaluation frameworks.
+
+### 3. Microservices Architecture Implementation
+
+**Time:** 1-2 weeks for initial setup
+
+1. **Service Boundary Definition** - Apply domain-driven design to identify bounded contexts
+2. **Infrastructure Setup** - Configure Docker, Kubernetes, service mesh, and observability
+   ```bash
+   # Generate project architecture
+   python scripts/project_architect.py --pattern microservices
+   ```
+3. **API Gateway Configuration** - Setup routing, authentication, rate limiting
+4. **Deploy & Monitor** - Deploy services and establish monitoring dashboards
+
+### 4. Performance Optimization
+
+**Time:** 2-3 days per optimization cycle
+
+1. **Establish Baselines** - Measure current performance metrics (latency, throughput, resource usage)
+2. **Identify Bottlenecks** - Use profiling tools and analysis scripts
+   ```bash
+   # Analyze system dependencies and bottlenecks
+   python scripts/dependency_analyzer.py --analyze-performance
+   ```
+3. **Implement Optimizations** - Apply caching, database indexing, query optimization, code improvements
+4. **Validate Improvements** - Measure impact and document optimizations
 
 ## Development Workflow
 

@@ -89,6 +89,191 @@ Rapid fullstack application generation with best practices built-in.
 python scripts/fullstack_scaffolder.py my-app --stack nextjs-graphql
 ```
 
+## Python Tools
+
+### 1. Project Scaffolder
+
+Generate production-ready fullstack projects with complete infrastructure.
+
+**Key Features:**
+- Multiple stack templates (Next.js, React, Vue + GraphQL/REST)
+- Docker Compose configuration
+- CI/CD pipelines (GitHub Actions)
+- Testing infrastructure (Jest, Cypress)
+- Database setup and migrations
+- TypeScript, ESLint, Prettier pre-configured
+
+**Common Usage:**
+```bash
+# Create Next.js + GraphQL project
+python scripts/project_scaffolder.py my-project --type nextjs-graphql
+
+# React + REST API
+python scripts/project_scaffolder.py my-app --type react-rest
+
+# Start services
+cd my-project && docker-compose up -d
+
+# Help
+python scripts/project_scaffolder.py --help
+```
+
+**Use Cases:**
+- Starting new fullstack projects with best practices
+- Creating proof-of-concept applications
+- Standardizing project structure across teams
+
+### 2. Code Quality Analyzer
+
+Comprehensive code analysis with actionable recommendations.
+
+**Key Features:**
+- Security vulnerability scanning
+- Performance issue detection
+- Test coverage assessment
+- Documentation quality analysis
+- Dependency audit
+- Prioritized recommendations
+
+**Common Usage:**
+```bash
+# Analyze project
+python scripts/code_quality_analyzer.py /path/to/project
+
+# JSON output for CI/CD
+python scripts/code_quality_analyzer.py /path/to/project --json
+
+# Focus on security
+python scripts/code_quality_analyzer.py /path/to/project --security-only
+
+# Help
+python scripts/code_quality_analyzer.py --help
+```
+
+**Use Cases:**
+- Pre-deployment quality checks
+- Technical debt identification
+- Security audit automation
+
+### 3. Fullstack Scaffolder
+
+Rapid fullstack application generation with best practices built-in.
+
+**Key Features:**
+- Quick project setup
+- Modern tech stack selection
+- Best practices integration
+- Ready-to-deploy configuration
+
+**Common Usage:**
+```bash
+# Scaffold fullstack app
+python scripts/fullstack_scaffolder.py my-app --stack nextjs-graphql
+
+# Custom configuration
+python scripts/fullstack_scaffolder.py my-app --frontend react --backend express --db postgresql
+
+# Help
+python scripts/fullstack_scaffolder.py --help
+```
+
+**Use Cases:**
+- Rapid prototyping
+- Hackathon projects
+- Client POC development
+
+See [tech-stacks.md](references/tech-stacks.md) for comprehensive tool documentation.
+
+## Key Workflows
+
+### 1. New Project Setup
+
+**Time:** 30 minutes for complete setup
+
+1. **Generate Project Structure** - Scaffold with optimal tech stack
+   ```bash
+   # Create project
+   python scripts/project_scaffolder.py my-app --type nextjs-graphql
+   ```
+2. **Configure Environment** - Setup environment variables, database connection
+   ```bash
+   cd my-app
+   cp .env.example .env
+   # Edit .env with configuration
+   ```
+3. **Start Development Services** - Launch Docker containers
+   ```bash
+   docker-compose up -d
+   ```
+4. **Run Database Migrations** - Initialize database schema
+   ```bash
+   npm run migrate
+   ```
+5. **Start Development Server** - Begin development
+   ```bash
+   npm run dev
+   ```
+
+See [architecture-patterns.md](references/architecture-patterns.md) for architecture guidance.
+
+### 2. Code Quality Assessment
+
+**Time:** 15-20 minutes for full analysis
+
+1. **Run Comprehensive Analysis** - Analyze entire codebase
+   ```bash
+   python scripts/code_quality_analyzer.py ./
+   ```
+2. **Review Recommendations** - Prioritize issues by severity
+3. **Fix Security Vulnerabilities** - Update dependencies
+   ```bash
+   npm audit fix
+   ```
+4. **Fix Linting Errors** - Automated fixes where possible
+   ```bash
+   npm run lint -- --fix
+   ```
+5. **Run Test Suite** - Ensure all tests pass
+   ```bash
+   npm test
+   ```
+6. **Build for Production** - Verify production build succeeds
+   ```bash
+   npm run build
+   ```
+7. **Re-analyze** - Verify improvements
+   ```bash
+   python scripts/code_quality_analyzer.py ./ --json > quality-report.json
+   ```
+
+### 3. Production Deployment
+
+**Time:** 1-2 hours for initial deployment
+
+1. **Quality Checks** - Ensure tests and build pass
+   ```bash
+   npm test && npm run build
+   ```
+2. **Build Docker Image** - Create production container
+   ```bash
+   docker build -t my-app:latest .
+   ```
+3. **Deploy with Docker Compose** - Production deployment
+   ```bash
+   docker-compose -f docker-compose.prod.yml up -d
+   ```
+   Or deploy to Kubernetes:
+   ```bash
+   kubectl apply -f k8s/
+   ```
+4. **Verify Deployment** - Health check and smoke tests
+   ```bash
+   curl https://your-app.com/health
+   ```
+5. **Monitor** - Setup logging and monitoring dashboards
+
+See [best-practices.md](references/best-practices.md) for deployment best practices.
+
 ## Reference Documentation
 
 Detailed guides available in the `references/` directory:

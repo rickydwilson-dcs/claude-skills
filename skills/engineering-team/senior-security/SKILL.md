@@ -62,7 +62,15 @@ metadata:
 
 # Senior Security
 
-Complete toolkit for senior security with modern tools and best practices.
+Complete toolkit for senior security engineers with comprehensive security architecture, penetration testing, and threat modeling frameworks.
+
+## Overview
+
+The Senior Security skill provides enterprise-grade security engineering frameworks, penetration testing methodologies, and threat modeling tools for building secure applications and infrastructure. This skill covers application security, API security, cryptography implementation, secure architecture patterns, and security auditing used by leading security teams.
+
+Designed for senior security engineers and application security specialists, this skill includes proven patterns for OWASP Top 10 mitigation, threat modeling (STRIDE, PASTA), penetration testing automation, and secure coding practices. All content focuses on defense-in-depth security with practical implementation guidance.
+
+**Core Value:** Build security-first applications that prevent 98%+ of common vulnerabilities while enabling rapid development and maintaining compliance with industry standards.
 
 ## Quick Start
 
@@ -127,6 +135,149 @@ Advanced tooling for specialized tasks.
 ```bash
 python scripts/pentest_automator.py [arguments] [options]
 ```
+
+## Key Workflows
+
+### 1. Conduct Threat Modeling
+
+**Time:** 4-6 hours for comprehensive threat model
+
+1. **Define System Scope** - Identify boundaries, assets, and trust levels
+2. **Create Architecture Diagram** - Map data flows and components
+3. **Run Threat Modeler** - Execute threat_modeler.py to identify threats (STRIDE framework)
+4. **Assess Risk** - Evaluate likelihood and impact of each threat
+5. **Define Mitigations** - Design security controls for high-priority threats
+
+**Expected Output:** Threat model with identified threats, risk scores, and mitigation strategies
+
+### 2. Perform Security Audit
+
+**Time:** 1-2 weeks
+
+1. **Scope Security Audit** - Define systems, applications, and infrastructure to audit
+2. **Run Security Auditor** - Execute security_auditor.py for automated checks
+3. **Manual Review** - Code review, configuration review, access control audit
+4. **Document Findings** - Create audit report with severity classifications
+5. **Create Remediation Plan** - Prioritize and schedule security improvements
+
+**Expected Output:** Security audit report with findings, severity scores, and remediation roadmap
+
+### 3. Execute Penetration Test
+
+**Time:** 1-2 weeks
+
+1. **Define Pentest Scope** - Identify targets, testing boundaries, and rules of engagement
+2. **Run Automated Scans** - Execute pentest_automator.py for initial reconnaissance
+3. **Manual Exploitation** - Attempt to exploit identified vulnerabilities
+4. **Document Exploits** - Record successful attacks with proof-of-concept
+5. **Provide Remediation Guidance** - Recommend fixes for discovered vulnerabilities
+
+**Expected Output:** Penetration test report with exploited vulnerabilities and remediation recommendations
+
+## Python Tools
+
+### threat_modeler.py
+
+Performs systematic threat modeling using STRIDE framework with automated threat identification and mitigation recommendations.
+
+**Key Features:**
+- STRIDE threat analysis (Spoofing, Tampering, Repudiation, Information Disclosure, DoS, Elevation of Privilege)
+- Data flow diagram parsing
+- Automated threat identification based on architecture patterns
+- Risk scoring (likelihood × impact)
+- Mitigation strategy recommendations
+- Threat library with common attack patterns
+- Export to security documentation formats
+
+**Common Usage:**
+```bash
+# Analyze architecture diagram
+python scripts/threat_modeler.py architecture.json --framework stride
+
+# Generate threat report
+python scripts/threat_modeler.py architecture.json --report detailed
+
+# Focus on high-risk threats
+python scripts/threat_modeler.py architecture.json --min-risk high
+
+# Help
+python scripts/threat_modeler.py --help
+```
+
+**Use Cases:**
+- Security design reviews for new features
+- Identifying security requirements before development
+- Risk assessment for system changes
+- Security training and threat awareness
+
+### security_auditor.py
+
+Performs comprehensive security audits with OWASP coverage, secure coding analysis, and configuration review.
+
+**Key Features:**
+- OWASP Top 10 compliance checking
+- Secure coding pattern analysis
+- Authentication and authorization review
+- Cryptography implementation audit
+- API security assessment
+- Configuration hardening checks
+- Access control verification
+- Audit trail and logging validation
+
+**Common Usage:**
+```bash
+# Run security audit
+python scripts/security_auditor.py /path/to/project
+
+# Focus on specific areas
+python scripts/security_auditor.py /path/to/project --checks auth,crypto,api
+
+# Generate compliance report
+python scripts/security_auditor.py /path/to/project --report compliance
+
+# Help
+python scripts/security_auditor.py --help
+```
+
+**Use Cases:**
+- Pre-production security validation
+- Compliance audits (SOC 2, ISO 27001)
+- Security baseline assessment for acquisitions
+- Periodic security health checks
+
+### pentest_automator.py
+
+Automates penetration testing workflows with reconnaissance, vulnerability exploitation, and reporting capabilities.
+
+**Key Features:**
+- Automated reconnaissance (port scanning, service enumeration)
+- Vulnerability exploitation (common CVEs, misconfigurations)
+- Web application testing (SQLi, XSS, CSRF, authentication bypass)
+- Network testing (man-in-the-middle, lateral movement)
+- API security testing
+- Report generation with proof-of-concept
+- Integration with Metasploit, Burp Suite, and other pentest tools
+
+**Common Usage:**
+```bash
+# Run automated pentest
+python scripts/pentest_automator.py --target https://example.com
+
+# Focus on web application
+python scripts/pentest_automator.py --target https://example.com --scope web
+
+# Generate executive report
+python scripts/pentest_automator.py --target https://example.com --report executive
+
+# Help
+python scripts/pentest_automator.py --help
+```
+
+**Use Cases:**
+- Annual penetration testing requirements
+- Pre-launch security validation
+- Red team exercises
+- Security posture assessment
 
 ## Reference Documentation
 

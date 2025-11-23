@@ -249,6 +249,18 @@ See [frameworks.md](references/frameworks.md) for win/loss analysis framework an
 
 See [frameworks.md](references/frameworks.md) for complete international expansion framework with market-specific tactics.
 
+## Python Tools
+
+This skill currently has no Python automation tools. All capabilities are delivered through strategic frameworks, templates, and reference guides designed for product marketing and go-to-market planning.
+
+**Why No Tools?**
+Product marketing is primarily a strategic and creative discipline that relies on market insights, competitive intelligence, and stakeholder collaboration rather than algorithmic analysis. The frameworks and templates provided offer more value than automated tools for positioning, messaging, and GTM strategy work.
+
+**Available Resources Instead:**
+- Strategic frameworks in `references/frameworks.md`
+- Ready-to-use templates in `references/templates.md`
+- Integration with HubSpot, Gong, and other PMM tools
+
 ## Best Practices
 
 ### Positioning Strategy
