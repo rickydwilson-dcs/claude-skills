@@ -5,6 +5,11 @@ skills: senior-devops
 domain: engineering
 model: sonnet
 tools: [Read, Write, Bash, Grep, Glob]
+color: green
+field: devops
+expertise: expert
+execution: coordinated
+mcp_tools: []
 ---
 
 # DevOps Engineer Agent

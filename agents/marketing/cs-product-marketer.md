@@ -5,6 +5,11 @@ skills: marketing-team/marketing-strategy-pmm
 domain: marketing
 model: sonnet
 tools: [Read, Write, Bash, Grep, Glob]
+color: blue
+field: content
+expertise: expert
+execution: parallel
+mcp_tools: []
 ---
 
 # Product Marketer Agent

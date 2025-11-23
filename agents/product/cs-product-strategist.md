@@ -6,6 +6,11 @@ domain: product
 model: sonnet
 model: sonnet
 tools: [Read, Write, Bash, Grep, Glob]
+color: blue
+field: product
+expertise: expert
+execution: parallel
+mcp_tools: []
 ---
 
 # Product Strategist Agent

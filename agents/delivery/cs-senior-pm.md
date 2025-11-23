@@ -5,6 +5,11 @@ skills: senior-pm
 domain: delivery
 model: sonnet
 tools: [Read, Write, Bash, Grep, Glob]
+color: purple
+field: product
+expertise: expert
+execution: parallel
+mcp_tools: [mcp__atlassian]
 ---
 
 # Senior PM Agent

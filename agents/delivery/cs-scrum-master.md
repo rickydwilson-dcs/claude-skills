@@ -5,6 +5,11 @@ skills: scrum-master
 domain: delivery
 model: sonnet
 tools: [Read, Write, Bash, Grep, Glob]
+color: purple
+field: agile
+expertise: expert
+execution: parallel
+mcp_tools: [mcp__atlassian]
 ---
 
 # Scrum Master Agent
