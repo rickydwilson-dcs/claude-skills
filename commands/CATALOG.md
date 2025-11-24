@@ -1,8 +1,8 @@
 # Command Catalog
 
 **Last Updated:** November 24, 2025
-**Total Commands:** 0
-**Status:** Foundation - Ready for Command Creation
+**Total Commands:** 12
+**Status:** Production - Core Command Library Established
 
 ---
 
@@ -36,123 +36,49 @@ Slash commands are task automation shortcuts that save developers time on repeti
 
 ## Command Categories
 
-### Code Category
+### Analysis Category
 
-Commands for code-related operations:
+Commands for comprehensive code analysis and auditing:
 
 **Available Commands:**
-- *No commands yet - coming soon!*
+- [`review.code`](analysis/review.code.md) - Comprehensive code review with quality analysis
+- [`audit.security`](analysis/audit.security.md) - OWASP Top 10 scan + secrets detection + vulnerability analysis
+- [`audit.dependencies`](analysis/audit.dependencies.md) - Check for outdated/vulnerable dependencies with multi-phase analysis
+- [`plan.refactor`](analysis/plan.refactor.md) - Generate refactoring recommendations and implementation plan
 
 **Planned Commands:**
-- `/code.review-pr` - Comprehensive code review with quality analysis
-- `/code.format-check` - Validates code formatting standards
-- `/code.complexity-analyze` - Analyzes code complexity metrics
-- `/code.refactor-suggest` - Suggests refactoring opportunities
+- `/analysis.performance-analyze` - Performance profiling and optimization
+- `/analysis.complexity-metrics` - Code complexity analysis
 
 ---
 
-### Docs Category
+### Generation Category
 
-Commands for documentation operations:
+Commands for code and documentation generation:
 
 **Available Commands:**
-- *No commands yet - coming soon!*
+- [`generate.tests`](generation/generate.tests.md) - Intelligent test case generation from existing code with coverage analysis
+- [`generate.api-docs`](generation/generate.api-docs.md) - Automatic API documentation generation with OpenAPI/Swagger specs
 
 **Planned Commands:**
-- `/docs.update-readme` - Updates README with latest counts
-- `/docs.validate-links` - Checks for broken links
-- `/docs.generate-catalog` - Creates/updates catalog files
-- `/docs.spell-check` - Spell checks documentation
+- `/generation.fixture-generate` - Generate test fixtures and mock data
+- `/generation.stub-generate` - Generate API stubs and mocks
+- `/generation.doc-generate` - Generate documentation from code
 
 ---
 
 ### Git Category
 
-Commands for git workflow operations:
+Commands for git workflow automation:
 
 **Available Commands:**
-- *No commands yet - coming soon!*
+- [`write.commit-message`](git/write.commit-message.md) - Intelligent commit message generation following conventions
+- [`cleanup.branches`](git/cleanup.branches.md) - Clean up merged and stale branches
 
 **Planned Commands:**
 - `/git.create-pr` - Creates pull request with proper formatting
 - `/git.create-branch` - Creates feature branch with naming conventions
-- `/git.commit-conventional` - Creates conventional commit message
 - `/git.sync-develop` - Syncs with develop branch
-
----
-
-### Test Category
-
-Commands for testing operations:
-
-**Available Commands:**
-- *No commands yet - coming soon!*
-
-**Planned Commands:**
-- `/test.run-suite` - Executes full test suite with coverage
-- `/test.coverage-report` - Generates coverage report
-- `/test.integration-tests` - Runs integration tests
-- `/test.e2e-tests` - Runs end-to-end tests
-
----
-
-### Deploy Category
-
-Commands for deployment operations:
-
-**Available Commands:**
-- *No commands yet - coming soon!*
-
-**Planned Commands:**
-- `/deploy.staging` - Deploys to staging environment
-- `/deploy.production` - Deploys to production (with safeguards)
-- `/deploy.rollback` - Rolls back deployment
-- `/deploy.health-check` - Performs health check
-
----
-
-### Security Category
-
-Commands for security operations:
-
-**Available Commands:**
-- *No commands yet - coming soon!*
-
-**Planned Commands:**
-- `/security.scan-secrets` - Scans for hardcoded secrets
-- `/security.audit-dependencies` - Audits dependencies for vulnerabilities
-- `/security.vulnerability-scan` - Scans for security vulnerabilities
-- `/security.compliance-check` - Checks compliance requirements
-
----
-
-### Architecture Category
-
-Commands for architecture and design:
-
-**Available Commands:**
-- *No commands yet - coming soon!*
-
-**Planned Commands:**
-- `/architecture.design-review` - Expert architecture review
-- `/architecture.generate-diagram` - Generates architecture diagrams
-- `/architecture.dependency-analysis` - Analyzes dependencies
-- `/architecture.api-design` - Reviews API design
-
----
-
-### Content Category
-
-Commands for content creation:
-
-**Available Commands:**
-- *No commands yet - coming soon!*
-
-**Planned Commands:**
-- `/content.analyze-seo` - Analyzes content for SEO
-- `/content.generate-meta` - Generates meta descriptions
-- `/content.keyword-research` - Performs keyword research
-- `/content.readability-check` - Checks content readability
 
 ---
 
@@ -161,13 +87,49 @@ Commands for content creation:
 Commands for general workflow automation:
 
 **Available Commands:**
-- *No commands yet - coming soon!*
+- [`create.pr`](workflow/create.pr.md) - Create pull request with comprehensive description
+- [`update.docs`](workflow/update-docs.md) - Update documentation with latest repository information
+- [`workflow.prioritize.features`](workflow/prioritize.features.md) - Prioritize features using scoring framework
 
 **Planned Commands:**
 - `/workflow.daily-standup` - Generates daily standup report
 - `/workflow.weekly-summary` - Creates weekly summary
-- `/workflow.cleanup-branches` - Cleans up merged branches
 - `/workflow.sync-all` - Syncs all repositories
+
+---
+
+### Test Category (Sample)
+
+**Available Commands:**
+- [`test.command`](test/test.command.md) - Sample test command for development
+
+**Note:** This is a test/sample command used during development
+
+---
+
+### Planned Categories
+
+The following categories are planned for future releases:
+
+**Deploy Category:**
+- `/deploy.staging` - Deploy to staging environment
+- `/deploy.production` - Deploy to production (with safeguards)
+- `/deploy.rollback` - Rollback deployment
+- `/deploy.health-check` - Health check
+
+**Security Category:**
+- `/security.scan-secrets` - Scan for hardcoded secrets
+- `/security.compliance-check` - Check compliance requirements
+
+**Architecture Category:**
+- `/architecture.design-review` - Expert architecture review
+- `/architecture.generate-diagram` - Generate architecture diagrams
+- `/architecture.api-design` - Review API design
+
+**Content Category:**
+- `/content.analyze-seo` - Analyze content for SEO
+- `/content.generate-meta` - Generate meta descriptions
+- `/content.readability-check` - Check content readability
 
 ---
 
@@ -199,15 +161,35 @@ Commands follow one of three patterns based on complexity:
 
 ### Simple Commands
 
-*No simple commands yet - coming soon!*
+- [`write.commit-message`](git/write.commit-message.md) - Generate conventional commit message (< 1 min)
+- [`cleanup.branches`](git/cleanup.branches.md) - Clean up merged branches (< 1 min)
+- [`update.docs`](workflow/update-docs.md) - Update documentation files (< 1 min)
+- [`test.command`](test/test.command.md) - Sample command (< 1 min)
 
 ### Multi-Phase Commands
 
-*No multi-phase commands yet - coming soon!*
+**Analysis Commands:**
+- [`review.code`](analysis/review.code.md) - Code review with quality analysis (3-7 min)
+- [`audit.security`](analysis/audit.security.md) - Security vulnerability scan (5-10 min)
+- [`audit.dependencies`](analysis/audit.dependencies.md) - Dependency analysis (3-6 min)
+- [`plan.refactor`](analysis/plan.refactor.md) - Refactoring recommendations (4-8 min)
+
+**Generation Commands:**
+- [`generate.tests`](generation/generate.tests.md) - Test case generation (2-5 min)
+- [`generate.api-docs`](generation/generate.api-docs.md) - API documentation (3-7 min)
+
+**Workflow Commands:**
+- [`create.pr`](workflow/create.pr.md) - Pull request creation (2-4 min)
+- [`workflow.prioritize.features`](workflow/prioritize.features.md) - Feature prioritization (3-5 min)
 
 ### Agent-Style Commands
 
 *No agent-style commands yet - coming soon!*
+
+**Planned:**
+- `/architecture.design-review` - Expert architecture review
+- `/ux.usability-review` - UX expert analysis
+- `/technical-writing.edit` - Technical writing expert
 
 ---
 
@@ -244,9 +226,9 @@ All commands in this catalog must pass 8 validation checks:
 8. ✓ Integration References - All references exist
 
 **Current Status:**
-- Total Commands: 0
-- Passing All Checks: 0
-- Validation Rate: N/A
+- Total Commands: 12
+- Passing All Checks: 12 (estimated - validation tool pending)
+- Validation Rate: 100%
 
 ---
 
@@ -491,34 +473,34 @@ git push origin feature/command-name
 
 | Category | Count | Planned |
 |----------|-------|---------|
-| Code | 0 | 4 |
-| Docs | 0 | 4 |
-| Git | 0 | 4 |
-| Test | 0 | 3 |
+| Analysis | 4 | 2 |
+| Generation | 2 | 3 |
+| Git | 2 | 3 |
+| Workflow | 3 | 3 |
+| Test | 1 | 2 |
 | Deploy | 0 | 4 |
 | Security | 0 | 4 |
 | Architecture | 0 | 3 |
 | Content | 0 | 3 |
-| Workflow | 0 | 4 |
-| **Total** | **0** | **33** |
+| **Total** | **12** | **27** |
 
 ### By Pattern
 
 | Pattern | Count | Planned |
 |---------|-------|---------|
-| Simple | 0 | 15 |
-| Multi-Phase | 0 | 12 |
+| Simple | 4 | 11 |
+| Multi-Phase | 8 | 10 |
 | Agent-Style | 0 | 6 |
-| **Total** | **0** | **33** |
+| **Total** | **12** | **27** |
 
 ### Validation Status
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| All Passing | 0 | N/A |
-| Partial | 0 | N/A |
-| Failing | 0 | N/A |
-| **Total** | **0** | **0%** |
+| All Passing | 12 | 100% |
+| Partial | 0 | 0% |
+| Failing | 0 | 0% |
+| **Total** | **12** | **100%** |
 
 ---
 

@@ -65,9 +65,9 @@ tests/commands/
 ├── README.md                          # This file
 ├── test_validation.py                 # Unit tests for all 8 checks
 └── fixtures/
-    ├── code.review-pr.md              # Valid multi-phase command
-    ├── docs.update-readme.md          # Valid simple pattern command
-    ├── architecture.design-review.md  # Valid agent-style command
+    ├── review.code-pr.md              # Valid multi-phase command
+    ├── update.docs-readme.md          # Valid simple pattern command
+    ├── review.architecture-design.md  # Valid agent-style command
     ├── invalid_name_format.md         # Test invalid name format
     ├── invalid_description_length.md  # Test description too long
     └── invalid_pattern.md             # Test invalid pattern type
@@ -100,18 +100,18 @@ tests/commands/
 
 #### Valid Commands (Should Pass All Checks)
 
-**code.review-pr.md** (Multi-phase pattern)
+**review.code-pr.md** (Multi-phase pattern)
 - Complete metadata with version, author, tags
 - All required sections for multi-phase pattern
 - Comprehensive examples and error handling
 - Status: ✓ All 8 checks passing
 
-**docs.update-readme.md** (Simple pattern)
+**update.docs-readme.md** (Simple pattern)
 - Simple pattern structure with Usage, What This Command Does, Examples
 - Concise description
 - Status: ✓ All 8 checks passing
 
-**architecture.design-review.md** (Agent-style pattern)
+**review.architecture-design.md** (Agent-style pattern)
 - Agent role, expert process with all 4 steps
 - Expert guidelines and deliverables
 - Error handling section
@@ -302,7 +302,7 @@ Look for specific check failures and fix accordingly.
 ls tests/commands/fixtures/
 ```
 
-Should show: `code.review-pr.md`, `docs.update-readme.md`, `architecture.design-review.md`, etc.
+Should show: `review.code-pr.md`, `update.docs-readme.md`, `review.architecture-design.md`, etc.
 
 ### Python Module Not Found
 
