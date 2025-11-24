@@ -1,0 +1,612 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Claude Skills Command Metadata JSON Export Schema",
+  "description": "JSON structure for exporting slash command metadata to website API. This schema defines how YAML frontmatter translates to JSON for website consumption.",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "metadata",
+    "core",
+    "display",
+    "relationships",
+    "technical",
+    "examples",
+    "analytics",
+    "versioning",
+    "discoverability"
+  ],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "description": "Export metadata and schema information",
+      "required": ["schema_version", "export_timestamp", "api_version"],
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "pattern": "^v\\d+\\.\\d+\\.\\d+$",
+          "description": "Version of this JSON export schema",
+          "example": "v1.0.0"
+        },
+        "export_timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp when JSON was generated",
+          "example": "2025-11-24T10:30:00Z"
+        },
+        "api_version": {
+          "type": "string",
+          "pattern": "^v\\d+$",
+          "description": "Website API version",
+          "example": "v1"
+        }
+      }
+    },
+    "core": {
+      "type": "object",
+      "description": "Core identity fields",
+      "required": ["name", "title", "description", "category", "subcategory"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "minLength": 3,
+          "maxLength": 50,
+          "description": "Command unique identifier (kebab-case)",
+          "example": "feature-prioritize"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 80,
+          "description": "Human-readable display title",
+          "example": "Feature Prioritization with RICE Framework"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 80,
+          "maxLength": 200,
+          "description": "One-sentence command description",
+          "example": "Analyze and prioritize feature requests using the RICE framework with automated scoring, portfolio analysis, and quarterly roadmap generation"
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "development",
+            "product",
+            "marketing",
+            "engineering",
+            "quality",
+            "documentation",
+            "design",
+            "analytics",
+            "automation",
+            "collaboration"
+          ],
+          "description": "Primary category for filtering",
+          "example": "product"
+        },
+        "subcategory": {
+          "type": "string",
+          "pattern": "^[a-z-]+$",
+          "minLength": 3,
+          "maxLength": 30,
+          "description": "Specific subcategory within primary category",
+          "example": "feature-planning"
+        }
+      }
+    },
+    "display": {
+      "type": "object",
+      "description": "Website display and value proposition fields",
+      "required": ["difficulty", "time_saved", "frequency", "use_cases"],
+      "properties": {
+        "difficulty": {
+          "type": "string",
+          "enum": ["beginner", "intermediate", "advanced"],
+          "description": "Skill level required to use command",
+          "example": "intermediate"
+        },
+        "time_saved": {
+          "type": "string",
+          "pattern": "^\\d+(-\\d+)?\\s+(minutes?|hours?|days?)(\\s+per\\s+.+)?$",
+          "description": "Quantified time savings with context",
+          "example": "2-3 hours per prioritization session"
+        },
+        "frequency": {
+          "type": "string",
+          "pattern": "^(Daily|Weekly|Monthly|Quarterly|As-needed)(\\s+per\\s+.+)?$",
+          "description": "Typical usage frequency with context",
+          "example": "Weekly per product team"
+        },
+        "use_cases": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 5,
+          "items": {
+            "type": "string",
+            "minLength": 40,
+            "maxLength": 120,
+            "description": "Specific use case scenario"
+          },
+          "description": "Concrete scenarios where command provides value",
+          "example": [
+            "Prioritizing quarterly roadmap with 20+ feature candidates using RICE scores",
+            "Analyzing portfolio balance between quick wins and strategic big bets",
+            "Generating quarterly roadmap with capacity planning and team allocation"
+          ]
+        }
+      }
+    },
+    "relationships": {
+      "type": "object",
+      "description": "Cross-linking to agents, skills, and commands",
+      "properties": {
+        "related_agents": {
+          "type": "array",
+          "maxItems": 10,
+          "items": {
+            "type": "string",
+            "pattern": "^cs-[a-z0-9-]+$"
+          },
+          "description": "Agents that integrate with this command",
+          "example": ["cs-product-manager", "cs-agile-product-owner"]
+        },
+        "related_skills": {
+          "type": "array",
+          "maxItems": 10,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z-]+/[a-z-]+$"
+          },
+          "description": "Skills this command leverages",
+          "example": ["product-team/product-manager-toolkit"]
+        },
+        "related_commands": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "string",
+            "pattern": "^/[a-z0-9-]+$"
+          },
+          "description": "Complementary commands",
+          "example": ["/feature-analyze", "/roadmap-generate"]
+        }
+      }
+    },
+    "technical": {
+      "type": "object",
+      "description": "Technical requirements and compatibility",
+      "required": ["dependencies", "compatibility"],
+      "properties": {
+        "dependencies": {
+          "type": "object",
+          "required": ["tools", "scripts", "python_packages"],
+          "properties": {
+            "tools": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["Read", "Write", "Bash", "Grep", "Glob", "Edit", "WebFetch", "WebSearch"]
+              },
+              "description": "Claude Code tools required",
+              "example": ["Read", "Write", "Bash"]
+            },
+            "scripts": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z-]+/[a-z-]+/scripts/.+\\.py$"
+              },
+              "description": "Python scripts executed by command",
+              "example": ["product-team/product-manager-toolkit/scripts/rice_prioritizer.py"]
+            },
+            "python_packages": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "External Python packages (empty = stdlib only)",
+              "example": []
+            }
+          }
+        },
+        "compatibility": {
+          "type": "object",
+          "required": ["claude_ai", "claude_code", "platforms"],
+          "properties": {
+            "claude_ai": {
+              "type": "boolean",
+              "description": "Works in Claude.ai web interface",
+              "example": true
+            },
+            "claude_code": {
+              "type": "boolean",
+              "description": "Works in Claude Code CLI",
+              "example": true
+            },
+            "platforms": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "enum": ["macos", "linux", "windows"]
+              },
+              "description": "Supported operating systems",
+              "example": ["macos", "linux", "windows"]
+            }
+          }
+        }
+      }
+    },
+    "examples": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 5,
+      "description": "Usage examples with inputs and outputs",
+      "items": {
+        "type": "object",
+        "required": ["title", "input", "output"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 20,
+            "maxLength": 80,
+            "description": "Example title",
+            "example": "Basic Feature Prioritization"
+          },
+          "input": {
+            "type": "string",
+            "description": "Command input/invocation",
+            "example": "/feature-prioritize features.csv"
+          },
+          "output": {
+            "type": "string",
+            "description": "Expected output or result",
+            "example": "Generated RICE scores for 15 features, top 3: API Rate Limiting (RICE: 85), User Dashboard (RICE: 78), Dark Mode (RICE: 45)"
+          }
+        }
+      }
+    },
+    "analytics": {
+      "type": "object",
+      "description": "Usage statistics and analytics (placeholder)",
+      "required": ["installs", "upvotes", "rating", "reviews"],
+      "properties": {
+        "installs": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of installs/uses",
+          "example": 0
+        },
+        "upvotes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Community upvotes",
+          "example": 0
+        },
+        "rating": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 5.0,
+          "description": "Average rating (0.0-5.0)",
+          "example": 0.0
+        },
+        "reviews": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of reviews",
+          "example": 0
+        }
+      }
+    },
+    "versioning": {
+      "type": "object",
+      "description": "Version control and authorship",
+      "required": ["version", "author", "created", "updated"],
+      "properties": {
+        "version": {
+          "type": "string",
+          "pattern": "^v\\d+\\.\\d+\\.\\d+(-[a-zA-Z0-9.-]+)?$",
+          "description": "Semantic version",
+          "example": "v1.2.1"
+        },
+        "author": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 50,
+          "description": "Original author or team",
+          "example": "Claude Skills Team"
+        },
+        "contributors": {
+          "type": "array",
+          "maxItems": 20,
+          "items": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 50
+          },
+          "description": "Additional contributors",
+          "example": ["Product Team", "Community Contributors"]
+        },
+        "created": {
+          "type": "string",
+          "format": "date",
+          "description": "Creation date (YYYY-MM-DD)",
+          "example": "2025-10-15"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date",
+          "description": "Last update date (YYYY-MM-DD)",
+          "example": "2025-11-24"
+        }
+      }
+    },
+    "discoverability": {
+      "type": "object",
+      "description": "Search, filtering, and discovery fields",
+      "required": ["tags", "featured", "verified", "license"],
+      "properties": {
+        "tags": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 10,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "description": "Search keywords (kebab-case)",
+          "example": [
+            "product-management",
+            "feature-planning",
+            "prioritization",
+            "rice-framework"
+          ]
+        },
+        "featured": {
+          "type": "boolean",
+          "description": "Featured status (exceptional commands only)",
+          "example": false
+        },
+        "verified": {
+          "type": "boolean",
+          "description": "Official/verified status",
+          "example": true
+        },
+        "license": {
+          "type": "string",
+          "enum": ["MIT", "Apache-2.0", "GPL-3.0", "BSD-3-Clause"],
+          "description": "Software license (SPDX identifier)",
+          "example": "MIT"
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "metadata": {
+        "schema_version": "v1.0.0",
+        "export_timestamp": "2025-11-24T10:30:00Z",
+        "api_version": "v1"
+      },
+      "core": {
+        "name": "feature-prioritize",
+        "title": "Feature Prioritization with RICE Framework",
+        "description": "Analyze and prioritize feature requests using the RICE framework with automated scoring, portfolio analysis, and quarterly roadmap generation",
+        "category": "product",
+        "subcategory": "feature-planning"
+      },
+      "display": {
+        "difficulty": "intermediate",
+        "time_saved": "2-3 hours per prioritization session",
+        "frequency": "Weekly per product team",
+        "use_cases": [
+          "Prioritizing quarterly roadmap with 20+ feature candidates using RICE scores",
+          "Analyzing portfolio balance between quick wins and strategic big bets",
+          "Generating quarterly roadmap with capacity planning and team allocation",
+          "Validating stakeholder requests with data-driven prioritization framework"
+        ]
+      },
+      "relationships": {
+        "related_agents": [
+          "cs-product-manager",
+          "cs-agile-product-owner",
+          "cs-product-strategist"
+        ],
+        "related_skills": [
+          "product-team/product-manager-toolkit",
+          "product-team/product-strategist"
+        ],
+        "related_commands": [
+          "/feature-analyze",
+          "/roadmap-generate",
+          "/okr-cascade"
+        ]
+      },
+      "technical": {
+        "dependencies": {
+          "tools": ["Read", "Write", "Bash", "Grep", "Glob"],
+          "scripts": [
+            "product-team/product-manager-toolkit/scripts/rice_prioritizer.py",
+            "product-team/product-manager-toolkit/scripts/capacity_planner.py"
+          ],
+          "python_packages": []
+        },
+        "compatibility": {
+          "claude_ai": true,
+          "claude_code": true,
+          "platforms": ["macos", "linux", "windows"]
+        }
+      },
+      "examples": [
+        {
+          "title": "Basic Feature Prioritization",
+          "input": "/feature-prioritize features.csv",
+          "output": "Generated RICE scores for 15 features, top 3: API Rate Limiting (RICE: 85), User Dashboard (RICE: 78), Dark Mode (RICE: 45)"
+        },
+        {
+          "title": "Prioritization with Capacity Planning",
+          "input": "/feature-prioritize features.csv --capacity 20",
+          "output": "Quarterly roadmap generated: Q1 includes 5 features (18.5 person-months), 1.5 months buffer"
+        }
+      ],
+      "analytics": {
+        "installs": 0,
+        "upvotes": 0,
+        "rating": 0.0,
+        "reviews": 0
+      },
+      "versioning": {
+        "version": "v1.2.1",
+        "author": "Claude Skills Team",
+        "contributors": ["Product Team", "Beta Testers"],
+        "created": "2025-10-15",
+        "updated": "2025-11-24"
+      },
+      "discoverability": {
+        "tags": [
+          "product-management",
+          "feature-planning",
+          "prioritization",
+          "rice-framework",
+          "roadmap-planning",
+          "agile",
+          "capacity-planning",
+          "portfolio-analysis"
+        ],
+        "featured": false,
+        "verified": true,
+        "license": "MIT"
+      }
+    }
+  ],
+  "definitions": {
+    "api_endpoints": {
+      "description": "Expected API endpoints for website integration",
+      "endpoints": [
+        {
+          "path": "/api/v1/commands",
+          "method": "GET",
+          "description": "List all commands with pagination and filtering",
+          "query_parameters": {
+            "category": "Filter by category",
+            "difficulty": "Filter by difficulty level",
+            "tags": "Filter by tags (comma-separated)",
+            "search": "Search in title and description",
+            "page": "Page number (default: 1)",
+            "per_page": "Items per page (default: 20, max: 100)",
+            "sort": "Sort field (name|rating|installs|updated)",
+            "order": "Sort order (asc|desc)"
+          },
+          "response": {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {
+                  "$ref": "#"
+                }
+              },
+              "pagination": {
+                "type": "object",
+                "properties": {
+                  "total": "integer",
+                  "page": "integer",
+                  "per_page": "integer",
+                  "total_pages": "integer"
+                }
+              }
+            }
+          }
+        },
+        {
+          "path": "/api/v1/commands/{name}",
+          "method": "GET",
+          "description": "Get single command by name",
+          "response": {
+            "$ref": "#"
+          }
+        },
+        {
+          "path": "/api/v1/commands/{name}/related",
+          "method": "GET",
+          "description": "Get related commands, agents, and skills",
+          "response": {
+            "type": "object",
+            "properties": {
+              "agents": "array",
+              "skills": "array",
+              "commands": "array"
+            }
+          }
+        },
+        {
+          "path": "/api/v1/commands/search",
+          "method": "POST",
+          "description": "Advanced search with filters",
+          "request_body": {
+            "type": "object",
+            "properties": {
+              "query": "string",
+              "filters": {
+                "categories": "array",
+                "difficulties": "array",
+                "tags": "array",
+                "platforms": "array"
+              }
+            }
+          }
+        },
+        {
+          "path": "/api/v1/stats/trending",
+          "method": "GET",
+          "description": "Get trending commands (most installs, highest rated)",
+          "query_parameters": {
+            "period": "Period for trending (day|week|month|all)",
+            "limit": "Number of results (default: 10, max: 50)"
+          }
+        }
+      ]
+    },
+    "validation_rules": {
+      "description": "Validation rules for command metadata",
+      "rules": [
+        "All required fields must be present",
+        "At least 2 use cases required",
+        "At least 2 examples required",
+        "At least 3 tags required",
+        "Version must follow semantic versioning",
+        "Dates must be ISO 8601 format (YYYY-MM-DD)",
+        "Rating must be between 0.0 and 5.0",
+        "Related entities must exist in repository",
+        "Script paths must be valid and accessible",
+        "Tags must be lowercase kebab-case",
+        "Name must be unique across all commands"
+      ]
+    },
+    "indexing_strategy": {
+      "description": "Search indexing recommendations for website",
+      "indexed_fields": [
+        "core.name (exact match, primary key)",
+        "core.title (full-text search, high weight)",
+        "core.description (full-text search, medium weight)",
+        "core.category (faceted search)",
+        "core.subcategory (faceted search)",
+        "display.difficulty (faceted search)",
+        "display.use_cases (full-text search, low weight)",
+        "discoverability.tags (exact match, faceted search)",
+        "versioning.author (exact match)",
+        "relationships.* (relationship indexing for graph queries)"
+      ],
+      "search_features": [
+        "Full-text search across title, description, use-cases",
+        "Faceted filtering by category, difficulty, tags, platforms",
+        "Sort by rating, installs, updated date, name",
+        "Related item suggestions based on relationships",
+        "Tag-based similarity scoring",
+        "Trending algorithms based on recent installs and ratings"
+      ]
+    }
+  }
+}

@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a **comprehensive skills library** for Claude AI - reusable, production-ready skill packages that bundle domain expertise, best practices, analysis tools, and strategic frameworks. The repository provides modular skills that teams can download and use directly in their workflows.
 
-**Current Scope:** 28 production agents, 28 skills across 4 domains with 60 Python automation tools.
+**Current Scope:** 28 production agents, 28 skills across 4 domains with 60 Python automation tools, 20 slash commands.
 
 **Key Distinction**: This is NOT a traditional application. It's a library of skill packages meant to be extracted and deployed by users into their own Claude workflows.
 
@@ -32,6 +32,12 @@ python3 scripts/agent_builder.py --validate agents/marketing/cs-content-creator.
 
 # Validate existing skill
 python3 scripts/skill_builder.py --validate skills/marketing-team/content-creator
+
+# Install slash commands
+python3 scripts/install_commands.py
+
+# Use installed commands
+/speckit.specify "Add user authentication"
 ```
 
 ## Navigation Map
@@ -41,6 +47,7 @@ This repository uses **modular documentation**. For domain-specific guidance, se
 | Domain | CLAUDE.md Location | Focus |
 |--------|-------------------|-------|
 | **Agent Development** | [agents/CLAUDE.md](agents/CLAUDE.md) | cs-* agent creation, YAML frontmatter, relative paths |
+| **Slash Commands** | [commands/CLAUDE.md](commands/CLAUDE.md) | Command creation, patterns, validation |
 | **Marketing Skills** | [skills/marketing-team/CLAUDE.md](skills/marketing-team/CLAUDE.md) | Content creation, SEO, demand gen Python tools |
 | **Product Team** | [skills/product-team/CLAUDE.md](skills/product-team/CLAUDE.md) | RICE, OKRs, user stories, UX research tools |
 | **Engineering** | [skills/engineering-team/CLAUDE.md](skills/engineering-team/CLAUDE.md) | Scaffolding, fullstack, AI/ML, data tools, CTO strategy |
@@ -64,6 +71,12 @@ claude-skills/
 │   ├── product/              # 6 agents
 │   ├── delivery/             # 4 agents
 │   └── engineering/          # 15 agents
+├── commands/                  # Slash commands library
+│   ├── analysis/             # Analysis commands (4)
+│   ├── generation/           # Code generation (2)
+│   ├── git/                  # Git workflow (2)
+│   ├── workflow/             # Team workflow (3)
+│   └── .claude/commands/     # Speckit workflow (8)
 ├── docs/                      # Documentation and standards
 ├── scripts/                   # Builder tools and utilities
 ├── templates/                 # Reusable templates
@@ -101,6 +114,43 @@ skill-name/
 - **Agents** = Workflow Orchestrators (the "how")
 
 **Learn More:** See [agents/CLAUDE.md](agents/CLAUDE.md) for complete agent architecture and [docs/AGENTS_CATALOG.md](docs/AGENTS_CATALOG.md) for full agent list.
+
+### Slash Commands Architecture
+
+**20 production commands** automate high-frequency developer workflows across 6 categories (general/speckit, analysis, generation, git, workflow, test).
+
+**Key Principles:**
+- **category.command-name Pattern** - All commands use kebab-case with category prefix
+- **Task Automation** - Commands execute focused, repetitive tasks
+- **3 Official Patterns** - Simple, Multi-Phase, Agent-Style (Anthropic standards)
+- **YAML Frontmatter** - Structured metadata (name, description, category, pattern, tools)
+- **50%+ Time Savings** - Commands save significant time on repetitive work
+
+**Command vs. Agent vs. Skill Distinction:**
+- **Commands** = Quick task automation (seconds-minutes)
+- **Agents** = Workflow orchestrators (minutes-hours)
+- **Skills** = Tools + Knowledge + Templates
+
+**Available Command Categories:**
+- **General (Speckit)** - 8 commands for specification-driven development workflow
+- **Analysis** - 4 commands for code review, security, dependencies, refactoring
+- **Generation** - 2 commands for test generation and API documentation
+- **Git** - 2 commands for commit assistance and branch cleanup
+- **Workflow** - 3 commands for PRs, docs, feature prioritization
+- **Test** - 1 sample command for development
+
+**Learn More:** See [commands/README.md](commands/README.md) for complete command library, [commands/CLAUDE.md](commands/CLAUDE.md) for development guide, and [commands/CATALOG.md](commands/CATALOG.md) for full command list.
+
+**Quick Start:**
+```bash
+# Install commands
+python3 scripts/install_commands.py
+
+# Use commands
+/speckit.specify "Add user authentication"
+/analysis.code-review src/
+/generation.test-generate
+```
 
 ## Git Workflow
 
@@ -146,6 +196,106 @@ git push origin main
 - ✅ All: Conventional commits enforced
 
 See [docs/WORKFLOW.md](docs/WORKFLOW.md) for complete workflow guide.
+
+## Session Tracking
+
+**All work is tracked in session-based output directories** for attribution, context, and collaboration.
+
+### Session Structure
+
+```
+output/sessions/{user}/{session-id}/
+├── .session-metadata.yaml    # YAML tracking (REQUIRED)
+├── SESSION_METADATA.md        # Human-readable summary
+├── COMPLETION_SUMMARY.md      # Executive summary
+└── *.md                       # All work outputs
+```
+
+### Creating Sessions
+
+**Always create a session before starting work:**
+
+```bash
+# Get username (use system username or identifier)
+USER=$(whoami)
+
+# Create timestamp-based session ID
+TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
+SESSION_ID="${TIMESTAMP}_${description}"
+
+# Create session directory
+mkdir -p "output/sessions/${USER}/${SESSION_ID}"
+
+# Create .session-metadata.yaml with required fields:
+# - session_id, created_at, user, team, status
+# - work_context (branch, project, description)
+# - outputs (list of files created)
+# - retention policy and expiration
+
+# Update current session pointer
+echo "${USER}/${SESSION_ID}" > output/.current-session
+```
+
+**Session Naming Convention:**
+- Format: `{YYYY-MM-DD}_{HH-MM-SS}_{description}`
+- Description: kebab-case, concise (e.g., `command-verb-object-renaming`)
+- Examples:
+  - `2025-11-24_21-34-54_command-verb-object-renaming`
+  - `2025-11-22_14-30-00_skill-builder-enhancement`
+  - `2025-11-20_09-15-00_agent-validation-fixes`
+
+### Session Metadata Requirements
+
+Every session MUST include `.session-metadata.yaml`:
+
+```yaml
+session_id: 2025-11-24_21-34-54_command-verb-object-renaming
+created_at: 2025-11-24T21:34:54
+user: rickywilson
+team: engineering
+status: active  # or closed
+
+work_context:
+  branch: feature/slash-commands-library
+  project: Command Naming Standardization
+  description: Complete migration to verb.object pattern
+
+outputs:
+  - file: COMPLETION_SUMMARY.md
+    type: summary
+    created_at: 2025-11-24T21:34:54
+
+retention:
+  policy: project  # or sprint, temporary
+  expires_at: 2026-05-24
+
+tags:
+  - command-naming
+  - standardization
+```
+
+### Why Sessions Matter
+
+1. **Attribution** - Know who did what and when
+2. **Context** - Understand the purpose of each piece of work
+3. **Searchability** - Find work by user, date, or project
+4. **Collaboration** - Git-tracked sessions enable team review
+5. **Retention** - Automatic cleanup based on policies
+
+### Quick Reference
+
+```bash
+# Current session
+cat output/.current-session
+
+# List user sessions
+ls -la output/sessions/${USER}/
+
+# View session metadata
+cat output/sessions/${USER}/${SESSION_ID}/.session-metadata.yaml
+```
+
+**Learn More:** See [output/README.md](output/README.md) for complete session management guide.
 
 ## Builder Tools (Automated Creation)
 
@@ -236,7 +386,16 @@ python3 -c "print('Python environment ready')"
 - **[docs/USAGE.md](docs/USAGE.md)** - Usage examples and workflows
 - **[docs/AGENTS_CATALOG.md](docs/AGENTS_CATALOG.md)** - Complete agent list with validation status
 - **[docs/SKILLS_CATALOG.md](docs/SKILLS_CATALOG.md)** - Complete skill list with validation status
+- **[commands/CATALOG.md](commands/CATALOG.md)** - Complete command list with patterns and categories
 - **[docs/standards/](docs/standards/)** - Communication, quality, git, documentation, security standards
+
+### Slash Commands
+- **[commands/README.md](commands/README.md)** - Slash commands library overview and quick start
+- **[commands/CLAUDE.md](commands/CLAUDE.md)** - Command development guide and patterns
+- **[commands/CATALOG.md](commands/CATALOG.md)** - All 20 commands with categories and statistics
+- **[docs/COMMANDS_INSTALLATION.md](docs/COMMANDS_INSTALLATION.md)** - Installation guide and troubleshooting
+- **[docs/COMMANDS_CREATION.md](docs/COMMANDS_CREATION.md)** - Step-by-step command creation tutorial
+- Install commands: `python3 scripts/install_commands.py`
 
 ### Output Directory
 - **[output/README.md](output/README.md)** - Session-based output organization system
@@ -252,11 +411,12 @@ python3 -c "print('Python environment ready')"
 Common issues and solutions documented in domain-specific CLAUDE.md files:
 - Python tools: See [skills/CLAUDE.md](skills/marketing-team/CLAUDE.md)
 - Agent paths: See [agents/CLAUDE.md](agents/CLAUDE.md)
+- Command installation: See [docs/COMMANDS_INSTALLATION.md#troubleshooting](docs/COMMANDS_INSTALLATION.md#troubleshooting)
 - Git workflow: See [docs/WORKFLOW.md](docs/WORKFLOW.md)
 
 ---
 
-**Last Updated:** November 22, 2025
-**Current Status:** 28 production agents, 28 skills across 4 domains
+**Last Updated:** November 24, 2025
+**Current Status:** 28 production agents, 28 skills across 4 domains, 20 slash commands
 **Python Version:** 3.8+ required
 **Dependencies:** None - all tools use Python standard library only

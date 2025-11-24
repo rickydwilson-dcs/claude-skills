@@ -1,0 +1,276 @@
+{
+  "metadata": {
+    "schema_version": "v1.0.0",
+    "export_timestamp": "2025-11-24T19:48:32.360241Z",
+    "api_version": "v1",
+    "total_commands": 3,
+    "last_updated": "2025-11-24T19:48:32.360245Z",
+    "version": "1.0.0"
+  },
+  "commands": [
+    {
+      "metadata": {
+        "schema_version": "v1.0.0",
+        "export_timestamp": "2025-11-24T19:48:32.358927Z",
+        "api_version": "v1"
+      },
+      "core": {
+        "name": "test.sample-command",
+        "title": "Sample Test Command",
+        "description": "A sample command for testing the command builder validation",
+        "category": "test",
+        "subcategory": "validation"
+      },
+      "display": {
+        "difficulty": "beginner",
+        "time_saved": "5 minutes per use",
+        "frequency": "As-needed",
+        "use_cases": [
+          "Testing command builder validation functionality",
+          "Demonstrating proper command structure"
+        ]
+      },
+      "relationships": {
+        "related_agents": [],
+        "related_skills": [],
+        "related_commands": []
+      },
+      "technical": {
+        "dependencies": {
+          "tools": [
+            "Read",
+            "Write"
+          ],
+          "scripts": [
+            ""
+          ],
+          "python_packages": [
+            ""
+          ]
+        },
+        "compatibility": {
+          "claude_ai": true,
+          "claude_code": true,
+          "platforms": [
+            "macos",
+            "linux",
+            "windows"
+          ]
+        }
+      },
+      "examples": [],
+      "analytics": {
+        "installs": 0,
+        "upvotes": 0,
+        "rating": 0.0,
+        "reviews": 0
+      },
+      "versioning": {
+        "version": "v1.0.0",
+        "author": "Claude Skills Team",
+        "contributors": [],
+        "created": "2025-11-24",
+        "updated": "2025-11-24"
+      },
+      "discoverability": {
+        "tags": [
+          "test",
+          "validation",
+          "sample"
+        ],
+        "featured": false,
+        "verified": true,
+        "license": "MIT"
+      }
+    },
+    {
+      "metadata": {
+        "schema_version": "v1.0.0",
+        "export_timestamp": "2025-11-24T19:48:32.359773Z",
+        "api_version": "v1"
+      },
+      "core": {
+        "name": "feature-prioritize",
+        "title": "Feature Prioritization with RICE Framework",
+        "description": "Analyze and prioritize feature requests using the RICE framework with automated scoring, portfolio analysis, and quarterly roadmap generation",
+        "category": "product",
+        "subcategory": "feature-planning"
+      },
+      "display": {
+        "difficulty": "intermediate",
+        "time_saved": "2-3 hours per prioritization session",
+        "frequency": "Weekly per product team",
+        "use_cases": [
+          "Prioritizing quarterly roadmap with 20+ feature candidates using RICE scores",
+          "Analyzing portfolio balance between quick wins and strategic big bets",
+          "Generating quarterly roadmap with capacity planning and team allocation",
+          "Validating stakeholder requests with data-driven prioritization framework"
+        ]
+      },
+      "relationships": {
+        "related_agents": [
+          "cs-product-manager",
+          "cs-agile-product-owner",
+          "cs-product-strategist"
+        ],
+        "related_skills": [
+          "product-team/product-manager-toolkit",
+          "product-team/product-strategist"
+        ],
+        "related_commands": [
+          "/feature-analyze",
+          "/roadmap-generate",
+          "/okr-cascade"
+        ]
+      },
+      "technical": {
+        "dependencies": {
+          "tools": [
+            "Read",
+            "Write",
+            "Bash",
+            "Grep",
+            "Glob"
+          ],
+          "scripts": [
+            "product-team/product-manager-toolkit/scripts/rice_prioritizer.py",
+            "product-team/product-manager-toolkit/scripts/capacity_planner.py"
+          ],
+          "python_packages": [
+            ""
+          ]
+        },
+        "compatibility": {
+          "claude_ai": true,
+          "claude_code": true,
+          "platforms": [
+            "macos",
+            "linux",
+            "windows"
+          ]
+        }
+      },
+      "examples": [],
+      "analytics": {
+        "installs": 0,
+        "upvotes": 0,
+        "rating": 0.0,
+        "reviews": 0
+      },
+      "versioning": {
+        "version": "v1.2.1",
+        "author": "Claude Skills Team",
+        "contributors": [
+          "Product Team",
+          "Beta Testers"
+        ],
+        "created": "2025-10-15",
+        "updated": "2025-11-24"
+      },
+      "discoverability": {
+        "tags": [
+          "product-management",
+          "feature-planning",
+          "prioritization",
+          "rice-framework",
+          "roadmap-planning",
+          "agile",
+          "capacity-planning",
+          "portfolio-analysis"
+        ],
+        "featured": false,
+        "verified": true,
+        "license": "MIT"
+      }
+    },
+    {
+      "metadata": {
+        "schema_version": "v1.0.0",
+        "export_timestamp": "2025-11-24T19:48:32.360210Z",
+        "api_version": "v1"
+      },
+      "core": {
+        "name": "update-docs",
+        "title": "Update Documentation",
+        "description": "Updates README with latest skill and agent counts from repository files",
+        "category": "documentation",
+        "subcategory": "documentation"
+      },
+      "display": {
+        "difficulty": "beginner",
+        "time_saved": "15 minutes per use",
+        "frequency": "Weekly per team",
+        "use_cases": [
+          "Maintaining accurate skill and agent inventory in README",
+          "Updating statistics when new skills or agents are created",
+          "Syncing documentation with latest repository state"
+        ]
+      },
+      "relationships": {
+        "related_agents": [
+          "cs-documentation-manager"
+        ],
+        "related_skills": [
+          "marketing-team/content-creator",
+          "engineering-team/code-reviewer"
+        ],
+        "related_commands": [
+          "/generate-catalog",
+          "/validate-docs"
+        ]
+      },
+      "technical": {
+        "dependencies": {
+          "tools": [
+            "Read",
+            "Write",
+            "Glob"
+          ],
+          "scripts": [
+            "engineering-team/code-reviewer/scripts/validate_markdown.py"
+          ],
+          "python_packages": [
+            ""
+          ]
+        },
+        "compatibility": {
+          "claude_ai": true,
+          "claude_code": true,
+          "platforms": [
+            "macos",
+            "linux",
+            "windows"
+          ]
+        }
+      },
+      "examples": [],
+      "analytics": {
+        "installs": 0,
+        "upvotes": 0,
+        "rating": 0.0,
+        "reviews": 0
+      },
+      "versioning": {
+        "version": "v1.0.0",
+        "author": "Claude Skills Team",
+        "contributors": [
+          "Documentation Team"
+        ],
+        "created": "2025-11-24",
+        "updated": "2025-11-24"
+      },
+      "discoverability": {
+        "tags": [
+          "documentation",
+          "automation",
+          "maintenance",
+          "readme",
+          "catalog"
+        ],
+        "featured": false,
+        "verified": true,
+        "license": "MIT"
+      }
+    }
+  ]
+}

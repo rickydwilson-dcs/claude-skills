@@ -1,0 +1,367 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# Command Configuration File (command-config.yaml)
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# This configuration file defines multiple slash commands for automated creation
+# using command_builder.py.
+#
+# USAGE:
+#   python3 scripts/command_builder.py --config templates/command-config.yaml
+#
+# STRUCTURE:
+#   Each command in the 'commands' array below represents one slash command that
+#   will be created in the commands/ directory.
+#
+# ═══════════════════════════════════════════════════════════════════════════════
+
+commands:
+  # ═════════════════════════════════════════════════════════════════════════════
+  # EXAMPLE 1: Simple Pattern Command
+  # ═════════════════════════════════════════════════════════════════════════════
+  # Use for straightforward, single-purpose tasks with direct execution
+
+  - name: docs.update-readme
+    description: Updates README.md with latest agent and skill counts
+    category: docs
+    pattern: simple                    # Context → Task pattern
+    version: 1.0.0
+    author: Claude Skills Team
+    tags:
+      - documentation
+      - automation
+      - maintenance
+    example_usage: /docs.update-readme
+    requires_input: false              # Discovers files automatically
+    requires_context: true             # Needs project structure
+    estimated_time: 30s
+    model_preference: sonnet
+    tools_required:
+      - Read
+      - Write
+      - Grep
+      - Glob
+    output_format: markdown
+    interactive: false
+    dangerous: false                   # Safe read/write operation
+    related_commands:
+      - docs.validate-links
+      - docs.generate-catalog
+    related_agents:
+      - cs-tech-writer
+    related_skills:
+      - technical-writer
+
+  # ═════════════════════════════════════════════════════════════════════════════
+  # EXAMPLE 2: Multi-Phase Pattern Command
+  # ═════════════════════════════════════════════════════════════════════════════
+  # Use for complex analysis requiring discovery, analysis, and execution phases
+
+  - name: code.review-pr
+    description: Comprehensive code review with quality analysis and recommendations
+    category: code
+    pattern: multi-phase               # Discovery → Analysis → Task → Report
+    version: 1.0.0
+    author: Claude Skills Team
+    tags:
+      - code-review
+      - quality
+      - analysis
+      - pull-request
+    example_usage: /code.review-pr --pr 123
+    requires_input: true               # Needs PR number or branch
+    requires_context: true             # Needs codebase context
+    estimated_time: 2m
+    model_preference: sonnet
+    tools_required:
+      - Read
+      - Write
+      - Bash
+      - Grep
+      - Glob
+    output_format: markdown
+    interactive: false
+    dangerous: false
+    related_commands:
+      - code.security-scan
+      - test.run-suite
+      - code.format-check
+    related_agents:
+      - cs-code-reviewer
+      - cs-qa-engineer
+    related_skills:
+      - code-reviewer
+      - senior-qa
+
+  # ═════════════════════════════════════════════════════════════════════════════
+  # EXAMPLE 3: Agent-Style Pattern Command
+  # ═════════════════════════════════════════════════════════════════════════════
+  # Use for specialized expertise requiring domain-specific perspective
+
+  - name: architecture.design-review
+    description: Expert architecture review with system design recommendations
+    category: architecture
+    pattern: agent-style               # Role → Process → Guidelines → Deliverables
+    version: 1.0.0
+    author: Claude Skills Team
+    tags:
+      - architecture
+      - design
+      - system-design
+      - expert-review
+    example_usage: /architecture.design-review --component user-service
+    requires_input: true               # Needs component/service name
+    requires_context: true             # Needs architecture context
+    estimated_time: 5m
+    model_preference: opus             # Complex reasoning requires Opus
+    tools_required:
+      - Read
+      - Write
+      - Grep
+      - Glob
+    output_format: markdown
+    interactive: true                  # May ask clarifying questions
+    dangerous: false
+    related_commands:
+      - architecture.generate-diagram
+      - code.refactor-suggest
+    related_agents:
+      - cs-architect
+      - cs-cto-advisor
+    related_skills:
+      - senior-architect
+      - cto-advisor
+
+  # ═════════════════════════════════════════════════════════════════════════════
+  # EXAMPLE 4: Git Workflow Command
+  # ═════════════════════════════════════════════════════════════════════════════
+
+  - name: git.create-feature-branch
+    description: Creates feature branch following naming conventions and updates tracking
+    category: git
+    pattern: simple
+    version: 1.0.0
+    author: Claude Skills Team
+    tags:
+      - git
+      - workflow
+      - branching
+    example_usage: /git.create-feature-branch my-feature
+    requires_input: true
+    requires_context: true
+    estimated_time: 10s
+    model_preference: haiku            # Simple task, use fast model
+    tools_required:
+      - Bash
+      - Read
+      - Write
+    output_format: text
+    interactive: false
+    dangerous: true                    # Modifies git state
+    related_commands:
+      - git.commit-conventional
+      - git.create-pr
+    related_agents: []
+    related_skills: []
+
+  # ═════════════════════════════════════════════════════════════════════════════
+  # EXAMPLE 5: Testing Command
+  # ═════════════════════════════════════════════════════════════════════════════
+
+  - name: test.run-suite
+    description: Executes full test suite with coverage reporting and failure analysis
+    category: test
+    pattern: multi-phase
+    version: 1.0.0
+    author: Claude Skills Team
+    tags:
+      - testing
+      - qa
+      - coverage
+      - automation
+    example_usage: /test.run-suite --coverage
+    requires_input: false
+    requires_context: true
+    estimated_time: 1m
+    model_preference: sonnet
+    tools_required:
+      - Bash
+      - Read
+      - Write
+    output_format: markdown
+    interactive: false
+    dangerous: false
+    related_commands:
+      - test.coverage-report
+      - code.review-pr
+    related_agents:
+      - cs-qa-engineer
+    related_skills:
+      - senior-qa
+
+  # ═════════════════════════════════════════════════════════════════════════════
+  # EXAMPLE 6: Deployment Command
+  # ═════════════════════════════════════════════════════════════════════════════
+
+  - name: deploy.staging
+    description: Deploys current branch to staging environment with health checks
+    category: deploy
+    pattern: multi-phase
+    version: 1.0.0
+    author: Claude Skills Team
+    tags:
+      - deployment
+      - staging
+      - devops
+      - automation
+    example_usage: /deploy.staging --branch develop
+    requires_input: false
+    requires_context: true
+    estimated_time: 3m
+    model_preference: sonnet
+    tools_required:
+      - Bash
+      - Read
+      - Write
+    output_format: text
+    interactive: true                  # Asks for confirmation
+    dangerous: true                    # Deploys to staging
+    related_commands:
+      - deploy.production
+      - deploy.rollback
+      - test.run-suite
+    related_agents:
+      - cs-devops-engineer
+    related_skills:
+      - senior-devops
+
+  # ═════════════════════════════════════════════════════════════════════════════
+  # EXAMPLE 7: Content Creation Command
+  # ═════════════════════════════════════════════════════════════════════════════
+
+  - name: content.analyze-seo
+    description: Analyzes content for SEO optimization with keyword recommendations
+    category: content
+    pattern: multi-phase
+    version: 1.0.0
+    author: Claude Skills Team
+    tags:
+      - content
+      - seo
+      - marketing
+      - analysis
+    example_usage: /content.analyze-seo article.md
+    requires_input: true
+    requires_context: false
+    estimated_time: 45s
+    model_preference: sonnet
+    tools_required:
+      - Read
+      - Write
+      - Bash
+    output_format: markdown
+    interactive: false
+    dangerous: false
+    related_commands:
+      - content.generate-meta
+      - content.keyword-research
+    related_agents:
+      - cs-content-creator
+    related_skills:
+      - content-creator
+
+  # ═════════════════════════════════════════════════════════════════════════════
+  # EXAMPLE 8: Security Command
+  # ═════════════════════════════════════════════════════════════════════════════
+
+  - name: security.scan-secrets
+    description: Scans codebase for hardcoded secrets and sensitive data
+    category: security
+    pattern: multi-phase
+    version: 1.0.0
+    author: Claude Skills Team
+    tags:
+      - security
+      - secrets
+      - scanning
+      - compliance
+    example_usage: /security.scan-secrets
+    requires_input: false
+    requires_context: true
+    estimated_time: 1m
+    model_preference: sonnet
+    tools_required:
+      - Grep
+      - Glob
+      - Read
+      - Write
+    output_format: markdown
+    interactive: false
+    dangerous: false
+    related_commands:
+      - security.audit-dependencies
+      - security.vulnerability-scan
+    related_agents:
+      - cs-security-engineer
+    related_skills:
+      - senior-security
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# FIELD DEFINITIONS
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# REQUIRED FIELDS:
+#   name:               Command identifier (kebab-case, category.command-name)
+#   description:        One-line description (max 150 chars)
+#   category:           Command category (code, docs, git, test, deploy, etc.)
+#   pattern:            Command pattern (simple, multi-phase, agent-style)
+#
+# OPTIONAL FIELDS:
+#   version:            Semantic version (default: 1.0.0)
+#   author:             Command author (default: Claude Skills Team)
+#   tags:               Array of searchable keywords
+#   example_usage:      Quick usage example
+#   requires_input:     Needs user-provided files/data? (default: false)
+#   requires_context:   Needs project context? (default: false)
+#   estimated_time:     Typical execution time (e.g., 30s, 2m, 5m)
+#   model_preference:   Preferred model (sonnet, opus, haiku)
+#   tools_required:     Array of Claude Code tools needed
+#   output_format:      Expected output format (markdown, json, text, file)
+#   interactive:        Prompts user during execution? (default: false)
+#   dangerous:          Modifies files/runs destructive ops? (default: false)
+#   related_commands:   Array of related command names
+#   related_agents:     Array of related agent names (cs-* prefix)
+#   related_skills:     Array of related skill names
+#
+# PATTERN TYPES:
+#   simple:       Context → Task (straightforward execution)
+#   multi-phase:  Discovery → Analysis → Task → Report (complex analysis)
+#   agent-style:  Role → Process → Guidelines (domain expertise)
+#
+# CATEGORIES:
+#   code:         Code-related operations (review, format, refactor)
+#   docs:         Documentation operations (update, generate, validate)
+#   git:          Git workflow operations (branch, commit, PR)
+#   test:         Testing operations (run tests, coverage, qa)
+#   deploy:       Deployment operations (staging, production, rollback)
+#   workflow:     General workflow automation
+#   security:     Security scanning and analysis
+#   architecture: System design and architecture
+#   content:      Content creation and marketing
+#   data:         Data analysis and processing
+#
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Global Configuration (optional)
+global:
+  default_author: Claude Skills Team
+  default_version: 1.0.0
+  default_model: sonnet
+  output_directory: commands/
+  template_path: templates/command-template.md
+
+# Builder Options (optional)
+builder:
+  validate_after_creation: true
+  create_examples: true
+  generate_catalog_entry: true
+  verbose: true

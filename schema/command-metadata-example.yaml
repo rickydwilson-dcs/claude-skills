@@ -1,0 +1,369 @@
+---
+# ===================================================================
+# SLASH COMMAND METADATA - COMPLETE EXAMPLE
+# ===================================================================
+# This is a fully populated example showing all fields in the
+# command metadata schema. Use this as a reference when creating
+# new slash commands.
+#
+# Schema Version: v1.0.0
+# Last Updated: 2025-11-24
+# ===================================================================
+
+# === CORE IDENTITY ===
+# These fields uniquely identify the command and provide basic information
+
+name: feature-prioritize
+title: Feature Prioritization with RICE Framework
+description: Analyze and prioritize feature requests using the RICE framework with automated scoring, portfolio analysis, and quarterly roadmap generation
+
+category: product
+subcategory: feature-planning
+
+# === WEBSITE DISPLAY ===
+# These fields control how the command appears on the website and help
+# users understand the value proposition
+
+difficulty: intermediate
+# Options: beginner | intermediate | advanced
+# intermediate = Some product management knowledge helpful but not required
+
+time-saved: "2-3 hours per prioritization session"
+# Format: "X-Y duration per context"
+# Be realistic and measurable
+
+frequency: "Weekly per product team"
+# How often this command is typically used
+# Format: "Frequency per audience"
+
+use-cases:
+  # Concrete scenarios where this command provides value
+  # Minimum 2, maximum 5 use cases
+  # Start with action verbs, be specific
+  - "Prioritizing quarterly roadmap with 20+ feature candidates using RICE scores"
+  - "Analyzing portfolio balance between quick wins and strategic big bets"
+  - "Generating quarterly roadmap with capacity planning and team allocation"
+  - "Validating stakeholder requests with data-driven prioritization framework"
+
+# === RELATIONSHIPS (Cross-linking) ===
+# These fields enable discovery through relationships with other
+# commands, agents, and skills
+
+related-agents:
+  # Agents that integrate with or benefit from this command
+  # Use cs-* prefix format
+  - cs-product-manager
+  - cs-agile-product-owner
+  - cs-product-strategist
+
+related-skills:
+  # Skills that this command leverages
+  # Format: domain-team/skill-name
+  - product-team/product-manager-toolkit
+  - product-team/product-strategist
+
+related-commands:
+  # Other commands that complement this one in workflows
+  # Must start with /
+  - /feature-analyze
+  - /roadmap-generate
+  - /okr-cascade
+
+# === TECHNICAL ===
+# These fields specify technical requirements and dependencies
+
+dependencies:
+  tools:
+    # Claude Code tools required by this command
+    - Read
+    - Write
+    - Bash
+    - Grep
+    - Glob
+
+  scripts:
+    # Python scripts this command executes
+    # Use relative paths from repository root
+    - product-team/product-manager-toolkit/scripts/rice_prioritizer.py
+    - product-team/product-manager-toolkit/scripts/capacity_planner.py
+
+  python-packages: []
+  # External Python packages required
+  # Empty array = standard library only (preferred)
+  # Example: ["pandas==2.0.0", "numpy==1.24.0"]
+
+compatibility:
+  claude-ai: true
+  # Works in Claude.ai web interface
+
+  claude-code: true
+  # Works in Claude Code CLI
+
+  platforms:
+    # Operating systems where command works
+    - macos
+    - linux
+    - windows
+  # All three platforms supported (Python standard library)
+
+# === EXAMPLES (Min 2, Max 5) ===
+# Concrete examples showing command usage and expected output
+# Progress from simple to complex
+
+examples:
+  - title: "Basic Feature Prioritization"
+    input: "/feature-prioritize features.csv"
+    output: |
+      RICE Prioritization Results:
+
+      Top 5 Features:
+      1. API Rate Limiting - RICE: 85 (Quick Win)
+         Reach: 1000 | Impact: 2 | Confidence: 0.9 | Effort: 3
+
+      2. User Dashboard - RICE: 78 (Big Bet)
+         Reach: 500 | Impact: 3 | Confidence: 0.8 | Effort: 5
+
+      3. Dark Mode - RICE: 45 (Quick Win)
+         Reach: 300 | Impact: 1.5 | Confidence: 1.0 | Effort: 2
+
+      Portfolio Analysis:
+      - Quick Wins: 6 features (high impact, low effort)
+      - Big Bets: 4 features (high impact, high effort)
+      - Fill-Ins: 5 features (medium RICE)
+      - Money Pits: 0 features (avoid)
+
+  - title: "Prioritization with Capacity Planning"
+    input: "/feature-prioritize features.csv --capacity 20"
+    output: |
+      Quarterly Roadmap Generated
+
+      Q1 2026 Plan (20 person-months capacity):
+      ✓ API Rate Limiting (3 months) - RICE: 85
+      ✓ Dark Mode (2 months) - RICE: 45
+      ✓ User Dashboard (5 months) - RICE: 78
+      ✓ Mobile Optimization (4 months) - RICE: 67
+      ✓ Buffer: 6 months (30%)
+
+      Q2 2026 Candidates:
+      - Advanced Search (RICE: 62)
+      - Team Collaboration (RICE: 58)
+      - Export Functionality (RICE: 55)
+
+      Recommendation: Ship quick wins first (API + Dark Mode)
+      to validate process, then tackle User Dashboard.
+
+  - title: "JSON Output for Automation"
+    input: "/feature-prioritize features.csv --format json"
+    output: |
+      {
+        "summary": {
+          "total_features": 15,
+          "avg_rice_score": 58.3,
+          "capacity_required": 45.5,
+          "recommended_capacity": 20
+        },
+        "top_features": [
+          {
+            "name": "API Rate Limiting",
+            "rice_score": 85,
+            "category": "quick_win",
+            "reach": 1000,
+            "impact": 2,
+            "confidence": 0.9,
+            "effort": 3
+          }
+        ],
+        "portfolio": {
+          "quick_wins": 6,
+          "big_bets": 4,
+          "fill_ins": 5,
+          "money_pits": 0
+        }
+      }
+
+# === ANALYTICS (Placeholder for future) ===
+# These fields will be populated by the website backend
+# DO NOT manually edit these values
+
+stats:
+  installs: 0
+  # Number of times command has been installed/used
+
+  upvotes: 0
+  # Community upvotes (future feature)
+
+  rating: 0.0
+  # Average rating (0.0-5.0 scale)
+
+  reviews: 0
+  # Number of community reviews
+
+# === VERSIONING ===
+# Track command evolution and contributors
+
+version: v1.2.1
+# Semantic versioning: vMAJOR.MINOR.PATCH
+# MAJOR: Breaking changes
+# MINOR: New features (backward compatible)
+# PATCH: Bug fixes
+
+author: Claude Skills Team
+# Original author or team
+
+contributors:
+  # Additional contributors (optional)
+  - Product Team
+  - Community Feedback Group
+  - Beta Testers
+
+created: 2025-10-15
+# Date command was first created (YYYY-MM-DD)
+
+updated: 2025-11-24
+# Date of last update (YYYY-MM-DD)
+
+# === DISCOVERABILITY ===
+# Help users find this command through search and filters
+
+tags:
+  # Search keywords and filters
+  # Minimum 3, maximum 10 tags
+  # Use kebab-case, lowercase only
+  - product-management
+  - feature-planning
+  - prioritization
+  - rice-framework
+  - roadmap-planning
+  - agile
+  - capacity-planning
+  - portfolio-analysis
+
+featured: false
+# Whether command appears in featured section
+# Reserved for exceptional commands
+
+verified: true
+# Official/verified status
+# true = Maintained by repository team
+# false = Community contribution (future)
+
+license: MIT
+# Software license (SPDX identifier)
+# Must match repository license
+
+---
+
+# Feature Prioritization Command
+
+## Purpose
+
+This command implements the RICE prioritization framework to help product teams make data-driven decisions about feature development. It analyzes feature candidates across four dimensions (Reach, Impact, Confidence, Effort) and provides portfolio analysis to balance quick wins with strategic investments.
+
+## Usage
+
+### Basic Prioritization
+
+```bash
+/feature-prioritize features.csv
+```
+
+This will analyze all features in the CSV and output:
+- RICE scores for each feature
+- Portfolio categorization (Quick Wins, Big Bets, Fill-Ins, Money Pits)
+- Recommended priorities
+
+### With Capacity Planning
+
+```bash
+/feature-prioritize features.csv --capacity 20
+```
+
+This adds quarterly roadmap generation based on team capacity (person-months).
+
+### JSON Output
+
+```bash
+/feature-prioritize features.csv --format json > results.json
+```
+
+Export results as JSON for integration with other tools.
+
+## Input Format
+
+The command expects a CSV file with these columns:
+
+```csv
+feature,reach,impact,confidence,effort
+API Rate Limiting,1000,2,0.9,3
+User Dashboard,500,3,0.8,5
+Dark Mode,300,1.5,1.0,2
+```
+
+**Field Definitions:**
+- **feature**: Feature name or description
+- **reach**: Number of users affected per quarter
+- **impact**: massive(3), high(2), medium(1.5), low(1), minimal(0.5)
+- **confidence**: high(1.0), medium(0.8), low(0.5)
+- **effort**: Person-months required (XL=6, L=3, M=1, S=0.5, XS=0.25)
+
+## Output
+
+### Portfolio Categories
+
+**Quick Wins** (High RICE, Low Effort)
+- Ship first to build momentum
+- Validate prioritization process
+- Quick value delivery
+
+**Big Bets** (High RICE, High Effort)
+- Strategic investments
+- Require dedicated focus
+- Plan for 1-2 per quarter
+
+**Fill-Ins** (Medium RICE)
+- Use to fill capacity gaps
+- Nice-to-have improvements
+- Buffer work items
+
+**Money Pits** (Low RICE, High Effort)
+- Avoid or re-scope
+- Reconsider requirements
+- Often driven by HIPPO decisions
+
+## Workflows
+
+### Quarterly Planning Workflow
+
+1. Gather feature candidates from all sources
+2. Score each with RICE parameters
+3. Run `/feature-prioritize features.csv --capacity 20`
+4. Review portfolio balance
+5. Commit to Q1 features (quick wins + 1-2 big bets)
+6. Plan Q2-Q4 with remaining priorities
+
+### Stakeholder Alignment Workflow
+
+1. Collect requests from stakeholders
+2. Score objectively with RICE
+3. Run prioritization analysis
+4. Present data-driven results
+5. Use scores to justify trade-off decisions
+
+## Success Metrics
+
+- **Decision Speed**: <2 days from backlog review to roadmap commitment
+- **Stakeholder Alignment**: >90% agreement on priorities
+- **Validation Rate**: 80%+ of shipped features match predicted impact
+- **Portfolio Balance**: 40% quick wins, 40% big bets, 20% fill-ins
+
+## Related Resources
+
+- [Product Manager Agent](../agents/product/cs-product-manager.md)
+- [RICE Framework Documentation](../product-team/product-manager-toolkit/references/prd_templates.md)
+- [Capacity Planning Guide](../product-team/product-manager-toolkit/SKILL.md)
+
+---
+
+**Command Version:** v1.2.1
+**Last Updated:** November 24, 2025
+**Status:** Production Ready
