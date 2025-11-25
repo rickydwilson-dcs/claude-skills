@@ -1,0 +1,464 @@
+======================================================================
+Agent Builder Phase 2: Comprehensive Validation Report
+======================================================================
+
+Date: Sat Nov 22 21:26:11 GMT 2025
+Python Version: Python 3.13.5
+
+[1] Testing: agents/delivery/cs-confluence-expert.md
+----------------------------------------------------------------------
+✅ Validating: agents/delivery/cs-confluence-expert.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✓ Relative Paths: Valid (4 paths checked)
+✗ Skill Integration: Missing scripts/ directory in confluence-expert
+✓ Workflows: Valid (4 workflows)
+✓ Integration Examples: Valid (3 examples)
+✓ Success Metrics: Valid (4 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+❌ Validation failed: 8/9 checks passed
+
+[2] Testing: agents/delivery/cs-jira-expert.md
+----------------------------------------------------------------------
+✅ Validating: agents/delivery/cs-jira-expert.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✓ Relative Paths: Valid (5 paths checked)
+✗ Skill Integration: Missing scripts/ directory in jira-expert
+✓ Workflows: Valid (4 workflows)
+✓ Integration Examples: Valid (3 examples)
+✓ Success Metrics: Valid (4 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+❌ Validation failed: 8/9 checks passed
+
+[3] Testing: agents/delivery/cs-scrum-master.md
+----------------------------------------------------------------------
+✅ Validating: agents/delivery/cs-scrum-master.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✓ Relative Paths: Valid (4 paths checked)
+✗ Skill Integration: Missing scripts/ directory in scrum-master
+✓ Workflows: Valid (4 workflows)
+✓ Integration Examples: Valid (2 examples)
+✓ Success Metrics: Valid (4 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+❌ Validation failed: 8/9 checks passed
+
+[4] Testing: agents/delivery/cs-senior-pm.md
+----------------------------------------------------------------------
+✅ Validating: agents/delivery/cs-senior-pm.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✓ Relative Paths: Valid (4 paths checked)
+✗ Skill Integration: Missing scripts/ directory in senior-pm
+✓ Workflows: Valid (4 workflows)
+✗ Integration Examples: Only 1 integration examples found (minimum: 2)
+✓ Success Metrics: Valid (4 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+❌ Validation failed: 7/9 checks passed
+
+[5] Testing: agents/engineering/cs-architect.md
+----------------------------------------------------------------------
+✅ Validating: agents/engineering/cs-architect.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✓ Relative Paths: Valid (9 paths checked)
+✓ Skill Integration: Valid
+✓ Workflows: Valid (4 workflows)
+✓ Integration Examples: Valid (2 examples)
+✓ Success Metrics: Valid (4 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+🎉 Validation passed: 9/9 checks
+
+[6] Testing: agents/engineering/cs-backend-engineer.md
+----------------------------------------------------------------------
+✅ Validating: agents/engineering/cs-backend-engineer.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✓ Relative Paths: Valid (8 paths checked)
+✓ Skill Integration: Valid
+✓ Workflows: Valid (4 workflows)
+✗ Integration Examples: Integration Examples section not found
+✓ Success Metrics: Valid (4 metric categories)
+✓ Markdown Structure: Valid
+✗ Cross References: Missing References or Related Agents section
+
+❌ Validation failed: 7/9 checks passed
+
+[7] Testing: agents/engineering/cs-code-reviewer.md
+----------------------------------------------------------------------
+✅ Validating: agents/engineering/cs-code-reviewer.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✓ Relative Paths: Valid (9 paths checked)
+✓ Skill Integration: Valid
+✓ Workflows: Valid (4 workflows)
+✓ Integration Examples: Valid (3 examples)
+✓ Success Metrics: Valid (4 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+🎉 Validation passed: 9/9 checks
+
+[8] Testing: agents/engineering/cs-computer-vision.md
+----------------------------------------------------------------------
+✅ Validating: agents/engineering/cs-computer-vision.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✓ Relative Paths: Valid (9 paths checked)
+✓ Skill Integration: Valid
+✓ Workflows: Valid (4 workflows)
+✓ Integration Examples: Valid (4 examples)
+✓ Success Metrics: Valid (10 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+🎉 Validation passed: 9/9 checks
+
+[9] Testing: agents/engineering/cs-cto-advisor.md
+----------------------------------------------------------------------
+✅ Validating: agents/engineering/cs-cto-advisor.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✓ Relative Paths: Valid (11 paths checked)
+✓ Skill Integration: Valid
+✓ Workflows: Valid (4 workflows)
+✓ Integration Examples: Valid (3 examples)
+✓ Success Metrics: Valid (4 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+🎉 Validation passed: 9/9 checks
+
+[10] Testing: agents/engineering/cs-data-engineer.md
+----------------------------------------------------------------------
+✅ Validating: agents/engineering/cs-data-engineer.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✓ Relative Paths: Valid (9 paths checked)
+✓ Skill Integration: Valid
+✓ Workflows: Valid (4 workflows)
+✓ Integration Examples: Valid (3 examples)
+✓ Success Metrics: Valid (4 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+🎉 Validation passed: 9/9 checks
+
+[11] Testing: agents/engineering/cs-data-scientist.md
+----------------------------------------------------------------------
+✅ Validating: agents/engineering/cs-data-scientist.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✗ Relative Paths: Errors: Path does not exist: ../../skills/engineering-team/senior-data-scientist/assets/executive_summary_template.md
+✓ Skill Integration: Valid
+✓ Workflows: Valid (4 workflows)
+✓ Integration Examples: Valid (3 examples)
+✓ Success Metrics: Valid (4 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+❌ Validation failed: 8/9 checks passed
+
+[12] Testing: agents/engineering/cs-devops-engineer.md
+----------------------------------------------------------------------
+✅ Validating: agents/engineering/cs-devops-engineer.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✓ Relative Paths: Valid (9 paths checked)
+✓ Skill Integration: Valid
+✓ Workflows: Valid (4 workflows)
+✗ Integration Examples: Only 1 integration examples found (minimum: 2)
+✓ Success Metrics: Valid (4 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+❌ Validation failed: 8/9 checks passed
+
+[13] Testing: agents/engineering/cs-frontend-engineer.md
+----------------------------------------------------------------------
+✅ Validating: agents/engineering/cs-frontend-engineer.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✓ Relative Paths: Valid (9 paths checked)
+✓ Skill Integration: Valid
+✓ Workflows: Valid (4 workflows)
+✓ Integration Examples: Valid (3 examples)
+✓ Success Metrics: Valid (4 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+🎉 Validation passed: 9/9 checks
+
+[14] Testing: agents/engineering/cs-fullstack-engineer.md
+----------------------------------------------------------------------
+✅ Validating: agents/engineering/cs-fullstack-engineer.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✓ Relative Paths: Valid (9 paths checked)
+✓ Skill Integration: Valid
+✓ Workflows: Valid (4 workflows)
+✓ Integration Examples: Valid (4 examples)
+✓ Success Metrics: Valid (15 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+🎉 Validation passed: 9/9 checks
+
+[15] Testing: agents/engineering/cs-ml-engineer.md
+----------------------------------------------------------------------
+✅ Validating: agents/engineering/cs-ml-engineer.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✓ Relative Paths: Valid (9 paths checked)
+✓ Skill Integration: Valid
+✓ Workflows: Valid (4 workflows)
+✓ Integration Examples: Valid (4 examples)
+✓ Success Metrics: Valid (14 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+🎉 Validation passed: 9/9 checks
+
+[16] Testing: agents/engineering/cs-prompt-engineer.md
+----------------------------------------------------------------------
+✅ Validating: agents/engineering/cs-prompt-engineer.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✓ Relative Paths: Valid (9 paths checked)
+✓ Skill Integration: Valid
+✓ Workflows: Valid (4 workflows)
+✓ Integration Examples: Valid (3 examples)
+✓ Success Metrics: Valid (4 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+🎉 Validation passed: 9/9 checks
+
+[17] Testing: agents/engineering/cs-qa-engineer.md
+----------------------------------------------------------------------
+✅ Validating: agents/engineering/cs-qa-engineer.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✓ Relative Paths: Valid (9 paths checked)
+✓ Skill Integration: Valid
+✓ Workflows: Valid (4 workflows)
+✓ Integration Examples: Valid (4 examples)
+✗ Success Metrics: Only 0 metric categories found (minimum: 3)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+❌ Validation failed: 8/9 checks passed
+
+[18] Testing: agents/engineering/cs-secops-engineer.md
+----------------------------------------------------------------------
+✅ Validating: agents/engineering/cs-secops-engineer.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✗ Relative Paths: Errors: Path does not exist: ../../skills/engineering-team/senior-secops/references/incident-response-playbooks.md
+✓ Skill Integration: Valid
+✓ Workflows: Valid (4 workflows)
+✓ Integration Examples: Valid (3 examples)
+✓ Success Metrics: Valid (14 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+❌ Validation failed: 8/9 checks passed
+
+[19] Testing: agents/engineering/cs-security-engineer.md
+----------------------------------------------------------------------
+✅ Validating: agents/engineering/cs-security-engineer.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✓ Relative Paths: Valid (9 paths checked)
+✓ Skill Integration: Valid
+✓ Workflows: Valid (4 workflows)
+✓ Integration Examples: Valid (3 examples)
+✓ Success Metrics: Valid (4 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+🎉 Validation passed: 9/9 checks
+
+[20] Testing: agents/marketing/cs-content-creator.md
+----------------------------------------------------------------------
+✅ Validating: agents/marketing/cs-content-creator.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✗ Relative Paths: Errors: Path does not exist: ../../skills/marketing-team/content-creator/assets/content-calendar.md, Path does not exist: ../../skills/marketing-team/content-creator/assets/seo-checklist.md, Path does not exist: ../../skills/marketing-team/content-creator/assets/content-brief.md
+✗ Skill Integration: Skill not found: skills/marketing-skill/content-creator/
+✓ Workflows: Valid (4 workflows)
+✓ Integration Examples: Valid (3 examples)
+✓ Success Metrics: Valid (3 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+❌ Validation failed: 7/9 checks passed
+
+[21] Testing: agents/marketing/cs-demand-gen-specialist.md
+----------------------------------------------------------------------
+✅ Validating: agents/marketing/cs-demand-gen-specialist.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✗ Relative Paths: Errors: Path does not exist: ../../skills/marketing-team/marketing-demand-acquisition/references/acquisition_frameworks.md, Path does not exist: ../../skills/marketing-team/marketing-demand-acquisition/assets/campaign-plan.md, Path does not exist: ../../skills/marketing-team/marketing-demand-acquisition/references/conversion_optimization.md, Path does not exist: ../../skills/marketing-team/marketing-demand-acquisition/assets/funnel-analysis.md, Path does not exist: ../../skills/marketing-team/marketing-demand-acquisition/references/channel_best_practices.md
+✗ Skill Integration: Skill not found: skills/marketing-skill/marketing-demand-acquisition/
+✓ Workflows: Valid (4 workflows)
+✓ Integration Examples: Valid (3 examples)
+✓ Success Metrics: Valid (4 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+❌ Validation failed: 7/9 checks passed
+
+[22] Testing: agents/marketing/cs-product-marketer.md
+----------------------------------------------------------------------
+✅ Validating: agents/marketing/cs-product-marketer.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✗ Relative Paths: Errors: Path does not exist: ../../skills/marketing-team/marketing-strategy-pmm/scripts/win_loss_analyzer.py, Path does not exist: ../../skills/marketing-team/marketing-strategy-pmm/assets/battlecard-template.docx, Path does not exist: ../../skills/marketing-team/marketing-strategy-pmm/scripts/competitor_tracker.py, Path does not exist: ../../skills/marketing-team/marketing-strategy-pmm/references/messaging-templates.md, Path does not exist: ../../skills/marketing-team/marketing-strategy-pmm/assets/roi-calculator.xlsx, Path does not exist: ../../skills/marketing-team/marketing-strategy-pmm/references/launch-checklists.md, Path does not exist: ../../skills/marketing-team/marketing-strategy-pmm/assets/sales-deck-template.pptx, Path does not exist: ../../skills/marketing-team/marketing-strategy-pmm/references/positioning-frameworks.md, Path does not exist: ../../skills/marketing-team/marketing-strategy-pmm/assets/one-pager-template.pptx, Path does not exist: ../../skills/marketing-team/marketing-strategy-pmm/references/international-gtm.md
+✗ Skill Integration: Skill not found: skills/marketing-skill/marketing-strategy-pmm/
+✓ Workflows: Valid (4 workflows)
+✓ Integration Examples: Valid (3 examples)
+✓ Success Metrics: Valid (4 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+❌ Validation failed: 7/9 checks passed
+
+[23] Testing: agents/product/cs-agile-product-owner.md
+----------------------------------------------------------------------
+✅ Validating: agents/product/cs-agile-product-owner.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✗ Relative Paths: Errors: Path does not exist: ../../skills/product-team/agile-product-owner/references/sprint_planning_guide.md, Path does not exist: ../../skills/product-team/agile-product-owner/references/agile_story_framework.md, Path does not exist: ../../skills/product-team/agile-product-owner/assets/sprint-backlog-template.md, Path does not exist: ../../skills/product-team/agile-product-owner/assets/user-story-template.md
+✓ Skill Integration: Valid
+✓ Workflows: Valid (4 workflows)
+✓ Integration Examples: Valid (3 examples)
+✓ Success Metrics: Valid (4 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+❌ Validation failed: 8/9 checks passed
+
+[24] Testing: agents/product/cs-business-analyst.md
+----------------------------------------------------------------------
+✅ Validating: agents/product/cs-business-analyst.md
+
+✓ Name Format: Valid
+✗ Yaml Frontmatter: Description too long: 151 chars (max: 150)
+✓ Relative Paths: Valid (16 paths checked)
+✓ Skill Integration: Valid
+✓ Workflows: Valid (4 workflows)
+✓ Integration Examples: Valid (3 examples)
+✓ Success Metrics: Valid (4 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+❌ Validation failed: 8/9 checks passed
+
+[25] Testing: agents/product/cs-product-manager.md
+----------------------------------------------------------------------
+✅ Validating: agents/product/cs-product-manager.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✓ Relative Paths: Valid (6 paths checked)
+✓ Skill Integration: Valid
+✓ Workflows: Valid (4 workflows)
+✓ Integration Examples: Valid (3 examples)
+✓ Success Metrics: Valid (4 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+🎉 Validation passed: 9/9 checks
+
+[26] Testing: agents/product/cs-product-strategist.md
+----------------------------------------------------------------------
+✅ Validating: agents/product/cs-product-strategist.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✗ Relative Paths: Errors: Path does not exist: ../../skills/product-team/product-strategist/references/strategic_planning_framework.md, Path does not exist: ../../skills/product-team/product-strategist/references/okr_methodology.md, Path does not exist: ../../skills/product-team/product-strategist/assets/okr-planning-template.yaml, Path does not exist: ../../skills/product-team/product-strategist/references/roadmap_frameworks.md, Path does not exist: ../../skills/product-team/product-strategist/assets/strategic-roadmap-template.md
+✓ Skill Integration: Valid
+✓ Workflows: Valid (4 workflows)
+✓ Integration Examples: Valid (3 examples)
+✓ Success Metrics: Valid (4 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+❌ Validation failed: 8/9 checks passed
+
+[27] Testing: agents/product/cs-ui-designer.md
+----------------------------------------------------------------------
+✅ Validating: agents/product/cs-ui-designer.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✗ Relative Paths: Errors: Path does not exist: ../../skills/product-team/ui-design-system/references/component_api_guidelines.md, Path does not exist: ../../skills/product-team/ui-design-system/references/design_token_standards.md, Path does not exist: ../../skills/product-team/ui-design-system/assets/design-system-starter.md, Path does not exist: ../../skills/product-team/ui-design-system/references/design_system_principles.md, Path does not exist: ../../skills/product-team/ui-design-system/assets/component-doc-template.md
+✓ Skill Integration: Valid
+✓ Workflows: Valid (4 workflows)
+✓ Integration Examples: Valid (3 examples)
+✓ Success Metrics: Valid (4 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+❌ Validation failed: 8/9 checks passed
+
+[28] Testing: agents/product/cs-ux-researcher.md
+----------------------------------------------------------------------
+✅ Validating: agents/product/cs-ux-researcher.md
+
+✓ Name Format: Valid
+✓ Yaml Frontmatter: Valid
+✗ Relative Paths: Errors: Path does not exist: ../../skills/product-team/ux-researcher-designer/assets/usability-test-script.md, Path does not exist: ../../skills/product-team/ux-researcher-designer/references/ux_research_methods.md, Path does not exist: ../../skills/product-team/ux-researcher-designer/assets/persona-template.md, Path does not exist: ../../skills/product-team/ux-researcher-designer/references/usability_testing_guide.md, Path does not exist: ../../skills/product-team/ux-researcher-designer/assets/research-plan-template.md, Path does not exist: ../../skills/product-team/ux-researcher-designer/references/persona_framework.md
+✓ Skill Integration: Valid
+✓ Workflows: Valid (4 workflows)
+✓ Integration Examples: Valid (3 examples)
+✓ Success Metrics: Valid (4 metric categories)
+✓ Markdown Structure: Valid
+✓ Cross References: Valid
+
+❌ Validation failed: 8/9 checks passed
+
+======================================================================
+VALIDATION SUMMARY
+======================================================================
+
+Total Agents:  28
+Passed:        11 (39%)
+Failed:        17 (60%)
+
+⚠️  Some agents failed validation (expected for legacy agents)

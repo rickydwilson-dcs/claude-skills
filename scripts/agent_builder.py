@@ -10,7 +10,50 @@ Usage:
     python agent_builder.py --config config.yaml   # Config file mode
     python agent_builder.py --validate path.md     # Validation mode
     python agent_builder.py --help                 # Show help
+
+ARCHITECTURE NOTE - Single-File Design:
+    This script is intentionally monolithic (1,188 lines) for portability.
+    Users can extract this single file and run it anywhere with Python 3.8+.
+    This aligns with the repository's zero-dependency, portable-skills philosophy.
+
+    Code is organized into logical sections for maintainability:
+
+    SECTION 1: Configuration & Constants (Lines 15-38)
+        - Exit codes, imports, global configuration
+
+    SECTION 2: YAML Parsing Utilities (Lines 40-93)
+        - simple_yaml_parse() - Standard library YAML parser
+        - Handles basic YAML without external dependencies
+
+    SECTION 3: Domain Management (Lines 94-179)
+        - DomainManager class
+        - Dynamic domain discovery and validation
+
+    SECTION 4: Validation Logic (Lines 180-525)
+        - AgentValidator class
+        - 9+ validation checks for agent structure
+
+    SECTION 5: Template Management (Lines 526-604)
+        - TemplateLoader class
+        - Template file loading and generation
+
+    SECTION 6: Catalog Integration (Lines 605-660)
+        - CatalogUpdater class
+        - Updates docs/AGENTS_CATALOG.md automatically
+
+    SECTION 7: Core Agent Builder (Lines 661-1133)
+        - AgentBuilder class
+        - Main orchestration logic
+
+    SECTION 8: CLI Entry Point (Lines 1134-1188)
+        - main() function
+        - Argument parsing and mode selection
 """
+
+# ============================================================================
+# SECTION 1: CONFIGURATION & CONSTANTS
+# ============================================================================
+# Import statements, exit codes, and global configuration
 
 import os
 import sys
@@ -36,6 +79,11 @@ EXIT_FILE_ERROR = 2
 EXIT_CONFIG_ERROR = 3
 EXIT_UNKNOWN_ERROR = 99
 
+
+# ============================================================================
+# SECTION 2: YAML PARSING UTILITIES
+# ============================================================================
+# Standard library YAML parser for agent frontmatter (zero dependencies)
 
 def simple_yaml_parse(yaml_str: str) -> Dict:
     """
@@ -90,6 +138,74 @@ def simple_yaml_parse(yaml_str: str) -> Dict:
 
     return result
 
+
+def ensure_session_tracking() -> Optional[str]:
+    """
+    Check if user is in an active session, offer to create one
+
+    Returns:
+        Session ID if active session exists, None otherwise
+    """
+    repo_root = Path(__file__).parent.parent
+    current_session_file = repo_root / "output" / ".current-session"
+
+    # Check if there's an active session
+    if current_session_file.exists():
+        try:
+            session_id = current_session_file.read_text().strip()
+            if session_id:
+                return session_id
+        except Exception:
+            pass
+
+    # No active session - offer to create one
+    print("\n" + "="*60)
+    print("SESSION TRACKING")
+    print("="*60)
+    print("No active session detected.")
+    print("\nSession tracking helps:")
+    print("  • Attribute work to specific initiatives")
+    print("  • Preserve context for collaboration")
+    print("  • Track decisions and changes over time")
+    print("\nCreate a new session? (y/n): ", end="")
+
+    try:
+        response = input().strip().lower()
+        if response in ('y', 'yes'):
+            print("\nSession ID (e.g., 'feature-name' or press Enter to skip): ", end="")
+            session_desc = input().strip()
+
+            if session_desc:
+                user = os.getenv('USER', 'unknown')
+                timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+                session_id = f"{timestamp}_{session_desc}"
+                session_path = repo_root / "output" / "sessions" / user / session_id
+
+                # Create session directory
+                session_path.mkdir(parents=True, exist_ok=True)
+
+                # Update current session pointer
+                current_session_file.parent.mkdir(parents=True, exist_ok=True)
+                current_session_file.write_text(f"{user}/{session_id}")
+
+                print(f"\n✓ Created session: {session_id}")
+                print(f"  Location: {session_path}")
+                print("\nContinuing with agent creation...\n")
+                return session_id
+            else:
+                print("\nSkipping session creation. Continuing with agent creation...\n")
+        else:
+            print("\nSkipping session creation. Continuing with agent creation...\n")
+    except (KeyboardInterrupt, EOFError):
+        print("\n\nSkipping session creation...\n")
+
+    return None
+
+
+# ============================================================================
+# SECTION 3: DOMAIN MANAGEMENT
+# ============================================================================
+# Dynamic domain discovery and validation
 
 class DomainManager:
     """Manage agent domains dynamically"""
@@ -176,6 +292,11 @@ This directory contains agents for the {domain} domain.
         print(f"✅ Created: {domain_path}/")
         print(f"✅ Created: {catalog_path}")
 
+
+# ============================================================================
+# SECTION 4: VALIDATION LOGIC
+# ============================================================================
+# Comprehensive validation checks for agent structure and metadata
 
 class AgentValidator:
     """Validation logic for agent files"""
@@ -523,6 +644,11 @@ class AgentValidator:
         }
 
 
+# ============================================================================
+# SECTION 5: TEMPLATE MANAGEMENT
+# ============================================================================
+# Template file loading and content generation
+
 class TemplateLoader:
     """Load and populate agent template"""
 
@@ -602,6 +728,11 @@ class TemplateLoader:
         return template
 
 
+# ============================================================================
+# SECTION 6: CATALOG INTEGRATION
+# ============================================================================
+# Updates docs/AGENTS_CATALOG.md with new agent entries
+
 class CatalogUpdater:
     """Update agent catalogs"""
 
@@ -657,6 +788,11 @@ class CatalogUpdater:
         content = catalog_path.read_text()
         return '## Agents' in content or '##' in content
 
+
+# ============================================================================
+# SECTION 7: CORE AGENT BUILDER
+# ============================================================================
+# Main orchestration logic for agent creation and validation
 
 class AgentBuilder:
     """Main orchestrator for agent creation"""
@@ -1130,6 +1266,11 @@ class AgentBuilder:
         print(f'      git commit -m "feat(agents): implement {config["name"]}"')
         print()
 
+
+# ============================================================================
+# SECTION 8: CLI ENTRY POINT
+# ============================================================================
+# Command-line argument parsing and mode selection
 
 def main():
     """Main entry point with CLI interface"""

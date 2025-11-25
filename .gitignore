@@ -1,6 +1,7 @@
 # IDE
 .vscode/
 .DS_Store
+**/.DS_Store
 
 # Documentation (generated/internal)
 AGENTS.md

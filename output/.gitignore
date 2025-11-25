@@ -1,10 +1,24 @@
 # Agent Output Directory
-# All agent-generated outputs are saved here with timestamped filenames
+# Session-based outputs with user attribution
 
-# Keep the directory structure but ignore all generated files by default
+# Ignore loose files in root
 *
+
+# Always keep these files
 !.gitignore
 !README.md
+!.current-session
 
-# Optionally, you can commit specific important reports by force-adding them:
-# git add -f output/architecture/2025-11-13_architecture-review_cs-architect.md
+# Track all session directories (user-based organization)
+!sessions/
+!sessions/**/*
+
+# Track shared resources
+!shared/
+!shared/**/*
+
+# Ignore archive (old sessions moved here)
+archive/
+
+# Ignore OS files
+.DS_Store

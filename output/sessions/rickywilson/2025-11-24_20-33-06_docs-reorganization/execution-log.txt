@@ -1,0 +1,7 @@
+Step 1: Create new directory structure
+Step 2: Move implementation docs to session output
+Step 3: Reorganize user guides
+Step 4: Reorganize development guides
+Step 5: Reorganize catalogs
+Step 6: Rename standards files (remove -standards suffix)
+Step 7: Move architecture and reference docs
