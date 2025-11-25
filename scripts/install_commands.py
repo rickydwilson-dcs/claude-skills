@@ -141,9 +141,10 @@ class CommandCatalog:
 
     def _discover_from_directory(self, directory: Path) -> None:
         """Discover commands from a specific directory"""
-        for md_file in directory.glob("*.md"):
+        # Use recursive glob to find commands in subdirectories
+        for md_file in directory.rglob("*.md"):
             # Skip non-command files
-            if md_file.name in ("CATALOG.md", "CLAUDE.md", "manifest.json"):
+            if md_file.name in ("CATALOG.md", "CLAUDE.md", "README.md", "manifest.json"):
                 continue
 
             metadata = CommandMetadata.parse(md_file)

@@ -5,11 +5,36 @@ All notable changes to the Claude Skills Library will be documented in this file
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.1.0] - 2025-11-25 - Commands & Documentation Enhancement
 
-### Planned
-- Slash command library
-- Documentation agent
+### 🚀 Update - Slash Commands Expansion & Documentation Automation
+
+This release adds the `/commit.changes` git workflow command, creates documentation automation tooling, and implements comprehensive session usage tracking for cost and resource monitoring.
+
+### Added
+- `/commit.changes` command for git workflow (develop → staging → main promotion)
+- `scripts/update_docs.py` automation script for documentation updates
+- Session usage tracking with token metrics, models, agents, API calls, and cost estimates
+- Session helper functions in builder tools (skill_builder.py, agent_builder.py, command_builder.py)
+- Session workflow best practices documentation in output/README.md
+- Internal organization with section markers in all builder scripts
+
+### Fixed
+- Command installation script now uses recursive glob (`rglob`) to discover commands in subdirectories
+- Update.docs command name corrected from `workflow.update-docs` to `update.docs`
+- Documentation updated to reflect 13 slash commands (removed Speckit references, added commit.changes)
+- Python tools count updated to 67 (was 53)
+
+### Changed
+- Builder scripts enhanced with architecture notes explaining single-file design principle
+- CLAUDE.md updated with correct command counts and categories
+- README.md statistics updated (67 Python tools, 28 agents, 28 skills, 13 commands)
+- `/update.docs` command now explicitly includes CLAUDE.md updates in workflow
+
+### Documentation
+- Added comprehensive architecture review in output/sessions/rickywilson/2025-11-25_architecture-review/
+- Documented session tracking best practices for multi-day sessions
+- Added usage tracking section to session metadata template
 
 ---
 

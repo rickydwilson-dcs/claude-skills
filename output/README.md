@@ -61,6 +61,133 @@ python3 scripts/session_manager.py close
 # Generates report and updates metadata
 ```
 
+## Session Workflow Best Practices
+
+### When to Create New Sessions
+
+**✅ DO create a new session for:**
+- New feature implementation or bug fix
+- Architecture reviews or major refactoring
+- Documentation reorganization projects
+- Significant analysis or research work
+- Work tied to a Jira ticket or project initiative
+
+**❌ DON'T create sessions for:**
+- Every small file edit (< 5 minutes of work)
+- Quick bug fixes or typo corrections
+- Single-file changes
+- Routine maintenance tasks
+- Answering questions or exploratory work
+
+**Rule of Thumb:** If the work will produce multiple outputs, span multiple hours, or represents a cohesive piece of work worth documenting, create a session.
+
+### How Long Should Sessions Last?
+
+**Session Duration Guidelines:**
+
+| Session Type | Typical Duration | Example |
+|--------------|------------------|---------|
+| **Quick Task** | 1-2 hours | Fix specific bug, add small feature |
+| **Feature Development** | 1-3 days | Implement new capability with tests |
+| **Major Initiative** | 1-2 weeks | Architecture refactor, system redesign |
+| **Long-running Project** | Ongoing (weeks/months) | Major product feature, platform migration |
+
+**Important:** Sessions can span multiple days and multiple VS Code windows! It's **normal** and **expected** to:
+- Keep the same session open across multiple days
+- Continue work in long-running VS Code sessions
+- Have 3-5 active days within a single work session
+- Resume a session after breaks, weekends, or meetings
+
+**Example Session Timeline:**
+```
+Day 1 (Monday):     Create session "feature-authentication"
+                    - Work 4 hours
+                    - Leave VS Code open overnight
+
+Day 2 (Tuesday):    Continue same session
+                    - Work 3 hours
+                    - Session still active
+
+Day 3 (Wednesday):  Continue same session
+                    - Work 2 hours
+                    - Complete feature
+                    - Close session
+
+Total session: 3 days, 9 hours of work - ONE session
+```
+
+### When to Close Sessions
+
+**Close a session when:**
+- ✅ Work is complete and ready for review/deployment
+- ✅ Feature is implemented and tested
+- ✅ Analysis is documented and delivered
+- ✅ Moving to completely different work area
+- ✅ Creating a pull request marks natural completion
+
+**Don't close sessions:**
+- ❌ At end of each workday (sessions persist across days!)
+- ❌ When taking short breaks
+- ❌ When switching between related tasks
+- ❌ When waiting for feedback (keep active until incorporated)
+
+**Tip:** When in doubt, **keep the session open**. It's better to have longer sessions that represent complete work than many small fragmented sessions.
+
+### Session Granularity Examples
+
+**Good Session Granularity (3-5 sessions/week):**
+```
+Week of Nov 25:
+├── 2025-11-25_architecture-review          # 1 session, 4 days
+├── 2025-11-27_user-authentication-feature  # 1 session, 2 days
+└── 2025-11-29_api-documentation-update     # 1 session, 1 day
+Total: 3 sessions, appropriate
+```
+
+**Bad Session Granularity (20+ sessions/week):**
+```
+Week of Nov 25:
+├── 2025-11-25_09-00_fix-typo              # Too granular!
+├── 2025-11-25_09-15_add-comment           # Too granular!
+├── 2025-11-25_10-00_update-readme         # Too granular!
+├── 2025-11-25_11-00_refactor-function     # Too granular!
+...20 more sessions...
+Total: 24 sessions, too fragmented!
+```
+
+### Builder Tool Integration
+
+The builder tools (`skill_builder.py`, `agent_builder.py`, `command_builder.py`) now include **optional session tracking prompts**:
+
+```bash
+$ python3 scripts/skill_builder.py
+
+============================================================
+SESSION TRACKING
+============================================================
+No active session detected.
+
+Session tracking helps:
+  • Attribute work to specific initiatives
+  • Preserve context for collaboration
+  • Track decisions and changes over time
+
+Create a new session? (y/n): y
+
+Session ID (e.g., 'feature-name' or press Enter to skip): new-skill-creation
+
+✓ Created session: 2025-11-25_14-30-00_new-skill-creation
+  Location: output/sessions/rickywilson/2025-11-25_14-30-00_new-skill-creation/
+
+Continuing with skill creation...
+```
+
+**Behavior:**
+- Checks for active session via `output/.current-session`
+- If no session: prompts to create one (optional, can skip)
+- If session exists: continues silently
+- Never blocks work - session creation is always optional
+
 ## Session Management
 
 ### Create New Session
@@ -147,6 +274,7 @@ Each session includes a `.session-metadata.yaml` file with:
 - **Session Identity**: ID, creation time, user, team
 - **Work Context**: Branch, ticket, project, sprint, epic, release
 - **Outputs Tracking**: List of all generated files with promotion status
+- **Usage Tracking**: Token metrics (total, input, output, budget, utilization), models used, agents invoked, API calls, session duration, cost estimates
 - **Stakeholders**: People involved or notified
 - **Retention Policy**: Expiration date and reason
 - **Integration Links**: Jira, Confluence, OneDrive, GitHub PR

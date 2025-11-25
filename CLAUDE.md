@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a **comprehensive skills library** for Claude AI - reusable, production-ready skill packages that bundle domain expertise, best practices, analysis tools, and strategic frameworks. The repository provides modular skills that teams can download and use directly in their workflows.
 
-**Current Scope:** 28 production agents, 28 skills across 4 domains with 60 Python automation tools, 20 slash commands.
+**Current Scope:** 28 production agents, 28 skills across 4 domains with 67 Python automation tools, 13 slash commands.
 
 **Key Distinction**: This is NOT a traditional application. It's a library of skill packages meant to be extracted and deployed by users into their own Claude workflows.
 
@@ -117,7 +117,7 @@ skill-name/
 
 ### Slash Commands Architecture
 
-**20 production commands** automate high-frequency developer workflows across 6 categories (general/speckit, analysis, generation, git, workflow, test).
+**13 production commands** automate high-frequency developer workflows across 5 categories (analysis, generation, git, workflow, test).
 
 **Key Principles:**
 - **category.command-name Pattern** - All commands use kebab-case with category prefix
@@ -132,14 +132,13 @@ skill-name/
 - **Skills** = Tools + Knowledge + Templates
 
 **Available Command Categories:**
-- **General (Speckit)** - 8 commands for specification-driven development workflow
 - **Analysis** - 4 commands for code review, security, dependencies, refactoring
 - **Generation** - 2 commands for test generation and API documentation
 - **Git** - 2 commands for commit assistance and branch cleanup
 - **Workflow** - 3 commands for PRs, docs, feature prioritization
 - **Test** - 1 sample command for development
 
-**Learn More:** See [commands/README.md](commands/README.md) for complete command library, [commands/CLAUDE.md](commands/CLAUDE.md) for development guide, and [commands/CATALOG.md](commands/CATALOG.md) for full command list.
+**Learn More:** See [commands/README.md](commands/README.md) for complete command library and [commands/CLAUDE.md](commands/CLAUDE.md) for development guide.
 
 **Quick Start:**
 ```bash
@@ -147,9 +146,9 @@ skill-name/
 python3 scripts/install_commands.py
 
 # Use commands
-/speckit.specify "Add user authentication"
-/analysis.code-review src/
-/generation.test-generate
+/review.code src/
+/generate.tests
+/update.docs
 ```
 
 ## Git Workflow
@@ -392,7 +391,6 @@ python3 -c "print('Python environment ready')"
 ### Slash Commands
 - **[commands/README.md](commands/README.md)** - Slash commands library overview and quick start
 - **[commands/CLAUDE.md](commands/CLAUDE.md)** - Command development guide and patterns
-- **[commands/CATALOG.md](commands/CATALOG.md)** - All 20 commands with categories and statistics
 - **[docs/COMMANDS_INSTALLATION.md](docs/COMMANDS_INSTALLATION.md)** - Installation guide and troubleshooting
 - **[docs/COMMANDS_CREATION.md](docs/COMMANDS_CREATION.md)** - Step-by-step command creation tutorial
 - Install commands: `python3 scripts/install_commands.py`
@@ -417,6 +415,6 @@ Common issues and solutions documented in domain-specific CLAUDE.md files:
 ---
 
 **Last Updated:** November 24, 2025
-**Current Status:** 28 production agents, 28 skills across 4 domains, 20 slash commands
+**Current Status:** 28 production agents, 28 skills across 4 domains, 13 slash commands
 **Python Version:** 3.8+ required
 **Dependencies:** None - all tools use Python standard library only

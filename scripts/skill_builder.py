@@ -10,7 +10,50 @@ Usage:
     python skill_builder.py --config config.yaml   # Config file mode
     python skill_builder.py --validate path/       # Validation mode
     python skill_builder.py --help                 # Show help
+
+ARCHITECTURE NOTE - Single-File Design:
+    This script is intentionally monolithic (1,621 lines) for portability.
+    Users can extract this single file and run it anywhere with Python 3.8+.
+    This aligns with the repository's zero-dependency, portable-skills philosophy.
+
+    Code is organized into logical sections for maintainability:
+
+    SECTION 1: Configuration & Constants (Lines 15-38)
+        - Exit codes, imports, global configuration
+
+    SECTION 2: YAML Parsing Utilities (Lines 40-139)
+        - simple_yaml_parse() - Standard library YAML parser
+        - Handles basic YAML without external dependencies
+
+    SECTION 3: Team & Domain Management (Lines 140-237)
+        - SkillTeamManager class
+        - Dynamic team discovery, validation, domain handling
+
+    SECTION 4: Validation Logic (Lines 238-638)
+        - SkillValidator class
+        - 12 validation checks for skill structure
+
+    SECTION 5: Template Management (Lines 639-792)
+        - SkillTemplateLoader class
+        - Template file loading and generation
+
+    SECTION 6: Directory Scaffolding (Lines 919-1075)
+        - DirectoryScaffolder class
+        - Creates skill directory structure
+
+    SECTION 7: Core Skill Builder (Lines 1076-1545)
+        - SkillBuilder class
+        - Main orchestration logic
+
+    SECTION 8: CLI Entry Point (Lines 1546-1621)
+        - main() function
+        - Argument parsing and mode selection
 """
+
+# ============================================================================
+# SECTION 1: CONFIGURATION & CONSTANTS
+# ============================================================================
+# Import statements, exit codes, and global configuration
 
 import os
 import sys
@@ -36,6 +79,11 @@ EXIT_FILE_ERROR = 2
 EXIT_CONFIG_ERROR = 3
 EXIT_UNKNOWN_ERROR = 99
 
+
+# ============================================================================
+# SECTION 2: YAML PARSING UTILITIES
+# ============================================================================
+# Standard library YAML parser for skill frontmatter (zero dependencies)
 
 def simple_yaml_parse(yaml_str: str) -> Dict:
     """
@@ -137,6 +185,74 @@ def simple_yaml_parse(yaml_str: str) -> Dict:
     return result
 
 
+def ensure_session_tracking() -> Optional[str]:
+    """
+    Check if user is in an active session, offer to create one
+
+    Returns:
+        Session ID if active session exists, None otherwise
+    """
+    repo_root = Path(__file__).parent.parent
+    current_session_file = repo_root / "output" / ".current-session"
+
+    # Check if there's an active session
+    if current_session_file.exists():
+        try:
+            session_id = current_session_file.read_text().strip()
+            if session_id:
+                return session_id
+        except Exception:
+            pass
+
+    # No active session - offer to create one
+    print("\n" + "="*60)
+    print("SESSION TRACKING")
+    print("="*60)
+    print("No active session detected.")
+    print("\nSession tracking helps:")
+    print("  • Attribute work to specific initiatives")
+    print("  • Preserve context for collaboration")
+    print("  • Track decisions and changes over time")
+    print("\nCreate a new session? (y/n): ", end="")
+
+    try:
+        response = input().strip().lower()
+        if response in ('y', 'yes'):
+            print("\nSession ID (e.g., 'feature-name' or press Enter to skip): ", end="")
+            session_desc = input().strip()
+
+            if session_desc:
+                user = os.getenv('USER', 'unknown')
+                timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+                session_id = f"{timestamp}_{session_desc}"
+                session_path = repo_root / "output" / "sessions" / user / session_id
+
+                # Create session directory
+                session_path.mkdir(parents=True, exist_ok=True)
+
+                # Update current session pointer
+                current_session_file.parent.mkdir(parents=True, exist_ok=True)
+                current_session_file.write_text(f"{user}/{session_id}")
+
+                print(f"\n✓ Created session: {session_id}")
+                print(f"  Location: {session_path}")
+                print("\nContinuing with skill creation...\n")
+                return session_id
+            else:
+                print("\nSkipping session creation. Continuing with skill creation...\n")
+        else:
+            print("\nSkipping session creation. Continuing with skill creation...\n")
+    except (KeyboardInterrupt, EOFError):
+        print("\n\nSkipping session creation...\n")
+
+    return None
+
+
+# ============================================================================
+# SECTION 3: TEAM & DOMAIN MANAGEMENT
+# ============================================================================
+# Dynamic team discovery, validation, and domain handling
+
 class SkillTeamManager:
     """Manage skill teams dynamically"""
 
@@ -234,6 +350,11 @@ This directory contains skills for the {team_name.replace('-team', '')} domain.
         # Default pattern: append '-team'
         return f"{domain}-team"
 
+
+# ============================================================================
+# SECTION 4: VALIDATION LOGIC
+# ============================================================================
+# Comprehensive validation checks for skill structure and metadata
 
 class SkillValidator:
     """Validation logic for skill packages"""
@@ -636,6 +757,11 @@ class SkillValidator:
         }
 
 
+# ============================================================================
+# SECTION 5: TEMPLATE MANAGEMENT
+# ============================================================================
+# Template file loading and content generation
+
 class SkillTemplateLoader:
     """Load and populate skill templates"""
 
@@ -916,6 +1042,11 @@ This reference provides comprehensive guidance for [topic area].
         return template
 
 
+# ============================================================================
+# SECTION 6: DIRECTORY SCAFFOLDING
+# ============================================================================
+# Creates skill directory structure with files and permissions
+
 class DirectoryScaffolder:
     """Create skill directory structure"""
 
@@ -1072,6 +1203,11 @@ Consider using these skills together:
 """
         return content
 
+
+# ============================================================================
+# SECTION 7: CORE SKILL BUILDER
+# ============================================================================
+# Main orchestration logic for skill creation and validation
 
 class SkillBuilder:
     """Main orchestrator for skill creation"""
@@ -1542,6 +1678,11 @@ class SkillBuilder:
                 print("  • Delete temporary files (.tmp, .temp, .DS_Store)")
             return EXIT_VALIDATION_FAILED
 
+
+# ============================================================================
+# SECTION 8: CLI ENTRY POINT
+# ============================================================================
+# Command-line argument parsing and mode selection
 
 def main():
     """Main entry point"""
