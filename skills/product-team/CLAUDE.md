@@ -1,6 +1,6 @@
 # Product Team Skills - Claude Code Guidance
 
-This guide covers the 5 production-ready product management skills and their Python automation tools.
+This guide covers the 6 production-ready product management skills and their Python automation tools.
 
 ## Product Skills Overview
 
@@ -10,8 +10,9 @@ This guide covers the 5 production-ready product management skills and their Pyt
 3. **product-strategist/** - OKR cascade, strategic planning (1 tool)
 4. **ux-researcher-designer/** - Persona generation, user research (1 tool)
 5. **ui-design-system/** - Design token generation, component systems (1 tool)
+6. **competitive-analysis/** - Competitive scorecard, gap analysis, adoption prioritization (3 tools)
 
-**Total Tools:** 6 Python automation tools
+**Total Tools:** 9 Python automation tools
 
 ## Python Automation Tools
 
@@ -157,6 +158,72 @@ python ui-design-system/scripts/design_token_generator.py "#0066CC" modern scss
 python ui-design-system/scripts/design_token_generator.py "#0066CC" modern json
 ```
 
+### 7. Competitive Analyzer (`competitive-analysis/scripts/competitive_analyzer.py`)
+
+**Purpose:** Analyze competitor products against your repository
+
+**Features:**
+- Multi-scope analysis (skills, commands, agents)
+- 6-dimension weighted scoring
+- Comparison matrix generation
+- Visual scorecard output
+
+**Usage:**
+```bash
+# Basic analysis
+python competitive-analysis/scripts/competitive_analyzer.py --competitor-path ./competitor
+
+# Scope to skills only
+python competitive-analysis/scripts/competitive_analyzer.py --scope skills --competitor-path ./competitor
+
+# JSON output
+python competitive-analysis/scripts/competitive_analyzer.py --output json --competitor-path ./competitor
+```
+
+### 8. Gap Analyzer (`competitive-analysis/scripts/gap_analyzer.py`)
+
+**Purpose:** Identify and prioritize competitive gaps
+
+**Features:**
+- Gap categorization (critical, important, nice-to-have)
+- Priority scoring using impact/urgency/effort formula
+- Severity classification
+- Actionable recommendations
+
+**Usage:**
+```bash
+# Run gap analysis
+python competitive-analysis/scripts/gap_analyzer.py --competitor-path ./competitor
+
+# Filter by severity
+python competitive-analysis/scripts/gap_analyzer.py --severity critical --competitor-path ./competitor
+
+# Prioritized output
+python competitive-analysis/scripts/gap_analyzer.py --prioritize --competitor-path ./competitor
+```
+
+### 9. Scorecard Generator (`competitive-analysis/scripts/scorecard_generator.py`)
+
+**Purpose:** Generate visual competitive scorecards
+
+**Features:**
+- ASCII box scorecards
+- Markdown table format
+- Detailed dimension breakdowns
+- Winner determination indicators
+
+**Usage:**
+```bash
+# Generate ASCII scorecard
+python competitive-analysis/scripts/scorecard_generator.py --format ascii
+
+# Markdown format
+python competitive-analysis/scripts/scorecard_generator.py --format markdown --detailed
+
+# From analysis file
+python competitive-analysis/scripts/scorecard_generator.py --analysis-file analysis.json
+```
+
 ## Product Workflows
 
 ### Workflow 1: Feature Prioritization
@@ -241,7 +308,7 @@ python ux-researcher-designer/scripts/persona_generator.py --output json > perso
 
 ## Roadmap
 
-**Current (Phase 1):** 5 skills deployed with 6 tools
+**Current (Phase 1):** 6 skills deployed with 9 tools
 
 **Phase 2 (Q1 2026):** Product analytics
 - A/B test analyzer
@@ -249,9 +316,9 @@ python ux-researcher-designer/scripts/persona_generator.py --output json > perso
 - Cohort retention analyzer
 
 **Phase 3 (Q2 2026):** Advanced PM tools
-- Competitive analysis framework
 - Product-market fit assessment
 - Revenue impact calculator
+- Market opportunity analyzer
 
 See `product_team_implementation_guide.md` for detailed plans.
 
@@ -263,6 +330,6 @@ See `product_team_implementation_guide.md` for detailed plans.
 
 ---
 
-**Last Updated:** November 17, 2025
-**Skills Deployed:** 5/5 product skills production-ready
-**Total Tools:** 6 Python automation tools
+**Last Updated:** November 27, 2025
+**Skills Deployed:** 6/6 product skills production-ready
+**Total Tools:** 9 Python automation tools

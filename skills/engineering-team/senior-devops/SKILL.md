@@ -1,65 +1,66 @@
 ---
+
+# === CORE IDENTITY ===
 name: senior-devops
+title: Senior Devops Skill Package
 description: Comprehensive DevOps skill for CI/CD, infrastructure automation, containerization, and cloud platforms (AWS, GCP, Azure). Includes pipeline setup, infrastructure as code, deployment automation, and monitoring. Use when setting up pipelines, deploying applications, managing infrastructure, implementing monitoring, or optimizing deployment processes.
+domain: engineering
+subdomain: devops-operations
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Setting up infrastructure as code with Terraform or CloudFormation
+  - Implementing CI/CD pipelines with automated testing and deployment
+  - Configuring container orchestration with Kubernetes
+  - Monitoring and alerting setup for production systems
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: []
+related-commands: []
+orchestrated-by: []
+
+# === TECHNICAL ===
+dependencies:
+  scripts: []
+  references: []
+  assets: []
+compatibility:
+  python-version: 3.8+
+  platforms: [macos, linux, windows]
+tech-stack: [Python 3.8+, Markdown]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Usage
+    input: "TODO: Add example input for senior-devops"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  downloads: 0
+  stars: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-10-19
+updated: 2025-11-23
 license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: Engineering
-  domain: engineering
-  updated: 2025-11-23
-  keywords:
-  - engineering
-  - senior
-  - devops
-  tech-stack:
-  - Python 3.8+
-  - Markdown
-  python-tools:
-  - deployment_manager.py
-  - pipeline_generator.py
-  - terraform_scaffolder.py
+
+# === DISCOVERABILITY ===
+tags: [automation, ci/cd, cloud, devops, engineering, senior]
+featured: false
+verified: true
 ---
 
-
-license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: engineering
-  domain: devops
-  updated: 2025-11-08
-  keywords:
-    - DevOps
-    - CI/CD
-    - continuous integration
-    - continuous deployment
-    - infrastructure automation
-    - containerization
-    - Docker
-    - Kubernetes
-    - infrastructure as code
-    - Terraform
-    - monitoring
-    - deployment automation
-    - GitHub Actions
-    - cloud platforms
-    - container orchestration
-  tech-stack:
-    - Docker
-    - Kubernetes
-    - Terraform
-    - GitHub Actions
-    - CircleCI
-    - Prometheus
-    - Grafana
-    - AWS
-    - GCP
-    - Azure
-  python-tools:
-    - pipeline_generator.py
-    - terraform_scaffolder.py
-    - deployment_manager.py
 
 # Senior Devops
 

@@ -358,15 +358,15 @@ class AgentValidator:
         if not frontmatter:
             return False, "Missing YAML frontmatter"
 
-        # Required fields
-        required = ['name', 'description', 'skills', 'domain', 'model', 'tools']
+        # Required fields (core identity + technical)
+        required = ['name', 'description', 'domain', 'model', 'tools']
         for field in required:
             if field not in frontmatter:
                 return False, f"Missing required YAML field: {field}"
 
         # Field validation
-        if len(frontmatter['description']) > 150:
-            return False, f"Description too long: {len(frontmatter['description'])} chars (max: 150)"
+        if len(frontmatter['description']) > 300:
+            return False, f"Description too long: {len(frontmatter['description'])} chars (max: 300)"
 
         if frontmatter['model'] not in ['sonnet', 'opus', 'haiku']:
             return False, f"Invalid model: {frontmatter['model']} (must be: sonnet, opus, haiku)"
@@ -379,7 +379,69 @@ class AgentValidator:
             if tool not in valid_tools:
                 return False, f"Invalid tool: {tool}"
 
-        # Optional fields validation
+        # Website-ready fields validation (Phase 1: Core Identity + Versioning)
+        if 'title' in frontmatter:
+            if len(frontmatter['title']) > 100:
+                return False, f"Title too long: {len(frontmatter['title'])} chars (max: 100)"
+
+        if 'subdomain' in frontmatter:
+            if not re.match(r'^[a-z][a-z0-9-]*$', frontmatter['subdomain']):
+                return False, f"Invalid subdomain format: {frontmatter['subdomain']} (must be kebab-case)"
+
+        if 'version' in frontmatter:
+            if not re.match(r'^v?\d+\.\d+\.\d+$', frontmatter['version']):
+                return False, f"Invalid version format: {frontmatter['version']} (must be vX.Y.Z or X.Y.Z)"
+
+        # Phase 2: Website Display + Discoverability
+        if 'difficulty' in frontmatter:
+            valid_difficulty = ['beginner', 'intermediate', 'advanced']
+            if frontmatter['difficulty'] not in valid_difficulty:
+                return False, f"Invalid difficulty: {frontmatter['difficulty']} (must be: {', '.join(valid_difficulty)})"
+
+        if 'use-cases' in frontmatter:
+            if not isinstance(frontmatter['use-cases'], list):
+                return False, "use-cases must be a list"
+
+        if 'tags' in frontmatter:
+            if not isinstance(frontmatter['tags'], list):
+                return False, "tags must be a list"
+
+        # Phase 3: Relationships + Technical
+        if 'related-agents' in frontmatter:
+            if not isinstance(frontmatter['related-agents'], list):
+                return False, "related-agents must be a list"
+
+        if 'related-skills' in frontmatter:
+            if not isinstance(frontmatter['related-skills'], list):
+                return False, "related-skills must be a list"
+
+        if 'related-commands' in frontmatter:
+            if not isinstance(frontmatter['related-commands'], list):
+                return False, "related-commands must be a list"
+
+        if 'classification' in frontmatter:
+            if isinstance(frontmatter['classification'], dict):
+                valid_types = ['strategic', 'implementation', 'quality', 'coordination']
+                if 'type' in frontmatter['classification']:
+                    if frontmatter['classification']['type'] not in valid_types:
+                        return False, f"Invalid classification type: {frontmatter['classification']['type']}"
+
+        if 'dependencies' in frontmatter:
+            if isinstance(frontmatter['dependencies'], dict):
+                if 'tools' in frontmatter['dependencies']:
+                    if not isinstance(frontmatter['dependencies']['tools'], list):
+                        return False, "dependencies.tools must be a list"
+
+        # Phase 4: Examples + Analytics
+        if 'examples' in frontmatter:
+            if not isinstance(frontmatter['examples'], list):
+                return False, "examples must be a list"
+
+        if 'stats' in frontmatter:
+            if not isinstance(frontmatter['stats'], dict):
+                return False, "stats must be a dictionary"
+
+        # Legacy fields validation (for backward compatibility)
         if 'color' in frontmatter:
             valid_colors = ['blue', 'green', 'red', 'purple', 'orange']
             if frontmatter['color'] not in valid_colors:
@@ -388,7 +450,7 @@ class AgentValidator:
         if 'field' in frontmatter:
             valid_fields = ['quality', 'frontend', 'backend', 'fullstack', 'product', 'architecture',
                           'testing', 'devops', 'data', 'ai', 'security', 'performance', 'design',
-                          'research', 'content', 'finance', 'agile', 'tools']
+                          'research', 'content', 'finance', 'agile', 'tools', 'coordination']
             if frontmatter['field'] not in valid_fields:
                 return False, f"Invalid field: {frontmatter['field']} (must be one of: {', '.join(valid_fields)})"
 

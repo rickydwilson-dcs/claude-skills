@@ -1,44 +1,82 @@
 ---
+
+# === CORE IDENTITY ===
 name: senior-frontend
+title: Senior Frontend Skill Package
 description: Comprehensive frontend development skill for building modern, performant web applications using React, Next.js, TypeScript, Tailwind CSS. Includes component scaffolding, performance optimization, bundle analysis, and UI best practices. Use when developing frontend features, optimizing performance, implementing UI/UX designs, managing state, or reviewing frontend code.
+domain: engineering
+subdomain: frontend-development
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Building responsive user interfaces with modern frameworks
+  - Implementing state management and component architecture
+  - Optimizing frontend performance and bundle sizes
+  - Creating accessible and user-friendly web experiences
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: []
+related-commands: []
+orchestrated-by: []
+
+# === TECHNICAL ===
+dependencies:
+  scripts: []
+  references: []
+  assets: []
+compatibility:
+  python-version: 3.8+
+  platforms: [macos, linux, windows]
+tech-stack:
+  - React
+  - Next.js
+  - TypeScript
+  - Tailwind CSS
+  - JavaScript
+  - HTML5
+  - CSS3
+  - Webpack
+  - ESLint
+  - Jest
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Usage
+    input: "TODO: Add example input for senior-frontend"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  downloads: 0
+  stars: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-10-19
+updated: 2025-11-08
 license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: engineering
-  domain: frontend
-  updated: 2025-11-08
-  keywords:
-    - frontend development
-    - React
-    - Next.js
-    - component development
-    - UI design
-    - performance optimization
-    - bundle analysis
-    - state management
-    - responsive design
-    - TypeScript
-    - CSS
-    - web performance
-    - user experience
-    - component patterns
-    - testing
-  tech-stack:
-    - React
-    - Next.js
-    - TypeScript
-    - Tailwind CSS
-    - JavaScript
-    - HTML5
-    - CSS3
-    - Webpack
-    - ESLint
-    - Jest
-  python-tools:
-    - component_generator.py
-    - bundle_analyzer.py
-    - frontend_scaffolder.py
+
+# === DISCOVERABILITY ===
+tags:
+  - analysis
+  - design
+  - development
+  - engineering
+  - frontend
+  - optimization
+  - performance
+  - senior
+featured: false
+verified: true
 ---
 
 # Senior Frontend

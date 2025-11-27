@@ -1,27 +1,64 @@
 ---
+
+# === CORE IDENTITY ===
 name: jira-expert
+title: Jira Expert Skill Package
 description: Atlassian Jira expert for creating and managing projects, planning, product discovery, JQL queries, workflows, custom fields, automation, reporting, and all Jira features. Use for Jira project setup, configuration, advanced search, dashboard creation, workflow design, and technical Jira operations.
+domain: delivery
+subdomain: delivery-tools
+
+# === WEBSITE DISPLAY ===
+difficulty: intermediate
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Primary workflow for Jira Expert
+  - Analysis and recommendations for jira expert tasks
+  - Best practices implementation for jira expert
+  - Integration with related skills and workflows
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: []
+related-commands: []
+orchestrated-by: []
+
+# === TECHNICAL ===
+dependencies:
+  scripts: []
+  references: []
+  assets: []
+compatibility:
+  python-version: 3.8+
+  platforms: [macos, linux, windows]
+tech-stack: [Python 3.8+]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Usage
+    input: "TODO: Add example input for jira-expert"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  downloads: 0
+  stars: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-10-21
+updated: 2025-11-23
 license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: delivery
-  domain: jira expert
-  updated: 2025-11-23
-  keywords:
-  - atlassian
-  - jira
-  - expert
-  - creating
-  - managing
-  - projects
-  - planning
-  - product
-  - discovery
-  - jql
-  tech-stack:
-  - Python 3.8+
-  python-tools: []
+
+# === DISCOVERABILITY ===
+tags: [automation, delivery, design, expert, jira, product]
+featured: false
+verified: true
 ---
 
 

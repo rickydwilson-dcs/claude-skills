@@ -1,44 +1,71 @@
 ---
+
+# === CORE IDENTITY ===
 name: marketing-demand-acquisition
+title: Marketing Demand Acquisition Skill Package
 description: Multi-channel demand generation, paid media optimization, SEO strategy, and partnership programs for Series A+ startups. Includes CAC calculator, channel playbooks, HubSpot integration, and international expansion tactics. Use when planning demand generation campaigns, optimizing paid media, building SEO strategies, establishing partnerships, or when user mentions demand gen, paid ads, LinkedIn ads, Google ads, CAC, acquisition, lead generation, or pipeline generation.
+domain: marketing
+subdomain: ui-design
+
+# === WEBSITE DISPLAY ===
+difficulty: intermediate
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Primary workflow for Marketing Demand Acquisition
+  - Analysis and recommendations for marketing demand acquisition tasks
+  - Best practices implementation for marketing demand acquisition
+  - Integration with related skills and workflows
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: []
+related-commands: []
+orchestrated-by: []
+
+# === TECHNICAL ===
+dependencies:
+  scripts: []
+  references: []
+  assets: []
+compatibility:
+  python-version: 3.8+
+  platforms: [macos, linux, windows]
+tech-stack:
+  - HubSpot CRM
+  - LinkedIn Campaign Manager
+  - Google Ads
+  - Google Analytics
+  - Meta Ads Manager
+  - Search Console
+  - Python 3.8+
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Usage
+    input: "TODO: Add example input for marketing-demand-acquisition"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  downloads: 0
+  stars: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-10-20
+updated: 2025-11-08
 license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: marketing
-  domain: demand-generation
-  updated: 2025-11-08
-  keywords:
-    - demand generation
-    - lead generation
-    - paid advertising
-    - LinkedIn Ads
-    - Google Ads
-    - customer acquisition cost
-    - CAC calculator
-    - paid media
-    - performance marketing
-    - SEO strategy
-    - SEM
-    - paid search
-    - retargeting
-    - conversion optimization
-    - marketing funnel
-    - pipeline generation
-    - MQL to SQL
-    - affiliate marketing
-    - partnership marketing
-    - marketing automation
-  tech-stack:
-    - HubSpot CRM
-    - LinkedIn Campaign Manager
-    - Google Ads
-    - Google Analytics
-    - Meta Ads Manager
-    - Search Console
-    - Python 3.8+
-  python-tools:
-    - calculate_cac.py
+
+# === DISCOVERABILITY ===
+tags: [acquisition, demand, marketing, optimization]
+featured: false
+verified: true
 ---
 
 # Marketing Demand & Acquisition

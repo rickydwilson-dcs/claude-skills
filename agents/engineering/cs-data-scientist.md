@@ -1,10 +1,79 @@
 ---
+
+# === CORE IDENTITY ===
 name: cs-data-scientist
+title: Data Scientist Specialist
 description: Data science specialist for statistical analysis, predictive modeling, experiment design, and data-driven insights
-skills: senior-data-scientist
 domain: engineering
+subdomain: data-engineering
+skills: senior-data-scientist
 model: sonnet
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Designing data pipelines for ETL/ELT processes
+  - Building data warehouses and data lakes
+  - Implementing data quality and governance frameworks
+  - Creating analytics dashboards and reporting
+
+# === AGENT CLASSIFICATION ===
+classification:
+  type: domain-specific
+  color: orange
+  field: data
+  expertise: expert
+  execution: coordinated
+  model: sonnet
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: [engineering-team/senior-data-scientist]
+related-commands: []
+orchestrates:
+  skill: engineering-team/senior-data-scientist
+
+# === TECHNICAL ===
 tools: [Read, Write, Bash, Grep, Glob]
+dependencies:
+  tools: [Read, Write, Bash, Grep, Glob]
+  mcp-tools: []
+  scripts: []
+compatibility:
+  claude-ai: true
+  claude-code: true
+  platforms: [macos, linux, windows]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Workflow
+    input: "TODO: Add example input for cs-data-scientist"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  installs: 0
+  upvotes: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-11-06
+updated: 2025-11-27
+license: MIT
+
+# === DISCOVERABILITY ===
+tags: [analysis, data, design, engineering, scientist]
+featured: false
+verified: true
+
+# === LEGACY ===
 color: orange
 field: data
 expertise: expert

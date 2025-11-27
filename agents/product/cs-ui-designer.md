@@ -1,10 +1,80 @@
 ---
+
+# === CORE IDENTITY ===
 name: cs-ui-designer
+title: UI Designer Specialist
 description: UI design system agent for design token management, component library creation, design system documentation, and scalable design infrastructure
-skills: product-team/ui-design-system
 domain: product
+subdomain: ux-design
+skills: product-team/ui-design-system
 model: sonnet
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Primary workflow for Ui Designer
+  - Analysis and recommendations for ui designer tasks
+  - Best practices implementation for ui designer
+  - Integration with related agents and workflows
+
+# === AGENT CLASSIFICATION ===
+classification:
+  type: domain-specific
+  color: orange
+  field: design
+  expertise: expert
+  execution: parallel
+  model: sonnet
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills:
+  - product-team/product-team/ui-design-system
+related-commands: []
+orchestrates:
+  skill: product-team/product-team/ui-design-system
+
+# === TECHNICAL ===
 tools: [Read, Write, Bash, Grep, Glob]
+dependencies:
+  tools: [Read, Write, Bash, Grep, Glob]
+  mcp-tools: []
+  scripts: []
+compatibility:
+  claude-ai: true
+  claude-code: true
+  platforms: [macos, linux, windows]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Workflow
+    input: "TODO: Add example input for cs-ui-designer"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  installs: 0
+  upvotes: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-11-06
+updated: 2025-11-27
+license: MIT
+
+# === DISCOVERABILITY ===
+tags: [design, designer, product]
+featured: false
+verified: true
+
+# === LEGACY ===
 color: orange
 field: design
 expertise: expert

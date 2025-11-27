@@ -1,27 +1,64 @@
 ---
+
+# === CORE IDENTITY ===
 name: confluence-expert
+title: Confluence Expert Skill Package
 description: Atlassian Confluence expert for creating and managing spaces, knowledge bases, documentation, planning, product discovery, page layouts, macros, templates, and all Confluence features. Use for documentation strategy, space architecture, content organization, and collaborative knowledge management.
+domain: delivery
+subdomain: delivery-tools
+
+# === WEBSITE DISPLAY ===
+difficulty: intermediate
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Primary workflow for Confluence Expert
+  - Analysis and recommendations for confluence expert tasks
+  - Best practices implementation for confluence expert
+  - Integration with related skills and workflows
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: []
+related-commands: []
+orchestrated-by: []
+
+# === TECHNICAL ===
+dependencies:
+  scripts: []
+  references: []
+  assets: []
+compatibility:
+  python-version: 3.8+
+  platforms: [macos, linux, windows]
+tech-stack: [Python 3.8+]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Usage
+    input: "TODO: Add example input for confluence-expert"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  downloads: 0
+  stars: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-10-21
+updated: 2025-11-23
 license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: delivery
-  domain: confluence expert
-  updated: 2025-11-23
-  keywords:
-  - atlassian
-  - confluence
-  - expert
-  - creating
-  - managing
-  - spaces
-  - knowledge
-  - bases
-  - documentation
-  - planning
-  tech-stack:
-  - Python 3.8+
-  python-tools: []
+
+# === DISCOVERABILITY ===
+tags: [architecture, confluence, delivery, expert, product]
+featured: false
+verified: true
 ---
 
 

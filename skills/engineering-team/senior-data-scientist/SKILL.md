@@ -1,66 +1,74 @@
 ---
+
+# === CORE IDENTITY ===
 name: senior-data-scientist
+title: Senior Data Scientist Skill Package
 description: World-class data science skill for statistical modeling, experimentation, causal inference, and advanced analytics. Expertise in Python (NumPy, Pandas, Scikit-learn), R, SQL, statistical methods, A/B testing, time series, and business intelligence. Includes experiment design, feature engineering, model evaluation, and stakeholder communication. Use when designing experiments, building predictive models, performing causal analysis, or driving data-driven decisions.
+domain: engineering
+subdomain: data-engineering
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Designing data pipelines for ETL/ELT processes
+  - Building data warehouses and data lakes
+  - Implementing data quality and governance frameworks
+  - Creating analytics dashboards and reporting
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: []
+related-commands: []
+orchestrated-by: []
+
+# === TECHNICAL ===
+dependencies:
+  scripts: []
+  references: []
+  assets: []
+compatibility:
+  python-version: 3.8+
+  platforms: [macos, linux, windows]
+tech-stack: [Python 3.8+, Markdown]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Usage
+    input: "TODO: Add example input for senior-data-scientist"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  downloads: 0
+  stars: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-10-20
+updated: 2025-11-23
 license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: Engineering
-  domain: engineering
-  updated: 2025-11-23
-  keywords:
-  - engineering
-  - senior
+
+# === DISCOVERABILITY ===
+tags:
+  - analysis
+  - analytics
   - data
+  - design
+  - engineering
   - scientist
-  tech-stack:
-  - Python 3.8+
-  - Markdown
-  python-tools:
-  - experiment_designer.py
-  - feature_engineering_pipeline.py
-  - model_evaluation_suite.py
+  - senior
+  - testing
+featured: false
+verified: true
 ---
 
-
-license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: engineering
-  domain: data-science
-  updated: 2025-11-08
-  keywords:
-    - data science
-    - statistical modeling
-    - A/B testing
-    - experiment design
-    - feature engineering
-    - predictive modeling
-    - causal inference
-    - machine learning
-    - time series analysis
-    - business analytics
-    - hypothesis testing
-    - data analysis
-    - Python
-    - scikit-learn
-    - statistical methods
-  tech-stack:
-    - Python
-    - NumPy
-    - Pandas
-    - Scikit-learn
-    - R
-    - SQL
-    - Matplotlib
-    - Seaborn
-    - XGBoost
-    - TensorFlow
-  python-tools:
-    - experiment_designer.py
-    - feature_engineering_pipeline.py
-    - model_evaluation_suite.py
 
 # Senior Data Scientist
 

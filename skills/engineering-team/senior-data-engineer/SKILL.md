@@ -1,44 +1,74 @@
 ---
+
+# === CORE IDENTITY ===
 name: senior-data-engineer
+title: Senior Data Engineer Skill Package
 description: World-class data engineering skill for building scalable data pipelines, ETL/ELT systems, and data infrastructure. Expertise in Python, SQL, Spark, Airflow, dbt, Kafka, and modern data stack. Includes data modeling, pipeline orchestration, data quality, and DataOps. Use when designing data architectures, building data pipelines, optimizing data workflows, or implementing data governance.
+domain: engineering
+subdomain: data-engineering
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Designing data pipelines for ETL/ELT processes
+  - Building data warehouses and data lakes
+  - Implementing data quality and governance frameworks
+  - Creating analytics dashboards and reporting
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: []
+related-commands: []
+orchestrated-by: []
+
+# === TECHNICAL ===
+dependencies:
+  scripts: []
+  references: []
+  assets: []
+compatibility:
+  python-version: 3.8+
+  platforms: [macos, linux, windows]
+tech-stack:
+  - Python
+  - SQL
+  - Apache Spark
+  - Airflow
+  - dbt
+  - Kafka
+  - PostgreSQL
+  - BigQuery
+  - Snowflake
+  - Docker
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Usage
+    input: "TODO: Add example input for senior-data-engineer"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  downloads: 0
+  stars: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-10-20
+updated: 2025-11-08
 license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: engineering
-  domain: data-engineering
-  updated: 2025-11-08
-  keywords:
-    - data engineering
-    - ETL pipelines
-    - data pipelines
-    - data architecture
-    - Apache Spark
-    - data quality
-    - pipeline orchestration
-    - Airflow
-    - dbt
-    - Kafka
-    - data modeling
-    - SQL optimization
-    - distributed computing
-    - data governance
-    - data infrastructure
-  tech-stack:
-    - Python
-    - SQL
-    - Apache Spark
-    - Airflow
-    - dbt
-    - Kafka
-    - PostgreSQL
-    - BigQuery
-    - Snowflake
-    - Docker
-  python-tools:
-    - pipeline_orchestrator.py
-    - data_quality_validator.py
-    - etl_performance_optimizer.py
+
+# === DISCOVERABILITY ===
+tags: [architecture, data, design, engineer, engineering, senior]
+featured: false
+verified: true
 ---
 
 # Senior Data Engineer

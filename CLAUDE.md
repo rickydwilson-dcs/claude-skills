@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a **comprehensive skills library** for Claude AI - reusable, production-ready skill packages that bundle domain expertise, best practices, analysis tools, and strategic frameworks. The repository provides modular skills that teams can download and use directly in their workflows.
 
-**Current Scope:** 28 production agents, 28 skills across 4 domains with 67 Python automation tools, 13 slash commands.
+**Current Scope:** 28 production agents, 29 skills across 4 domains with 70 Python automation tools, 14 slash commands.
 
 **Key Distinction**: This is NOT a traditional application. It's a library of skill packages meant to be extracted and deployed by users into their own Claude workflows.
 
@@ -63,7 +63,7 @@ This repository uses **modular documentation**. For domain-specific guidance, se
 claude-skills/
 ├── skills/                    # All skill packages organized by domain
 │   ├── marketing-team/        # 3 marketing skills + Python tools
-│   ├── product-team/          # 6 product skills + Python tools
+│   ├── product-team/          # 7 product skills + Python tools
 │   ├── engineering-team/      # 15 engineering skills + Python tools
 │   └── delivery-team/         # 4 delivery/PM skills + Atlassian MCP
 ├── agents/                    # Workflow orchestrator agents (cs-* prefix)
@@ -72,11 +72,11 @@ claude-skills/
 │   ├── delivery/             # 4 agents
 │   └── engineering/          # 15 agents
 ├── commands/                  # Slash commands library
-│   ├── analysis/             # Analysis commands (4)
+│   ├── analysis/             # Analysis commands (5)
 │   ├── generation/           # Code generation (2)
-│   ├── git/                  # Git workflow (2)
+│   ├── git/                  # Git workflow (3)
 │   ├── workflow/             # Team workflow (3)
-│   └── .claude/commands/     # Speckit workflow (8)
+│   └── test/                 # Test commands (1)
 ├── docs/                      # Documentation and standards
 ├── scripts/                   # Builder tools and utilities
 ├── templates/                 # Reusable templates
@@ -414,7 +414,7 @@ Common issues and solutions documented in domain-specific CLAUDE.md files:
 
 ---
 
-**Last Updated:** November 24, 2025
-**Current Status:** 28 production agents, 28 skills across 4 domains, 13 slash commands
+**Last Updated:** November 27, 2025
+**Current Status:** 28 production agents, 29 skills across 4 domains, 14 slash commands
 **Python Version:** 3.8+ required
 **Dependencies:** None - all tools use Python standard library only

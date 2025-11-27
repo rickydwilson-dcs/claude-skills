@@ -1,10 +1,79 @@
 ---
+
+# === CORE IDENTITY ===
 name: cs-devops-engineer
+title: Devops Engineer
 description: DevOps specialist for CI/CD pipelines, infrastructure as code, container orchestration, and deployment automation
-skills: senior-devops
 domain: engineering
+subdomain: devops-operations
+skills: senior-devops
 model: sonnet
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Setting up infrastructure as code with Terraform or CloudFormation
+  - Implementing CI/CD pipelines with automated testing and deployment
+  - Configuring container orchestration with Kubernetes
+  - Monitoring and alerting setup for production systems
+
+# === AGENT CLASSIFICATION ===
+classification:
+  type: implementation
+  color: green
+  field: devops
+  expertise: expert
+  execution: coordinated
+  model: sonnet
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: [engineering-team/senior-devops]
+related-commands: []
+orchestrates:
+  skill: engineering-team/senior-devops
+
+# === TECHNICAL ===
 tools: [Read, Write, Bash, Grep, Glob]
+dependencies:
+  tools: [Read, Write, Bash, Grep, Glob]
+  mcp-tools: []
+  scripts: []
+compatibility:
+  claude-ai: true
+  claude-code: true
+  platforms: [macos, linux, windows]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Workflow
+    input: "TODO: Add example input for cs-devops-engineer"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  installs: 0
+  upvotes: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-11-06
+updated: 2025-11-27
+license: MIT
+
+# === DISCOVERABILITY ===
+tags: [automation, ci/cd, devops, engineer, engineering]
+featured: false
+verified: true
+
+# === LEGACY ===
 color: green
 field: devops
 expertise: expert

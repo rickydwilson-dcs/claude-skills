@@ -266,28 +266,101 @@ cs-jira-expert --mcp atlassian --update-sprint
 
 ## Agent File Structure
 
-### Required YAML Frontmatter
+### Required YAML Frontmatter (Website-Ready Format)
 
-Every agent file must start with valid YAML frontmatter:
+Every agent file uses a comprehensive 9-section YAML frontmatter structure:
 
 ```yaml
 ---
-name: cs-agent-name
-description: One-line description of what this agent does
-skills: skill-folder-name
-domain: domain-name
-model: sonnet
+# === CORE IDENTITY ===
+name: cs-agent-name                  # Required: cs-* prefix
+title: Human Readable Title          # Display name for website
+description: One-line description    # Under 300 chars
+domain: engineering                  # engineering, product, marketing, delivery
+subdomain: backend-development       # Finer categorization
+skills: skill-folder-name            # Skill this agent orchestrates
+model: sonnet                        # sonnet, opus, haiku
+
+# === WEBSITE DISPLAY ===
+difficulty: intermediate             # beginner, intermediate, advanced
+time-saved: "2-4 hours per project"  # Quantified benefit
+frequency: "Weekly"                  # Usage frequency
+use-cases:                           # 3-5 concrete scenarios
+  - "Developing REST APIs"
+  - "Database schema design"
+
+# === AGENT CLASSIFICATION ===
+classification:
+  type: implementation               # strategic, implementation, quality, coordination
+  color: green                       # blue, green, red, purple
+  field: backend                     # functional domain
+  expertise: expert                  # beginner, intermediate, expert
+  execution: coordinated             # parallel, coordinated, sequential
+  model: sonnet                      # recommended model
+
+# === RELATIONSHIPS ===
+related-agents: [cs-frontend-engineer, cs-architect]
+related-skills: [engineering-team/senior-backend]
+related-commands: [/review.code, /generate.tests]
+orchestrates:
+  skill: engineering-team/senior-backend
+
+# === TECHNICAL ===
 tools: [Read, Write, Bash, Grep, Glob]
+dependencies:
+  tools: [Read, Write, Bash, Grep, Glob]
+  mcp-tools: []                      # Optional MCP servers
+  scripts: []                        # Python tools used
+compatibility:
+  claude-ai: true
+  claude-code: true
+  platforms: [macos, linux, windows]
+
+# === EXAMPLES ===
+examples:
+  - title: "Create REST API"
+    input: "Design a user authentication API"
+    output: "API endpoints created with JWT auth..."
+
+# === ANALYTICS ===
+stats:
+  installs: 0
+  upvotes: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-11-17
+updated: 2025-11-27
+license: MIT
+
+# === DISCOVERABILITY ===
+tags: [backend, api, nodejs, express]
+featured: false
+verified: true
+
+# === LEGACY (for backward compatibility) ===
+color: green
+field: backend
+expertise: expert
+execution: coordinated
+mcp_tools: []
 ---
 ```
 
-**Field Definitions:**
-- **name**: Agent identifier with `cs-` prefix (e.g., `cs-content-creator`)
-- **description**: Single sentence describing agent's purpose
-- **skills**: Skill folder this agent references (e.g., `marketing-skill/content-creator`)
-- **domain**: Domain category (marketing, product, engineering, c-level, pm, ra-qm)
-- **model**: Claude model to use (sonnet, opus, haiku)
-- **tools**: Array of Claude Code tools agent can use
+**Section Overview:**
+- **Core Identity**: Basic identification (name, title, description, domain)
+- **Website Display**: User-facing information (difficulty, time-saved, use-cases)
+- **Agent Classification**: Type system for resource management
+- **Relationships**: Cross-references to other assets
+- **Technical**: Tools and dependencies
+- **Examples**: Sample inputs/outputs
+- **Analytics**: Marketplace metrics (placeholder)
+- **Versioning**: Author and version tracking
+- **Discoverability**: Tags and feature flags
 
 ### Required Markdown Sections
 
@@ -582,6 +655,6 @@ After creating an agent:
 
 ---
 
-**Last Updated:** November 17, 2025
-**Current Sprint:** sprint-11-05-2025 (Skill-Agent Integration Phase 1-2)
+**Last Updated:** November 27, 2025
+**Current Status:** Website-ready format with 9-section YAML frontmatter
 **Related:** See [main CLAUDE.md](../CLAUDE.md) for repository overview

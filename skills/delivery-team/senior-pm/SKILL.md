@@ -1,27 +1,64 @@
 ---
+
+# === CORE IDENTITY ===
 name: senior-pm
+title: Senior PM Skill Package
 description: Senior Project Manager for Software, SaaS, and digital web/mobile applications. Use for strategic planning, portfolio management, stakeholder alignment, risk management, roadmap development, budget oversight, cross-functional team leadership, and executive reporting for software products.
+domain: delivery
+subdomain: senior pm-general
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Primary workflow for Senior Pm
+  - Analysis and recommendations for senior pm tasks
+  - Best practices implementation for senior pm
+  - Integration with related skills and workflows
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: []
+related-commands: []
+orchestrated-by: []
+
+# === TECHNICAL ===
+dependencies:
+  scripts: []
+  references: []
+  assets: []
+compatibility:
+  python-version: 3.8+
+  platforms: [macos, linux, windows]
+tech-stack: [Python 3.8+]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Usage
+    input: "TODO: Add example input for senior-pm"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  downloads: 0
+  stars: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-10-21
+updated: 2025-11-23
 license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: delivery
-  domain: senior pm
-  updated: 2025-11-23
-  keywords:
-  - senior
-  - project
-  - manager
-  - software
-  - saas
-  - digital
-  - web
-  - mobile
-  - applications
-  - use
-  tech-stack:
-  - Python 3.8+
-  python-tools: []
+
+# === DISCOVERABILITY ===
+tags: [delivery, development, product, senior]
+featured: false
+verified: true
 ---
 
 

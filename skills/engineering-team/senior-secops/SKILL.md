@@ -1,64 +1,72 @@
 ---
+
+# === CORE IDENTITY ===
 name: senior-secops
+title: Senior Secops Skill Package
 description: Comprehensive SecOps skill for application security, vulnerability management, compliance, and secure development practices. Includes security scanning, vulnerability assessment, compliance checking, and security automation. Use when implementing security controls, conducting security audits, responding to vulnerabilities, or ensuring compliance requirements.
+domain: engineering
+subdomain: security-engineering
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Conducting security audits and vulnerability assessments
+  - Implementing authentication and authorization patterns
+  - Setting up security monitoring and incident response
+  - Reviewing code for OWASP Top 10 vulnerabilities
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: []
+related-commands: []
+orchestrated-by: []
+
+# === TECHNICAL ===
+dependencies:
+  scripts: []
+  references: []
+  assets: []
+compatibility:
+  python-version: 3.8+
+  platforms: [macos, linux, windows]
+tech-stack: [Python 3.8+, Markdown]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Usage
+    input: "TODO: Add example input for senior-secops"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  downloads: 0
+  stars: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-10-19
+updated: 2025-11-23
 license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: Engineering
-  domain: engineering
-  updated: 2025-11-23
-  keywords:
+
+# === DISCOVERABILITY ===
+tags:
+  - automation
+  - development
   - engineering
-  - senior
   - secops
-  tech-stack:
-  - Python 3.8+
-  - Markdown
-  python-tools:
-  - compliance_checker.py
-  - security_scanner.py
-  - vulnerability_assessor.py
+  - security
+  - senior
+featured: false
+verified: true
 ---
 
-
-license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: engineering
-  domain: security-operations
-  updated: 2025-11-08
-  keywords:
-    - security operations
-    - vulnerability management
-    - security scanning
-    - compliance
-    - application security
-    - threat assessment
-    - security controls
-    - incident response
-    - SIEM
-    - log analysis
-    - security automation
-    - patch management
-    - security audits
-    - vulnerability remediation
-    - access control
-  tech-stack:
-    - Python
-    - OWASP tools
-    - Snyk
-    - SonarQube
-    - GitHub Security
-    - Docker
-    - Kubernetes
-    - AWS Security
-    - Prometheus
-  python-tools:
-    - security_scanner.py
-    - vulnerability_assessor.py
-    - compliance_checker.py
 
 # Senior SecOps
 

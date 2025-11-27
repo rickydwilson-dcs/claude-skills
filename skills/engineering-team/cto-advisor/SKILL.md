@@ -1,45 +1,71 @@
 ---
+
+# === CORE IDENTITY ===
 name: cto-advisor
+title: CTO Advisor Skill Package
 description: Technical leadership guidance for engineering teams, architecture decisions, and technology strategy. Includes tech debt analyzer, team scaling calculator, engineering metrics frameworks, technology evaluation tools, and ADR templates. Use when assessing technical debt, scaling engineering teams, evaluating technologies, making architecture decisions, establishing engineering metrics, or when user mentions CTO, tech debt, technical debt, team scaling, architecture decisions, technology evaluation, engineering metrics, DORA metrics, or technology strategy.
+domain: engineering
+subdomain: cto-general
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Primary workflow for Cto Advisor
+  - Analysis and recommendations for cto advisor tasks
+  - Best practices implementation for cto advisor
+  - Integration with related skills and workflows
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: []
+related-commands: []
+orchestrated-by: []
+
+# === TECHNICAL ===
+dependencies:
+  scripts: []
+  references: []
+  assets: []
+compatibility:
+  python-version: 3.8+
+  platforms: [macos, linux, windows]
+tech-stack:
+  - architecture tools
+  - metrics platforms
+  - monitoring systems
+  - CI/CD systems
+  - project management tools
+  - development platforms
+  - engineering dashboards
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Usage
+    input: "TODO: Add example input for cto-advisor"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  downloads: 0
+  stars: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-10-19
+updated: 2025-11-08
 license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: executive-advisory
-  domain: cto
-  updated: 2025-11-08
-  keywords:
-    - technical leadership
-    - tech debt management
-    - team scaling
-    - architecture decisions
-    - engineering metrics
-    - DORA metrics
-    - technology strategy
-    - engineering excellence
-    - infrastructure planning
-    - team structure
-    - hiring strategy
-    - vendor evaluation
-    - technology selection
-    - CI/CD optimization
-    - system design
-    - microservices architecture
-    - cloud migration
-    - engineering culture
-    - performance optimization
-    - security governance
-  tech-stack:
-    - architecture tools
-    - metrics platforms
-    - monitoring systems
-    - CI/CD systems
-    - project management tools
-    - development platforms
-    - engineering dashboards
-  python-tools:
-    - tech_debt_analyzer.py
-    - team_scaling_calculator.py
+
+# === DISCOVERABILITY ===
+tags: [advisor, architecture, cto, engineering]
+featured: false
+verified: true
 ---
 
 # CTO Advisor

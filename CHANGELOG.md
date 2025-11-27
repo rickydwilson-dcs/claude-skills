@@ -5,6 +5,62 @@ All notable changes to the Claude Skills Library will be documented in this file
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.0] - 2025-11-27 - Website-Ready Skills & Agents
+
+### 🚀 Major Update - Full Parity with Slash Commands Schema
+
+This release brings Skills and Agents to **full parity** with the comprehensive 12-section YAML frontmatter structure used by slash commands. All 56 files have been migrated to the website-ready format.
+
+### Added
+
+**Website-Ready YAML Frontmatter (9 sections)**:
+- **Core Identity**: `title`, `subdomain` added alongside existing `name`, `description`, `domain`
+- **Website Display**: `difficulty`, `time-saved`, `frequency`, `use-cases` for browsing/filtering
+- **Agent Classification**: `classification` block with `type`, `color`, `field`, `expertise`, `execution`
+- **Relationships**: `related-agents`, `related-skills`, `related-commands`, `orchestrates`/`orchestrated-by`
+- **Technical**: `dependencies` with `tools`, `mcp-tools`, `scripts`; `compatibility` block
+- **Examples**: `examples` array with `title`, `input`, `output` for each example
+- **Analytics**: `stats` placeholder with `installs`, `upvotes`, `rating`, `reviews`
+- **Versioning**: `version`, `author`, `contributors`, `created`, `updated`, `license`
+- **Discoverability**: `tags`, `featured`, `verified`
+
+**Migration Script**:
+- `scripts/migrate_website_fields.py` - Automated 4-phase migration with dry-run support
+- Handles agent and skill migrations with field derivation
+- Creates backups before modifying files
+- Generates migration reports
+
+**Skills Flattening**:
+- Skills' nested `metadata:` structure flattened to top-level fields
+- Consistent access pattern: `skill.version` instead of `skill.metadata.version`
+- Backward-compatible parsing in `skill_builder.py`
+
+### Changed
+
+**Builder Tool Updates**:
+- `agent_builder.py` - Updated validation for all new website-ready fields
+- `skill_builder.py` - Supports both flat (new) and nested (legacy) metadata formats
+- Description max length increased from 150 to 300 chars
+
+**Documentation Updates**:
+- `agents/CLAUDE.md` - Updated with 9-section YAML frontmatter schema
+- Section comments (`# === SECTION ===`) in all YAML frontmatter for readability
+
+### Migration Statistics
+- **Files migrated**: 56 (28 agents + 28 skills)
+- **Total field changes**: 1,344 across 4 phases
+- **Phase 1**: Core Identity + Versioning (476 changes)
+- **Phase 2**: Website Display + Discoverability (392 changes)
+- **Phase 3**: Relationships + Technical (336 changes)
+- **Phase 4**: Examples + Analytics (140 changes)
+
+### Validation
+- All 28 agents passing validation (9/9 checks)
+- All 28 skills passing validation (9/9 checks)
+- Backups saved to `output/backups/`
+
+---
+
 ## [3.1.0] - 2025-11-25 - Commands & Documentation Enhancement
 
 ### 🚀 Update - Slash Commands Expansion & Documentation Automation

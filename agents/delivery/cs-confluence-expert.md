@@ -1,10 +1,79 @@
 ---
+
+# === CORE IDENTITY ===
 name: cs-confluence-expert
+title: Confluence Expert Specialist
 description: Confluence documentation specialist for knowledge management, space architecture, and team collaboration using Atlassian MCP
-skills: confluence-expert
 domain: delivery
+subdomain: delivery-tools
+skills: confluence-expert
 model: sonnet
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Primary workflow for Confluence Expert
+  - Analysis and recommendations for confluence expert tasks
+  - Best practices implementation for confluence expert
+  - Integration with related agents and workflows
+
+# === AGENT CLASSIFICATION ===
+classification:
+  type: domain-specific
+  color: orange
+  field: tools
+  expertise: expert
+  execution: parallel
+  model: sonnet
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: [delivery-team/confluence-expert]
+related-commands: []
+orchestrates:
+  skill: delivery-team/confluence-expert
+
+# === TECHNICAL ===
 tools: [Read, Write, Bash, Grep, Glob]
+dependencies:
+  tools: [Read, Write, Bash, Grep, Glob]
+  mcp-tools: [mcp__atlassian]
+  scripts: []
+compatibility:
+  claude-ai: true
+  claude-code: true
+  platforms: [macos, linux, windows]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Workflow
+    input: "TODO: Add example input for cs-confluence-expert"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  installs: 0
+  upvotes: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-11-13
+updated: 2025-11-27
+license: MIT
+
+# === DISCOVERABILITY ===
+tags: [architecture, confluence, delivery, expert, tools]
+featured: false
+verified: true
+
+# === LEGACY ===
 color: orange
 field: tools
 expertise: expert

@@ -1,36 +1,64 @@
 ---
+
+# === CORE IDENTITY ===
 name: agile-product-owner
+title: Agile Product Owner Skill Package
 description: Agile product ownership toolkit for Senior Product Owner including INVEST-compliant user story generation, sprint planning, backlog management, and velocity tracking. Use for story writing, sprint planning, stakeholder communication, and agile ceremonies.
+domain: product
+subdomain: product-management
+
+# === WEBSITE DISPLAY ===
+difficulty: intermediate
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Defining product roadmaps and feature prioritization
+  - Writing user stories and acceptance criteria
+  - Conducting competitive analysis and market research
+  - Stakeholder communication and alignment
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: []
+related-commands: []
+orchestrated-by: []
+
+# === TECHNICAL ===
+dependencies:
+  scripts: []
+  references: []
+  assets: []
+compatibility:
+  python-version: 3.8+
+  platforms: [macos, linux, windows]
+tech-stack: [Python 3.8+, CLI, CSV processing, JSON export]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Usage
+    input: "TODO: Add example input for agile-product-owner"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  downloads: 0
+  stars: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-10-19
+updated: 2025-11-08
 license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: product
-  domain: agile
-  updated: 2025-11-08
-  keywords:
-    - agile product ownership
-    - user story generation
-    - sprint planning
-    - INVEST criteria
-    - backlog prioritization
-    - acceptance criteria
-    - velocity tracking
-    - story points estimation
-    - agile ceremonies
-    - product backlog
-    - sprint capacity
-    - burndown charts
-    - retrospectives
-    - daily standups
-    - release planning
-  tech-stack:
-    - Python 3.8+
-    - CLI
-    - CSV processing
-    - JSON export
-  python-tools:
-    - user_story_generator.py
+
+# === DISCOVERABILITY ===
+tags: [agile, owner, product]
+featured: false
+verified: true
 ---
 
 # Agile Product Owner

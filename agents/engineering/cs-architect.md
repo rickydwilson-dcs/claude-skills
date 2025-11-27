@@ -1,10 +1,79 @@
 ---
+
+# === CORE IDENTITY ===
 name: cs-architect
+title: Architect Specialist
 description: System architecture specialist for design patterns, scalability planning, technology evaluation, and architecture documentation
-skills: senior-architect
 domain: engineering
+subdomain: system-architecture
+skills: senior-architect
 model: sonnet
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Designing scalable system architectures for cloud-native applications
+  - Evaluating technology stacks and making evidence-based decisions
+  - Creating comprehensive architecture documentation with diagrams
+  - Reviewing existing architectures for performance and security
+
+# === AGENT CLASSIFICATION ===
+classification:
+  type: coordination
+  color: purple
+  field: architecture
+  expertise: expert
+  execution: parallel
+  model: sonnet
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: [engineering-team/senior-architect]
+related-commands: []
+orchestrates:
+  skill: engineering-team/senior-architect
+
+# === TECHNICAL ===
 tools: [Read, Write, Bash, Grep, Glob]
+dependencies:
+  tools: [Read, Write, Bash, Grep, Glob]
+  mcp-tools: []
+  scripts: []
+compatibility:
+  claude-ai: true
+  claude-code: true
+  platforms: [macos, linux, windows]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Workflow
+    input: "TODO: Add example input for cs-architect"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  installs: 0
+  upvotes: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-11-06
+updated: 2025-11-27
+license: MIT
+
+# === DISCOVERABILITY ===
+tags: [architect, architecture, design, engineering]
+featured: false
+verified: true
+
+# === LEGACY ===
 color: purple
 field: architecture
 expertise: expert

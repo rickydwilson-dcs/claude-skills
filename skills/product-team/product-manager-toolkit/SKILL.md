@@ -1,39 +1,69 @@
 ---
+
+# === CORE IDENTITY ===
 name: product-manager-toolkit
+title: Product Manager Toolkit
 description: Comprehensive toolkit for product managers including RICE prioritization, customer interview analysis, PRD templates, discovery frameworks, and go-to-market strategies. Use for feature prioritization, user research synthesis, requirement documentation, and product strategy development.
+domain: product
+subdomain: product-management
+
+# === WEBSITE DISPLAY ===
+difficulty: intermediate
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Defining product roadmaps and feature prioritization
+  - Writing user stories and acceptance criteria
+  - Conducting competitive analysis and market research
+  - Stakeholder communication and alignment
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: []
+related-commands: []
+orchestrated-by: []
+
+# === TECHNICAL ===
+dependencies:
+  scripts: []
+  references: []
+  assets: []
+compatibility:
+  python-version: 3.8+
+  platforms: [macos, linux, windows]
+tech-stack:
+  - Python 3.8+
+  - CLI
+  - CSV processing
+  - JSON export
+  - NLP sentiment analysis
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Usage
+    input: "TODO: Add example input for product-manager-toolkit"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  downloads: 0
+  stars: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-10-19
+updated: 2025-11-08
 license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: product
-  domain: product-management
-  updated: 2025-11-08
-  keywords:
-    - RICE prioritization
-    - customer interviews
-    - feature prioritization
-    - PRD templates
-    - product discovery
-    - go-to-market strategy
-    - user research
-    - interview analysis
-    - sentiment analysis
-    - pain points extraction
-    - feature requests
-    - jobs-to-be-done
-    - roadmap planning
-    - stakeholder management
-    - product strategy
-    - opportunity tree
-  tech-stack:
-    - Python 3.8+
-    - CLI
-    - CSV processing
-    - JSON export
-    - NLP sentiment analysis
-  python-tools:
-    - rice_prioritizer.py
-    - customer_interview_analyzer.py
+
+# === DISCOVERABILITY ===
+tags: [analysis, development, manager, product, toolkit]
+featured: false
+verified: true
 ---
 
 # Product Manager Toolkit

@@ -1,44 +1,84 @@
 ---
+
+# === CORE IDENTITY ===
 name: senior-backend
+title: Senior Backend Skill Package
 description: Comprehensive backend development skill for building scalable backend systems using Node.js, Express, Go, Python, PostgreSQL, GraphQL, REST APIs. Includes API scaffolding, database optimization, security implementation, and performance tuning. Use when designing APIs, optimizing database queries, implementing business logic, handling authentication/authorization, or reviewing backend code.
+domain: engineering
+subdomain: backend-development
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Building robust API services with proper authentication and authorization
+  - Designing database schemas and optimizing query performance
+  - Implementing microservices patterns and service communication
+  - Setting up CI/CD pipelines for backend applications
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: []
+related-commands: []
+orchestrated-by: []
+
+# === TECHNICAL ===
+dependencies:
+  scripts: []
+  references: []
+  assets: []
+compatibility:
+  python-version: 3.8+
+  platforms: [macos, linux, windows]
+tech-stack:
+  - Node.js
+  - Express
+  - Go
+  - Python
+  - PostgreSQL
+  - GraphQL
+  - REST APIs
+  - Docker
+  - Kubernetes
+  - Redis
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Usage
+    input: "TODO: Add example input for senior-backend"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  downloads: 0
+  stars: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-10-19
+updated: 2025-11-08
 license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: engineering
-  domain: backend
-  updated: 2025-11-08
-  keywords:
-    - backend development
-    - API design
-    - REST APIs
-    - GraphQL
-    - database optimization
-    - performance tuning
-    - security
-    - authentication
-    - authorization
-    - Node.js
-    - Express
-    - scalability
-    - microservices
-    - load testing
-    - database design
-  tech-stack:
-    - Node.js
-    - Express
-    - Go
-    - Python
-    - PostgreSQL
-    - GraphQL
-    - REST APIs
-    - Docker
-    - Kubernetes
-    - Redis
-  python-tools:
-    - api_scaffolder.py
-    - database_migration_tool.py
-    - api_load_tester.py
+
+# === DISCOVERABILITY ===
+tags:
+  - api
+  - backend
+  - data
+  - database
+  - design
+  - development
+  - engineering
+  - optimization
+  - performance
+  - security
+featured: false
+verified: true
 ---
 
 # Senior Backend

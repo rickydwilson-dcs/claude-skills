@@ -1,69 +1,72 @@
 ---
+
+# === CORE IDENTITY ===
 name: senior-architect
+title: Senior Architect Skill Package
 description: Comprehensive software architecture skill for designing scalable, maintainable systems using ReactJS, NextJS, NodeJS, Express, React Native, Swift, Kotlin, Flutter, Postgres, GraphQL, Go, Python. Includes architecture diagram generation, system design patterns, tech stack decision frameworks, and dependency analysis. Use when designing system architecture, making technical decisions, creating architecture diagrams, evaluating trade-offs, or defining integration patterns.
+domain: engineering
+subdomain: system-architecture
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Designing scalable system architectures for cloud-native applications
+  - Evaluating technology stacks and making evidence-based decisions
+  - Creating comprehensive architecture documentation with diagrams
+  - Reviewing existing architectures for performance and security
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: []
+related-commands: []
+orchestrated-by: []
+
+# === TECHNICAL ===
+dependencies:
+  scripts: []
+  references: []
+  assets: []
+compatibility:
+  python-version: 3.8+
+  platforms: [macos, linux, windows]
+tech-stack: [Python 3.8+, Markdown]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Usage
+    input: "TODO: Add example input for senior-architect"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  downloads: 0
+  stars: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-10-19
+updated: 2025-11-23
 license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: Engineering
-  domain: engineering
-  updated: 2025-11-23
-  keywords:
+
+# === DISCOVERABILITY ===
+tags:
+  - analysis
+  - architect
+  - architecture
+  - design
   - engineering
   - senior
-  - architect
-  tech-stack:
-  - Python 3.8+
-  - Markdown
-  python-tools:
-  - architecture_diagram_generator.py
-  - dependency_analyzer.py
-  - project_architect.py
+featured: false
+verified: true
 ---
 
-
-license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: engineering
-  domain: architecture
-  updated: 2025-11-08
-  keywords:
-    - system design
-    - architecture patterns
-    - scalability
-    - system architecture
-    - tech decisions
-    - microservices
-    - integration patterns
-    - dependency management
-    - design patterns
-    - technical leadership
-    - database design
-    - API architecture
-    - cloud architecture
-    - performance optimization
-    - maintainability
-  tech-stack:
-    - React
-    - Next.js
-    - Node.js
-    - Express
-    - React Native
-    - Flutter
-    - Swift
-    - Kotlin
-    - PostgreSQL
-    - GraphQL
-    - Go
-    - Python
-    - Docker
-    - Kubernetes
-  python-tools:
-    - architecture_diagram_generator.py
-    - project_architect.py
-    - dependency_analyzer.py
 
 # Senior Architect
 

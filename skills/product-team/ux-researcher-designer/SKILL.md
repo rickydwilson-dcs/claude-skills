@@ -1,38 +1,69 @@
 ---
+
+# === CORE IDENTITY ===
 name: ux-researcher-designer
+title: UX Researcher Designer Skill Package
 description: UX research and design toolkit for Senior UX Designer/Researcher including data-driven persona generation, journey mapping, usability testing frameworks, and research synthesis. Use for user research, persona creation, journey mapping, and design validation.
+domain: product
+subdomain: ux-design
+
+# === WEBSITE DISPLAY ===
+difficulty: intermediate
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Primary workflow for Ux Researcher Designer
+  - Analysis and recommendations for ux researcher designer tasks
+  - Best practices implementation for ux researcher designer
+  - Integration with related skills and workflows
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: []
+related-commands: []
+orchestrated-by: []
+
+# === TECHNICAL ===
+dependencies:
+  scripts: []
+  references: []
+  assets: []
+compatibility:
+  python-version: 3.8+
+  platforms: [macos, linux, windows]
+tech-stack:
+  - Python 3.8+
+  - CLI
+  - JSON processing
+  - User data analysis
+  - JSON export
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Usage
+    input: "TODO: Add example input for ux-researcher-designer"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  downloads: 0
+  stars: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-10-19
+updated: 2025-11-08
 license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: product
-  domain: ux-research
-  updated: 2025-11-08
-  keywords:
-    - user research
-    - persona generation
-    - journey mapping
-    - usability testing
-    - user interviews
-    - design validation
-    - empathy mapping
-    - user behavior
-    - psychographics
-    - user archetypes
-    - design implications
-    - research synthesis
-    - user segmentation
-    - accessibility research
-    - qualitative research
-    - design insights
-  tech-stack:
-    - Python 3.8+
-    - CLI
-    - JSON processing
-    - User data analysis
-    - JSON export
-  python-tools:
-    - persona_generator.py
+
+# === DISCOVERABILITY ===
+tags: [data, design, designer, product, researcher, testing]
+featured: false
+verified: true
 ---
 
 # UX Researcher & Designer

@@ -1,10 +1,79 @@
 ---
+
+# === CORE IDENTITY ===
 name: cs-computer-vision
+title: Computer Vision Specialist
 description: Computer vision specialist for image classification, object detection, model optimization, and vision pipeline deployment
-skills: senior-computer-vision
 domain: engineering
+subdomain: ai-ml-engineering
+skills: senior-computer-vision
 model: sonnet
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Primary workflow for Computer Vision
+  - Analysis and recommendations for computer vision tasks
+  - Best practices implementation for computer vision
+  - Integration with related agents and workflows
+
+# === AGENT CLASSIFICATION ===
+classification:
+  type: domain-specific
+  color: orange
+  field: ai
+  expertise: expert
+  execution: coordinated
+  model: sonnet
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: [engineering-team/senior-computer-vision]
+related-commands: []
+orchestrates:
+  skill: engineering-team/senior-computer-vision
+
+# === TECHNICAL ===
 tools: [Read, Write, Bash, Grep, Glob]
+dependencies:
+  tools: [Read, Write, Bash, Grep, Glob]
+  mcp-tools: []
+  scripts: []
+compatibility:
+  claude-ai: true
+  claude-code: true
+  platforms: [macos, linux, windows]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Workflow
+    input: "TODO: Add example input for cs-computer-vision"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  installs: 0
+  upvotes: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-11-13
+updated: 2025-11-27
+license: MIT
+
+# === DISCOVERABILITY ===
+tags: [ai, computer, engineering, optimization, vision]
+featured: false
+verified: true
+
+# === LEGACY ===
 color: orange
 field: ai
 expertise: expert

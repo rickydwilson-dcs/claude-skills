@@ -1,10 +1,86 @@
 ---
+
+# === CORE IDENTITY ===
 name: cs-frontend-engineer
+title: Frontend Engineer
 description: Frontend development specialist for React/Vue components, UI/UX implementation, performance optimization, and accessibility
-skills: engineering-team/senior-frontend
 domain: engineering
+subdomain: frontend-development
+skills: engineering-team/senior-frontend
 model: sonnet
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Building responsive user interfaces with modern frameworks
+  - Implementing state management and component architecture
+  - Optimizing frontend performance and bundle sizes
+  - Creating accessible and user-friendly web experiences
+
+# === AGENT CLASSIFICATION ===
+classification:
+  type: implementation
+  color: green
+  field: frontend
+  expertise: expert
+  execution: coordinated
+  model: sonnet
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills:
+  - engineering-team/engineering-team/senior-frontend
+related-commands: []
+orchestrates:
+  skill: engineering-team/engineering-team/senior-frontend
+
+# === TECHNICAL ===
 tools: [Read, Write, Bash, Grep, Glob]
+dependencies:
+  tools: [Read, Write, Bash, Grep, Glob]
+  mcp-tools: []
+  scripts: []
+compatibility:
+  claude-ai: true
+  claude-code: true
+  platforms: [macos, linux, windows]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Workflow
+    input: "TODO: Add example input for cs-frontend-engineer"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  installs: 0
+  upvotes: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-11-06
+updated: 2025-11-27
+license: MIT
+
+# === DISCOVERABILITY ===
+tags:
+  - development
+  - engineer
+  - engineering
+  - frontend
+  - optimization
+  - performance
+featured: false
+verified: true
+
+# === LEGACY ===
 color: green
 field: frontend
 expertise: expert

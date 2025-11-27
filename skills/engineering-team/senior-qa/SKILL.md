@@ -1,63 +1,66 @@
 ---
+
+# === CORE IDENTITY ===
 name: senior-qa
+title: Senior QA Skill Package
 description: Comprehensive QA and testing skill for quality assurance, test automation, and testing strategies for ReactJS, NextJS, NodeJS applications. Includes test suite generation, coverage analysis, E2E testing setup, and quality metrics. Use when designing test strategies, writing test cases, implementing test automation, performing manual testing, or analyzing test coverage.
+domain: engineering
+subdomain: quality-assurance
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Designing comprehensive test strategies and test plans
+  - Implementing automated testing frameworks
+  - Setting up continuous testing in CI/CD pipelines
+  - Conducting performance and load testing
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: []
+related-commands: []
+orchestrated-by: []
+
+# === TECHNICAL ===
+dependencies:
+  scripts: []
+  references: []
+  assets: []
+compatibility:
+  python-version: 3.8+
+  platforms: [macos, linux, windows]
+tech-stack: [Python 3.8+, Markdown]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Usage
+    input: "TODO: Add example input for senior-qa"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  downloads: 0
+  stars: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-10-19
+updated: 2025-11-23
 license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: Engineering
-  domain: engineering
-  updated: 2025-11-23
-  keywords:
-  - engineering
-  - senior
-  tech-stack:
-  - Python 3.8+
-  - Markdown
-  python-tools:
-  - coverage_analyzer.py
-  - e2e_test_scaffolder.py
-  - test_suite_generator.py
+
+# === DISCOVERABILITY ===
+tags: [analysis, automation, design, engineering, senior, testing]
+featured: false
+verified: true
 ---
 
-
-license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: engineering
-  domain: quality-assurance
-  updated: 2025-11-08
-  keywords:
-    - QA
-    - quality assurance
-    - test automation
-    - testing strategies
-    - unit testing
-    - integration testing
-    - E2E testing
-    - test coverage
-    - Jest
-    - Cypress
-    - quality metrics
-    - regression testing
-    - performance testing
-    - test design
-    - bug detection
-  tech-stack:
-    - JavaScript
-    - TypeScript
-    - Jest
-    - Cypress
-    - React Testing Library
-    - Selenium
-    - Mocha
-    - Chai
-    - GitHub Actions
-  python-tools:
-    - test_suite_generator.py
-    - coverage_analyzer.py
-    - e2e_test_scaffolder.py
 
 # Senior QA
 

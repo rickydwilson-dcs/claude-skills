@@ -1,66 +1,66 @@
 ---
+
+# === CORE IDENTITY ===
 name: senior-computer-vision
+title: Senior Computer Vision Skill Package
 description: World-class computer vision skill for image/video processing, object detection, segmentation, and visual AI systems. Expertise in PyTorch, OpenCV, YOLO, SAM, diffusion models, and vision transformers. Includes 3D vision, video analysis, real-time processing, and production deployment. Use when building vision AI systems, implementing object detection, training custom vision models, or optimizing inference pipelines.
+domain: engineering
+subdomain: computer-vision
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Primary workflow for Senior Computer Vision
+  - Analysis and recommendations for senior computer vision tasks
+  - Best practices implementation for senior computer vision
+  - Integration with related skills and workflows
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: []
+related-commands: []
+orchestrated-by: []
+
+# === TECHNICAL ===
+dependencies:
+  scripts: []
+  references: []
+  assets: []
+compatibility:
+  python-version: 3.8+
+  platforms: [macos, linux, windows]
+tech-stack: [Python 3.8+, Markdown]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Usage
+    input: "TODO: Add example input for senior-computer-vision"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  downloads: 0
+  stars: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-10-20
+updated: 2025-11-23
 license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: Engineering
-  domain: engineering
-  updated: 2025-11-23
-  keywords:
-  - engineering
-  - senior
-  - computer
-  - vision
-  tech-stack:
-  - Python 3.8+
-  - Markdown
-  python-tools:
-  - dataset_pipeline_builder.py
-  - inference_optimizer.py
-  - vision_model_trainer.py
+
+# === DISCOVERABILITY ===
+tags: [analysis, computer, engineering, product, senior, vision]
+featured: false
+verified: true
 ---
 
-
-license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: engineering
-  domain: computer-vision
-  updated: 2025-11-08
-  keywords:
-    - computer vision
-    - image processing
-    - object detection
-    - semantic segmentation
-    - video analysis
-    - PyTorch
-    - OpenCV
-    - YOLO
-    - vision transformers
-    - real-time inference
-    - model training
-    - deep learning
-    - CNN architecture
-    - production deployment
-    - performance optimization
-  tech-stack:
-    - Python
-    - PyTorch
-    - TensorFlow
-    - OpenCV
-    - YOLO
-    - Scikit-learn
-    - NumPy
-    - Docker
-    - Kubernetes
-    - TensorRT
-  python-tools:
-    - vision_model_trainer.py
-    - inference_optimizer.py
-    - dataset_pipeline_builder.py
 
 # Senior Computer Vision Engineer
 

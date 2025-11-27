@@ -1,27 +1,64 @@
 ---
+
+# === CORE IDENTITY ===
 name: scrum-master
+title: Scrum Master Skill Package
 description: Scrum Master for agile software development teams. Use for sprint planning, daily standups, retrospectives, backlog refinement, velocity tracking, removing impediments, facilitating ceremonies, coaching teams on agile practices, and managing sprint execution for R&D and development teams.
+domain: delivery
+subdomain: agile-methodology
+
+# === WEBSITE DISPLAY ===
+difficulty: intermediate
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Primary workflow for Scrum Master
+  - Analysis and recommendations for scrum master tasks
+  - Best practices implementation for scrum master
+  - Integration with related skills and workflows
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: []
+related-commands: []
+orchestrated-by: []
+
+# === TECHNICAL ===
+dependencies:
+  scripts: []
+  references: []
+  assets: []
+compatibility:
+  python-version: 3.8+
+  platforms: [macos, linux, windows]
+tech-stack: [Python 3.8+]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Usage
+    input: "TODO: Add example input for scrum-master"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  downloads: 0
+  stars: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-10-21
+updated: 2025-11-23
 license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: delivery
-  domain: scrum master
-  updated: 2025-11-23
-  keywords:
-  - scrum
-  - master
-  - agile
-  - software
-  - development
-  - teams
-  - use
-  - sprint
-  - planning
-  - daily
-  tech-stack:
-  - Python 3.8+
-  python-tools: []
+
+# === DISCOVERABILITY ===
+tags: [agile, delivery, development, master, scrum]
+featured: false
+verified: true
 ---
 
 

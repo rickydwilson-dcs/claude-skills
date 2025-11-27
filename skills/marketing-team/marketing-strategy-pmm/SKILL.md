@@ -1,44 +1,72 @@
 ---
+
+# === CORE IDENTITY ===
 name: marketing-strategy-pmm
+title: Marketing Strategy Pmm Skill Package
 description: Product marketing, positioning, GTM strategy, and competitive intelligence. Includes ICP definition, April Dunford positioning methodology, launch playbooks, competitive battlecards, and international market entry guides. Use when developing positioning, planning product launches, creating messaging, analyzing competitors, entering new markets, enabling sales, or when user mentions product marketing, positioning, GTM, go-to-market, competitive analysis, market entry, or sales enablement.
+domain: marketing
+subdomain: product-marketing-general
+
+# === WEBSITE DISPLAY ===
+difficulty: intermediate
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Primary workflow for Marketing Strategy Pmm
+  - Analysis and recommendations for marketing strategy pmm tasks
+  - Best practices implementation for marketing strategy pmm
+  - Integration with related skills and workflows
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: []
+related-commands: []
+orchestrated-by: []
+
+# === TECHNICAL ===
+dependencies:
+  scripts: []
+  references: []
+  assets: []
+compatibility:
+  python-version: 3.8+
+  platforms: [macos, linux, windows]
+tech-stack:
+  - HubSpot CRM
+  - Google Analytics
+  - Gong/Chorus
+  - Productboard
+  - Notion
+  - Confluence
+  - Competitive intelligence tools
+  - Python 3.8+
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Usage
+    input: "TODO: Add example input for marketing-strategy-pmm"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  downloads: 0
+  stars: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-10-20
+updated: 2025-11-08
 license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: marketing
-  domain: product-marketing
-  updated: 2025-11-08
-  keywords:
-    - product marketing
-    - go-to-market strategy
-    - positioning
-    - messaging
-    - competitive analysis
-    - competitive intelligence
-    - battlecards
-    - ICP
-    - ideal customer profile
-    - buyer personas
-    - sales enablement
-    - product launch
-    - GTM
-    - market entry
-    - international expansion
-    - win-loss analysis
-    - value proposition
-    - feature-benefit mapping
-    - product differentiation
-    - market segmentation
-  tech-stack:
-    - HubSpot CRM
-    - Google Analytics
-    - Gong/Chorus
-    - Productboard
-    - Notion
-    - Confluence
-    - Competitive intelligence tools
-    - Python 3.8+
-  python-tools: []
+
+# === DISCOVERABILITY ===
+tags: [analysis, marketing, pmm, product, strategy]
+featured: false
+verified: true
 ---
 
 # Marketing Strategy & Product Marketing

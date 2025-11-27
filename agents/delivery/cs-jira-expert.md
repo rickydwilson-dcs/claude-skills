@@ -1,10 +1,79 @@
 ---
+
+# === CORE IDENTITY ===
 name: cs-jira-expert
+title: Jira Expert Specialist
 description: Jira workflow automation specialist for issue management, JQL queries, and agile board configuration using Atlassian MCP
-skills: jira-expert
 domain: delivery
+subdomain: delivery-tools
+skills: jira-expert
 model: sonnet
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Primary workflow for Jira Expert
+  - Analysis and recommendations for jira expert tasks
+  - Best practices implementation for jira expert
+  - Integration with related agents and workflows
+
+# === AGENT CLASSIFICATION ===
+classification:
+  type: domain-specific
+  color: orange
+  field: tools
+  expertise: expert
+  execution: parallel
+  model: sonnet
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: [delivery-team/jira-expert]
+related-commands: []
+orchestrates:
+  skill: delivery-team/jira-expert
+
+# === TECHNICAL ===
 tools: [Read, Write, Bash, Grep, Glob]
+dependencies:
+  tools: [Read, Write, Bash, Grep, Glob]
+  mcp-tools: [mcp__atlassian]
+  scripts: []
+compatibility:
+  claude-ai: true
+  claude-code: true
+  platforms: [macos, linux, windows]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Workflow
+    input: "TODO: Add example input for cs-jira-expert"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  installs: 0
+  upvotes: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-11-13
+updated: 2025-11-27
+license: MIT
+
+# === DISCOVERABILITY ===
+tags: [agile, automation, delivery, expert, jira, tools]
+featured: false
+verified: true
+
+# === LEGACY ===
 color: orange
 field: tools
 expertise: expert

@@ -1,7 +1,7 @@
 # Command Catalog
 
-**Last Updated:** November 24, 2025
-**Total Commands:** 12
+**Last Updated:** November 27, 2025
+**Total Commands:** 13
 **Status:** Production - Core Command Library Established
 
 ---
@@ -45,6 +45,7 @@ Commands for comprehensive code analysis and auditing:
 - [`audit.security`](analysis/audit.security.md) - OWASP Top 10 scan + secrets detection + vulnerability analysis
 - [`audit.dependencies`](analysis/audit.dependencies.md) - Check for outdated/vulnerable dependencies with multi-phase analysis
 - [`plan.refactor`](analysis/plan.refactor.md) - Generate refactoring recommendations and implementation plan
+- [`analyze.competition`](analysis/analyze.competition.md) - Competitive analysis comparing skills, commands, and agents against external repos
 
 **Planned Commands:**
 - `/analysis.performance-analyze` - Performance profiling and optimization
@@ -173,6 +174,7 @@ Commands follow one of three patterns based on complexity:
 - [`audit.security`](analysis/audit.security.md) - Security vulnerability scan (5-10 min)
 - [`audit.dependencies`](analysis/audit.dependencies.md) - Dependency analysis (3-6 min)
 - [`plan.refactor`](analysis/plan.refactor.md) - Refactoring recommendations (4-8 min)
+- [`analyze.competition`](analysis/analyze.competition.md) - Competitive analysis with scorecard (5-15 min)
 
 **Generation Commands:**
 - [`generate.tests`](generation/generate.tests.md) - Test case generation (2-5 min)
@@ -473,7 +475,7 @@ git push origin feature/command-name
 
 | Category | Count | Planned |
 |----------|-------|---------|
-| Analysis | 4 | 2 |
+| Analysis | 5 | 2 |
 | Generation | 2 | 3 |
 | Git | 2 | 3 |
 | Workflow | 3 | 3 |
@@ -482,29 +484,29 @@ git push origin feature/command-name
 | Security | 0 | 4 |
 | Architecture | 0 | 3 |
 | Content | 0 | 3 |
-| **Total** | **12** | **27** |
+| **Total** | **13** | **27** |
 
 ### By Pattern
 
 | Pattern | Count | Planned |
 |---------|-------|---------|
 | Simple | 4 | 11 |
-| Multi-Phase | 8 | 10 |
+| Multi-Phase | 9 | 10 |
 | Agent-Style | 0 | 6 |
-| **Total** | **12** | **27** |
+| **Total** | **13** | **27** |
 
 ### Validation Status
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| All Passing | 12 | 100% |
+| All Passing | 13 | 100% |
 | Partial | 0 | 0% |
 | Failing | 0 | 0% |
-| **Total** | **12** | **100%** |
+| **Total** | **13** | **100%** |
 
 ---
 
-**Last Updated:** November 24, 2025
+**Last Updated:** November 27, 2025
 **Next Update:** As commands are added
 **Maintained By:** Claude Skills Team
 **Status:** Ready for command creation

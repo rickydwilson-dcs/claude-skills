@@ -491,7 +491,7 @@ class SkillValidator:
         return True, f"Valid ({len(md_files)} guides)"
 
     def validate_metadata(self, skill_md_path: Path) -> Tuple[bool, str]:
-        """Validate YAML metadata completeness"""
+        """Validate YAML metadata completeness (supports both flat and nested formats)"""
         try:
             content = skill_md_path.read_text()
         except Exception as e:
@@ -515,8 +515,8 @@ class SkillValidator:
         except Exception as e:
             return False, f"Invalid YAML syntax: {e}"
 
-        # Required fields
-        required = ['name', 'description', 'metadata']
+        # Required fields (core identity)
+        required = ['name', 'description']
         missing = []
         for field in required:
             if field not in metadata:
@@ -530,8 +530,74 @@ class SkillValidator:
         if not re.match(r'^[a-z][a-z0-9-]+$', name):
             return False, f"YAML name must be kebab-case: {name}"
 
-        # Check nested metadata
-        if isinstance(metadata.get('metadata'), dict):
+        # Support both flat (new) and nested (legacy) metadata formats
+        has_flat_versioning = 'version' in metadata and 'updated' in metadata
+        has_nested_metadata = isinstance(metadata.get('metadata'), dict)
+
+        if has_flat_versioning:
+            # New flat structure validation (website-ready format)
+            # Phase 1: Core Identity + Versioning
+            if 'title' in metadata:
+                if len(metadata['title']) > 100:
+                    return False, f"Title too long: {len(metadata['title'])} chars (max: 100)"
+
+            if 'subdomain' in metadata:
+                if not re.match(r'^[a-z][a-z0-9-]*$', metadata['subdomain']):
+                    return False, f"Invalid subdomain format: {metadata['subdomain']} (must be kebab-case)"
+
+            if 'version' in metadata:
+                if not re.match(r'^v?\d+\.\d+\.\d+$', metadata['version']):
+                    return False, f"Invalid version format: {metadata['version']} (must be vX.Y.Z or X.Y.Z)"
+
+            # Phase 2: Website Display + Discoverability
+            if 'difficulty' in metadata:
+                valid_difficulty = ['beginner', 'intermediate', 'advanced']
+                if metadata['difficulty'] not in valid_difficulty:
+                    return False, f"Invalid difficulty: {metadata['difficulty']} (must be: {', '.join(valid_difficulty)})"
+
+            if 'use-cases' in metadata:
+                if not isinstance(metadata['use-cases'], list):
+                    return False, "use-cases must be a list"
+
+            if 'tags' in metadata:
+                if not isinstance(metadata['tags'], list):
+                    return False, "tags must be a list"
+
+            # Phase 3: Relationships + Technical
+            if 'related-agents' in metadata:
+                if not isinstance(metadata['related-agents'], list):
+                    return False, "related-agents must be a list"
+
+            if 'related-skills' in metadata:
+                if not isinstance(metadata['related-skills'], list):
+                    return False, "related-skills must be a list"
+
+            if 'related-commands' in metadata:
+                if not isinstance(metadata['related-commands'], list):
+                    return False, "related-commands must be a list"
+
+            if 'dependencies' in metadata:
+                if isinstance(metadata['dependencies'], dict):
+                    if 'scripts' in metadata['dependencies']:
+                        if not isinstance(metadata['dependencies']['scripts'], list):
+                            return False, "dependencies.scripts must be a list"
+
+            # Phase 4: Examples + Analytics
+            # Note: examples may be list of dicts (PyYAML) or dict (simple parser fallback)
+            if 'examples' in metadata and metadata['examples'] is not None:
+                # Accept both list (proper YAML parsing) and dict (simple parser fallback)
+                if not isinstance(metadata['examples'], (list, dict)):
+                    return False, "examples must be a list or dict"
+
+            # Note: stats may be dict or None
+            if 'stats' in metadata and metadata['stats'] is not None:
+                if not isinstance(metadata['stats'], dict):
+                    return False, "stats must be a dictionary"
+
+            return True, "Valid metadata (flat format)"
+
+        elif has_nested_metadata:
+            # Legacy nested metadata format (backward compatible)
             meta_required = ['version', 'updated', 'keywords']
             meta_missing = []
             for field in meta_required:
@@ -541,7 +607,10 @@ class SkillValidator:
             if meta_missing:
                 return False, f"Missing metadata fields: {', '.join(meta_missing)}"
 
-        return True, "Valid metadata"
+            return True, "Valid metadata (nested format)"
+
+        else:
+            return False, "Missing versioning fields (version, updated) or nested metadata block"
 
     def validate_documentation_quality(self, skill_path: Path) -> Tuple[bool, str]:
         """Validate documentation quality"""

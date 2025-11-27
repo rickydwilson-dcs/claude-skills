@@ -1,10 +1,86 @@
 ---
+
+# === CORE IDENTITY ===
 name: cs-ml-engineer
+title: ML Engineer
 description: Machine learning specialist for model development, training optimization, MLOps pipelines, and production deployment
-skills: senior-ml-engineer
 domain: engineering
+subdomain: ai-ml-engineering
+skills: senior-ml-engineer
 model: sonnet
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Primary workflow for Ml Engineer
+  - Analysis and recommendations for ml engineer tasks
+  - Best practices implementation for ml engineer
+  - Integration with related agents and workflows
+
+# === AGENT CLASSIFICATION ===
+classification:
+  type: implementation
+  color: green
+  field: ai
+  expertise: expert
+  execution: coordinated
+  model: sonnet
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: [engineering-team/senior-ml-engineer]
+related-commands: []
+orchestrates:
+  skill: engineering-team/senior-ml-engineer
+
+# === TECHNICAL ===
 tools: [Read, Write, Bash, Grep, Glob]
+dependencies:
+  tools: [Read, Write, Bash, Grep, Glob]
+  mcp-tools: []
+  scripts: []
+compatibility:
+  claude-ai: true
+  claude-code: true
+  platforms: [macos, linux, windows]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Workflow
+    input: "TODO: Add example input for cs-ml-engineer"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  installs: 0
+  upvotes: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-11-06
+updated: 2025-11-27
+license: MIT
+
+# === DISCOVERABILITY ===
+tags:
+  - ai
+  - development
+  - engineer
+  - engineering
+  - machine-learning
+  - optimization
+  - product
+featured: false
+verified: true
+
+# === LEGACY ===
 color: green
 field: ai
 expertise: expert

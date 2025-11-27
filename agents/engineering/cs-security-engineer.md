@@ -1,10 +1,79 @@
 ---
+
+# === CORE IDENTITY ===
 name: cs-security-engineer
+title: Security Engineer
 description: Security specialist for threat modeling, vulnerability assessment, secure coding practices, and security automation
-skills: senior-security
 domain: engineering
+subdomain: security-engineering
+skills: senior-security
 model: sonnet
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Conducting security audits and vulnerability assessments
+  - Implementing authentication and authorization patterns
+  - Setting up security monitoring and incident response
+  - Reviewing code for OWASP Top 10 vulnerabilities
+
+# === AGENT CLASSIFICATION ===
+classification:
+  type: quality
+  color: red
+  field: security
+  expertise: expert
+  execution: sequential
+  model: sonnet
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: [engineering-team/senior-security]
+related-commands: []
+orchestrates:
+  skill: engineering-team/senior-security
+
+# === TECHNICAL ===
 tools: [Read, Write, Bash, Grep, Glob]
+dependencies:
+  tools: [Read, Write, Bash, Grep, Glob]
+  mcp-tools: [mcp__github]
+  scripts: []
+compatibility:
+  claude-ai: true
+  claude-code: true
+  platforms: [macos, linux, windows]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Workflow
+    input: "TODO: Add example input for cs-security-engineer"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  installs: 0
+  upvotes: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-11-06
+updated: 2025-11-27
+license: MIT
+
+# === DISCOVERABILITY ===
+tags: [automation, engineer, engineering, security]
+featured: false
+verified: true
+
+# === LEGACY ===
 color: red
 field: security
 expertise: expert

@@ -1,10 +1,79 @@
 ---
+
+# === CORE IDENTITY ===
 name: cs-qa-engineer
+title: QA Engineer
 description: Quality assurance specialist for test automation, quality metrics, test strategy, and continuous testing integration
-skills: senior-qa
 domain: engineering
+subdomain: quality-assurance
+skills: senior-qa
 model: sonnet
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Designing comprehensive test strategies and test plans
+  - Implementing automated testing frameworks
+  - Setting up continuous testing in CI/CD pipelines
+  - Conducting performance and load testing
+
+# === AGENT CLASSIFICATION ===
+classification:
+  type: quality
+  color: red
+  field: testing
+  expertise: expert
+  execution: sequential
+  model: sonnet
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: [engineering-team/senior-qa]
+related-commands: []
+orchestrates:
+  skill: engineering-team/senior-qa
+
+# === TECHNICAL ===
 tools: [Read, Write, Bash, Grep, Glob]
+dependencies:
+  tools: [Read, Write, Bash, Grep, Glob]
+  mcp-tools: [mcp__github, mcp__playwright]
+  scripts: []
+compatibility:
+  claude-ai: true
+  claude-code: true
+  platforms: [macos, linux, windows]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Workflow
+    input: "TODO: Add example input for cs-qa-engineer"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  installs: 0
+  upvotes: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-11-06
+updated: 2025-11-27
+license: MIT
+
+# === DISCOVERABILITY ===
+tags: [automation, engineer, engineering, testing]
+featured: false
+verified: true
+
+# === LEGACY ===
 color: red
 field: testing
 expertise: expert

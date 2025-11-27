@@ -1,24 +1,71 @@
 ---
+
+# === CORE IDENTITY ===
 name: senior-fullstack
+title: Senior Fullstack Skill Package
 description: Comprehensive fullstack development skill for building complete web applications with React, Next.js, Node.js, GraphQL, and PostgreSQL. Includes project scaffolding, code quality analysis, architecture patterns, and complete tech stack guidance. Use when building new projects, analyzing code quality, implementing design patterns, or setting up development workflows.
+domain: engineering
+subdomain: fullstack-development
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Primary workflow for Senior Fullstack
+  - Analysis and recommendations for senior fullstack tasks
+  - Best practices implementation for senior fullstack
+  - Integration with related skills and workflows
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: []
+related-commands: []
+orchestrated-by: []
+
+# === TECHNICAL ===
+dependencies:
+  scripts: []
+  references: []
+  assets: []
+compatibility:
+  python-version: 3.8+
+  platforms: [macos, linux, windows]
+tech-stack: [Python 3.8+, Markdown]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Usage
+    input: "TODO: Add example input for senior-fullstack"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  downloads: 0
+  stars: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-10-19
+updated: 2025-11-23
 license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: Engineering
-  domain: engineering
-  updated: 2025-11-23
-  keywords:
+
+# === DISCOVERABILITY ===
+tags:
+  - analysis
+  - architecture
+  - design
+  - development
   - engineering
-  - senior
   - fullstack
-  tech-stack:
-  - Python 3.8+
-  - Markdown
-  python-tools:
-  - code_quality_analyzer.py
-  - fullstack_scaffolder.py
-  - project_scaffolder.py
+  - senior
+featured: false
+verified: true
 ---
 
 # Senior Fullstack Developer

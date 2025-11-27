@@ -1,10 +1,79 @@
 ---
+
+# === CORE IDENTITY ===
 name: cs-cto-advisor
+title: CTO Advisor Specialist
 description: Technical leadership advisor for technology strategy, team scaling, architecture governance, and executive decision-making
-skills: cto-advisor
 domain: engineering
+subdomain: system-architecture
+skills: cto-advisor
 model: sonnet
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Primary workflow for Cto Advisor
+  - Analysis and recommendations for cto advisor tasks
+  - Best practices implementation for cto advisor
+  - Integration with related agents and workflows
+
+# === AGENT CLASSIFICATION ===
+classification:
+  type: coordination
+  color: purple
+  field: architecture
+  expertise: expert
+  execution: parallel
+  model: sonnet
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: [engineering-team/cto-advisor]
+related-commands: []
+orchestrates:
+  skill: engineering-team/cto-advisor
+
+# === TECHNICAL ===
 tools: [Read, Write, Bash, Grep, Glob]
+dependencies:
+  tools: [Read, Write, Bash, Grep, Glob]
+  mcp-tools: []
+  scripts: []
+compatibility:
+  claude-ai: true
+  claude-code: true
+  platforms: [macos, linux, windows]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Workflow
+    input: "TODO: Add example input for cs-cto-advisor"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  installs: 0
+  upvotes: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-11-13
+updated: 2025-11-27
+license: MIT
+
+# === DISCOVERABILITY ===
+tags: [advisor, architecture, cto, engineering]
+featured: false
+verified: true
+
+# === LEGACY ===
 color: purple
 field: architecture
 expertise: expert

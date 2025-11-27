@@ -1,10 +1,79 @@
 ---
+
+# === CORE IDENTITY ===
 name: cs-secops-engineer
+title: Secops Engineer
 description: Security operations specialist for incident response, security automation, threat detection, and DevSecOps integration
-skills: senior-secops
 domain: engineering
+subdomain: security-engineering
+skills: senior-secops
 model: sonnet
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Conducting security audits and vulnerability assessments
+  - Implementing authentication and authorization patterns
+  - Setting up security monitoring and incident response
+  - Reviewing code for OWASP Top 10 vulnerabilities
+
+# === AGENT CLASSIFICATION ===
+classification:
+  type: quality
+  color: red
+  field: security
+  expertise: expert
+  execution: sequential
+  model: sonnet
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: [engineering-team/senior-secops]
+related-commands: []
+orchestrates:
+  skill: engineering-team/senior-secops
+
+# === TECHNICAL ===
 tools: [Read, Write, Bash, Grep, Glob]
+dependencies:
+  tools: [Read, Write, Bash, Grep, Glob]
+  mcp-tools: []
+  scripts: []
+compatibility:
+  claude-ai: true
+  claude-code: true
+  platforms: [macos, linux, windows]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Workflow
+    input: "TODO: Add example input for cs-secops-engineer"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  installs: 0
+  upvotes: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-11-06
+updated: 2025-11-27
+license: MIT
+
+# === DISCOVERABILITY ===
+tags: [automation, engineer, engineering, secops, security]
+featured: false
+verified: true
+
+# === LEGACY ===
 color: red
 field: security
 expertise: expert

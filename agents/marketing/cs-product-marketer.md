@@ -1,10 +1,80 @@
 ---
+
+# === CORE IDENTITY ===
 name: cs-product-marketer
+title: Product Marketer Specialist
 description: Product marketing specialist for positioning strategy, GTM execution, competitive intelligence, and product launch planning
-skills: marketing-team/marketing-strategy-pmm
 domain: marketing
+subdomain: content-marketing
+skills: marketing-team/marketing-strategy-pmm
 model: sonnet
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Defining product roadmaps and feature prioritization
+  - Writing user stories and acceptance criteria
+  - Conducting competitive analysis and market research
+  - Stakeholder communication and alignment
+
+# === AGENT CLASSIFICATION ===
+classification:
+  type: strategic
+  color: blue
+  field: content
+  expertise: expert
+  execution: parallel
+  model: sonnet
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills:
+  - marketing-team/marketing-team/marketing-strategy-pmm
+related-commands: []
+orchestrates:
+  skill: marketing-team/marketing-team/marketing-strategy-pmm
+
+# === TECHNICAL ===
 tools: [Read, Write, Bash, Grep, Glob]
+dependencies:
+  tools: [Read, Write, Bash, Grep, Glob]
+  mcp-tools: []
+  scripts: []
+compatibility:
+  claude-ai: true
+  claude-code: true
+  platforms: [macos, linux, windows]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Workflow
+    input: "TODO: Add example input for cs-product-marketer"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  installs: 0
+  upvotes: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-11-06
+updated: 2025-11-27
+license: MIT
+
+# === DISCOVERABILITY ===
+tags: [content, marketer, marketing, product]
+featured: false
+verified: true
+
+# === LEGACY ===
 color: blue
 field: content
 expertise: expert

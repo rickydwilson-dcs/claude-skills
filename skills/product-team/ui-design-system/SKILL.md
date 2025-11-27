@@ -1,38 +1,69 @@
 ---
+
+# === CORE IDENTITY ===
 name: ui-design-system
+title: UI Design System Skill Package
 description: UI design system toolkit for Senior UI Designer including design token generation, component documentation, responsive design calculations, and developer handoff tools. Use for creating design systems, maintaining visual consistency, and facilitating design-dev collaboration.
+domain: product
+subdomain: ux-design
+
+# === WEBSITE DISPLAY ===
+difficulty: intermediate
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Primary workflow for Ui Design System
+  - Analysis and recommendations for ui design system tasks
+  - Best practices implementation for ui design system
+  - Integration with related skills and workflows
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: []
+related-commands: []
+orchestrated-by: []
+
+# === TECHNICAL ===
+dependencies:
+  scripts: []
+  references: []
+  assets: []
+compatibility:
+  python-version: 3.8+
+  platforms: [macos, linux, windows]
+tech-stack:
+  - Python 3.8+
+  - CLI
+  - JSON export
+  - CSS/SCSS generation
+  - Color processing
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Usage
+    input: "TODO: Add example input for ui-design-system"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  downloads: 0
+  stars: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-10-19
+updated: 2025-11-08
 license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: product
-  domain: design
-  updated: 2025-11-08
-  keywords:
-    - design systems
-    - design tokens
-    - color palette
-    - typography scale
-    - spacing system
-    - component documentation
-    - responsive design
-    - design handoff
-    - visual consistency
-    - Figma integration
-    - CSS tokens
-    - SCSS variables
-    - accessibility standards
-    - design patterns
-    - brand guidelines
-    - design tooling
-  tech-stack:
-    - Python 3.8+
-    - CLI
-    - JSON export
-    - CSS/SCSS generation
-    - Color processing
-  python-tools:
-    - design_token_generator.py
+
+# === DISCOVERABILITY ===
+tags: [design, product, system]
+featured: false
+verified: true
 ---
 
 # UI Design System

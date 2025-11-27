@@ -1,10 +1,86 @@
 ---
+
+# === CORE IDENTITY ===
 name: cs-fullstack-engineer
+title: Fullstack Engineer
 description: Full-stack development specialist for end-to-end application architecture, API integration, and deployment automation
-skills: senior-fullstack
 domain: engineering
+subdomain: fullstack-development
+skills: senior-fullstack
 model: sonnet
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Primary workflow for Fullstack Engineer
+  - Analysis and recommendations for fullstack engineer tasks
+  - Best practices implementation for fullstack engineer
+  - Integration with related agents and workflows
+
+# === AGENT CLASSIFICATION ===
+classification:
+  type: implementation
+  color: green
+  field: fullstack
+  expertise: expert
+  execution: coordinated
+  model: sonnet
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: [engineering-team/senior-fullstack]
+related-commands: []
+orchestrates:
+  skill: engineering-team/senior-fullstack
+
+# === TECHNICAL ===
 tools: [Read, Write, Bash, Grep, Glob]
+dependencies:
+  tools: [Read, Write, Bash, Grep, Glob]
+  mcp-tools: []
+  scripts: []
+compatibility:
+  claude-ai: true
+  claude-code: true
+  platforms: [macos, linux, windows]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Workflow
+    input: "TODO: Add example input for cs-fullstack-engineer"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  installs: 0
+  upvotes: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-11-06
+updated: 2025-11-27
+license: MIT
+
+# === DISCOVERABILITY ===
+tags:
+  - api
+  - architecture
+  - automation
+  - development
+  - engineer
+  - engineering
+  - fullstack
+featured: false
+verified: true
+
+# === LEGACY ===
 color: green
 field: fullstack
 expertise: expert

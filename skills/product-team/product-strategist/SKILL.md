@@ -1,37 +1,64 @@
 ---
+
+# === CORE IDENTITY ===
 name: product-strategist
+title: Product Strategist Skill Package
 description: Strategic product leadership toolkit for Head of Product including OKR cascade generation, market analysis, vision setting, and team scaling. Use for strategic planning, goal alignment, competitive analysis, and organizational design.
+domain: product
+subdomain: product-management
+
+# === WEBSITE DISPLAY ===
+difficulty: intermediate
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Defining product roadmaps and feature prioritization
+  - Writing user stories and acceptance criteria
+  - Conducting competitive analysis and market research
+  - Stakeholder communication and alignment
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: []
+related-commands: []
+orchestrated-by: []
+
+# === TECHNICAL ===
+dependencies:
+  scripts: []
+  references: []
+  assets: []
+compatibility:
+  python-version: 3.8+
+  platforms: [macos, linux, windows]
+tech-stack: [Python 3.8+, CLI, JSON export, Alignment scoring]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Usage
+    input: "TODO: Add example input for product-strategist"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  downloads: 0
+  stars: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-10-19
+updated: 2025-11-08
 license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: product
-  domain: product-strategy
-  updated: 2025-11-08
-  keywords:
-    - OKR framework
-    - strategic planning
-    - goal alignment
-    - market analysis
-    - competitive analysis
-    - vision setting
-    - team scaling
-    - organizational design
-    - strategy cascade
-    - key results
-    - alignment tracking
-    - metrics definition
-    - KPI development
-    - strategic roadmap
-    - business strategy
-    - market positioning
-  tech-stack:
-    - Python 3.8+
-    - CLI
-    - JSON export
-    - Alignment scoring
-  python-tools:
-    - okr_cascade_generator.py
+
+# === DISCOVERABILITY ===
+tags: [analysis, design, product, strategist]
+featured: false
+verified: true
 ---
 
 # Product Strategist

@@ -1,10 +1,79 @@
 ---
+
+# === CORE IDENTITY ===
 name: cs-senior-pm
+title: Senior PM Specialist
 description: Strategic program management specialist for portfolio planning, stakeholder management, cross-team coordination, and delivery excellence
-skills: senior-pm
 domain: delivery
+subdomain: delivery-general
+skills: senior-pm
 model: sonnet
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Primary workflow for Senior Pm
+  - Analysis and recommendations for senior pm tasks
+  - Best practices implementation for senior pm
+  - Integration with related agents and workflows
+
+# === AGENT CLASSIFICATION ===
+classification:
+  type: coordination
+  color: purple
+  field: product
+  expertise: expert
+  execution: parallel
+  model: sonnet
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: [delivery-team/senior-pm]
+related-commands: []
+orchestrates:
+  skill: delivery-team/senior-pm
+
+# === TECHNICAL ===
 tools: [Read, Write, Bash, Grep, Glob]
+dependencies:
+  tools: [Read, Write, Bash, Grep, Glob]
+  mcp-tools: [mcp__atlassian]
+  scripts: []
+compatibility:
+  claude-ai: true
+  claude-code: true
+  platforms: [macos, linux, windows]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Workflow
+    input: "TODO: Add example input for cs-senior-pm"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  installs: 0
+  upvotes: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-11-13
+updated: 2025-11-27
+license: MIT
+
+# === DISCOVERABILITY ===
+tags: [delivery, product, senior]
+featured: false
+verified: true
+
+# === LEGACY ===
 color: purple
 field: product
 expertise: expert

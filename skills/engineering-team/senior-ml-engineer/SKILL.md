@@ -1,65 +1,66 @@
 ---
+
+# === CORE IDENTITY ===
 name: senior-ml-engineer
+title: Senior ML Engineer Skill Package
 description: World-class ML engineering skill for productionizing ML models, MLOps, and building scalable ML systems. Expertise in PyTorch, TensorFlow, model deployment, feature stores, model monitoring, and ML infrastructure. Includes LLM integration, fine-tuning, RAG systems, and agentic AI. Use when deploying ML models, building ML platforms, implementing MLOps, or integrating LLMs into production systems.
+domain: engineering
+subdomain: ai-ml-engineering
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Primary workflow for Senior Ml Engineer
+  - Analysis and recommendations for senior ml engineer tasks
+  - Best practices implementation for senior ml engineer
+  - Integration with related skills and workflows
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: []
+related-commands: []
+orchestrated-by: []
+
+# === TECHNICAL ===
+dependencies:
+  scripts: []
+  references: []
+  assets: []
+compatibility:
+  python-version: 3.8+
+  platforms: [macos, linux, windows]
+tech-stack: [Python 3.8+, Markdown]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Usage
+    input: "TODO: Add example input for senior-ml-engineer"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  downloads: 0
+  stars: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-10-20
+updated: 2025-11-23
 license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: Engineering
-  domain: engineering
-  updated: 2025-11-23
-  keywords:
-  - engineering
-  - senior
-  - engineer
-  tech-stack:
-  - Python 3.8+
-  - Markdown
-  python-tools:
-  - ml_monitoring_suite.py
-  - model_deployment_pipeline.py
-  - rag_system_builder.py
+
+# === DISCOVERABILITY ===
+tags: [engineer, engineering, product, senior]
+featured: false
+verified: true
 ---
 
-
-license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: engineering
-  domain: ml-engineering
-  updated: 2025-11-08
-  keywords:
-    - machine learning
-    - ML engineering
-    - MLOps
-    - model deployment
-    - LLM integration
-    - PyTorch
-    - TensorFlow
-    - model monitoring
-    - feature stores
-    - RAG systems
-    - model serving
-    - deep learning
-    - production ML
-    - model scaling
-    - agentic AI
-  tech-stack:
-    - Python
-    - PyTorch
-    - TensorFlow
-    - LangChain
-    - LlamaIndex
-    - MLflow
-    - Docker
-    - Kubernetes
-    - AWS SageMaker
-    - Weights & Biases
-  python-tools:
-    - model_deployment_pipeline.py
-    - rag_system_builder.py
-    - ml_monitoring_suite.py
 
 # Senior ML/AI Engineer
 

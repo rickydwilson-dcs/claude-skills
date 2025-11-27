@@ -1,43 +1,69 @@
 ---
+
+# === CORE IDENTITY ===
 name: content-creator
+title: Content Creator Skill Package
 description: Create SEO-optimized marketing content with consistent brand voice. Includes brand voice analyzer, SEO optimizer, content frameworks, and social media templates. Use when writing blog posts, creating social media content, analyzing brand voice, optimizing SEO, planning content calendars, or when user mentions content creation, brand voice, SEO optimization, social media marketing, or content strategy.
+domain: marketing
+subdomain: content-marketing
+
+# === WEBSITE DISPLAY ===
+difficulty: intermediate
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Creating engaging content for target audiences
+  - Optimizing content for SEO and discoverability
+  - Developing brand voice and messaging guidelines
+  - Planning content calendars and campaigns
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: []
+related-commands: []
+orchestrated-by: []
+
+# === TECHNICAL ===
+dependencies:
+  scripts: []
+  references: []
+  assets: []
+compatibility:
+  python-version: 3.8+
+  platforms: [macos, linux, windows]
+tech-stack:
+  - SEO
+  - Google Analytics
+  - Social media platforms
+  - Markdown
+  - Python 3.8+
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Usage
+    input: "TODO: Add example input for content-creator"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  downloads: 0
+  stars: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-10-19
+updated: 2025-11-08
 license: MIT
-metadata:
-  version: 1.0.0
-  author: Claude Skills Team
-  category: marketing
-  domain: content-marketing
-  updated: 2025-11-08
-  keywords:
-    - content creation
-    - blog writing
-    - SEO optimization
-    - brand voice
-    - social media marketing
-    - content strategy
-    - copywriting
-    - keyword research
-    - content calendar
-    - marketing content
-    - SEO copywriting
-    - brand consistency
-    - content marketing
-    - audience engagement
-    - content planning
-    - editorial calendar
-    - tone of voice
-    - search engine optimization
-    - organic traffic
-    - content distribution
-  tech-stack:
-    - SEO
-    - Google Analytics
-    - Social media platforms
-    - Markdown
-    - Python 3.8+
-  python-tools:
-    - brand_voice_analyzer.py
-    - seo_optimizer.py
+
+# === DISCOVERABILITY ===
+tags: [content, creator, marketing, optimization]
+featured: false
+verified: true
 ---
 
 # Content Creator

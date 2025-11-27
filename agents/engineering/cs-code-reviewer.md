@@ -1,10 +1,79 @@
 ---
+
+# === CORE IDENTITY ===
 name: cs-code-reviewer
+title: Code Reviewer Specialist
 description: Code review specialist for quality assessment, security analysis, and best practices enforcement across all tech stacks
-skills: code-reviewer
 domain: engineering
+subdomain: quality-assurance
+skills: code-reviewer
 model: sonnet
+
+# === WEBSITE DISPLAY ===
+difficulty: advanced
+time-saved: """TODO: Quantify time savings"""
+frequency: """TODO: Estimate usage frequency"""
+use-cases:
+  - Primary workflow for Code Reviewer
+  - Analysis and recommendations for code reviewer tasks
+  - Best practices implementation for code reviewer
+  - Integration with related agents and workflows
+
+# === AGENT CLASSIFICATION ===
+classification:
+  type: quality
+  color: red
+  field: quality
+  expertise: expert
+  execution: sequential
+  model: sonnet
+
+# === RELATIONSHIPS ===
+related-agents: []
+related-skills: [engineering-team/code-reviewer]
+related-commands: []
+orchestrates:
+  skill: engineering-team/code-reviewer
+
+# === TECHNICAL ===
 tools: [Read, Write, Bash, Grep, Glob]
+dependencies:
+  tools: [Read, Write, Bash, Grep, Glob]
+  mcp-tools: [mcp__github]
+  scripts: []
+compatibility:
+  claude-ai: true
+  claude-code: true
+  platforms: [macos, linux, windows]
+
+# === EXAMPLES ===
+examples:
+  -
+    title: Example Workflow
+    input: "TODO: Add example input for cs-code-reviewer"
+    output: "TODO: Add expected output"
+
+# === ANALYTICS ===
+stats:
+  installs: 0
+  upvotes: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.0.0
+author: Claude Skills Team
+contributors: []
+created: 2025-11-06
+updated: 2025-11-27
+license: MIT
+
+# === DISCOVERABILITY ===
+tags: [analysis, code, engineering, quality, reviewer, security]
+featured: false
+verified: true
+
+# === LEGACY ===
 color: red
 field: quality
 expertise: expert
