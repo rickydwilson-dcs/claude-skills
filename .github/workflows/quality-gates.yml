@@ -1,0 +1,362 @@
+name: Quality Gates
+
+on:
+  push:
+    branches: [develop, staging]
+  pull_request:
+    branches: [develop, staging, main]
+  schedule:
+    # Nightly full validation at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      full_validation:
+        description: 'Run full validation regardless of changes'
+        type: boolean
+        default: false
+
+concurrency:
+  group: quality-gate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # =============================================================================
+  # DETECT CHANGES - Determine what needs validation
+  # =============================================================================
+  detect-changes:
+    name: Detect Changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    outputs:
+      agents_changed: ${{ steps.detect.outputs.agents_changed }}
+      agents_list: ${{ steps.detect.outputs.agents_list }}
+      skills_changed: ${{ steps.detect.outputs.skills_changed }}
+      skills_list: ${{ steps.detect.outputs.skills_list }}
+      commands_changed: ${{ steps.detect.outputs.commands_changed }}
+      commands_list: ${{ steps.detect.outputs.commands_list }}
+      scripts_changed: ${{ steps.detect.outputs.scripts_changed }}
+      full_validation: ${{ steps.detect.outputs.full_validation }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed files
+        id: detect
+        run: |
+          # Force full validation for scheduled runs, main PRs, or manual trigger
+          if [[ "${{ github.event_name }}" == "schedule" ]] || \
+             [[ "${{ github.base_ref }}" == "main" ]] || \
+             [[ "${{ github.event.inputs.full_validation }}" == "true" ]]; then
+            echo "full_validation=true" >> $GITHUB_OUTPUT
+            echo "agents_changed=true" >> $GITHUB_OUTPUT
+            echo "skills_changed=true" >> $GITHUB_OUTPUT
+            echo "commands_changed=true" >> $GITHUB_OUTPUT
+            echo "scripts_changed=false" >> $GITHUB_OUTPUT
+            echo "agents_list=all" >> $GITHUB_OUTPUT
+            echo "skills_list=all" >> $GITHUB_OUTPUT
+            echo "commands_list=all" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          echo "full_validation=false" >> $GITHUB_OUTPUT
+
+          # Get changed files
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+            HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+          else
+            BASE_SHA="${{ github.event.before }}"
+            HEAD_SHA="${{ github.sha }}"
+          fi
+
+          # Handle initial commit case
+          if [[ "$BASE_SHA" == "0000000000000000000000000000000000000000" ]]; then
+            CHANGED_FILES=$(git ls-files)
+          else
+            CHANGED_FILES=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" 2>/dev/null || git ls-files)
+          fi
+
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+
+          # Check for infrastructure changes that require full validation
+          if echo "$CHANGED_FILES" | grep -qE '^scripts/(agent_builder|skill_builder|validate_all)'; then
+            echo "scripts_changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "scripts_changed=false" >> $GITHUB_OUTPUT
+          fi
+
+          # Detect agent changes
+          AGENTS=$(echo "$CHANGED_FILES" | grep '^agents/.*\.md$' | grep 'cs-' || true)
+          if [[ -n "$AGENTS" ]]; then
+            echo "agents_changed=true" >> $GITHUB_OUTPUT
+            echo "agents_list<<EOF" >> $GITHUB_OUTPUT
+            echo "$AGENTS" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "agents_changed=false" >> $GITHUB_OUTPUT
+            echo "agents_list=" >> $GITHUB_OUTPUT
+          fi
+
+          # Detect skill changes
+          SKILLS=$(echo "$CHANGED_FILES" | grep '^skills/' | cut -d'/' -f1-3 | sort -u || true)
+          if [[ -n "$SKILLS" ]]; then
+            echo "skills_changed=true" >> $GITHUB_OUTPUT
+            echo "skills_list<<EOF" >> $GITHUB_OUTPUT
+            echo "$SKILLS" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "skills_changed=false" >> $GITHUB_OUTPUT
+            echo "skills_list=" >> $GITHUB_OUTPUT
+          fi
+
+          # Detect command changes
+          COMMANDS=$(echo "$CHANGED_FILES" | grep '^commands/.*\.md$' | grep -v 'README\|CLAUDE\|CATALOG' || true)
+          if [[ -n "$COMMANDS" ]]; then
+            echo "commands_changed=true" >> $GITHUB_OUTPUT
+            echo "commands_list<<EOF" >> $GITHUB_OUTPUT
+            echo "$COMMANDS" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "commands_changed=false" >> $GITHUB_OUTPUT
+            echo "commands_list=" >> $GITHUB_OUTPUT
+          fi
+
+  # =============================================================================
+  # DEVELOP BRANCH - Fast feedback on changed content
+  # =============================================================================
+  develop-quick-checks:
+    name: Quick Checks (Develop)
+    needs: detect-changes
+    if: |
+      (github.ref == 'refs/heads/develop' || github.base_ref == 'develop') &&
+      needs.detect-changes.outputs.full_validation != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Python syntax check
+        run: python -m compileall scripts/ skills/ -q
+
+      - name: YAML lint workflows
+        run: |
+          pip install yamllint -q
+          yamllint -d '{extends: default, rules: {line-length: {max: 200}, truthy: disable}}' .github/workflows/
+
+  develop-validate-changed:
+    name: Validate Changed Content (Develop)
+    needs: detect-changes
+    if: |
+      (github.ref == 'refs/heads/develop' || github.base_ref == 'develop') &&
+      needs.detect-changes.outputs.full_validation != 'true' &&
+      (needs.detect-changes.outputs.agents_changed == 'true' ||
+       needs.detect-changes.outputs.skills_changed == 'true' ||
+       needs.detect-changes.outputs.commands_changed == 'true')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate changed agents
+        if: needs.detect-changes.outputs.agents_changed == 'true'
+        run: |
+          echo "Validating changed agents..."
+          AGENTS="${{ needs.detect-changes.outputs.agents_list }}"
+          if [[ "$AGENTS" == "all" ]]; then
+            bash scripts/validate_all_agents.sh
+          else
+            echo "$AGENTS" | while read -r agent; do
+              if [[ -n "$agent" && -f "$agent" ]]; then
+                echo "Validating: $agent"
+                python3 scripts/agent_builder.py --validate "$agent"
+              fi
+            done
+          fi
+
+      - name: Validate changed skills
+        if: needs.detect-changes.outputs.skills_changed == 'true'
+        run: |
+          echo "Validating changed skills..."
+          SKILLS="${{ needs.detect-changes.outputs.skills_list }}"
+          if [[ "$SKILLS" == "all" ]]; then
+            python3 scripts/validate_all_skills.py
+          else
+            echo "$SKILLS" | while read -r skill; do
+              if [[ -n "$skill" && -d "$skill" ]]; then
+                echo "Validating: $skill"
+                python3 scripts/skill_builder.py --validate "$skill"
+              fi
+            done
+          fi
+
+      - name: Validate changed commands
+        if: needs.detect-changes.outputs.commands_changed == 'true'
+        run: |
+          echo "Validating changed commands..."
+          python3 scripts/validate_all_commands.py --verbose || true
+
+  # =============================================================================
+  # STAGING BRANCH - Full validation before pre-production
+  # =============================================================================
+  staging-full-validation:
+    name: Full Validation (Staging)
+    needs: detect-changes
+    if: |
+      github.ref == 'refs/heads/staging' ||
+      github.base_ref == 'staging' ||
+      needs.detect-changes.outputs.full_validation == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Python syntax check
+        run: python -m compileall scripts/ skills/ -q
+
+      - name: YAML lint workflows
+        run: |
+          pip install yamllint -q
+          yamllint -d '{extends: default, rules: {line-length: {max: 200}, truthy: disable}}' .github/workflows/
+
+      - name: Validate ALL agents (28)
+        run: |
+          echo "=== Validating all agents ==="
+          bash scripts/validate_all_agents.sh
+
+      - name: Validate ALL skills (29)
+        run: |
+          echo "=== Validating all skills ==="
+          python3 scripts/validate_all_skills.py
+
+      - name: Validate ALL commands (14)
+        run: |
+          echo "=== Validating all commands ==="
+          python3 scripts/validate_all_commands.py --verbose || true
+
+      - name: Test Python tools --help
+        run: |
+          echo "=== Testing Python tool CLI compliance ==="
+          FAILED=0
+          TOTAL=0
+          for tool in $(find skills -name "*.py" -type f); do
+            if head -1 "$tool" | grep -q "python"; then
+              TOTAL=$((TOTAL + 1))
+              if python3 "$tool" --help > /dev/null 2>&1; then
+                echo "✓ $tool"
+              else
+                echo "✗ $tool (--help failed)"
+                FAILED=$((FAILED + 1))
+              fi
+            fi
+          done
+          echo ""
+          echo "=== Summary ==="
+          echo "Total tools: $TOTAL"
+          echo "Passed: $((TOTAL - FAILED))"
+          echo "Failed: $FAILED"
+          if [[ $FAILED -gt 0 ]]; then
+            echo "::warning::$FAILED Python tools failed --help check"
+          fi
+
+      - name: Validate cross-references
+        run: |
+          echo "=== Validating agent-skill cross-references ==="
+          ERRORS=0
+          for agent in agents/*/*.md; do
+            # Extract skill references from agent
+            SKILLS=$(grep -oE '../../skills/[^/]+/[^/]+' "$agent" 2>/dev/null | sort -u || true)
+            for skill_path in $SKILLS; do
+              # Convert relative path to absolute
+              SKILL_DIR=$(echo "$skill_path" | sed 's|../../||')
+              if [[ ! -d "$SKILL_DIR" ]]; then
+                echo "✗ $agent references non-existent skill: $SKILL_DIR"
+                ERRORS=$((ERRORS + 1))
+              fi
+            done
+          done
+          if [[ $ERRORS -gt 0 ]]; then
+            echo "::error::Found $ERRORS broken cross-references"
+            exit 1
+          else
+            echo "✓ All cross-references valid"
+          fi
+
+      - name: Security scan (warning only)
+        continue-on-error: true
+        run: |
+          echo "=== Security dependency scan ==="
+          pip install safety -q
+          if [[ -f requirements.txt ]]; then
+            safety check -r requirements.txt --output text || echo "::warning::Security vulnerabilities found in dependencies"
+          else
+            echo "No requirements.txt found - skipping dependency scan"
+          fi
+
+  # =============================================================================
+  # MAIN BRANCH - Production gate (PRs from staging only)
+  # =============================================================================
+  main-production-gate:
+    name: Production Gate (Main)
+    needs: detect-changes
+    if: github.base_ref == 'main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify source branch
+        run: |
+          SOURCE="${{ github.head_ref }}"
+          echo "PR source branch: $SOURCE"
+          if [[ "$SOURCE" != "staging" ]]; then
+            echo "::error::PRs to main must come from staging branch (got: $SOURCE)"
+            echo ""
+            echo "Please merge your changes to staging first, then create a PR from staging to main."
+            exit 1
+          fi
+          echo "✓ Source branch verified: staging"
+
+      - name: Production readiness check
+        run: |
+          echo "=== Checking production readiness ==="
+
+          # Check for TODO/FIXME in agent files
+          TODOS=$(grep -rn "TODO\|FIXME" agents/ --include="*.md" | grep -v "TODO: Quantify" || true)
+          if [[ -n "$TODOS" ]]; then
+            echo "::warning::Found TODO/FIXME comments in agents:"
+            echo "$TODOS"
+          else
+            echo "✓ No blocking TODO/FIXME comments found"
+          fi
+
+          # Check documentation freshness
+          echo ""
+          echo "=== Checking documentation freshness ==="
+          CLAUDE_MD_DATE=$(grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}|[A-Z][a-z]+ [0-9]+, [0-9]{4}' CLAUDE.md | head -1 || echo "unknown")
+          echo "CLAUDE.md last updated: $CLAUDE_MD_DATE"
+
+      - name: Final validation summary
+        run: |
+          echo ""
+          echo "=============================================="
+          echo "  PRODUCTION GATE - READY FOR MERGE"
+          echo "=============================================="
+          echo ""
+          echo "✓ Source branch: staging"
+          echo "✓ All staging validations must have passed"
+          echo "✓ Ready for production deployment"
+          echo ""

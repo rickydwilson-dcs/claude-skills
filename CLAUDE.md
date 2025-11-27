@@ -377,6 +377,71 @@ python3 -c "print('Python environment ready')"
 
 **Quality Standard:** Each skill should save users 40%+ time while improving consistency/quality by 30%+.
 
+## Agent Auto-Loading Guide
+
+**IMPORTANT:** When working on tasks in this repository, automatically load and apply the relevant agent's expertise by reading its file. Match the task type to the appropriate agent below, then read that agent file to access its workflows, tools, and knowledge bases.
+
+### Engineering Tasks
+
+| Task Type | Agent to Load | When to Use |
+|-----------|---------------|-------------|
+| CI/CD, pipelines, GitHub Actions | [cs-devops-engineer](agents/engineering/cs-devops-engineer.md) | Any CI/CD, deployment, infrastructure, or GitHub Actions work |
+| Architecture decisions | [cs-architect](agents/engineering/cs-architect.md) | System design, patterns, technical decisions, scalability |
+| Security reviews | [cs-security-engineer](agents/engineering/cs-security-engineer.md) | Security audits, vulnerability analysis, OWASP compliance |
+| Security operations | [cs-secops-engineer](agents/engineering/cs-secops-engineer.md) | Incident response, threat detection, security monitoring |
+| Code quality | [cs-code-reviewer](agents/engineering/cs-code-reviewer.md) | Code reviews, refactoring suggestions, best practices |
+| Backend development | [cs-backend-engineer](agents/engineering/cs-backend-engineer.md) | API design, database, server-side code, microservices |
+| Frontend development | [cs-frontend-engineer](agents/engineering/cs-frontend-engineer.md) | UI components, React, styling, accessibility |
+| Full-stack features | [cs-fullstack-engineer](agents/engineering/cs-fullstack-engineer.md) | End-to-end feature implementation across stack |
+| Testing & QA | [cs-qa-engineer](agents/engineering/cs-qa-engineer.md) | Test strategy, test writing, quality assurance |
+| ML/AI features | [cs-ml-engineer](agents/engineering/cs-ml-engineer.md) | Machine learning, model development, MLOps |
+| Computer vision | [cs-computer-vision](agents/engineering/cs-computer-vision.md) | Image processing, CV models, visual AI |
+| Data pipelines | [cs-data-engineer](agents/engineering/cs-data-engineer.md) | ETL, data processing, warehousing, pipelines |
+| Data science | [cs-data-scientist](agents/engineering/cs-data-scientist.md) | Analysis, statistics, modeling, insights |
+| Prompt engineering | [cs-prompt-engineer](agents/engineering/cs-prompt-engineer.md) | LLM prompts, AI interactions, prompt optimization |
+| CTO advisory | [cs-cto-advisor](agents/engineering/cs-cto-advisor.md) | Technical strategy, team scaling, technology decisions |
+
+### Product Tasks
+
+| Task Type | Agent to Load | When to Use |
+|-----------|---------------|-------------|
+| Product strategy | [cs-product-strategist](agents/product/cs-product-strategist.md) | Roadmaps, vision, market positioning |
+| Product management | [cs-product-manager](agents/product/cs-product-manager.md) | Requirements, user stories, acceptance criteria |
+| Agile/Scrum ownership | [cs-agile-product-owner](agents/product/cs-agile-product-owner.md) | Backlog management, sprint planning, agile practices |
+| Business analysis | [cs-business-analyst](agents/product/cs-business-analyst.md) | Requirements gathering, process analysis, documentation |
+| UX research | [cs-ux-researcher](agents/product/cs-ux-researcher.md) | User research, usability testing, personas |
+| UI design | [cs-ui-designer](agents/product/cs-ui-designer.md) | Design systems, component design, visual design |
+
+### Delivery Tasks
+
+| Task Type | Agent to Load | When to Use |
+|-----------|---------------|-------------|
+| Jira workflows | [cs-jira-expert](agents/delivery/cs-jira-expert.md) | Issue tracking, sprints, boards, JQL |
+| Confluence docs | [cs-confluence-expert](agents/delivery/cs-confluence-expert.md) | Wiki structure, documentation, knowledge bases |
+| Scrum facilitation | [cs-scrum-master](agents/delivery/cs-scrum-master.md) | Ceremonies, impediments, team coaching |
+| Project management | [cs-senior-pm](agents/delivery/cs-senior-pm.md) | Planning, tracking, reporting, stakeholder management |
+
+### Marketing Tasks
+
+| Task Type | Agent to Load | When to Use |
+|-----------|---------------|-------------|
+| Content creation | [cs-content-creator](agents/marketing/cs-content-creator.md) | Blog posts, copy, SEO content, brand voice |
+| Demand generation | [cs-demand-gen-specialist](agents/marketing/cs-demand-gen-specialist.md) | Lead gen, campaigns, funnel optimization |
+| Product marketing | [cs-product-marketer](agents/marketing/cs-product-marketer.md) | Positioning, messaging, go-to-market |
+
+### How to Use Agents
+
+1. **Identify the task type** from the tables above
+2. **Read the agent file** to load its context, workflows, and tool references
+3. **Follow the agent's documented workflows** for structured task execution
+4. **Use the agent's Python tools** when applicable (referenced in each agent file)
+5. **Reference the agent's knowledge bases** in `skills/{team}/{skill}/references/`
+
+**Example:** For CI/CD work, read `agents/engineering/cs-devops-engineer.md` which references:
+- Python tools in `skills/engineering-team/senior-devops/scripts/`
+- Knowledge bases in `skills/engineering-team/senior-devops/references/`
+- Templates in `skills/engineering-team/senior-devops/assets/`
+
 ## Additional Resources
 
 ### Documentation
