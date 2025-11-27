@@ -9,6 +9,9 @@ on:
     types: [completed]
     branches: [develop]
 
+permissions:
+  contents: write
+
 jobs:
   promote-to-staging:
     name: Promote develop → staging
@@ -24,6 +27,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
 
       - name: Configure git
         run: |
@@ -42,24 +46,34 @@ jobs:
           echo "develop: $DEVELOP_SHA"
           echo "staging: $STAGING_SHA"
 
-          # Check if staging is behind develop
-          if git merge-base --is-ancestor origin/staging origin/develop; then
-            if [ "$DEVELOP_SHA" != "$STAGING_SHA" ]; then
-              echo "needs_promotion=true" >> $GITHUB_OUTPUT
-              echo "Staging is behind develop - promotion needed"
-            else
+          # Check if develop has commits not in staging
+          COMMITS_AHEAD=$(git rev-list --count origin/staging..origin/develop)
+          echo "Develop is $COMMITS_AHEAD commits ahead of staging"
+
+          if [ "$COMMITS_AHEAD" -gt 0 ]; then
+            # Check if develop tip is already in staging (merged but not ff)
+            if git merge-base --is-ancestor origin/develop origin/staging; then
               echo "needs_promotion=false" >> $GITHUB_OUTPUT
-              echo "Staging is up to date with develop"
+              echo "Develop commits already merged into staging"
+            else
+              echo "needs_promotion=true" >> $GITHUB_OUTPUT
+              echo "Staging needs to be updated with develop commits"
             fi
           else
             echo "needs_promotion=false" >> $GITHUB_OUTPUT
-            echo "Branches have diverged - manual merge required"
+            echo "Staging is up to date with develop"
           fi
 
       - name: Promote to staging
         if: steps.check.outputs.needs_promotion == 'true'
         run: |
           git checkout staging
-          git merge origin/develop --ff-only -m "chore: auto-promote develop to staging"
+          # Try fast-forward first, fall back to merge if needed
+          if git merge origin/develop --ff-only 2>/dev/null; then
+            echo "✓ Fast-forward merge successful"
+          else
+            git merge origin/develop --no-edit -m "chore: auto-promote develop to staging"
+            echo "✓ Merge commit created"
+          fi
           git push origin staging
           echo "✓ Successfully promoted develop to staging"
