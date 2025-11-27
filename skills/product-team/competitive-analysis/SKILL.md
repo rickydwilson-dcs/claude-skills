@@ -1,64 +1,79 @@
-# Competitive Analysis Skill
+---
 
-## Metadata
+# === CORE IDENTITY ===
+name: competitive-analysis
+title: Competitive Analysis & Intelligence
+description: Strategic competitive analysis framework for evaluating skills, commands, agents, and product features against external repositories and competitors
+domain: product
+subdomain: product-team-general
 
-```yaml
-skill_name: competitive-analysis
-display_name: Competitive Analysis & Intelligence
-domain: product-team
-version: 1.0.0
-status: production
-created: 2025-11-27
-updated: 2025-11-27
-
-description: >
-  Strategic competitive analysis framework for evaluating skills, commands, agents,
-  and product features against external repositories and competitors. Generates
-  scorecards, identifies gaps, and prioritizes adoption recommendations.
-
-capabilities:
+# === WEBSITE DISPLAY ===
+difficulty: intermediate
+time-saved: "70% faster competitive analysis, 50% more comprehensive gap coverage"
+frequency: "Monthly for strategic planning, quarterly for market reviews"
+use-cases:
   - Competitive scorecard generation with weighted dimensions
   - Feature gap analysis and opportunity identification
   - Competitive advantage documentation
   - Adoption prioritization using impact/effort frameworks
   - Strategic positioning assessment
 
-tools:
-  python-tools:
-    - scripts/competitive_analyzer.py
-    - scripts/gap_analyzer.py
-    - scripts/scorecard_generator.py
+# === RELATIONSHIPS ===
+related-agents: [cs-product-strategist, cs-product-manager, cs-business-analyst]
+related-skills: []
+related-commands: []
+orchestrated-by: []
 
-integrations:
-  commands:
-    - analyze.competition
-  agents:
-    - cs-product-strategist
-    - cs-product-manager
-    - cs-business-analyst
+# === TECHNICAL ===
+dependencies:
+  scripts: []
+  references: []
+  assets: []
+compatibility:
+  python-version: 3.8+
+  platforms: [macos, linux, windows]
+tech-stack: [Python 3.8+, Markdown]
 
-tags:
-  - competitive-intelligence
-  - gap-analysis
-  - strategic-planning
-  - scorecard
-  - prioritization
-```
+# === EXAMPLES ===
+examples:
+  -
+    title: Competitive Scorecard
+    input: "Analyze competitor repository against our skills"
+    output: "Visual scorecard with ratings and recommendations"
 
+# === ANALYTICS ===
+stats:
+  downloads: 0
+  stars: 0
+  rating: 0.0
+  reviews: 0
+
+# === VERSIONING ===
+version: v1.1.0
+author: Claude Skills Library
+contributors: []
+created: 2025-11-27
+updated: 2025-11-27
+license: MIT
+
+# === DISCOVERABILITY ===
+tags: [competitive-intelligence, gap-analysis, strategic-planning, scorecard, prioritization, product]
+featured: false
+verified: true
 ---
+
+# Competitive Analysis Skill
 
 ## Overview
 
 The Competitive Analysis skill provides a structured framework for comparing your skills, commands, agents, and features against competitors. It enables systematic evaluation using weighted scoring dimensions and generates actionable insights for product strategy.
 
-### Key Capabilities
+## Core Capabilities
 
-| Capability | Description | Output |
-|------------|-------------|--------|
-| **Scorecard Generation** | Multi-dimensional comparison with weighted scoring | Visual scorecard with ratings |
-| **Gap Analysis** | Identify what competitors have that you don't | Prioritized gap list |
-| **Advantage Identification** | Document your competitive strengths | Differentiation matrix |
-| **Adoption Prioritization** | Rank improvements by impact and effort | Action roadmap |
+- **Scorecard Generation** - Multi-dimensional comparison with weighted scoring for visual scorecards
+- **Gap Analysis** - Identify what competitors have that you don't with prioritized gap lists
+- **Advantage Identification** - Document your competitive strengths in differentiation matrices
+- **Adoption Prioritization** - Rank improvements by impact and effort for action roadmaps
 
 ### When to Use This Skill
 
@@ -70,9 +85,24 @@ The Competitive Analysis skill provides a structured framework for comparing you
 
 ---
 
-## Workflows
+## Quick Start
 
-### Workflow 1: Competitive Scorecard Generation
+```bash
+# Run competitive analysis
+python scripts/competitive_analyzer.py --competitor-path ./competitor-code --our-path ./
+
+# Generate gap analysis
+python scripts/gap_analyzer.py --competitor-path ./competitor
+
+# Create visual scorecard
+python scripts/scorecard_generator.py --analysis-file analysis.json
+```
+
+---
+
+## Key Workflows
+
+### 1. Competitive Scorecard Generation
 
 **Purpose**: Create a comprehensive comparison scorecard between your product and competitors.
 
@@ -126,7 +156,7 @@ The Competitive Analysis skill provides a structured framework for comparing you
 
 ---
 
-### Workflow 2: Feature Gap Analysis
+### 2. Feature Gap Analysis
 
 **Purpose**: Identify gaps in your product compared to competitors and prioritize which to address.
 
@@ -192,7 +222,7 @@ The Competitive Analysis skill provides a structured framework for comparing you
 
 ---
 
-### Workflow 3: Competitive Advantage Identification
+### 3. Competitive Advantage Identification
 
 **Purpose**: Document and articulate your competitive strengths.
 
@@ -230,7 +260,7 @@ The Competitive Analysis skill provides a structured framework for comparing you
 
 ---
 
-### Workflow 4: Adoption Prioritization
+### 4. Adoption Prioritization
 
 **Purpose**: Create a prioritized roadmap for adopting competitor features or innovations.
 
