@@ -1,7 +1,7 @@
 # Command Catalog
 
 **Last Updated:** November 27, 2025
-**Total Commands:** 13
+**Total Commands:** 14
 **Status:** Production - Core Command Library Established
 
 ---
@@ -60,6 +60,7 @@ Commands for code and documentation generation:
 **Available Commands:**
 - [`generate.tests`](generation/generate.tests.md) - Intelligent test case generation from existing code with coverage analysis
 - [`generate.api-docs`](generation/generate.api-docs.md) - Automatic API documentation generation with OpenAPI/Swagger specs
+- [`generate.user-stories`](generation/generate.user-stories.md) - Generate INVEST-compliant user stories from epic descriptions with acceptance criteria
 
 **Planned Commands:**
 - `/generation.fixture-generate` - Generate test fixtures and mock data
@@ -179,6 +180,7 @@ Commands follow one of three patterns based on complexity:
 **Generation Commands:**
 - [`generate.tests`](generation/generate.tests.md) - Test case generation (2-5 min)
 - [`generate.api-docs`](generation/generate.api-docs.md) - API documentation (3-7 min)
+- [`generate.user-stories`](generation/generate.user-stories.md) - User story generation with INVEST criteria (5-15 sec)
 
 **Workflow Commands:**
 - [`create.pr`](workflow/create.pr.md) - Pull request creation (2-4 min)
@@ -476,7 +478,7 @@ git push origin feature/command-name
 | Category | Count | Planned |
 |----------|-------|---------|
 | Analysis | 5 | 2 |
-| Generation | 2 | 3 |
+| Generation | 3 | 2 |
 | Git | 2 | 3 |
 | Workflow | 3 | 3 |
 | Test | 1 | 2 |
@@ -484,25 +486,25 @@ git push origin feature/command-name
 | Security | 0 | 4 |
 | Architecture | 0 | 3 |
 | Content | 0 | 3 |
-| **Total** | **13** | **27** |
+| **Total** | **14** | **26** |
 
 ### By Pattern
 
 | Pattern | Count | Planned |
 |---------|-------|---------|
 | Simple | 4 | 11 |
-| Multi-Phase | 9 | 10 |
+| Multi-Phase | 10 | 9 |
 | Agent-Style | 0 | 6 |
-| **Total** | **13** | **27** |
+| **Total** | **14** | **26** |
 
 ### Validation Status
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| All Passing | 13 | 100% |
+| All Passing | 14 | 100% |
 | Partial | 0 | 0% |
 | Failing | 0 | 0% |
-| **Total** | **13** | **100%** |
+| **Total** | **14** | **100%** |
 
 ---
 
