@@ -9,6 +9,9 @@ on:
     types: [completed]
     branches: [develop]
 
+permissions:
+  contents: write
+
 jobs:
   promote-to-staging:
     name: Promote develop → staging
@@ -24,6 +27,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
 
       - name: Configure git
         run: |
