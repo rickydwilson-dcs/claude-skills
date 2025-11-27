@@ -63,14 +63,18 @@ examples:
       [User pastes competitor skill/command code directly in chat]
     output: |
       Competitive Analysis Report
+      US (claude-skills) vs THEM (Competitor)
 
       SCORECARD
       ┌─────────────────────┬───────────┬───────────┬─────────────────┐
-      │ Category            │ Ours      │ Theirs    │ Delta           │
+      │ Category            │ US        │ THEM      │ Winner          │
       ├─────────────────────┼───────────┼───────────┼─────────────────┤
-      │ Documentation       │ 92        │ 60        │ +32 (Advantage) │
-      │ Python Tooling      │ 78        │ 85        │ -7 (Gap)        │
+      │ Documentation       │ 92        │ 60        │ 🏆 US (+32)     │
+      │ Python Tooling      │ 78        │ 85        │ ❌ THEM (-7)    │
       └─────────────────────┴───────────┴───────────┴─────────────────┘
+
+      RECOMMENDATIONS FOR US:
+      - Add more Python tooling to close gap
 
       Report saved to: output/sessions/{user}/{session}/competition-analysis.md
 
@@ -80,17 +84,19 @@ examples:
       [User pastes competitor SKILL.md and scripts]
     output: |
       Skill Package Competitive Analysis
+      US (claude-skills) vs THEM (Competitor)
 
       PACKAGE COMPARISON
-      ┌────────────────────┬──────────────┬──────────────────────────────┐
-      │ Aspect             │ Claude Skills │ Competitor                  │
-      ├────────────────────┼──────────────┼──────────────────────────────┤
-      │ Python Tools       │ 3 scripts    │ 5 scripts                    │
-      │ Reference Docs     │ 3 guides     │ 1 guide                      │
-      │ Dependencies       │ stdlib only  │ 4 external packages          │
-      └────────────────────┴──────────────┴──────────────────────────────┘
+      ┌────────────────────┬──────────────┬──────────────┬─────────────┐
+      │ Aspect             │ US           │ THEM         │ Winner      │
+      ├────────────────────┼──────────────┼──────────────┼─────────────┤
+      │ Python Tools       │ 3 scripts    │ 5 scripts    │ ❌ THEM     │
+      │ Reference Docs     │ 3 guides     │ 1 guide      │ 🏆 US       │
+      │ Dependencies       │ stdlib only  │ 4 packages   │ 🏆 US       │
+      └────────────────────┴──────────────┴──────────────┴─────────────┘
 
-      ADOPTION SCORE: 72 (selective adoption recommended)
+      RECOMMENDATIONS FOR US:
+      - Add 2 more Python scripts to match their tooling depth
 
   - title: "Agent Workflow Comparison"
     input: |
@@ -98,15 +104,16 @@ examples:
       [User pastes competitor agent/workflow definition]
     output: |
       Agent Workflow Competitive Analysis
+      US (claude-skills) vs THEM (Competitor)
 
       ORCHESTRATION PATTERNS:
-      ┌──────────────────┬───────────────┬───────────────┐
-      │ Pattern          │ Claude Skills │ Competitor    │
-      ├──────────────────┼───────────────┼───────────────┤
-      │ Multi-Phase      │ Supported     │ Supported     │
-      │ Skill Refs       │ Relative      │ Absolute      │
-      │ Model Selection  │ Configurable  │ Fixed         │
-      └──────────────────┴───────────────┴───────────────┘
+      ┌──────────────────┬───────────────┬───────────────┬─────────────┐
+      │ Pattern          │ US            │ THEM          │ Winner      │
+      ├──────────────────┼───────────────┼───────────────┼─────────────┤
+      │ Multi-Phase      │ Supported     │ Supported     │ 🤝 TIE      │
+      │ Skill Refs       │ Relative      │ Absolute      │ 🏆 US       │
+      │ Model Selection  │ Configurable  │ Fixed         │ 🏆 US       │
+      └──────────────────┴───────────────┴───────────────┴─────────────┘
 
   - title: "Command Pattern Analysis"
     input: |
@@ -114,11 +121,15 @@ examples:
       [User pastes competitor command definition]
     output: |
       Command Pattern Competitive Analysis
+      US (claude-skills) vs THEM (Competitor)
 
-      Our Pattern: Multi-Phase (Discovery -> Analysis -> Task -> Report)
-      Their Pattern: Simple (Context -> Task)
+      US Pattern: Multi-Phase (Discovery -> Analysis -> Task -> Report)
+      THEM Pattern: Simple (Context -> Task)
 
-      RECOMMENDATION: Our multi-phase approach provides 40% more insights
+      Winner: 🏆 US - Our multi-phase approach provides 40% more insights
+
+      RECOMMENDATIONS FOR US:
+      - None needed - maintain this advantage
 
 # === ANALYTICS ===
 stats:
@@ -428,68 +439,72 @@ Priority Score = (Impact * 0.4) + (Urgency * 0.3) + (Strategic * 0.2) + (1/Effor
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                    COMPETITIVE ANALYSIS                      │
+│                US (claude-skills) vs THEM (Competitor)       │
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
-│  Better:    12 features  (60%)  ████████████░░░░░░░░        │
-│  Same:       4 features  (20%)  ████░░░░░░░░░░░░░░░░        │
-│  Different:  2 features  (10%)  ██░░░░░░░░░░░░░░░░░░        │
-│  Behind:     2 features  (10%)  ██░░░░░░░░░░░░░░░░░░        │
+│  🏆 WE WIN:    12 areas (60%)  ████████████░░░░░░░░        │
+│  🤝 TIE:        4 areas (20%)  ████░░░░░░░░░░░░░░░░        │
+│  🔄 DIFFERENT:  2 areas (10%)  ██░░░░░░░░░░░░░░░░░░        │
+│  ❌ THEY WIN:   2 areas (10%)  ██░░░░░░░░░░░░░░░░░░        │
 │                                                              │
-│  Overall Assessment: COMPETITIVE ADVANTAGE                   │
+│  Overall Position: WE ARE AHEAD                              │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ### Feature Comparison Matrix Format
 
-| Category | Feature | Ours | Theirs | Status | Notes |
-|----------|---------|------|--------|--------|-------|
-| **Documentation** | YAML Metadata | Complete | Partial | Better | +Extended fields |
-| | Workflow Docs | 4+ workflows | 2 workflows | Better | More coverage |
-| **Tooling** | Python Scripts | 3 scripts | 5 scripts | Behind | Gap to address |
-| | CLI Support | Full --help | Basic | Better | +Detailed help |
-| **Architecture** | Dependencies | stdlib only | 4 packages | Better | Zero deps |
+| Category | Feature | US | THEM | Winner | Recommendation for US |
+|----------|---------|-----|------|--------|----------------------|
+| **Documentation** | YAML Metadata | Complete | Partial | 🏆 US | Maintain advantage |
+| | Workflow Docs | 4+ workflows | 2 workflows | 🏆 US | Maintain advantage |
+| **Tooling** | Python Scripts | 3 scripts | 5 scripts | ❌ THEM | Add more scripts |
+| | CLI Support | Full --help | Basic | 🏆 US | Maintain advantage |
+| **Architecture** | Dependencies | stdlib only | 4 packages | 🏆 US | Maintain advantage |
 
 ### Differentiator Scores Format
 
 ```
-YOUR PROJECT vs COMPETITOR
+US (claude-skills) vs THEM (Competitor)
 
-Documentation     ★★★★★  vs  ★★★☆☆  (+2 advantage)
-Tool Quality      ★★★★☆  vs  ★★★★★  (-1 gap)
-Workflow Coverage ★★★★★  vs  ★★★☆☆  (+2 advantage)
-Architecture      ★★★★★  vs  ★★★☆☆  (+2 advantage)
-Automation        ★★★★☆  vs  ★★★☆☆  (+1 advantage)
-References        ★★★★☆  vs  ★★★☆☆  (+1 advantage)
+Dimension         US          THEM        Winner
+─────────────────────────────────────────────────
+Documentation     ★★★★★       ★★★☆☆       🏆 US (+2)
+Tool Quality      ★★★★☆       ★★★★★       ❌ THEM (-1) ← Gap to fill
+Workflow Coverage ★★★★★       ★★★☆☆       🏆 US (+2)
+Architecture      ★★★★★       ★★★☆☆       🏆 US (+2)
+Automation        ★★★★☆       ★★★☆☆       🏆 US (+1)
+References        ★★★★☆       ★★★☆☆       🏆 US (+1)
 
-OVERALL:          ★★★★☆  vs  ★★★☆☆  (AHEAD)
+OVERALL:          ★★★★☆       ★★★☆☆       🏆 WE ARE AHEAD
 ```
 
 ### Strategic Assessment Format
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                      STRATEGIC RECOMMENDATIONS                               │
+│                STRATEGIC RECOMMENDATIONS FOR US                              │
+│                     (Based on competitive analysis)                          │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                              │
-│  DOUBLE DOWN (Extend Advantages)                                             │
-│  ────────────────────────────────                                            │
-│  - Zero-dependency architecture - this is your moat                          │
-│  - Documentation quality - expand tutorials and examples                     │
+│  🏆 DOUBLE DOWN (Extend Our Advantages)                                      │
+│  ──────────────────────────────────────                                      │
+│  - Zero-dependency architecture - this is our moat                           │
+│  - Documentation quality - expand our tutorials and examples                 │
 │                                                                              │
-│  CLOSE GAPS (Address Weaknesses)                                             │
-│  ────────────────────────────────                                            │
+│  ❌ CLOSE GAPS (What We Need to Improve)                                     │
+│  ───────────────────────────────────────                                     │
 │  - Python tooling count - add missing automation scripts                     │
 │  - Integration patterns - learn from their approach                          │
 │                                                                              │
-│  DIFFERENTIATE (Create New Advantages)                                       │
-│  ────────────────────────────────────                                        │
+│  🚀 DIFFERENTIATE (Create New Advantages for Us)                             │
+│  ───────────────────────────────────────────────                             │
 │  - AI-powered features - get ahead of commoditization                        │
 │  - Developer community - build ecosystem lock-in                             │
 │                                                                              │
-│  MONITOR (Watch for Changes)                                                 │
-│  ────────────────────────────                                                │
-│  - Competitor feature releases                                               │
+│  👀 MONITOR (Watch What They Do)                                             │
+│  ───────────────────────────────                                             │
+│  - Their feature releases                                                    │
 │  - New market entrants                                                       │
 │                                                                              │
 └─────────────────────────────────────────────────────────────────────────────┘

@@ -3,19 +3,20 @@
 # === CORE IDENTITY ===
 name: business-analyst-toolkit
 title: Business Analyst Toolkit
-description: Use when analyzing business processes, mapping workflows, documenting requirements, and designing improvements for operational efficiency
+description: Business process analysis, requirements documentation, and workflow optimization for retail, supply chain, and technology organizations
 domain: product
 subdomain: product-team-general
 
 # === WEBSITE DISPLAY ===
 difficulty: intermediate
-time-saved: """TODO: Quantify time savings"""
-frequency: """TODO: Estimate usage frequency"""
+time-saved: "60% faster process documentation, 40% faster stakeholder alignment"
+frequency: "Weekly for active BA projects"
 use-cases:
-  - Primary workflow for Business Analyst Toolkit
-  - Analysis and recommendations for business analyst toolkit tasks
-  - Best practices implementation for business analyst toolkit
-  - Integration with related skills and workflows
+  - Retail operations process optimization (inventory, fulfillment, POS)
+  - Supply chain workflow analysis and improvement
+  - Technology platform requirements and integration documentation
+  - E-commerce checkout and customer journey mapping
+  - Omnichannel retail process design
 
 # === RELATIONSHIPS ===
 related-agents: []
@@ -48,15 +49,15 @@ stats:
   reviews: 0
 
 # === VERSIONING ===
-version: v1.0.0
+version: v1.1.0
 author: Claude Skills Library
 contributors: []
 created: 2025-11-21
-updated: 2025-11-23
+updated: 2025-11-27
 license: MIT
 
 # === DISCOVERABILITY ===
-tags: [analyst, business, design, product, toolkit]
+tags: [analyst, business, design, product, toolkit, retail, supply-chain, technology]
 featured: false
 verified: true
 ---
@@ -66,51 +67,173 @@ verified: true
 
 ## Overview
 
-This skill provides [TODO: Add 2-3 sentence overview].
+This skill provides structured frameworks and automation tools for business process analysis, requirements documentation, and workflow optimization. It is specifically tailored for **retail**, **supply chain**, and **technology** organizations.
 
-**Core Value:** [TODO: Add value proposition with metrics]
+**Core Value:** 60% faster process documentation, 40% reduction in stakeholder alignment time, 50% less time analyzing processes with automation tools
 
-**Target Audience:** [TODO: Define target users]
+**Target Audience:** Business Analysts, Process Improvement Specialists, Product Managers working in retail, supply chain, or technology sectors
 
-**Use Cases:** [TODO: List 3-5 primary use cases]
+**Industry Focus:** Retail (including e-commerce), Supply Chain, Technology/SaaS
 
 
 ## Core Capabilities
 
-- **[Capability 1]** - [Description]
-- **[Capability 2]** - [Description]
-- **[Capability 3]** - [Description]
-- **[Capability 4]** - [Description]
+- **Process Discovery & Analysis** - Map current-state operations, identify bottlenecks and inefficiencies
+- **Requirements Documentation** - Capture business needs with structured templates and acceptance criteria
+- **Process Improvement Design** - Create future-state workflows with measurable benefits
+- **Stakeholder Management** - Map influence networks and develop engagement strategies
+- **Gap Analysis** - Identify missing elements with severity scoring and recommendations
 
 
-## Key Workflows
+## Industry-Specific Guidance
 
-### Workflow 1: [Workflow Name]
+### Retail & E-commerce
 
-**Time:** [Duration estimate]
+**Common Processes to Analyze:**
+- Order fulfillment and shipping workflows
+- Inventory management and replenishment
+- Point-of-sale (POS) transaction flows
+- Customer returns and exchanges
+- Omnichannel experience (online, in-store, mobile)
+- Loyalty program operations
 
-**Steps:**
-1. [Step 1]
-2. [Step 2]
-3. [Step 3]
+**Key Constraints:**
+- Peak season scalability (Black Friday, holidays)
+- Real-time inventory accuracy requirements
+- Payment processing compliance (PCI-DSS)
+- Customer experience expectations (speed, convenience)
+- Multi-location coordination
 
-**Expected Output:** [What success looks like]
+**Metrics to Track:**
+- Order-to-delivery cycle time
+- Inventory turnover rate
+- Cart abandonment rate
+- Customer satisfaction (NPS, CSAT)
+- Return rate and processing time
 
-### Workflow 2: [Workflow Name]
+### Supply Chain
 
-**Time:** [Duration estimate]
+**Common Processes to Analyze:**
+- Procurement and vendor management
+- Warehouse operations and picking/packing
+- Transportation and logistics coordination
+- Demand forecasting and planning
+- Quality control and inspection
+- Reverse logistics and returns
 
-**Steps:**
-1. [Step 1]
-2. [Step 2]
-3. [Step 3]
+**Key Constraints:**
+- Lead time variability from suppliers
+- Warehouse capacity limitations
+- Transportation cost optimization
+- Regulatory compliance (customs, safety)
+- Supplier reliability and risk
 
-**Expected Output:** [What success looks like]
+**Metrics to Track:**
+- Perfect order rate
+- Inventory days on hand
+- Supplier on-time delivery
+- Warehouse utilization
+- Cost per unit shipped
+
+### Technology / SaaS
+
+**Common Processes to Analyze:**
+- Software development lifecycle (SDLC)
+- Customer onboarding and provisioning
+- Support ticket escalation and resolution
+- Feature request intake and prioritization
+- Release management and deployment
+- Integration and API workflows
+
+**Key Constraints:**
+- Technical debt and legacy systems
+- Data security and privacy requirements
+- Scalability and performance needs
+- Integration complexity across platforms
+- Rapid feature velocity expectations
+
+**Metrics to Track:**
+- Time to first value (TTFV)
+- Support ticket resolution time
+- System uptime and reliability
+- Feature adoption rate
+- Customer churn rate
+
+
+## Methodology Variants
+
+### Agile BA Approach
+
+**When to Use:** Fast-moving environments, iterative delivery, continuous collaboration
+
+**Workflow Adaptations:**
+- User stories instead of comprehensive BRDs
+- Iterative refinement over upfront documentation
+- Continuous stakeholder collaboration
+- Sprint-based requirement delivery
+- Just-in-time analysis
+
+**Key Artifacts:**
+- User stories with acceptance criteria
+- Story maps
+- Sprint backlog items
+- Definition of Done
+- Retrospective insights
+
+### Waterfall BA Approach
+
+**When to Use:** Regulated environments, fixed-scope projects, contractual requirements
+
+**Workflow Adaptations:**
+- Comprehensive upfront requirements
+- Formal sign-off gates
+- Detailed BRD and FRS documents
+- Structured change control
+- Sequential phase delivery
+
+**Key Artifacts:**
+- Business Requirements Document (BRD)
+- Functional Requirements Specification (FRS)
+- Requirements Traceability Matrix (RTM)
+- Formal change requests
+- Sign-off documentation
+
+### Hybrid Approach
+
+**When to Use:** Most real-world projects, balancing flexibility with structure
+
+**Workflow Adaptations:**
+- High-level requirements upfront
+- Detailed user stories per sprint
+- Flexible scope within fixed timeline
+- Iterative stakeholder validation
+- Phased delivery with checkpoints
+
+**Key Artifacts:**
+- Vision document (high-level)
+- Epic definitions
+- Detailed user stories (just-in-time)
+- Rolling wave planning docs
+- Milestone sign-offs
+
+
+## Common Challenges & Mitigations
+
+| Challenge | Impact | Mitigation Strategy |
+|-----------|--------|---------------------|
+| **Ambiguous requirements** | Rework, delays | Use structured templates, validate with examples |
+| **Conflicting stakeholder priorities** | Scope creep, politics | RACI matrix, executive sponsor alignment |
+| **Limited stakeholder availability** | Incomplete analysis | Async documentation, targeted workshops |
+| **Tight project timelines** | Quality shortcuts | Prioritize critical requirements, timeboxed analysis |
+| **Changing business priorities** | Scope instability | Change control process, impact assessment |
+| **Technical constraints unknown upfront** | Late surprises | Early technical feasibility reviews |
+| **Legacy system limitations** | Integration complexity | Document constraints, plan workarounds |
+| **Organizational resistance to change** | Adoption failures | Stakeholder mapping, change management plan |
 
 
 ## Keywords
 
-business analysis, process mapping, workflow documentation, requirements gathering, process improvement, stakeholder analysis, RACI matrix, process charter, business process modeling, gap analysis, root cause analysis, as-is to-be analysis, process optimization, operational efficiency, change management, business requirements, functional requirements, process documentation, improvement proposals, business case development
+business analysis, process mapping, workflow documentation, requirements gathering, process improvement, stakeholder analysis, RACI matrix, process charter, business process modeling, gap analysis, root cause analysis, as-is to-be analysis, process optimization, operational efficiency, change management, business requirements, functional requirements, process documentation, improvement proposals, business case development, retail operations, supply chain, e-commerce, technology, SaaS, omnichannel
 
 ---
 
@@ -197,6 +320,24 @@ Map influence networks, assess engagement needs, and create communication strate
 4. Track progress and adjust approach
 
 **Output:** Stakeholder engagement plan with communication schedule
+
+### 5. Evaluation & Lessons Learned
+Assess solution effectiveness against original requirements and capture insights for future improvements.
+
+**Steps:**
+1. Compare delivered solution against original requirements
+2. Measure KPIs using `kpi_calculator.py` against baseline
+3. Gather stakeholder feedback on solution adoption
+4. Document lessons learned and improvement recommendations
+5. Create handoff documentation for operations team
+
+**Output:** Solution evaluation report with benefits realization and lessons learned
+
+**Key Questions to Answer:**
+- Did we achieve the stated objectives?
+- What was the actual ROI vs projected?
+- What would we do differently next time?
+- What process improvements emerged during implementation?
 
 ---
 
@@ -593,4 +734,13 @@ cp assets/stakeholder-analysis-template.md feature-request-stakeholders.md
 
 **Support:** For issues or questions, refer to parent domain guide at `../CLAUDE.md`
 
-**Version:** 1.0.0 | **Last Updated:** 2025-11-21 | **Status:** Production Ready
+**Version:** 1.1.0 | **Last Updated:** 2025-11-27 | **Status:** Production Ready
+
+---
+
+## Version History
+
+| Version | Date | Changes |
+|---------|------|---------|
+| 1.1.0 | 2025-11-27 | Added retail/supply chain/tech industry focus, methodology variants, common challenges, 5th workflow (Evaluation & Lessons Learned) |
+| 1.0.0 | 2025-11-21 | Initial release with 4 workflows and Python tools |

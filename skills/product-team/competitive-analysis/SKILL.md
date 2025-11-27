@@ -110,17 +110,18 @@ The Competitive Analysis skill provides a structured framework for comparing you
 
 **Example Output**:
 ```
-┌─────────────────────────────────────┐
-│      COMPETITIVE SCORECARD          │
-├─────────────────────────────────────┤
-│  🟢 Better:    12 features  (48%)   │
-│  ✅ Same:       8 features  (32%)   │
-│  🟡 Different:  3 features  (12%)   │
-│  ❌ Behind:     2 features  (8%)    │
-│                                     │
-│  Overall: AHEAD                     │
-│  Confidence: HIGH                   │
-└─────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────┐
+│                 COMPETITIVE SCORECARD                      │
+│                 US (claude-skills) vs THEM (Competitor)    │
+├───────────────────────────────────────────────────────────┤
+│  🏆 WE WIN:     12 areas  (48%)  - Our advantages         │
+│  🤝 TIE:         8 areas  (32%)  - At parity              │
+│  🔄 DIFFERENT:   3 areas  (12%)  - Neither better         │
+│  ❌ THEY WIN:    2 areas  (8%)   - Gaps to address        │
+│                                                            │
+│  Overall Position: WE ARE AHEAD                            │
+│  Confidence: HIGH                                          │
+└───────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -133,11 +134,11 @@ The Competitive Analysis skill provides a structured framework for comparing you
 
 **Process**:
 
-1. **Gap Identification**
-   - What they have that we don't (gaps to fill)
-   - What we have that they don't (advantages to maintain)
-   - Different approaches (neither better, just different)
-   - Areas where we're behind (priority improvements)
+1. **Gap Identification** (Always label clearly as US vs THEM)
+   - **THEY have, WE don't** → Gaps for us to fill
+   - **WE have, THEY don't** → Our advantages to maintain
+   - **Different approaches** → Neither better, just different
+   - **THEY score higher** → Priority improvements for us
 
 2. **Gap Categorization**
 
@@ -160,6 +161,32 @@ The Competitive Analysis skill provides a structured framework for comparing you
    ```
 
 **Deliverable**: Prioritized gap list with recommended actions
+
+**Example Output**:
+```
+┌───────────────────────────────────────────────────────────────┐
+│                       GAP ANALYSIS                            │
+│                   US vs THEM Comparison                        │
+├───────────────────────────────────────────────────────────────┤
+│                                                                │
+│  🏆 WHAT WE HAVE THAT THEY DON'T (Our Advantages)             │
+│  ├─ Executable Python tools (they have zero)                   │
+│  ├─ Modular package structure (SKILL.md + scripts/)            │
+│  ├─ Agent integration                                          │
+│  └─ Builder tools for creation/validation                      │
+│                                                                │
+│  ❌ WHAT THEY HAVE THAT WE DON'T (Gaps to Fill)               │
+│  ├─ Industry-specific guidance                                 │
+│  ├─ Methodology variants (Agile/Waterfall)                     │
+│  └─ Detailed constraint documentation                          │
+│                                                                │
+│  🟢 RECOMMENDATIONS FOR US                                    │
+│  ├─ Add industry guides to our skill                           │
+│  ├─ Document methodology variants                              │
+│  └─ Add common challenges section                              │
+│                                                                │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **Reference**: See [references/gap-analysis-methodology.md](references/gap-analysis-methodology.md)
 
@@ -451,17 +478,36 @@ Phase 4: Reporting... generating scorecard
 # 5. Output displayed and saved
 Report saved to: output/sessions/{user}/{session}/competitive-analysis-2025-11-27.md
 
-┌─────────────────────────────────────┐
-│      COMPETITIVE SCORECARD          │
-├─────────────────────────────────────┤
-│  🟢 Better:    12 features  (48%)   │
-│  ✅ Same:       8 features  (32%)   │
-│  🟡 Different:  3 features  (12%)   │
-│  ❌ Behind:     2 features  (8%)    │
-│                                     │
-│  Overall: AHEAD                     │
-│  Confidence: HIGH                   │
-└─────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────┐
+│                 COMPETITIVE SCORECARD                      │
+│                 US (claude-skills) vs THEM (Competitor)    │
+├───────────────────────────────────────────────────────────┤
+│  🏆 WE WIN:     12 areas  (48%)  - Our advantages         │
+│  🤝 TIE:         8 areas  (32%)  - At parity              │
+│  🔄 DIFFERENT:   3 areas  (12%)  - Neither better         │
+│  ❌ THEY WIN:    2 areas  (8%)   - Gaps to address        │
+│                                                            │
+│  Overall Position: WE ARE AHEAD                            │
+│  Confidence: HIGH                                          │
+└───────────────────────────────────────────────────────────┘
+
+## Dimension Comparison
+
+| Dimension | US | THEM | Winner |
+|-----------|-----|------|--------|
+| Documentation | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | 🏆 THEM |
+| Python Tools | ⭐⭐⭐⭐⭐ | ⭐⭐ | 🏆 US |
+| Workflows | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | 🏆 THEM |
+| Architecture | ⭐⭐⭐⭐⭐ | ⭐⭐ | 🏆 US |
+| Automation | ⭐⭐⭐⭐⭐ | ⭐ | 🏆 US |
+| References | ⭐⭐⭐⭐ | ⭐⭐⭐ | 🏆 US |
+
+## Recommendations for US
+
+| What to Improve | Priority | Effort |
+|-----------------|----------|--------|
+| Add their workflow depth | 🟢 High | Low |
+| Adopt their documentation patterns | 🟠 Medium | Medium |
 ```
 
 ---
@@ -470,6 +516,7 @@ Report saved to: output/sessions/{user}/{session}/competitive-analysis-2025-11-2
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.1.0 | 2025-11-27 | Clearer US vs THEM labeling in all outputs |
 | 1.0.0 | 2025-11-27 | Initial release with 4 workflows |
 
 ---
