@@ -5,7 +5,7 @@ name: senior-pm
 title: Senior PM Skill Package
 description: Senior Project Manager for Software, SaaS, and digital web/mobile applications. Use for strategic planning, portfolio management, stakeholder alignment, risk management, roadmap development, budget oversight, cross-functional team leadership, and executive reporting for software products.
 domain: delivery
-subdomain: senior pm-general
+subdomain: senior-pm-general
 
 # === WEBSITE DISPLAY ===
 difficulty: advanced
