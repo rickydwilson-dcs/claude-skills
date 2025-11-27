@@ -278,11 +278,13 @@ jobs:
           echo "=== Validating agent-skill cross-references ==="
           ERRORS=0
           for agent in agents/*/*.md; do
-            # Extract skill references from agent
-            SKILLS=$(grep -oE '../../skills/[^/]+/[^/]+' "$agent" 2>/dev/null | sort -u || true)
+            # Extract skill directory references (not file references like CLAUDE.md)
+            # Match pattern: ../../skills/team-name/skill-name/ or ../../skills/team-name/skill-name)
+            SKILLS=$(grep -oE '\.\./\.\./skills/[a-z-]+/[a-z-]+[/)]' "$agent" 2>/dev/null | \
+                     sed 's|[/)]$||' | sort -u || true)
             for skill_path in $SKILLS; do
               # Convert relative path to absolute
-              SKILL_DIR=$(echo "$skill_path" | sed 's|../../||')
+              SKILL_DIR=$(echo "$skill_path" | sed 's|\.\./\.\./||')
               if [[ ! -d "$SKILL_DIR" ]]; then
                 echo "✗ $agent references non-existent skill: $SKILL_DIR"
                 ERRORS=$((ERRORS + 1))
