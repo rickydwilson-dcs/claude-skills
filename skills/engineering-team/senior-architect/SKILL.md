@@ -9,8 +9,8 @@ subdomain: system-architecture
 
 # === WEBSITE DISPLAY ===
 difficulty: advanced
-time-saved: """TODO: Quantify time savings"""
-frequency: """TODO: Estimate usage frequency"""
+time-saved: "TODO: Quantify time savings"
+frequency: "TODO: Estimate usage frequency"
 use-cases:
   - Designing scalable system architectures for cloud-native applications
   - Evaluating technology stacks and making evidence-based decisions

@@ -11,8 +11,8 @@ model: sonnet
 
 # === WEBSITE DISPLAY ===
 difficulty: advanced
-time-saved: """TODO: Quantify time savings"""
-frequency: """TODO: Estimate usage frequency"""
+time-saved: "TODO: Quantify time savings"
+frequency: "TODO: Estimate usage frequency"
 use-cases:
   - Building responsive user interfaces with modern frameworks
   - Implementing state management and component architecture

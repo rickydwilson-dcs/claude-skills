@@ -9,8 +9,8 @@ subdomain: ai-ml-engineering
 
 # === WEBSITE DISPLAY ===
 difficulty: advanced
-time-saved: """TODO: Quantify time savings"""
-frequency: """TODO: Estimate usage frequency"""
+time-saved: "TODO: Quantify time savings"
+frequency: "TODO: Estimate usage frequency"
 use-cases:
   - Primary workflow for Senior Ml Engineer
   - Analysis and recommendations for senior ml engineer tasks

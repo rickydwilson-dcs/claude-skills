@@ -9,8 +9,8 @@ subdomain: prompt-engineering
 
 # === WEBSITE DISPLAY ===
 difficulty: advanced
-time-saved: """TODO: Quantify time savings"""
-frequency: """TODO: Estimate usage frequency"""
+time-saved: "TODO: Quantify time savings"
+frequency: "TODO: Estimate usage frequency"
 use-cases:
   - Primary workflow for Senior Prompt Engineer
   - Analysis and recommendations for senior prompt engineer tasks

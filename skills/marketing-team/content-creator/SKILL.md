@@ -9,8 +9,8 @@ subdomain: content-marketing
 
 # === WEBSITE DISPLAY ===
 difficulty: intermediate
-time-saved: """TODO: Quantify time savings"""
-frequency: """TODO: Estimate usage frequency"""
+time-saved: "TODO: Quantify time savings"
+frequency: "TODO: Estimate usage frequency"
 use-cases:
   - Creating engaging content for target audiences
   - Optimizing content for SEO and discoverability

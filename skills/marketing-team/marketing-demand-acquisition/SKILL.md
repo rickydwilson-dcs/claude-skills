@@ -9,8 +9,8 @@ subdomain: ui-design
 
 # === WEBSITE DISPLAY ===
 difficulty: intermediate
-time-saved: """TODO: Quantify time savings"""
-frequency: """TODO: Estimate usage frequency"""
+time-saved: "TODO: Quantify time savings"
+frequency: "TODO: Estimate usage frequency"
 use-cases:
   - Primary workflow for Marketing Demand Acquisition
   - Analysis and recommendations for marketing demand acquisition tasks
