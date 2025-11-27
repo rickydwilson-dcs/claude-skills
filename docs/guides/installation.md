@@ -77,7 +77,44 @@ python3 -c "print('Python environment ready')"
 # All Python tools use standard library only - no pip install required!
 ```
 
-### 5. Builder Tools (Optional - For Development)
+### 5. Install Slash Commands
+
+The repository includes 14 slash commands that automate common workflows. Install them to use with Claude Code:
+
+```bash
+# Interactive mode - choose which commands to install
+python3 scripts/install_commands.py
+
+# Install ALL commands at once
+python3 scripts/install_commands.py --category all --overwrite
+
+# Preview what would be installed (dry run)
+python3 scripts/install_commands.py --dry-run
+
+# List available commands
+python3 scripts/install_commands.py --list
+
+# Install specific command
+python3 scripts/install_commands.py --command update.docs
+
+# Install by category (analysis, generation, git, workflow, test)
+python3 scripts/install_commands.py --category workflow
+```
+
+After installation, use commands in Claude Code:
+```bash
+/update.docs           # Auto-update documentation
+/review.code src/      # Code review
+/generate.tests        # Generate test cases
+/create.pr             # Create pull request
+/audit.security        # Security audit
+```
+
+Commands are installed to `~/.claude/commands/` (or `.claude/commands/` in project).
+
+---
+
+### 6. Builder Tools (Optional - For Development)
 
 The repository includes builder tools for creating and validating agents and skills.
 
@@ -107,7 +144,7 @@ python3 scripts/skill_builder.py --validate skills/marketing-team/content-creato
 
 See [Builder Standards](standards/builder-standards.md) for validation criteria.
 
-### 6. Verify Installation
+### 7. Verify Installation
 
 #### Test Architecture Agent Tools
 

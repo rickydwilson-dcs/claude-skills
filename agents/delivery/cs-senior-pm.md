@@ -11,8 +11,8 @@ model: sonnet
 
 # === WEBSITE DISPLAY ===
 difficulty: advanced
-time-saved: """TODO: Quantify time savings"""
-frequency: """TODO: Estimate usage frequency"""
+time-saved: "TODO: Quantify time savings"
+frequency: "TODO: Estimate usage frequency"
 use-cases:
   - Primary workflow for Senior Pm
   - Analysis and recommendations for senior pm tasks

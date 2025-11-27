@@ -13,13 +13,16 @@ def main():
     repo_root = Path(__file__).parent.parent
     skills_dir = repo_root / "skills"
 
+    # Directories to exclude from validation (not actual skills)
+    EXCLUDED_DIRS = {'packaged-skills'}
+
     all_skills = []
     for team_dir in skills_dir.iterdir():
         if not team_dir.is_dir() or team_dir.name.startswith('.'):
             continue
 
         for skill_dir in team_dir.iterdir():
-            if skill_dir.is_dir() and not skill_dir.name.startswith('.'):
+            if skill_dir.is_dir() and not skill_dir.name.startswith('.') and skill_dir.name not in EXCLUDED_DIRS:
                 all_skills.append(skill_dir)
 
     print(f"Found {len(all_skills)} skills to validate")

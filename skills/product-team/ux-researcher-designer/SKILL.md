@@ -9,8 +9,8 @@ subdomain: ux-design
 
 # === WEBSITE DISPLAY ===
 difficulty: intermediate
-time-saved: """TODO: Quantify time savings"""
-frequency: """TODO: Estimate usage frequency"""
+time-saved: "TODO: Quantify time savings"
+frequency: "TODO: Estimate usage frequency"
 use-cases:
   - Primary workflow for Ux Researcher Designer
   - Analysis and recommendations for ux researcher designer tasks

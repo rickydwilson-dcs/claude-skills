@@ -11,8 +11,8 @@ model: sonnet
 
 # === WEBSITE DISPLAY ===
 difficulty: advanced
-time-saved: """TODO: Quantify time savings"""
-frequency: """TODO: Estimate usage frequency"""
+time-saved: "TODO: Quantify time savings"
+frequency: "TODO: Estimate usage frequency"
 use-cases:
   - Primary workflow for Business Analyst
   - Analysis and recommendations for business analyst tasks
@@ -132,7 +132,7 @@ python3 ../../scripts/session_manager.py close
 YYYY-MM-DD_HH-MM-SS_<topic>_cs-business-analyst.md
 ```
 
-See [Session-Based Output Workflow Guide](../../docs/workflows/session-based-outputs.md) for complete documentation.
+See [Session-Based Output Guide](../../output/README.md) for complete documentation.
 
 ### Python Tools
 

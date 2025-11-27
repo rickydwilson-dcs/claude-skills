@@ -9,8 +9,8 @@ subdomain: agile-methodology
 
 # === WEBSITE DISPLAY ===
 difficulty: intermediate
-time-saved: """TODO: Quantify time savings"""
-frequency: """TODO: Estimate usage frequency"""
+time-saved: "TODO: Quantify time savings"
+frequency: "TODO: Estimate usage frequency"
 use-cases:
   - Primary workflow for Scrum Master
   - Analysis and recommendations for scrum master tasks
@@ -100,7 +100,7 @@ This skill provides Scrum Master expertise through ceremony frameworks, coaching
 3. **Conduct Sprint Retrospective** - Facilitate team reflection and identify improvement actions (1.5 hours per week of sprint)
 4. **Track Velocity and Report to Stakeholders** - Calculate velocity trends and forecast capacity (ongoing)
 
-## Workflows
+## Key Workflows
 
 ### 1. Facilitate Sprint Planning
 

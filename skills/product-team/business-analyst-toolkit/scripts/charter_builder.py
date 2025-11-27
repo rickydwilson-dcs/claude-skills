@@ -913,7 +913,8 @@ class CharterBuilder:
                 if line.strip().startswith('- '):
                     html.append(f'  <li>{line.strip()[2:]}</li>')
                 elif re.match(r'^\d+\.', line.strip()):
-                    html.append(f'  <li>{re.sub(r"^\d+\.\s*", "", line.strip())}</li>')
+                    list_item = re.sub(r"^\d+\.\s*", "", line.strip())
+                    html.append(f'  <li>{list_item}</li>')
                 # Paragraphs
                 elif line.strip().startswith('*'):
                     html.append(f'  <p class="metadata">{line.strip()}</p>')

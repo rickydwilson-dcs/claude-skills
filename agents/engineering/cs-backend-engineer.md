@@ -11,8 +11,8 @@ model: sonnet
 
 # === WEBSITE DISPLAY ===
 difficulty: advanced
-time-saved: """TODO: Quantify time savings"""
-frequency: """TODO: Estimate usage frequency"""
+time-saved: "TODO: Quantify time savings"
+frequency: "TODO: Estimate usage frequency"
 use-cases:
   - Building robust API services with proper authentication and authorization
   - Designing database schemas and optimizing query performance

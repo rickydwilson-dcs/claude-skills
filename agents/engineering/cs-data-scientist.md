@@ -11,8 +11,8 @@ model: sonnet
 
 # === WEBSITE DISPLAY ===
 difficulty: advanced
-time-saved: """TODO: Quantify time savings"""
-frequency: """TODO: Estimate usage frequency"""
+time-saved: "TODO: Quantify time savings"
+frequency: "TODO: Estimate usage frequency"
 use-cases:
   - Designing data pipelines for ETL/ELT processes
   - Building data warehouses and data lakes

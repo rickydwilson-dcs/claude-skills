@@ -9,8 +9,8 @@ subdomain: product-marketing-general
 
 # === WEBSITE DISPLAY ===
 difficulty: intermediate
-time-saved: """TODO: Quantify time savings"""
-frequency: """TODO: Estimate usage frequency"""
+time-saved: "TODO: Quantify time savings"
+frequency: "TODO: Estimate usage frequency"
 use-cases:
   - Primary workflow for Marketing Strategy Pmm
   - Analysis and recommendations for marketing strategy pmm tasks

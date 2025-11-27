@@ -1,0 +1,79 @@
+---
+name: Auto-Promote to Staging
+
+on:
+  push:
+    branches: [develop]
+  workflow_run:
+    workflows: ["Quality Gates"]
+    types: [completed]
+    branches: [develop]
+
+permissions:
+  contents: write
+
+jobs:
+  promote-to-staging:
+    name: Promote develop → staging
+    runs-on: ubuntu-latest
+    # Only run if Quality Gates passed on develop
+    if: |
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'develop') ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/develop')
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Check if promotion needed
+        id: check
+        run: |
+          git fetch origin staging develop
+
+          # Get commit SHAs
+          DEVELOP_SHA=$(git rev-parse origin/develop)
+          STAGING_SHA=$(git rev-parse origin/staging)
+
+          echo "develop: $DEVELOP_SHA"
+          echo "staging: $STAGING_SHA"
+
+          # Check if develop has commits not in staging
+          COMMITS_AHEAD=$(git rev-list --count origin/staging..origin/develop)
+          echo "Develop is $COMMITS_AHEAD commits ahead of staging"
+
+          if [ "$COMMITS_AHEAD" -gt 0 ]; then
+            # Check if develop tip is already in staging (merged but not ff)
+            if git merge-base --is-ancestor origin/develop origin/staging; then
+              echo "needs_promotion=false" >> $GITHUB_OUTPUT
+              echo "Develop commits already merged into staging"
+            else
+              echo "needs_promotion=true" >> $GITHUB_OUTPUT
+              echo "Staging needs to be updated with develop commits"
+            fi
+          else
+            echo "needs_promotion=false" >> $GITHUB_OUTPUT
+            echo "Staging is up to date with develop"
+          fi
+
+      - name: Promote to staging
+        if: steps.check.outputs.needs_promotion == 'true'
+        run: |
+          git checkout staging
+          # Try fast-forward first, fall back to merge if needed
+          if git merge origin/develop --ff-only 2>/dev/null; then
+            echo "✓ Fast-forward merge successful"
+          else
+            git merge origin/develop --no-edit -m "chore: auto-promote develop to staging"
+            echo "✓ Merge commit created"
+          fi
+          git push origin staging
+          echo "✓ Successfully promoted develop to staging"

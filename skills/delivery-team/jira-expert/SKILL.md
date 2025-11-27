@@ -9,8 +9,8 @@ subdomain: delivery-tools
 
 # === WEBSITE DISPLAY ===
 difficulty: intermediate
-time-saved: """TODO: Quantify time savings"""
-frequency: """TODO: Estimate usage frequency"""
+time-saved: "TODO: Quantify time savings"
+frequency: "TODO: Estimate usage frequency"
 use-cases:
   - Primary workflow for Jira Expert
   - Analysis and recommendations for jira expert tasks
@@ -100,7 +100,7 @@ This skill provides Jira expertise through knowledge frameworks, JQL patterns, a
 3. **Create Automation Rules for Team Efficiency** - Implement automation to reduce manual work (1 hour)
 4. **Master JQL for Complex Queries** - Build advanced queries for filtering, reporting, and bulk operations (varies)
 
-## Workflows
+## Key Workflows
 
 ### 1. Configure New Scrum Project
 

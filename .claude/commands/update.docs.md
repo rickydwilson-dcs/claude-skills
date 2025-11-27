@@ -192,7 +192,6 @@ Based on discovered state, the command:
    - Break down by domain/team
    - Calculate Python tools count
    - Update "Current Scope" and "Status" sections in README.md
-   - Update "Current Scope", agent count, command count, and "Current Status" in CLAUDE.md
 
 2. **Update CHANGELOG.md**
    - Add new commit entries in reverse chronological order
@@ -217,12 +216,11 @@ Based on discovered state, the command:
 You will receive:
 
 - **Updated README.md** - Current scope, statistics, and status sections
-- **Updated CLAUDE.md** - Current scope, agent count, command count, and current status
 - **Updated CHANGELOG.md** - New entries for recent commits
 - **Updated Catalog Files** - Complete agent and skill listings with metadata
 - **Summary Report** - What was changed, counts updated, validation results
 
-**Output Location:** Files are updated in place (README.md, CLAUDE.md, CHANGELOG.md, docs/ directory)
+**Output Location:** Files are updated in place (README.md, CHANGELOG.md, docs/ directory)
 **Output Format:** Markdown files, human-readable summary report
 
 ---

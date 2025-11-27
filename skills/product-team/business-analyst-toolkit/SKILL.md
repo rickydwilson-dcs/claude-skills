@@ -275,7 +275,7 @@ cp assets/process-charter-template.md my-process-charter.md
 
 ---
 
-## Core Workflows
+## Key Workflows
 
 ### 1. Process Discovery & Analysis
 Understand current-state operations, identify inefficiencies, and document workflows for improvement opportunities.

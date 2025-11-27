@@ -641,10 +641,12 @@ class AgentValidator:
 
         # Check 3: Relative paths
         valid, errors = self.validate_relative_paths(agent_path, content)
+        path_pattern = r'\.\./\.\./[a-zA-Z0-9_/-]+(?:\.[a-zA-Z]+)?'
+        path_count = len(set(re.findall(path_pattern, content)))
         checks.append({
             'name': 'relative_paths',
             'status': 'passed' if valid else 'failed',
-            'message': f"Valid ({len(set(re.findall(r'\.\./\.\./[a-zA-Z0-9_/-]+(?:\.[a-zA-Z]+)?', content)))} paths checked)" if valid else f"Errors: {', '.join(errors)}"
+            'message': f"Valid ({path_count} paths checked)" if valid else f"Errors: {', '.join(errors)}"
         })
 
         # Check 4: Skill integration
