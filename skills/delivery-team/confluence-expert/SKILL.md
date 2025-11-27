@@ -99,7 +99,7 @@ This skill provides Confluence expertise through knowledge frameworks, templates
 2. **Set Up Sprint Ceremony Documentation** - Implement sprint planning, standup, review, and retrospective templates (1 hour)
 3. **Create Executive Reporting Page** - Build live dashboard with Jira integration for stakeholder visibility (1.5 hours)
 
-## Workflows
+## Key Workflows
 
 ### 1. Create Team Documentation Space
 

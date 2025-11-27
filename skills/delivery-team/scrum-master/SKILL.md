@@ -100,7 +100,7 @@ This skill provides Scrum Master expertise through ceremony frameworks, coaching
 3. **Conduct Sprint Retrospective** - Facilitate team reflection and identify improvement actions (1.5 hours per week of sprint)
 4. **Track Velocity and Report to Stakeholders** - Calculate velocity trends and forecast capacity (ongoing)
 
-## Workflows
+## Key Workflows
 
 ### 1. Facilitate Sprint Planning
 

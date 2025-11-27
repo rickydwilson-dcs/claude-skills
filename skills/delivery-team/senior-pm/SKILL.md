@@ -100,7 +100,7 @@ This skill provides Senior PM expertise through strategic frameworks, communicat
 3. **Risk Management** - Conduct risk identification, assess impact, develop mitigation plans (ongoing)
 4. **Stakeholder Reporting** - Create executive summaries with metrics, status, and recommendations (weekly/monthly)
 
-## Workflows
+## Key Workflows
 
 ### 1. Initiate New Software Project
 
