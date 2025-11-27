@@ -7,6 +7,10 @@ on:
     types: [completed]
     branches: [staging]
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   create-pr-to-main:
     name: Create PR staging → main
