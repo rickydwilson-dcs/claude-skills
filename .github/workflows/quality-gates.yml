@@ -168,6 +168,9 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install PyYAML for validation
+        run: pip install pyyaml -q
+
       - name: Validate changed agents
         if: needs.detect-changes.outputs.agents_changed == 'true'
         run: |
@@ -230,20 +233,20 @@ jobs:
 
       - name: YAML lint workflows
         run: |
-          pip install yamllint -q
+          pip install yamllint pyyaml -q
           yamllint -d '{extends: default, rules: {line-length: {max: 200}, truthy: disable}}' .github/workflows/
 
-      - name: Validate ALL agents (28)
+      - name: Validate ALL agents (30)
         run: |
           echo "=== Validating all agents ==="
           bash scripts/validate_all_agents.sh
 
-      - name: Validate ALL skills (29)
+      - name: Validate ALL skills (30)
         run: |
           echo "=== Validating all skills ==="
           python3 scripts/validate_all_skills.py
 
-      - name: Validate ALL commands (14)
+      - name: Validate ALL commands (16)
         run: |
           echo "=== Validating all commands ==="
           python3 scripts/validate_all_commands.py --verbose

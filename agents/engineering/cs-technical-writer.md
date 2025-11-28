@@ -194,12 +194,12 @@ This agent leverages four production-ready Python automation tools for comprehen
 ### Templates
 
 1. **README Template**
-   - **Location:** `../../skills/engineering-team/technical-writer/assets/README_TEMPLATE.md`
+   - **Location:** `../../skills/engineering-team/technical-writer/assets/readme_template.md`
    - **Content:** Production-ready README structure with placeholders for project name, description, badges, features, installation (multiple package managers), usage (code examples), API reference, configuration, deployment, testing, contributing guidelines, code of conduct, license, and acknowledgments
    - **Use Case:** New project initialization, README refresh, open source launch
 
 2. **CHANGELOG Template**
-   - **Location:** `../../skills/engineering-team/technical-writer/assets/CHANGELOG_TEMPLATE.md`
+   - **Location:** `../../skills/engineering-team/technical-writer/assets/changelog_template.md`
    - **Content:** Keep a Changelog format with semantic versioning, change categories (Added, Changed, Deprecated, Removed, Fixed, Security), version header format, date format (YYYY-MM-DD), unreleased section, and comparison links
    - **Use Case:** Version release documentation, starting new projects, maintaining version history
 
@@ -1035,7 +1035,7 @@ This agent leverages four production-ready Python automation tools for comprehen
 - Release checklist 100% complete
 - Community questions answered proactively in docs
 
-**Reference:** See `../../skills/engineering-team/technical-writer/references/technical_writing_standards.md` for release documentation standards and `../../skills/engineering-team/technical-writer/assets/CHANGELOG_TEMPLATE.md` for CHANGELOG format.
+**Reference:** See `../../skills/engineering-team/technical-writer/references/technical_writing_standards.md` for release documentation standards and `../../skills/engineering-team/technical-writer/assets/changelog_template.md` for CHANGELOG format.
 
 ## Decision Framework
 
@@ -1474,8 +1474,8 @@ echo "Report generated: $REPORT_DIR/report-$WEEK.html"
 - `../../skills/engineering-team/technical-writer/references/api_documentation_patterns.md` - API documentation patterns
 
 **Templates:**
-- `../../skills/engineering-team/technical-writer/assets/README_TEMPLATE.md` - README structure template
-- `../../skills/engineering-team/technical-writer/assets/CHANGELOG_TEMPLATE.md` - CHANGELOG format template
+- `../../skills/engineering-team/technical-writer/assets/readme_template.md` - README structure template
+- `../../skills/engineering-team/technical-writer/assets/changelog_template.md` - CHANGELOG format template
 - `../../skills/engineering-team/technical-writer/assets/api_endpoint_template.md` - API documentation template
 - `../../skills/engineering-team/technical-writer/assets/user_guide_template.md` - Contributing guide template
 
