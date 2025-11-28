@@ -85,7 +85,6 @@ color: green
 field: fullstack
 expertise: expert
 execution: coordinated
-mcp_tools: []
 ---
 
 # Fullstack Engineer Agent

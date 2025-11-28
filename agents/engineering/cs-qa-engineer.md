@@ -78,7 +78,6 @@ color: red
 field: testing
 expertise: expert
 execution: sequential
-mcp_tools: [mcp__github, mcp__playwright]
 ---
 
 # QA Engineer Agent

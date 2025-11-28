@@ -80,7 +80,6 @@ color: blue
 field: product
 expertise: expert
 execution: parallel
-mcp_tools: []
 ---
 
 # Product Strategist Agent

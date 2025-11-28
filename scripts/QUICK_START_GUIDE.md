@@ -14,14 +14,22 @@ python scripts/update_agent_yaml.py
 
 ## What Gets Added
 
-Five new fields to each agent's YAML frontmatter:
+Classification fields for agent type system (in YAML frontmatter):
 
 ```yaml
 color: orange          # Agent type: blue, green, red, purple, orange
 field: content         # Domain: frontend, backend, product, ai, etc.
 expertise: expert      # Level: beginner, intermediate, expert
 execution: parallel    # Pattern: parallel, coordinated, sequential
-mcp_tools: []         # MCP integrations: [mcp__github], [mcp__atlassian], etc.
+```
+
+MCP tools are specified in the nested `dependencies` section:
+
+```yaml
+dependencies:
+  tools: [Read, Write, Bash, Grep, Glob]
+  mcp-tools: []        # MCP integrations: [mcp__github], [mcp__atlassian], etc.
+  scripts: []
 ```
 
 ## Color System (Quick Reference)
@@ -125,7 +133,8 @@ color: blue
 field: product
 expertise: expert
 execution: parallel
-mcp_tools: []
+dependencies:
+  mcp-tools: []
 ```
 
 ### Green (Implementation) - cs-backend-engineer
@@ -134,7 +143,8 @@ color: green
 field: backend
 expertise: expert
 execution: coordinated
-mcp_tools: []
+dependencies:
+  mcp-tools: []
 ```
 
 ### Red (Quality) - cs-code-reviewer
@@ -143,7 +153,8 @@ color: red
 field: quality
 expertise: expert
 execution: sequential
-mcp_tools: [mcp__github]
+dependencies:
+  mcp-tools: [mcp__github]
 ```
 
 ### Purple (Coordination) - cs-architect
@@ -152,7 +163,8 @@ color: purple
 field: architecture
 expertise: expert
 execution: parallel
-mcp_tools: []
+dependencies:
+  mcp-tools: []
 ```
 
 ### Orange (Domain) - cs-content-creator
@@ -161,7 +173,8 @@ color: orange
 field: content
 expertise: expert
 execution: parallel
-mcp_tools: []
+dependencies:
+  mcp-tools: []
 ```
 
 ## MCP Integration Quick Reference

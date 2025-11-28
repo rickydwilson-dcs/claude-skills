@@ -78,7 +78,6 @@ color: orange
 field: ai
 expertise: expert
 execution: coordinated
-mcp_tools: []
 ---
 
 # Computer Vision Engineer Agent

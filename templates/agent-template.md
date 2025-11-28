@@ -9,7 +9,10 @@ color: blue
 field: product
 expertise: expert
 execution: parallel
-mcp_tools: []
+dependencies:
+  tools: [Read, Write, Bash, Grep, Glob]
+  mcp-tools: []
+  scripts: []
 ---
 
 <!--
@@ -62,14 +65,16 @@ mcp_tools: []
     - coordinated: Safe for 2-3 agents; some shared resources; requires coordination
     - sequential: One agent only; critical operations; file locking; exclusive access needed
 
-  mcp_tools: Optional MCP (Model Context Protocol) server tools
-    - Examples: [mcp__github, mcp__playwright, mcp__context7, mcp__atlassian]
-    - Leave empty [] if no MCP tools required
-    - GitHub operations: mcp__github
-    - Browser automation: mcp__playwright
-    - Context management: mcp__context7
-    - Atlassian/Jira: mcp__atlassian
-    - Multiple tools: [mcp__github, mcp__playwright]
+  dependencies: Nested structure for all agent dependencies
+    - tools: Same as top-level tools array
+    - mcp-tools: MCP (Model Context Protocol) server tools
+      - Examples: [mcp__github, mcp__playwright, mcp__context7, mcp__atlassian]
+      - Leave empty [] if no MCP tools required
+      - GitHub operations: mcp__github
+      - Browser automation: mcp__playwright
+      - Context management: mcp__context7
+      - Atlassian/Jira: mcp__atlassian
+    - scripts: Python tools used by this agent
 
   EXAMPLES BY AGENT TYPE:
 
@@ -78,35 +83,50 @@ mcp_tools: []
     field: product
     expertise: expert
     execution: coordinated
-    mcp_tools: []
+    dependencies:
+      tools: [Read, Write, Bash, Grep, Glob]
+      mcp-tools: []
+      scripts: []
 
   Implementation Agent:
     color: green
     field: fullstack
     expertise: intermediate
     execution: parallel
-    mcp_tools: [mcp__github]
+    dependencies:
+      tools: [Read, Write, Bash, Grep, Glob]
+      mcp-tools: [mcp__github]
+      scripts: []
 
   Quality Assurance Agent:
     color: red
     field: quality
     expertise: intermediate
     execution: sequential
-    mcp_tools: [mcp__playwright]
+    dependencies:
+      tools: [Read, Write, Bash, Grep, Glob]
+      mcp-tools: [mcp__playwright]
+      scripts: []
 
   Coordination Agent:
     color: purple
     field: product
     expertise: expert
     execution: coordinated
-    mcp_tools: [mcp__atlassian]
+    dependencies:
+      tools: [Read, Write, Bash, Grep, Glob]
+      mcp-tools: [mcp__atlassian]
+      scripts: []
 
   Domain Expert Agent:
     color: orange
     field: content
     expertise: intermediate
     execution: parallel
-    mcp_tools: []
+    dependencies:
+      tools: [Read, Write, Bash, Grep, Glob]
+      mcp-tools: []
+      scripts: []
 -->
 
 # Agent Name

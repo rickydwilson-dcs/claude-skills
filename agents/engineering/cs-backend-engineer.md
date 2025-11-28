@@ -88,7 +88,6 @@ color: green
 field: backend
 expertise: expert
 execution: coordinated
-mcp_tools: []
 ---
 
 # Backend Engineer Agent

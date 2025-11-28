@@ -78,7 +78,6 @@ color: red
 field: quality
 expertise: expert
 execution: sequential
-mcp_tools: [mcp__github]
 ---
 
 # Code Reviewer

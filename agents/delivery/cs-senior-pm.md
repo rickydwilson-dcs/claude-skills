@@ -78,7 +78,6 @@ color: purple
 field: product
 expertise: expert
 execution: parallel
-mcp_tools: [mcp__atlassian]
 ---
 
 # Senior PM Agent

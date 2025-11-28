@@ -464,9 +464,12 @@ class AgentValidator:
             if frontmatter['execution'] not in valid_execution:
                 return False, f"Invalid execution: {frontmatter['execution']} (must be: {', '.join(valid_execution)})"
 
-        if 'mcp_tools' in frontmatter:
-            if not isinstance(frontmatter['mcp_tools'], list):
-                return False, "mcp_tools must be a list"
+        # Validate nested dependencies.mcp-tools if present
+        if 'dependencies' in frontmatter:
+            deps = frontmatter['dependencies']
+            if isinstance(deps, dict) and 'mcp-tools' in deps:
+                if not isinstance(deps['mcp-tools'], list):
+                    return False, "dependencies.mcp-tools must be a list"
 
         return True, "Valid"
 
@@ -754,8 +757,14 @@ class TemplateLoader:
         if 'execution' in config:
             yaml_lines.append(f"execution: {config['execution']}")
 
-        if 'mcp_tools' in config and config['mcp_tools']:
-            yaml_lines.append(f"mcp_tools: {config['mcp_tools']}")
+        # Add dependencies section with nested mcp-tools
+        tools_list = config.get('tools', ['Read', 'Write', 'Bash', 'Grep', 'Glob'])
+        mcp_tools = config.get('mcp_tools', [])
+        scripts = config.get('scripts', [])
+        yaml_lines.append("dependencies:")
+        yaml_lines.append(f"  tools: {tools_list}")
+        yaml_lines.append(f"  mcp-tools: {mcp_tools}")
+        yaml_lines.append(f"  scripts: {scripts}")
 
         yaml_lines.append('---')
         yaml_section = '\n'.join(yaml_lines)

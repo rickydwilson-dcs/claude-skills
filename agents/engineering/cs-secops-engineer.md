@@ -78,7 +78,6 @@ color: red
 field: security
 expertise: expert
 execution: sequential
-mcp_tools: []
 ---
 
 # SecOps Engineer Agent

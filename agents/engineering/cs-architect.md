@@ -78,7 +78,6 @@ color: purple
 field: architecture
 expertise: expert
 execution: parallel
-mcp_tools: []
 ---
 
 # Architect Agent

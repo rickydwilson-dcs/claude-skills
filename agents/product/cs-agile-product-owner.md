@@ -79,7 +79,6 @@ color: purple
 field: product
 expertise: expert
 execution: parallel
-mcp_tools: [mcp__atlassian]
 ---
 
 # Agile Product Owner Agent

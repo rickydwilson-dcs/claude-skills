@@ -79,7 +79,6 @@ color: orange
 field: design
 expertise: expert
 execution: parallel
-mcp_tools: []
 ---
 
 # UI Designer Agent

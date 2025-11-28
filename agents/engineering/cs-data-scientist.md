@@ -78,7 +78,6 @@ color: orange
 field: data
 expertise: expert
 execution: coordinated
-mcp_tools: []
 ---
 
 # Data Scientist Agent

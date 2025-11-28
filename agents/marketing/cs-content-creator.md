@@ -79,7 +79,6 @@ color: orange
 field: content
 expertise: expert
 execution: parallel
-mcp_tools: []
 ---
 
 # Content Creator Agent

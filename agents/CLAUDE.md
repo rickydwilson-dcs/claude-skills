@@ -342,12 +342,11 @@ tags: [backend, api, nodejs, express]
 featured: false
 verified: true
 
-# === LEGACY (for backward compatibility) ===
+# === CLASSIFICATION (for agent type system) ===
 color: green
 field: backend
 expertise: expert
 execution: coordinated
-mcp_tools: []
 ---
 ```
 

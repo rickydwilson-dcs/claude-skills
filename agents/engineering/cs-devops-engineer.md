@@ -78,7 +78,6 @@ color: green
 field: devops
 expertise: expert
 execution: coordinated
-mcp_tools: []
 ---
 
 # DevOps Engineer Agent

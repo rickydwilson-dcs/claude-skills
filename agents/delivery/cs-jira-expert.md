@@ -78,7 +78,6 @@ color: orange
 field: tools
 expertise: expert
 execution: parallel
-mcp_tools: [mcp__atlassian]
 ---
 
 # Jira Expert Agent

@@ -78,7 +78,6 @@ color: green
 field: ai
 expertise: expert
 execution: coordinated
-mcp_tools: []
 ---
 
 # Prompt Engineer

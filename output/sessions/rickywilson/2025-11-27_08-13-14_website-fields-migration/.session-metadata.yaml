@@ -1,0 +1,127 @@
+# Session Metadata
+# Auto-generated session tracking for claude-skills work
+
+session_id: 2025-11-27_08-13-14_website-fields-migration
+created_at: 2025-11-27T08:13:14
+user: rickywilson
+team: engineering
+status: closed
+
+# Work Context
+work_context:
+  branch: develop
+  ticket: null
+  project: Website Fields Migration
+  sprint: null
+  epic: Agent YAML Standardization
+  release: null
+  description: Multi-phase migration adding website display fields to all 28 agent files
+
+# Session Outputs
+outputs:
+  - file: migration-report-phase1-081314.md
+    type: migration-report
+    created_at: 2025-11-27T08:13:14
+    promoted: false
+
+  - file: migration-report-phase1-081319.md
+    type: migration-report
+    created_at: 2025-11-27T08:13:19
+    promoted: false
+
+  - file: migration-report-phase1-081442.md
+    type: migration-report
+    created_at: 2025-11-27T08:14:42
+    promoted: false
+
+  - file: migration-report-phase2-081502.md
+    type: migration-report
+    created_at: 2025-11-27T08:15:02
+    promoted: false
+
+  - file: migration-report-phase3-081511.md
+    type: migration-report
+    created_at: 2025-11-27T08:15:11
+    promoted: false
+
+  - file: migration-report-phase4-081521.md
+    type: migration-report
+    created_at: 2025-11-27T08:15:21
+    promoted: false
+
+  - file: COMPLETION_SUMMARY.md
+    type: summary
+    created_at: 2025-11-28T00:00:00
+    promoted: false
+
+# Work Completed
+work_summary:
+  total_agents_migrated: 28
+  phases_completed: 4
+  fields_added:
+    - title
+    - subdomain
+    - version
+    - author
+    - contributors
+    - created
+    - updated
+    - license
+  migration_type: dry-run-then-apply
+
+# Key Decisions
+decisions:
+  - decision: Use multi-phase approach for migration
+    rationale: Allows validation at each step before proceeding
+    impact: Safer migration with ability to rollback
+
+  - decision: Add website display fields to all agents
+    rationale: Enable agent catalog/website presentation
+    impact: Consistent metadata across all 28 agents
+
+# Stakeholders
+stakeholders:
+  - name: Ricky Wilson
+    role: Developer
+    involvement: Implementation and validation
+
+# Retention
+retention:
+  policy: project
+  expires_at: 2026-05-27
+  reason: Historical record of agent YAML standardization work
+
+# Integration Links
+links:
+  jira: null
+  confluence: null
+  github_pr: null
+  onedrive: null
+
+# Tags
+tags:
+  - migration
+  - yaml-frontmatter
+  - agents
+  - website-fields
+  - standardization
+
+# Notes
+notes: |
+  Successfully completed website fields migration across all 28 agent files.
+
+  Migration added the following fields to agent YAML frontmatter:
+  - title: Human-readable agent title
+  - subdomain: Sub-categorization within domain
+  - version: Semantic versioning (v1.0.0)
+  - author: Attribution field
+  - contributors: List of contributors
+  - created: Creation date
+  - updated: Last update date
+  - license: MIT license specification
+
+  The migration was executed in 4 phases with dry-run validation
+  before applying changes. All 28 agents were successfully updated.
+
+  This session was retroactively created on 2025-11-28 to properly
+  archive the migration reports according to session tracking standards.

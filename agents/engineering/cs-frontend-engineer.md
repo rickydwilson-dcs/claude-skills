@@ -85,7 +85,6 @@ color: green
 field: frontend
 expertise: expert
 execution: coordinated
-mcp_tools: []
 ---
 
 # Frontend Engineer Agent

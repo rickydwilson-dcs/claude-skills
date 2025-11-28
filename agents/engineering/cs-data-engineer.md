@@ -78,7 +78,6 @@ color: green
 field: data
 expertise: expert
 execution: coordinated
-mcp_tools: []
 ---
 
 # Data Engineer Agent

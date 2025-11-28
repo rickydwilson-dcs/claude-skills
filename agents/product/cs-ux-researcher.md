@@ -79,7 +79,6 @@ color: blue
 field: research
 expertise: expert
 execution: parallel
-mcp_tools: []
 ---
 
 # UX Researcher Agent

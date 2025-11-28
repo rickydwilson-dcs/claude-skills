@@ -79,7 +79,6 @@ color: blue
 field: content
 expertise: expert
 execution: parallel
-mcp_tools: []
 ---
 
 # Product Marketer Agent

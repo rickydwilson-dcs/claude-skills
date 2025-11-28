@@ -78,7 +78,6 @@ color: orange
 field: tools
 expertise: expert
 execution: parallel
-mcp_tools: [mcp__atlassian]
 ---
 
 # Confluence Expert Agent
