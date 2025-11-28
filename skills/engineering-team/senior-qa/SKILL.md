@@ -18,15 +18,27 @@ use-cases:
   - Conducting performance and load testing
 
 # === RELATIONSHIPS ===
-related-agents: []
-related-skills: []
-related-commands: []
-orchestrated-by: []
+related-agents: [cs-qa-engineer, cs-tdd-engineer]
+related-skills: [engineering-team/code-reviewer]
+related-commands: [/generate.tests, /generate.tdd]
+orchestrated-by: [cs-qa-engineer, cs-tdd-engineer]
 
 # === TECHNICAL ===
 dependencies:
-  scripts: []
-  references: []
+  scripts:
+    - test_suite_generator.py
+    - coverage_analyzer.py
+    - e2e_test_scaffolder.py
+    - tdd_workflow.py
+    - fixture_generator.py
+    - format_detector.py
+    - test_spec_generator.py
+    - refactor_analyzer.py
+  references:
+    - testing_strategies.md
+    - test_automation_patterns.md
+    - qa_best_practices.md
+    - tdd_methodology.md
   assets: []
 compatibility:
   python-version: 3.8+
@@ -78,17 +90,32 @@ Designed for senior QA engineers and test automation specialists, this skill inc
 
 ### Main Capabilities
 
-This skill provides three core capabilities through automated scripts:
+This skill provides eight core capabilities through automated scripts:
 
 ```bash
-# Script 1: Test Suite Generator
-python scripts/test_suite_generator.py [options]
+# Test Suite Generator
+python scripts/test_suite_generator.py --input <path> [options]
 
-# Script 2: Coverage Analyzer
-python scripts/coverage_analyzer.py [options]
+# Coverage Analyzer
+python scripts/coverage_analyzer.py --input <path> [options]
 
-# Script 3: E2E Test Scaffolder
-python scripts/e2e_test_scaffolder.py [options]
+# E2E Test Scaffolder
+python scripts/e2e_test_scaffolder.py --input <path> [options]
+
+# TDD Workflow (Red-Green-Refactor)
+python scripts/tdd_workflow.py --input <path> --phase red|green|refactor [options]
+
+# Fixture Generator (Test Data)
+python scripts/fixture_generator.py --input <path> [options]
+
+# Format Detector (Framework Detection)
+python scripts/format_detector.py --input <path> [options]
+
+# Test Spec Generator (Given-When-Then)
+python scripts/test_spec_generator.py --input <path> --requirement "..." [options]
+
+# Refactor Analyzer (Safety Validation)
+python scripts/refactor_analyzer.py --input <path> [options]
 ```
 
 ## Core Capabilities
@@ -175,6 +202,45 @@ python scripts/e2e_test_scaffolder.py [arguments] [options]
 5. **Monitor and Maintain** - Keep tests stable and fast
 
 **Expected Output:** Production E2E test suite running in CI/CD
+
+### 4. TDD Feature Development (Red-Green-Refactor)
+
+**Time:** 2-4 hours per feature
+
+1. **Detect Framework** - Run format_detector.py to identify test framework
+2. **Generate Test Specs** - Use test_spec_generator.py with feature requirement
+3. **RED Phase** - Run tdd_workflow.py --phase red, write failing tests
+4. **Generate Fixtures** - Use fixture_generator.py for test data
+5. **GREEN Phase** - Run tdd_workflow.py --phase green, implement minimal code
+6. **REFACTOR Phase** - Run refactor_analyzer.py, then tdd_workflow.py --phase refactor
+7. **Verify** - Run coverage_analyzer.py to confirm coverage
+
+**Expected Output:** Feature with 90%+ test coverage following TDD methodology
+
+### 5. Legacy Code Refactoring with TDD Safety
+
+**Time:** 4-8 hours
+
+1. **Analyze Refactoring Safety** - Run refactor_analyzer.py to check readiness
+2. **Write Characterization Tests** - Capture existing behavior with test_suite_generator.py
+3. **RED Phase** - Add failing tests for desired changes
+4. **GREEN Phase** - Implement minimal changes to pass tests
+5. **REFACTOR Phase** - Use refactor_analyzer.py suggestions
+6. **Verify Safety** - Re-run refactor_analyzer.py to confirm all checks pass
+
+**Expected Output:** Safely refactored code with test coverage as safety net
+
+### 6. TDD Project Setup
+
+**Time:** 1-2 hours
+
+1. **Detect Existing Framework** - Run format_detector.py
+2. **Generate Initial Fixtures** - Use fixture_generator.py
+3. **Create Test Spec Template** - Run test_spec_generator.py with sample requirement
+4. **Configure TDD Workflow** - Set up tdd_workflow.py for team use
+5. **Document Process** - Reference tdd_methodology.md for team onboarding
+
+**Expected Output:** Project configured for TDD with team documentation
 
 ## Python Tools
 
@@ -273,6 +339,166 @@ python scripts/e2e_test_scaffolder.py --help
 - Implementing visual regression testing
 - Establishing E2E testing standards across teams
 
+### tdd_workflow.py
+
+Orchestrates TDD Red-Green-Refactor cycles with phase tracking, checklists, and guidance for test-driven development.
+
+**Key Features:**
+- Red-Green-Refactor cycle management
+- Phase-specific checklists and validation
+- Guidance and best practices per phase
+- Test file metrics and tracking
+- Next steps recommendations
+
+**Common Usage:**
+```bash
+# Start RED phase - write failing test
+python scripts/tdd_workflow.py --input . --phase red
+
+# Move to GREEN phase - make tests pass
+python scripts/tdd_workflow.py --input . --phase green
+
+# Move to REFACTOR phase - improve code
+python scripts/tdd_workflow.py --input . --phase refactor --test-file tests/test_feature.py
+
+# Help
+python scripts/tdd_workflow.py --help
+```
+
+**Use Cases:**
+- Following strict TDD methodology
+- Training teams on Red-Green-Refactor cycles
+- Tracking TDD cycle metrics
+- Enforcing TDD best practices
+
+### fixture_generator.py
+
+Generates comprehensive test fixtures with boundary values, edge cases, and realistic test data for various data types.
+
+**Key Features:**
+- Boundary value generation (min, max, zero, negative)
+- Edge case generation (null, empty, special chars, XSS, SQL injection)
+- Factory patterns for common entities (user, product, order)
+- Multiple data type support (integer, string, array, email, url, date)
+- Configurable fixture counts
+
+**Common Usage:**
+```bash
+# Generate fixtures for all types
+python scripts/fixture_generator.py --input .
+
+# Generate email-specific fixtures
+python scripts/fixture_generator.py --input . --type email --count 10
+
+# Generate with edge cases
+python scripts/fixture_generator.py --input . --output json
+
+# Help
+python scripts/fixture_generator.py --help
+```
+
+**Use Cases:**
+- Creating test data for unit tests
+- Generating boundary condition test cases
+- Security testing with injection patterns
+- Building comprehensive test fixtures
+
+### format_detector.py
+
+Auto-detects test framework and coverage format from project configuration files.
+
+**Key Features:**
+- Framework detection (Jest, Vitest, Mocha, Pytest, JUnit, RSpec)
+- Coverage format detection (Istanbul, LCOV, Cobertura, JaCoCo, coverage.py)
+- Language detection (JavaScript, TypeScript, Python, Java, Ruby, Go)
+- Config file discovery
+- Framework-specific recommendations
+
+**Common Usage:**
+```bash
+# Detect framework for project
+python scripts/format_detector.py --input /path/to/project
+
+# JSON output for CI/CD
+python scripts/format_detector.py --input . --output json
+
+# Verbose detection
+python scripts/format_detector.py --input . -v
+
+# Help
+python scripts/format_detector.py --help
+```
+
+**Use Cases:**
+- Automatic test framework setup
+- CI/CD pipeline configuration
+- Multi-project testing standardization
+- Coverage tool selection
+
+### test_spec_generator.py
+
+Generates Given-When-Then test specifications from feature requirements with framework-specific templates.
+
+**Key Features:**
+- Requirement parsing and analysis
+- Given-When-Then specification generation
+- Edge case spec generation
+- Framework-specific test templates (Jest, Pytest, Vitest, Mocha)
+- Priority and category assignment
+
+**Common Usage:**
+```bash
+# Generate specs from requirement
+python scripts/test_spec_generator.py --input . --requirement "User can login with email"
+
+# Generate Pytest template
+python scripts/test_spec_generator.py --input . --requirement "API validates input" --framework pytest
+
+# Output test template only
+python scripts/test_spec_generator.py --input . --requirement "Calculate total" --output template
+
+# Help
+python scripts/test_spec_generator.py --help
+```
+
+**Use Cases:**
+- Converting requirements to test specifications
+- BDD-style test planning
+- Test scaffolding for new features
+- Training teams on Given-When-Then format
+
+### refactor_analyzer.py
+
+Validates refactoring safety by analyzing code smells, test coverage, and providing improvement suggestions during TDD refactor phase.
+
+**Key Features:**
+- Code smell detection (long methods, deep nesting, complexity)
+- Test coverage safety checks
+- Refactoring suggestions with steps
+- Safety scoring and readiness assessment
+- CI/CD pipeline detection
+
+**Common Usage:**
+```bash
+# Analyze project for refactoring
+python scripts/refactor_analyzer.py --input /path/to/src
+
+# JSON output for reporting
+python scripts/refactor_analyzer.py --input . --output json
+
+# Skip test safety checks
+python scripts/refactor_analyzer.py --input . --no-test-check
+
+# Help
+python scripts/refactor_analyzer.py --help
+```
+
+**Use Cases:**
+- Pre-refactoring safety validation
+- Code smell identification
+- Technical debt assessment
+- TDD refactor phase guidance
+
 ## Reference Documentation
 
 ### Testing Strategies
@@ -304,6 +530,16 @@ Technical reference guide in `references/qa_best_practices.md`:
 - Integration patterns
 - Security considerations
 - Scalability guidelines
+
+### TDD Methodology
+
+Comprehensive TDD guide in `references/tdd_methodology.md`:
+
+- Red-Green-Refactor cycle detailed phases
+- TDD best practices and conventions
+- Anti-patterns to avoid
+- Framework-specific patterns (Jest, Pytest)
+- TDD metrics and quality indicators
 
 ## Tech Stack
 

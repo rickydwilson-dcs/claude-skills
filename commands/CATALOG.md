@@ -1,7 +1,7 @@
 # Command Catalog
 
-**Last Updated:** November 27, 2025
-**Total Commands:** 15
+**Last Updated:** November 28, 2025
+**Total Commands:** 16
 **Status:** Production - Core Command Library Established
 
 ---
@@ -59,11 +59,11 @@ Commands for code and documentation generation:
 
 **Available Commands:**
 - [`generate.tests`](generation/generate.tests.md) - Intelligent test case generation from existing code with coverage analysis
+- [`generate.tdd`](generation/generate.tdd.md) - TDD Red-Green-Refactor cycle guidance with test spec generation
 - [`generate.api-docs`](generation/generate.api-docs.md) - Automatic API documentation generation with OpenAPI/Swagger specs
 - [`generate.user-stories`](generation/generate.user-stories.md) - Generate INVEST-compliant user stories from epic descriptions with acceptance criteria
 
 **Planned Commands:**
-- `/generation.fixture-generate` - Generate test fixtures and mock data
 - `/generation.stub-generate` - Generate API stubs and mocks
 - `/generation.doc-generate` - Generate documentation from code
 
@@ -179,6 +179,7 @@ Commands follow one of three patterns based on complexity:
 
 **Generation Commands:**
 - [`generate.tests`](generation/generate.tests.md) - Test case generation (2-5 min)
+- [`generate.tdd`](generation/generate.tdd.md) - TDD Red-Green-Refactor cycle guidance (2-10 min)
 - [`generate.api-docs`](generation/generate.api-docs.md) - API documentation (3-7 min)
 - [`generate.user-stories`](generation/generate.user-stories.md) - User story generation with INVEST criteria (5-15 sec)
 
@@ -230,8 +231,8 @@ All commands in this catalog must pass 8 validation checks:
 8. ✓ Integration References - All references exist
 
 **Current Status:**
-- Total Commands: 12
-- Passing All Checks: 12 (estimated - validation tool pending)
+- Total Commands: 15
+- Passing All Checks: 15 (estimated - validation tool pending)
 - Validation Rate: 100%
 
 ---
@@ -478,7 +479,7 @@ git push origin feature/command-name
 | Category | Count | Planned |
 |----------|-------|---------|
 | Analysis | 5 | 2 |
-| Generation | 3 | 2 |
+| Generation | 4 | 1 |
 | Git | 2 | 3 |
 | Workflow | 3 | 3 |
 | Test | 1 | 2 |
@@ -486,25 +487,25 @@ git push origin feature/command-name
 | Security | 0 | 4 |
 | Architecture | 0 | 3 |
 | Content | 0 | 3 |
-| **Total** | **14** | **26** |
+| **Total** | **15** | **25** |
 
 ### By Pattern
 
 | Pattern | Count | Planned |
 |---------|-------|---------|
 | Simple | 4 | 11 |
-| Multi-Phase | 10 | 9 |
+| Multi-Phase | 11 | 8 |
 | Agent-Style | 0 | 6 |
-| **Total** | **14** | **26** |
+| **Total** | **15** | **25** |
 
 ### Validation Status
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| All Passing | 14 | 100% |
+| All Passing | 15 | 100% |
 | Partial | 0 | 0% |
 | Failing | 0 | 0% |
-| **Total** | **14** | **100%** |
+| **Total** | **15** | **100%** |
 
 ---
 
