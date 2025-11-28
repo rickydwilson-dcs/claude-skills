@@ -46,7 +46,7 @@ This repository provides **modular, self-contained skill packages** specifically
 
 **Key Benefits for Pandora:**
 - ⚡ **Zero dependencies** - Python 3.8+ standard library only, works across Pandora's environments
-- 🎯 **SDLC-optimized** - 29 skills, 28 agents, 14 slash commands covering architecture, security, product management, engineering, delivery
+- 🎯 **SDLC-optimized** - 30 skills, 28 agents, 15 slash commands covering architecture, security, product management, engineering, delivery
 - 🔧 **Fast analysis** - Algorithmic tools without external API dependencies or rate limits
 - 📈 **Measurable impact** - 40%+ time savings, 30%+ quality improvements, faster delivery cycles
 - 👥 **Team adoption ready** - Designed for Pandora's entire development organization to use daily
@@ -57,7 +57,7 @@ This repository provides **modular, self-contained skill packages** specifically
 
 ### Skills & Agents
 
-- **[Skills Catalog](docs/SKILLS_CATALOG.md)** - 29 production-ready skills with Python CLI tools
+- **[Skills Catalog](docs/SKILLS_CATALOG.md)** - 30 production-ready skills with Python CLI tools
   - **Marketing Skills (3)** - Content creation, demand generation, product marketing
   - **Product Skills (7)** - Product management, agile practices, UX research, UI design, business analysis, competitive analysis
   - **Engineering Skills (15)** - Architecture, security, fullstack, DevOps, AI/ML, data, QA

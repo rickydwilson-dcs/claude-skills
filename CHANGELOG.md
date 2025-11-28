@@ -5,6 +5,38 @@ All notable changes to the Claude Skills Library will be documented in this file
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0] - 2025-11-28 - Tech Debt Cleanup & Pre-Commit Hooks
+
+### Changed
+
+**Agent YAML Standardization**:
+- Removed legacy `mcp_tools:` field from all 28 agent files
+- Standardized on nested `dependencies.mcp-tools:` format (consistent with skills)
+- Updated `templates/agent-template.md` with new structure
+- Updated `scripts/agent_builder.py` to generate nested format
+
+**Pre-Commit Hook**:
+- Added `.claude/settings.json` with PreToolUse hook
+- Shows reminder to run `/update.docs` before git commit/merge
+- Non-blocking - allows proceed after warning
+
+### Removed
+
+- `/demo` folder (sample-process.md no longer needed)
+
+### Fixed
+
+- Migration reports archived to proper session structure
+- Session: `output/sessions/rickywilson/2025-11-27_08-13-14_website-fields-migration/`
+
+### Statistics
+- **Agents**: 28 (all passing validation)
+- **Skills**: 30
+- **Commands**: 15
+- **Python Tools**: 70
+
+---
+
 ## [3.2.0] - 2025-11-27 - Website-Ready Skills & Agents
 
 ### 🚀 Major Update - Full Parity with Slash Commands Schema
