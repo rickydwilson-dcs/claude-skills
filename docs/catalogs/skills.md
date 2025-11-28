@@ -354,12 +354,19 @@ Security operations, incident response, threat hunting, and compliance automatio
 ### ✅ Senior QA Engineer
 **Status:** ✅ Production Ready | **Version:** 1.0
 
-Test automation, quality gates, regression testing, and QA strategy.
+Test automation, quality gates, regression testing, QA strategy, and Test-Driven Development workflows.
 
 **What's Included:**
-- **Test Plan Generator** - Create comprehensive test plans (Python CLI)
+- **Test Suite Generator** - Create comprehensive test suites (Python CLI)
 - **Coverage Analyzer** - Identify untested code paths (Python CLI)
+- **E2E Test Scaffolder** - Cypress/Playwright E2E setup (Python CLI)
+- **TDD Workflow** - Red-Green-Refactor cycle orchestration (Python CLI)
+- **Fixture Generator** - Boundary values and edge case data (Python CLI)
+- **Format Detector** - Auto-detect test framework and coverage (Python CLI)
+- **Test Spec Generator** - Given-When-Then spec generation (Python CLI)
+- **Refactor Analyzer** - Refactoring safety validation (Python CLI)
 - **Testing Pyramid** - Unit, integration, e2e test strategy
+- **TDD Methodology** - Red-Green-Refactor best practices reference
 - **Automation Frameworks** - Selenium, Playwright, Cypress patterns
 - **API Testing** - Postman, REST Assured, Pact contract testing
 - **Performance Testing** - JMeter, k6, Locust load testing

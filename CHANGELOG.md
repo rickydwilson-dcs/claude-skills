@@ -5,6 +5,47 @@ All notable changes to the Claude Skills Library will be documented in this file
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.6.0] - 2025-11-28 - TDD Engineering Agent & Tools
+
+### Added
+
+**New Agent: `cs-tdd-engineer`**:
+- Test-Driven Development specialist for Red-Green-Refactor workflows
+- Orchestrates extended `senior-qa` skill with TDD-specific tools
+- 4 workflows: Feature via TDD, Contract-First API, Legacy Refactoring, TDD Setup
+- Integrates with `/generate.tdd` command
+
+**New Command: `/generate.tdd`**:
+- Multi-phase TDD workflow guidance
+- Test specification generation (Given-When-Then)
+- Phase-specific checklists and recommendations
+- Framework auto-detection and fixture generation
+
+**Python Tools (5 new in senior-qa skill)**:
+- `tdd_workflow.py` - Red-Green-Refactor cycle orchestration with phase tracking
+- `fixture_generator.py` - Boundary values, edge cases, security test data
+- `format_detector.py` - Auto-detect test framework and coverage format
+- `test_spec_generator.py` - Given-When-Then spec generation from requirements
+- `refactor_analyzer.py` - Refactoring safety validation and suggestions
+
+**Reference Documents (1 new)**:
+- `tdd_methodology.md` - Red-Green-Refactor detailed guide with best practices
+
+### Changed
+
+- `senior-qa` skill expanded from 3 to 8 Python tools
+- SKILL.md updated with 3 new TDD workflows
+- Agents catalog updated to 30 agents (was 29)
+- Commands catalog updated to 16 commands (was 15)
+
+### Statistics
+- **Agents**: 30 (was 29) - added cs-tdd-engineer
+- **Skills**: 31 (unchanged) - senior-qa enhanced with TDD tools
+- **Commands**: 16 (was 15) - added /generate.tdd
+- **Python Tools**: 85 (was 80) - added 5 TDD tools to senior-qa
+
+---
+
 ## [3.5.0] - 2025-11-28 - Scrum Master Skill Enhancement
 
 ### Added
