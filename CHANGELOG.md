@@ -5,6 +5,44 @@ All notable changes to the Claude Skills Library will be documented in this file
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.5.0] - 2025-11-28 - Scrum Master Skill Enhancement
+
+### Added
+
+**Enhanced Skill: `delivery-team/scrum-master`** (competitive analysis response):
+- Expanded from 1 to 4 Python tools
+- Differentiated tool suite leveraging 8-format retrospective knowledge base
+- RICE integration for sprint-specific prioritization
+- MCP command generation for Jira sprint automation
+
+**Python Tools (3 new)**:
+- `prioritize_backlog.py` - Standalone value/effort/risk scoring with sprint capacity allocation
+- `sprint_backlog_optimizer.py` - RICE integration wrapper with MCP command generation
+- `retro_format_selector.py` - 8-format intelligent recommendation with facilitation guides
+
+**Enhanced Existing Tool**:
+- `sprint_metrics_calculator.py` - 6-metric weighted health formula (was 3-metric)
+  - Added `--blockers` and `--morale` CLI arguments
+  - Component breakdown: Velocity Stability (15%), Velocity Trend (15%), Completion Rate (25%), Capacity Utilization (15%), Blocker Impact (20%), Team Morale (10%)
+  - Letter grade output (A-F)
+
+**Documentation Overhaul**:
+- SKILL.md: Comprehensive Python tools documentation with formulas
+- HOW_TO_USE.md: 3 workflow examples (Sprint Planning, Retrospective, Health Analysis)
+
+### Changed
+
+- Scrum-master skill version updated to 1.1.0
+- Sprint health score now uses 6-metric weighted formula instead of simple average
+
+### Statistics
+- **Agents**: 29 (unchanged)
+- **Skills**: 31 (unchanged)
+- **Commands**: 15 (unchanged)
+- **Python Tools**: 80 (was 74) - added 3 new scrum-master tools, enhanced 1 existing, +2 other
+
+---
+
 ## [3.4.0] - 2025-11-28 - Technical Writer Skill Package
 
 ### Added

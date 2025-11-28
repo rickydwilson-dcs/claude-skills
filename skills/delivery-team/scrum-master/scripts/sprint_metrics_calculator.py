@@ -180,35 +180,102 @@ class SprintMetricsCalculator:
 
         return insights
 
-    def calculate_sprint_health_score(self, velocity: Dict, completion: Dict, capacity: Dict) -> int:
-        """Calculate overall sprint health score (0-100)"""
-        score = 100
+    def calculate_sprint_health_score(self, velocity: Dict, completion: Dict, capacity: Dict,
+                                       blockers: int = 0, morale: int = 8) -> Dict:
+        """
+        Calculate overall sprint health score using 6-metric weighted formula.
 
-        # Velocity component (30 points)
+        Weights:
+        - Velocity stability: 15%
+        - Velocity trend: 15%
+        - Completion rate: 25%
+        - Capacity utilization: 15%
+        - Blocker impact: 20%
+        - Team morale: 10%
+
+        Args:
+            velocity: Velocity metrics dict
+            completion: Completion metrics dict
+            capacity: Capacity metrics dict
+            blockers: Number of active blockers (default: 0)
+            morale: Team morale score 1-10 (default: 8)
+
+        Returns:
+            Dict with score, grade, and component breakdown
+        """
+        breakdown = {}
+
+        # 1. Velocity stability (15 points max)
+        velocity_stability_score = 15
         if velocity['stability'] == 'volatile':
-            score -= 15
+            velocity_stability_score = 5
         elif velocity['stability'] == 'moderate':
-            score -= 7
+            velocity_stability_score = 10
+        breakdown['velocity_stability'] = velocity_stability_score
 
+        # 2. Velocity trend (15 points max)
+        velocity_trend_score = 15
         if velocity['trend'] == 'decreasing':
-            score -= 15
+            velocity_trend_score = 5
+        elif velocity['trend'] == 'stable':
+            velocity_trend_score = 12
+        # 'increasing' gets full 15
+        breakdown['velocity_trend'] = velocity_trend_score
 
-        # Completion component (40 points)
+        # 3. Completion rate (25 points max)
         completion_rate = completion['rate']
-        if completion_rate < 70:
-            score -= 40
-        elif completion_rate < 85:
-            score -= 20
-        elif completion_rate < 95:
-            score -= 5
+        if completion_rate >= 95:
+            completion_score = 25
+        elif completion_rate >= 85:
+            completion_score = 20
+        elif completion_rate >= 70:
+            completion_score = 12
+        else:
+            completion_score = 5
+        breakdown['completion_rate'] = completion_score
 
-        # Capacity component (30 points)
-        if capacity['status'] in ['over_committed', 'under_utilized']:
-            score -= 20
+        # 4. Capacity utilization (15 points max)
+        if capacity['status'] == 'optimal':
+            capacity_score = 15
         elif capacity['status'] in ['high_utilization', 'moderate']:
-            score -= 10
+            capacity_score = 10
+        else:  # over_committed or under_utilized
+            capacity_score = 5
+        breakdown['capacity_utilization'] = capacity_score
 
-        return max(0, min(100, score))
+        # 5. Blocker impact (20 points max) - fewer blockers = higher score
+        blocker_penalty = min(blockers * 4, 20)  # Each blocker costs 4 points, max 20
+        blocker_score = 20 - blocker_penalty
+        breakdown['blocker_impact'] = blocker_score
+
+        # 6. Team morale (10 points max) - direct mapping from 1-10 scale
+        morale = max(1, min(10, morale))  # Clamp to 1-10
+        morale_score = morale  # 1-10 maps to 1-10 points
+        breakdown['team_morale'] = morale_score
+
+        # Calculate total score
+        total_score = sum(breakdown.values())
+        total_score = max(0, min(100, total_score))
+
+        # Determine grade
+        if total_score >= 90:
+            grade = 'A'
+        elif total_score >= 80:
+            grade = 'B'
+        elif total_score >= 70:
+            grade = 'C'
+        elif total_score >= 60:
+            grade = 'D'
+        else:
+            grade = 'F'
+
+        return {
+            'score': total_score,
+            'grade': grade,
+            'breakdown': breakdown,
+            'blockers': blockers,
+            'morale': morale
+        }
 
     def print_metrics_report(self, metrics: Dict):
         """Print human-readable metrics report"""
@@ -243,7 +310,21 @@ class SprintMetricsCalculator:
             print(f"   Status: {cap['status'].upper().replace('_', ' ')}")
 
         if 'health_score' in metrics:
-            print(f"\n🏥 Sprint Health Score: {metrics['health_score']}/100")
+            health = metrics['health_score']
+            if isinstance(health, dict):
+                print(f"\n🏥 Sprint Health Score: {health['score']}/100 (Grade: {health['grade']})")
+                print(f"   Component Breakdown:")
+                print(f"     Velocity Stability: {health['breakdown']['velocity_stability']}/15")
+                print(f"     Velocity Trend:     {health['breakdown']['velocity_trend']}/15")
+                print(f"     Completion Rate:    {health['breakdown']['completion_rate']}/25")
+                print(f"     Capacity Util:      {health['breakdown']['capacity_utilization']}/15")
+                print(f"     Blocker Impact:     {health['breakdown']['blocker_impact']}/20")
+                print(f"     Team Morale:        {health['breakdown']['team_morale']}/10")
+                if health['blockers'] > 0:
+                    print(f"   Active Blockers: {health['blockers']}")
+            else:
+                # Legacy format support
+                print(f"\n🏥 Sprint Health Score: {health}/100")
 
         if 'insights' in metrics and metrics['insights']:
             print(f"\n💡 Insights & Recommendations:")
@@ -267,8 +348,19 @@ Examples:
   # Full sprint analysis
   %(prog)s --velocity 23 25 21 --committed 25 --completed 21 --capacity 25
 
+  # Full analysis with blockers and morale (6-metric health score)
+  %(prog)s --velocity 23 25 21 --committed 25 --completed 21 --capacity 25 --blockers 2 --morale 7
+
   # JSON output
   %(prog)s --velocity 23 25 21 --json
+
+Health Score Components (6-metric formula):
+  - Velocity Stability: 15%
+  - Velocity Trend: 15%
+  - Completion Rate: 25%
+  - Capacity Utilization: 15%
+  - Blocker Impact: 20%
+  - Team Morale: 10%
         """
     )
 
@@ -304,6 +396,18 @@ Examples:
         nargs='+',
         type=int,
         help='Actual remaining work per day (space-separated)'
+    )
+    parser.add_argument(
+        '--blockers',
+        type=int,
+        default=0,
+        help='Number of active blockers (default: 0)'
+    )
+    parser.add_argument(
+        '--morale',
+        type=int,
+        default=8,
+        help='Team morale score 1-10 (default: 8)'
     )
     parser.add_argument(
         '-v', '--verbose',
@@ -357,7 +461,9 @@ Examples:
         results['health_score'] = calculator.calculate_sprint_health_score(
             results['velocity'],
             results['completion'],
-            results['capacity']
+            results['capacity'],
+            blockers=args.blockers,
+            morale=args.morale
         )
 
     # Output results

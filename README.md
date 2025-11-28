@@ -40,7 +40,7 @@ This library exists to help **Pandora's software development teams deliver value
 This repository provides **modular, self-contained skill packages** specifically designed for Pandora's software delivery teams. Each skill augments Claude AI with specialized domain expertise and includes:
 
 - **📖 Comprehensive documentation** - Workflows, best practices, and strategic frameworks tailored to Pandora's SDLC
-- **🛠️ Python analysis tools** - 74 CLI utilities for automated architecture, security, and product analysis
+- **🛠️ Python analysis tools** - 80 CLI utilities for automated architecture, security, and product analysis
 - **📚 Knowledge bases** - Curated reference materials covering architecture patterns, security practices, and product frameworks
 - **📋 Ready-to-use templates** - ADRs, C4 diagrams, PRDs, user stories, and sprint templates
 

@@ -261,7 +261,144 @@ See [Velocity Tracking](#workflows) section for detailed metrics and reporting.
 
 ## Python Tools
 
-This skill does not include Python automation tools. Scrum Master operations are performed through the Atlassian MCP server, which provides integration for:
+This skill includes 4 Python automation tools for sprint metrics, backlog prioritization, and retrospective facilitation:
+
+### sprint_metrics_calculator.py
+**6-Metric Sprint Health Analysis**
+
+Calculates comprehensive sprint metrics including velocity trends, completion rates, and a weighted health score.
+
+```bash
+# Basic velocity analysis
+python skills/delivery-team/scrum-master/scripts/sprint_metrics_calculator.py \
+  --velocity 23 25 21 28 24
+
+# Full sprint analysis with health score
+python skills/delivery-team/scrum-master/scripts/sprint_metrics_calculator.py \
+  --velocity 23 25 21 28 24 \
+  --committed 25 --completed 21 \
+  --capacity 25 \
+  --blockers 2 --morale 7
+
+# JSON output for integration
+python skills/delivery-team/scrum-master/scripts/sprint_metrics_calculator.py \
+  --velocity 23 25 21 --committed 25 --completed 21 --capacity 25 --json
+```
+
+**Health Score Components (6-metric weighted formula):**
+- Velocity Stability: 15% (stable=15, moderate=10, volatile=5)
+- Velocity Trend: 15% (increasing=15, stable=12, decreasing=5)
+- Completion Rate: 25% (>=95%=25, >=85%=20, >=70%=12, <70%=5)
+- Capacity Utilization: 15% (optimal=15, moderate/high=10, other=5)
+- Blocker Impact: 20% (20 - blockers*4, max penalty 20)
+- Team Morale: 10% (direct 1-10 mapping)
+
+**Output:** Score 0-100 with letter grade (A-F), component breakdown, velocity trends, insights.
+
+---
+
+### prioritize_backlog.py
+**Value/Effort/Risk Backlog Prioritization**
+
+Standalone prioritization tool using value/effort/risk scoring formula, independent of RICE.
+
+```bash
+# Prioritize from JSON file
+python skills/delivery-team/scrum-master/scripts/prioritize_backlog.py backlog.json
+
+# With sprint capacity allocation
+python skills/delivery-team/scrum-master/scripts/prioritize_backlog.py backlog.json --capacity 30
+
+# Include quick wins analysis
+python skills/delivery-team/scrum-master/scripts/prioritize_backlog.py backlog.json --capacity 30 --quick-wins
+
+# JSON output
+python skills/delivery-team/scrum-master/scripts/prioritize_backlog.py backlog.json --json
+```
+
+**Input JSON format:**
+```json
+[
+  {"id": "PROJ-123", "title": "User auth", "value": 8, "effort": 5, "risk": 3},
+  {"id": "PROJ-124", "title": "Dashboard", "value": 6, "effort": 8, "risk": 2}
+]
+```
+
+**Scoring Formula:** `Priority = (value * 0.4) + ((10-effort) * 0.3) + ((10-risk) * 0.3)`
+
+**Output:** Ranked backlog, sprint allocation, quick wins, high-risk items.
+
+---
+
+### sprint_backlog_optimizer.py
+**RICE Integration + MCP Command Generation**
+
+Wraps RICE-prioritized output for sprint-specific optimization with Jira MCP command generation.
+
+```bash
+# Optimize RICE output for sprint
+python skills/delivery-team/scrum-master/scripts/sprint_backlog_optimizer.py rice_output.json \
+  --velocity 30 \
+  --sprint-goal "Improve authentication" \
+  --sprint-name "Sprint 24"
+
+# Generate MCP commands for Jira
+python skills/delivery-team/scrum-master/scripts/sprint_backlog_optimizer.py rice_output.json \
+  --velocity 30 --generate-mcp --board-key TEAM
+
+# JSON output for automation
+python skills/delivery-team/scrum-master/scripts/sprint_backlog_optimizer.py rice_output.json \
+  --velocity 30 --json
+```
+
+**Sprint Priority Formula:** `Sprint_Priority = RICE * Goal_Alignment * (1 - Dep_Risk) * Expertise`
+
+**Output:** Sprint-optimized backlog, MCP commands for Jira sprint creation, goal alignment scores.
+
+---
+
+### retro_format_selector.py
+**Intelligent Retrospective Format Recommendation**
+
+Recommends optimal retrospective format from 8 options based on team context.
+
+```bash
+# Basic recommendation
+python skills/delivery-team/scrum-master/scripts/retro_format_selector.py \
+  --team-size 8 --time 90
+
+# With health score context
+python skills/delivery-team/scrum-master/scripts/retro_format_selector.py \
+  --team-size 8 --time 90 --health-score 65 --focus technical
+
+# Full facilitation guide
+python skills/delivery-team/scrum-master/scripts/retro_format_selector.py \
+  --team-size 8 --time 90 --output-guide
+
+# Avoid recently used formats
+python skills/delivery-team/scrum-master/scripts/retro_format_selector.py \
+  --team-size 8 --time 90 --previous mad-sad-glad starfish
+```
+
+**8 Supported Formats:**
+1. Start-Stop-Continue (default, all-purpose)
+2. Mad-Sad-Glad (emotional check-in)
+3. 4Ls (Liked, Learned, Lacked, Longed For)
+4. Starfish (More/Less/Keep/Start/Stop)
+5. Sailboat (Wind, Anchors, Rocks, Island)
+6. DAKI (Drop, Add, Keep, Improve)
+7. Timeline (chronological sprint review)
+8. Lean Coffee (participant-driven topics)
+
+**Selection Factors:** Team size, time available, focus area, health score, team maturity, format freshness.
+
+**Output:** Recommended format with rationale, facilitation guide (optional), materials list, timing breakdown.
+
+---
+
+## Atlassian MCP Integration
+
+In addition to Python tools, Scrum Master operations integrate with the Atlassian MCP server for:
 
 - Creating and managing sprints in Jira
 - Updating sprint board status and issue transitions
@@ -270,7 +407,7 @@ This skill does not include Python automation tools. Scrum Master operations are
 - Creating ceremony documentation pages in Confluence
 - Tracking retrospective action items
 
-See the Atlassian MCP Integration section below for detailed integration patterns and capabilities.
+See the jira-expert and confluence-expert skills for detailed MCP integration patterns.
 
 ## Reference Documentation
 

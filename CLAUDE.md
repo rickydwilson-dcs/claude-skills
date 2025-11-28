@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a **comprehensive skills library** for Claude AI - reusable, production-ready skill packages that bundle domain expertise, best practices, analysis tools, and strategic frameworks. The repository provides modular skills that teams can download and use directly in their workflows.
 
-**Current Scope:** 29 production agents, 31 skills across 4 domains with 74 Python automation tools, 15 slash commands.
+**Current Scope:** 29 production agents, 31 skills across 4 domains with 80 Python automation tools, 15 slash commands.
 
 **Key Distinction**: This is NOT a traditional application. It's a library of skill packages meant to be extracted and deployed by users into their own Claude workflows.
 
@@ -480,6 +480,6 @@ Common issues and solutions documented in domain-specific CLAUDE.md files:
 ---
 
 **Last Updated:** November 28, 2025
-**Current Status:** 29 production agents, 31 skills across 4 domains, 15 slash commands
+**Current Status:** 29 production agents, 31 skills across 4 domains, 80 Python tools, 15 slash commands
 **Python Version:** 3.8+ required
 **Dependencies:** None - all tools use Python standard library only
