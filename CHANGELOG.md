@@ -5,6 +5,49 @@ All notable changes to the Claude Skills Library will be documented in this file
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.0] - 2025-11-28 - Technical Writer Skill Package
+
+### Added
+
+**New Skill: `engineering-team/technical-writer`**:
+- Documentation quality analysis with readability metrics (Flesch-Kincaid, Gunning Fog)
+- README generation and statistics updates
+- CHANGELOG generation from conventional commits
+- API documentation formatting
+
+**Python Tools (4 new)**:
+- `doc_quality_analyzer.py` - Quality scoring (0-100) with category breakdown
+- `readme_generator.py` - Auto-detect project type, template-based generation
+- `changelog_generator.py` - Conventional commit parsing, Keep a Changelog format
+- `api_doc_formatter.py` - Multiple output formats, code example generation
+
+**Reference Documents (3 new)**:
+- `technical_writing_standards.md` - Voice, tone, grammar, document structure patterns
+- `api_documentation_patterns.md` - OpenAPI/Swagger, endpoint documentation
+- `developer_documentation_guide.md` - README, CHANGELOG, getting started patterns
+
+**Asset Templates (4 new)**:
+- `readme_template.md`, `changelog_template.md`
+- `api_endpoint_template.md`, `user_guide_template.md`
+
+**New Agent: `cs-technical-writer`**:
+- Orchestrates technical-writer skill for documentation workflows
+- 4 workflows: Full Doc Update, API Docs, Quality Audit, Pre-Release Review
+- Integrated with `/update.docs` command
+
+### Changed
+
+- `/update.docs` command now references `engineering-team/technical-writer` skill
+- Command dependencies updated with technical-writer Python tools
+
+### Statistics
+- **Agents**: 29 (was 28) - added cs-technical-writer
+- **Skills**: 31 (was 30) - added technical-writer
+- **Commands**: 15 (unchanged)
+- **Python Tools**: 74 (was 70) - added 4 tools
+
+---
+
 ## [3.3.0] - 2025-11-28 - Tech Debt Cleanup & Pre-Commit Hooks
 
 ### Changed

@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a **comprehensive skills library** for Claude AI - reusable, production-ready skill packages that bundle domain expertise, best practices, analysis tools, and strategic frameworks. The repository provides modular skills that teams can download and use directly in their workflows.
 
-**Current Scope:** 28 production agents, 30 skills across 4 domains with 70 Python automation tools, 15 slash commands.
+**Current Scope:** 29 production agents, 31 skills across 4 domains with 74 Python automation tools, 15 slash commands.
 
 **Key Distinction**: This is NOT a traditional application. It's a library of skill packages meant to be extracted and deployed by users into their own Claude workflows.
 
@@ -64,13 +64,13 @@ claude-skills/
 ├── skills/                    # All skill packages organized by domain
 │   ├── marketing-team/        # 3 marketing skills + Python tools
 │   ├── product-team/          # 7 product skills + Python tools
-│   ├── engineering-team/      # 15 engineering skills + Python tools
+│   ├── engineering-team/      # 16 engineering skills + Python tools
 │   └── delivery-team/         # 4 delivery/PM skills + Atlassian MCP
 ├── agents/                    # Workflow orchestrator agents (cs-* prefix)
 │   ├── marketing/            # 3 agents
 │   ├── product/              # 6 agents
 │   ├── delivery/             # 4 agents
-│   └── engineering/          # 15 agents
+│   └── engineering/          # 16 agents
 ├── commands/                  # Slash commands library
 │   ├── analysis/             # Analysis commands (5)
 │   ├── generation/           # Code generation (2)
@@ -100,7 +100,7 @@ skill-name/
 
 ### Agent Architecture
 
-**28 production agents** orchestrate skills through guided workflows across 4 domains (marketing, product, engineering, delivery).
+**29 production agents** orchestrate skills through guided workflows across 4 domains (marketing, product, engineering, delivery).
 
 **Key Principles:**
 - **cs-* Prefix Convention** - All agents use `cs-` prefix (claude-skills)
@@ -479,7 +479,7 @@ Common issues and solutions documented in domain-specific CLAUDE.md files:
 
 ---
 
-**Last Updated:** November 27, 2025
-**Current Status:** 28 production agents, 30 skills across 4 domains, 15 slash commands
+**Last Updated:** November 28, 2025
+**Current Status:** 29 production agents, 31 skills across 4 domains, 15 slash commands
 **Python Version:** 3.8+ required
 **Dependencies:** None - all tools use Python standard library only

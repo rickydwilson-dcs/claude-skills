@@ -40,13 +40,13 @@ This library exists to help **Pandora's software development teams deliver value
 This repository provides **modular, self-contained skill packages** specifically designed for Pandora's software delivery teams. Each skill augments Claude AI with specialized domain expertise and includes:
 
 - **📖 Comprehensive documentation** - Workflows, best practices, and strategic frameworks tailored to Pandora's SDLC
-- **🛠️ Python analysis tools** - 67 CLI utilities for automated architecture, security, and product analysis
+- **🛠️ Python analysis tools** - 74 CLI utilities for automated architecture, security, and product analysis
 - **📚 Knowledge bases** - Curated reference materials covering architecture patterns, security practices, and product frameworks
 - **📋 Ready-to-use templates** - ADRs, C4 diagrams, PRDs, user stories, and sprint templates
 
 **Key Benefits for Pandora:**
 - ⚡ **Zero dependencies** - Python 3.8+ standard library only, works across Pandora's environments
-- 🎯 **SDLC-optimized** - 30 skills, 28 agents, 15 slash commands covering architecture, security, product management, engineering, delivery
+- 🎯 **SDLC-optimized** - 31 skills, 29 agents, 15 slash commands covering architecture, security, product management, engineering, delivery
 - 🔧 **Fast analysis** - Algorithmic tools without external API dependencies or rate limits
 - 📈 **Measurable impact** - 40%+ time savings, 30%+ quality improvements, faster delivery cycles
 - 👥 **Team adoption ready** - Designed for Pandora's entire development organization to use daily
@@ -57,13 +57,13 @@ This repository provides **modular, self-contained skill packages** specifically
 
 ### Skills & Agents
 
-- **[Skills Catalog](docs/SKILLS_CATALOG.md)** - 30 production-ready skills with Python CLI tools
+- **[Skills Catalog](docs/SKILLS_CATALOG.md)** - 31 production-ready skills with Python CLI tools
   - **Marketing Skills (3)** - Content creation, demand generation, product marketing
   - **Product Skills (7)** - Product management, agile practices, UX research, UI design, business analysis, competitive analysis
-  - **Engineering Skills (15)** - Architecture, security, fullstack, DevOps, AI/ML, data, QA
-  - **Delivery Skills (4)** - Jira, Confluence, Scrum, project management
+  - **Engineering Skills (16)** - Architecture, security, fullstack, DevOps, AI/ML, data, QA, technical writing
+  - **Delivery Skills (5)** - Jira, Confluence, Scrum, project management
 
-- **[Agents Catalog](docs/AGENTS_CATALOG.md)** - 28 workflow orchestrator agents (v2.0)
+- **[Agents Catalog](docs/AGENTS_CATALOG.md)** - 29 workflow orchestrator agents (v2.0)
   - Agents guide multi-step processes and intelligently invoke skills
   - Complete coverage for marketing, product, engineering, and delivery domains
 

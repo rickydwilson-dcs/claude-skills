@@ -1,11 +1,11 @@
 # Skills Catalog
 
-**Complete catalog of 43 production-ready skills for Pandora's SDLC**
+**Complete catalog of 31 production-ready skills for Pandora's SDLC**
 
 This document provides detailed descriptions of all available skills in the Claude Skills Library. Each skill is a self-contained package with Python CLI tools, expert knowledge bases, and ready-to-use templates.
 
-**Validation Status**: 28/28 passing (100%)
-**Last Validated**: November 22, 2025
+**Validation Status**: 31/31 passing (100%)
+**Last Validated**: November 28, 2025
 
 ## Validation
 
@@ -26,7 +26,7 @@ See [Builder Standards](standards/builder-standards.md) for complete validation 
 
 - [Marketing Skills](#marketing-skills) - 3 skills
 - [Product Team Skills](#product-team-skills) - 6 skills
-- [Engineering Team Skills](#engineering-team-skills) - 15 skills
+- [Engineering Team Skills](#engineering-team-skills) - 16 skills
 - [Delivery Team Skills](#delivery-team-skills) - 4 skills
 
 ---
@@ -205,7 +205,7 @@ Business process analysis, workflow mapping, gap identification, and improvement
 
 ## Engineering Team Skills
 
-**15 comprehensive engineering skills** covering code review, architecture, backend, frontend, fullstack, DevOps, security, QA, AI/ML, data, and CTO advisory.
+**16 comprehensive engineering skills** covering code review, architecture, backend, frontend, fullstack, DevOps, security, QA, AI/ML, data, technical writing, and CTO advisory.
 
 ### 🔍 Code Reviewer
 **Status:** ✅ Production Ready | **Version:** 1.0
@@ -477,6 +477,24 @@ Technical leadership, engineering strategy, team scaling, and CTO decision-makin
 
 ---
 
+### 📝 Technical Writer
+**Status:** ✅ Production Ready | **Version:** 1.0
+
+Documentation quality analysis, README generation, CHANGELOG maintenance, and API documentation with readability metrics.
+
+**What's Included:**
+- **Doc Quality Analyzer** - Quality scoring with Flesch-Kincaid and Gunning Fog readability (Python CLI)
+- **README Generator** - Auto-detect project type, template-based generation (Python CLI)
+- **CHANGELOG Generator** - Conventional commit parsing, Keep a Changelog format (Python CLI)
+- **API Doc Formatter** - Multiple output formats, code example generation (Python CLI)
+- **Technical Writing Standards** - Voice, tone, grammar, document structure patterns
+- **API Documentation Patterns** - OpenAPI/Swagger, endpoint documentation
+- **Developer Documentation Guide** - README, CHANGELOG, getting started patterns
+
+**Learn More:** [skills/engineering-team/technical-writer/SKILL.md](../skills/engineering-team/technical-writer/SKILL.md)
+
+---
+
 ## Delivery Team Skills
 
 **4 comprehensive delivery skills** covering Atlassian tools (Jira, Confluence) and agile delivery practices.
@@ -562,6 +580,6 @@ Project management, resource planning, stakeholder management, and delivery exce
 
 ---
 
-**Last Updated:** November 17, 2025
-**Total Skills:** 42 production-ready skills
-**Total CLI Tools:** 53 Python automation tools
+**Last Updated:** November 28, 2025
+**Total Skills:** 31 production-ready skills
+**Total CLI Tools:** 74 Python automation tools
