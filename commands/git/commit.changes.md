@@ -1,7 +1,7 @@
 ---
 name: commit.changes
 title: Commit and Promote Through Workflow
-description: Commit changes to develop branch and optionally promote through staging to main following the repository's git workflow
+description: Always commit and push to develop branch first, then optionally promote through staging to main - enforces proper git workflow
 category: git
 subcategory: workflow
 pattern: multi-phase
@@ -13,7 +13,7 @@ author: Claude Skills Team
 contributors:
   - Git Workflow Team
 created: 2025-11-25
-updated: 2025-11-25
+updated: 2025-11-28
 example_usage: "/commit.changes"
 requires_input: false
 requires_context: true
@@ -76,26 +76,30 @@ license: MIT
 
 ## Overview
 
-This command implements the repository's **develop → staging → main** git workflow, automating the commit and promotion process with built-in validation checks at each stage.
+This command **enforces the proper git workflow** by always committing and pushing to the **develop branch first**, then optionally promoting through staging to main.
+
+**Key Principle:** All changes MUST go through develop first. Never commit directly to staging or main.
+
+**Workflow:** `develop` → `staging` → `main`
 
 **When to use:** After making changes that you want to commit to the repository following the standard workflow.
 
 **What it saves:** Eliminates manual branch switching, merging, and validation - saves 10 minutes per commit cycle.
 
-**⚠️ Important:** This command modifies git state and pushes to remote branches. Always ensure you're committing the correct changes.
+**⚠️ Important:** This command modifies git state and pushes to remote branches. Changes are ALWAYS pushed to develop first, regardless of promotion level.
 
 ---
 
 ## Usage
 
 ```bash
-# Commit to develop branch only
+# Commit and push to develop branch (REQUIRED first step)
 /commit.changes
 
-# Commit to develop and promote to staging
+# Commit to develop THEN promote to staging
 /commit.changes --promote staging
 
-# Full promotion through all branches (develop → staging → main)
+# Full workflow: commit to develop → merge to staging → merge to main
 /commit.changes --promote main
 
 # Dry run - preview what would happen
@@ -104,6 +108,8 @@ This command implements the repository's **develop → staging → main** git wo
 # Skip validation checks (use with caution)
 /commit.changes --no-validate
 ```
+
+**Note:** All commands ALWAYS push to develop first. The `--promote` flag adds additional promotion steps AFTER the develop commit.
 
 ### Arguments
 
@@ -152,9 +158,9 @@ Before making any commits, the command validates:
    - Present message for user approval
    - Allow user to edit if needed
 
-### Phase 2: Commit to Develop
+### Phase 2: Commit and Push to Develop (ALWAYS REQUIRED)
 
-After validation passes:
+After validation passes, changes are ALWAYS committed and pushed to develop first:
 
 1. **Stage Changes**
    - Add all relevant files to staging area
@@ -167,10 +173,11 @@ After validation passes:
    - Add commit signature if configured
    - Store commit SHA for tracking
 
-3. **Push to Develop**
+3. **Push to Develop (MANDATORY)**
    - Push commit to origin/develop
    - Verify push succeeded
    - Report commit details (SHA, files changed, insertions/deletions)
+   - **This step is NEVER skipped** - all changes must go through develop first
 
 ### Phase 3: Optional Promotion to Staging
 
@@ -294,22 +301,29 @@ This command is successful when:
 ## Git Workflow Diagram
 
 ```
+┌─────────────────────────────────────────────────────────────┐
+│  PROPER WORKFLOW: develop → staging → main                  │
+│  ALL changes MUST go through develop first!                 │
+└─────────────────────────────────────────────────────────────┘
+
 ┌─────────────┐
-│   DEVELOP   │  ← Work happens here
+│   DEVELOP   │  ← ALL commits go here FIRST (mandatory)
 └──────┬──────┘
-       │ commit.changes
+       │ /commit.changes (always pushes here)
        ▼
 ┌─────────────┐
 │   STAGING   │  ← Pre-production validation
 └──────┬──────┘
-       │ --promote staging
+       │ --promote staging (merges from develop)
        ▼
 ┌─────────────┐
 │    MAIN     │  ← Production-ready code
 └─────────────┘
-       │ --promote main
+       │ --promote main (merges from staging)
        ▼
    PRODUCTION
+
+⚠️  NEVER commit directly to staging or main!
 ```
 
 ---
@@ -397,7 +411,7 @@ If you try to push directly to main, the command will recommend using `/create.p
 
 ---
 
-**Last Updated:** November 25, 2025
+**Last Updated:** November 28, 2025
 **Version:** 1.0.0
 **Maintained By:** Claude Skills Team
 **Feedback:** Create an issue in the repository or contact @claude-skills-team
