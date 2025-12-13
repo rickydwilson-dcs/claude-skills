@@ -5,6 +5,47 @@ All notable changes to the Claude Skills Library will be documented in this file
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.7.0] - 2025-12-13 - Mobile Development Suite
+
+### Added
+
+**New Skills (3):**
+- **senior-mobile** - Cross-platform mobile development with React Native, Flutter, Expo
+  - Project scaffolding, framework selection, platform detection, app store validation
+  - 3 Python tools: `mobile_scaffolder.py`, `platform_detector.py`, `app_store_validator.py`
+- **senior-ios** - Native iOS development with Swift 5.9+, SwiftUI, UIKit
+  - SwiftUI patterns, UIKit migration, performance profiling, App Store submission
+  - Reference guides: swift-patterns.md, swiftui-guide.md, xcode-workflows.md
+- **senior-flutter** - Flutter/Dart development for cross-platform applications
+  - Clean architecture, state management (Riverpod, Bloc), platform channels, widget optimization
+  - Reference guides: dart-patterns.md, widget-architecture.md, state-management.md
+
+**New Agents (3):**
+- **cs-mobile-engineer** - Cross-platform mobile orchestrator
+  - 4 workflows: Project Scaffolding, Framework Selection, Platform Assessment, Pre-Release Validation
+- **cs-ios-engineer** - Native iOS specialist
+  - 4 workflows: SwiftUI App Development, UIKit Migration, App Store Submission, Performance Profiling
+- **cs-flutter-engineer** - Flutter/Dart specialist
+  - 4 workflows: Clean Architecture Setup, State Management, Platform Channels, Widget Optimization
+
+**Python Tools (3 new in senior-mobile skill):**
+- `mobile_scaffolder.py` - Generate React Native/Flutter/Expo projects with navigation, state, CI/CD
+- `platform_detector.py` - Analyze mobile project configuration and health
+- `app_store_validator.py` - Pre-submission validation for Apple/Google stores
+
+**Reference Documents (9 new):**
+- senior-mobile: frameworks.md, templates.md, tools.md
+- senior-ios: swift-patterns.md, swiftui-guide.md, xcode-workflows.md
+- senior-flutter: dart-patterns.md, widget-architecture.md, state-management.md
+
+### Statistics
+- **Agents**: 34 (was 31) - added 3 mobile agents
+- **Skills**: 34 (was 31) - added 3 mobile skills
+- **Commands**: 16 (unchanged)
+- **Python Tools**: 92 (was 89) - added 3 mobile tools
+
+---
+
 ## [3.6.0] - 2025-11-28 - TDD Engineering Agent & Tools
 
 ### Added

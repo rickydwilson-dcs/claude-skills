@@ -1,0 +1,5 @@
+# This skill uses Python tools from senior-mobile
+# See ../../senior-mobile/scripts/ for:
+# - mobile_scaffolder.py
+# - platform_detector.py
+# - app_store_validator.py

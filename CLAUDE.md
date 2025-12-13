@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a **comprehensive skills library** for Claude AI - reusable, production-ready skill packages that bundle domain expertise, best practices, analysis tools, and strategic frameworks. The repository provides modular skills that teams can download and use directly in their workflows.
 
-**Current Scope:** 31 production agents, 31 skills across 4 domains with 89 Python automation tools, 16 slash commands.
+**Current Scope:** 34 production agents, 34 skills across 4 domains with 92 Python automation tools, 16 slash commands.
 
 **Key Distinction**: This is NOT a traditional application. It's a library of skill packages meant to be extracted and deployed by users into their own Claude workflows.
 
@@ -64,13 +64,13 @@ claude-skills/
 ├── skills/                    # All skill packages organized by domain
 │   ├── marketing-team/        # 3 marketing skills + Python tools
 │   ├── product-team/          # 7 product skills + Python tools
-│   ├── engineering-team/      # 17 engineering skills + Python tools
+│   ├── engineering-team/      # 20 engineering skills + Python tools (incl. mobile)
 │   └── delivery-team/         # 4 delivery/PM skills + Atlassian MCP
 ├── agents/                    # Workflow orchestrator agents (cs-* prefix)
 │   ├── marketing/            # 3 agents
 │   ├── product/              # 6 agents
 │   ├── delivery/             # 4 agents
-│   └── engineering/          # 18 agents
+│   └── engineering/          # 21 agents (incl. mobile)
 ├── commands/                  # Slash commands library
 │   ├── analysis/             # Analysis commands (5)
 │   ├── generation/           # Code generation (2)
@@ -100,7 +100,7 @@ skill-name/
 
 ### Agent Architecture
 
-**29 production agents** orchestrate skills through guided workflows across 4 domains (marketing, product, engineering, delivery).
+**34 production agents** orchestrate skills through guided workflows across 4 domains (marketing, product, engineering, delivery).
 
 **Key Principles:**
 - **cs-* Prefix Convention** - All agents use `cs-` prefix (claude-skills)
@@ -401,6 +401,9 @@ python3 -c "print('Python environment ready')"
 | Prompt engineering | [cs-prompt-engineer](agents/engineering/cs-prompt-engineer.md) | LLM prompts, AI interactions, prompt optimization |
 | CTO advisory | [cs-cto-advisor](agents/engineering/cs-cto-advisor.md) | Technical strategy, team scaling, technology decisions |
 | Legacy codebase analysis | [cs-legacy-codebase-analyzer](agents/engineering/cs-legacy-codebase-analyzer.md) | Technical debt assessment, modernization roadmaps, security scanning |
+| Mobile development | [cs-mobile-engineer](agents/engineering/cs-mobile-engineer.md) | React Native, Flutter, Expo, cross-platform mobile |
+| iOS development | [cs-ios-engineer](agents/engineering/cs-ios-engineer.md) | Swift, SwiftUI, UIKit, Xcode, App Store |
+| Flutter development | [cs-flutter-engineer](agents/engineering/cs-flutter-engineer.md) | Dart, Flutter, Riverpod, Bloc, widgets |
 
 ### Product Tasks
 
@@ -481,6 +484,6 @@ Common issues and solutions documented in domain-specific CLAUDE.md files:
 ---
 
 **Last Updated:** December 13, 2025
-**Current Status:** 31 production agents, 31 skills across 4 domains, 89 Python tools, 16 slash commands
+**Current Status:** 34 production agents, 34 skills across 4 domains, 92 Python tools, 16 slash commands
 **Python Version:** 3.8+ required
 **Dependencies:** None - all tools use Python standard library only
