@@ -1,0 +1,25 @@
+session_id: 2025-11-28_07-53-07_competitive-analysis-scrum-master
+created_at: 2025-11-28T07:53:07
+user: rickywilson
+team: delivery
+status: active
+
+work_context:
+  branch: feature/scrum-master-updates
+  project: Competitive Analysis - Scrum Master Skill
+  description: Analyze competitor scrum-master-agent skill and identify gaps/advantages
+
+outputs:
+  - file: competitive-analysis-report.md
+    type: analysis-report
+    created_at: 2025-11-28T07:53:07
+
+retention:
+  policy: project
+  expires_at: 2026-05-28
+
+tags:
+  - competitive-analysis
+  - scrum-master
+  - skill-comparison
+  - gap-analysis

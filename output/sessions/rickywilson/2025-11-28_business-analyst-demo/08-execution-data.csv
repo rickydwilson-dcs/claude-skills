@@ -1,0 +1,19 @@
+execution_id,start_date,end_date,step_name,duration_minutes,success,errors,cost
+EX001,2024-11-01,2024-11-01,Contract Received,420,true,0,50
+EX001,2024-11-02,2024-11-03,Send Welcome Package,900,true,0,100
+EX001,2024-11-04,2024-11-08,Technical Setup,2200,true,1,500
+EX001,2024-11-09,2024-11-16,Data Migration,3000,true,2,800
+EX001,2024-11-17,2024-11-19,User Training,1200,true,0,300
+EX001,2024-11-20,2024-11-20,Go-Live,400,true,0,150
+EX002,2024-11-05,2024-11-05,Contract Received,480,true,0,50
+EX002,2024-11-06,2024-11-08,Send Welcome Package,1100,true,1,120
+EX002,2024-11-09,2024-11-14,Technical Setup,2600,false,3,600
+EX002,2024-11-15,2024-11-22,Data Migration,3600,true,4,950
+EX002,2024-11-23,2024-11-26,User Training,1500,true,0,350
+EX002,2024-11-27,2024-11-27,Go-Live,450,true,0,175
+EX003,2024-11-10,2024-11-10,Contract Received,390,true,0,45
+EX003,2024-11-11,2024-11-12,Send Welcome Package,850,true,0,95
+EX003,2024-11-13,2024-11-17,Technical Setup,2100,true,0,480
+EX003,2024-11-18,2024-11-24,Data Migration,2800,true,1,720
+EX003,2024-11-25,2024-11-27,User Training,1100,true,0,280
+EX003,2024-11-28,2024-11-28,Go-Live,380,true,0,140

@@ -1,0 +1,25 @@
+session_id: 2025-12-02_code-reviewer-implementation-plan
+created_at: 2025-12-02T10:00:00
+user: rickywilson
+team: engineering
+status: active
+
+work_context:
+  branch: main
+  project: Code Reviewer Python Scripts Implementation
+  description: Implementation plan for 3 placeholder Python scripts in code-reviewer skill
+
+outputs:
+  - file: IMPLEMENTATION_PLAN.md
+    type: plan
+    created_at: 2025-12-02T10:00:00
+
+retention:
+  policy: project
+  expires_at: 2026-06-02
+
+tags:
+  - code-reviewer
+  - python-tools
+  - implementation-plan
+  - backlog-priority-1

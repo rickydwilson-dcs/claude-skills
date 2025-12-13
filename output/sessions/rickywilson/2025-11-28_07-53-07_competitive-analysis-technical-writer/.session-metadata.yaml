@@ -1,0 +1,25 @@
+session_id: 2025-11-28_07-53-07_competitive-analysis-technical-writer
+created_at: 2025-11-28T07:53:07
+user: rickywilson
+team: engineering
+status: active
+
+work_context:
+  branch: feature/tdd-agent
+  project: TDD Agent Development
+  description: Competitive analysis of tdd-guide skill and TDD agent creation
+
+outputs:
+  - file: competitive-analysis-tdd-guide.md
+    type: analysis-report
+    created_at: 2025-11-28T07:53:07
+
+retention:
+  policy: project
+  expires_at: 2026-05-28
+
+tags:
+  - competitive-analysis
+  - tdd
+  - testing
+  - agent-development

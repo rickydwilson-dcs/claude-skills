@@ -1,0 +1,54 @@
+session_id: 2025-12-02_competitive-analysis-wshobson-agents
+created_at: 2025-12-02T10:30:00
+user: rickywilson
+team: engineering
+status: closed
+
+work_context:
+  branch: main
+  project: Competitive Analysis
+  description: Competitive analysis of wshobson/agents code-refactoring plugin vs claude-skills
+
+outputs:
+  - file: competitive-analysis-report.md
+    type: analysis-report
+    created_at: 2025-12-02T10:45:00
+    description: Full competitive analysis with scoring, gaps, and recommendations
+
+retention:
+  policy: project
+  expires_at: 2026-06-02
+
+tags:
+  - competitive-analysis
+  - code-refactoring
+  - wshobson-agents
+  - benchmarking
+
+competitor:
+  name: wshobson/agents
+  url: https://github.com/wshobson/agents
+  stars: 21700
+  forks: 2400
+  plugin_analyzed: code-refactoring
+
+findings:
+  overall_position: ahead
+  dimensions_won: 4
+  dimensions_tied: 1
+  dimensions_lost: 1
+  weighted_score_us: 4.45
+  weighted_score_them: 3.25
+
+gaps_identified:
+  - legacy-modernizer-agent
+  - ai-powered-code-analysis
+  - context-restoration-command
+  - financial-cost-model
+
+advantages_identified:
+  - executable-python-tools
+  - multi-phase-command-patterns
+  - rich-yaml-frontmatter
+  - reference-documentation-system
+  - integration-examples

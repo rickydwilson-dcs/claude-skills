@@ -1,0 +1,356 @@
+================================================================================
+GAP ANALYSIS REPORT: Pandora ANZ Inventory Management
+================================================================================
+
+SUMMARY
+--------------------------------------------------------------------------------
+Completeness Score:  100.0%
+Health Status:       Excellent (GREEN)
+Total Steps:         22
+Total Gaps Found:    46
+
+GAPS BY SEVERITY
+--------------------------------------------------------------------------------
+  Critical:  0
+  High:      2
+  Medium:    9
+  Low:       35
+
+KEY FINDINGS
+--------------------------------------------------------------------------------
+1. Missing Error Handling: High-risk step has no error handling or validation
+2. Missing Error Handling: High-risk step has no error handling or validation
+
+DETAILED GAPS
+--------------------------------------------------------------------------------
+
+[GAP-001] Step 14: Receive & Verify Returns at HQ
+  Severity:    MEDIUM
+  Category:    Implicit Decision
+  Description: Step implies decision but has no decision points documented
+  Impact:      Hidden decision logic, lack of transparency
+  Recommendation: Add explicit decision point with criteria and options
+
+[GAP-002] Step 2: Process Order at TDC
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Sales order from AX' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-003] Step 3: Ship Jewelry to Store
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Packed order' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-004] Step 3: Ship Jewelry to Store
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Packing slip' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-005] Step 4: Receive Jewelry at Store
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Physical shipment' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-006] Step 4: Receive Jewelry at Store
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Packing slip' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-007] Step 4: Receive Jewelry at Store
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'SI number from AU Portal' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-008] Step 5: Create POSM Order
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'POSM inventory needs' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-009] Step 6: Process POSM at DHL
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Sales order from AX' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-010] Step 7: Ship POSM to Store
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'PIK number' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-011] Step 8: Receive POSM at Store
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Physical shipment' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-012] Step 8: Receive POSM at Store
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'PIK number on label' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-013] Step 9: Create Store-to-Store Transfer
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Item details' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-014] Step 9: Create Store-to-Store Transfer
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Destination store' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-015] Step 10: Ship Transfer Items
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Transfer confirmation' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-016] Step 10: Ship Transfer Items
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Items to transfer' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-017] Step 11: Receive Transfer at Destination
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Physical items' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-018] Step 11: Receive Transfer at Destination
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Transfer notification' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-019] Step 12: Create RMA (Return) - AU Stores
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Item to return' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-020] Step 12: Create RMA (Return) - AU Stores
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Reason code' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-021] Step 13: Ship Returns to Sydney HQ
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'RMA barcode' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-022] Step 13: Ship Returns to Sydney HQ
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Items to return' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-023] Step 14: Receive & Verify Returns at HQ
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Physical returns' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-024] Step 14: Receive & Verify Returns at HQ
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'RMA barcode' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-025] Step 15: Process Return Credit
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Verified return' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-026] Step 15: Process Return Credit
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Return type' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-027] Step 16: Commit Credit at Store
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'SCO notification' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-028] Step 17: Create POSM Claim
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'POSM issue details' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-029] Step 17: Create POSM Claim
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Claim type' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-030] Step 18: Review & Resolve POSM Claim
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Claim details' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-031] Step 19: Lodge Lost in Transit Claim
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Missing shipment details' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-032] Step 19: Lodge Lost in Transit Claim
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Order reference' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-033] Step 20: Investigate Lost Shipment
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Claim details' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-034] Step 20: Investigate Lost Shipment
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Tracking information' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-035] Step 22: Back Order Cancellation (Weekly)
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Back orders > 30 days' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-036] Step 9: Create Store-to-Store Transfer
+  Severity:    HIGH
+  Category:    Missing Error Handling
+  Description: High-risk step has no error handling or validation
+  Impact:      Process failure risk, no recovery path
+  Recommendation: Add decision point for success/failure with appropriate handling
+
+[GAP-037] Step 10: Ship Transfer Items
+  Severity:    HIGH
+  Category:    Missing Error Handling
+  Description: High-risk step has no error handling or validation
+  Impact:      Process failure risk, no recovery path
+  Recommendation: Add decision point for success/failure with appropriate handling
+
+[GAP-038] Step 2: Process Order at TDC
+  Severity:    MEDIUM
+  Category:    Bottleneck Duration
+  Description: Step has long duration: 2880 minutes (48.0 hours)
+  Impact:      Process delay, potential bottleneck
+  Recommendation: Review step for automation or parallelization opportunities
+
+[GAP-039] Step 2: Process Order at TDC
+  Severity:    LOW
+  Category:    Automation Opportunity
+  Description: Manual step may be automatable
+  Impact:      Time-consuming, error-prone, inefficient
+  Recommendation: Evaluate automation feasibility (RPA, API integration, workflow tool)
+
+[GAP-040] Step 3: Ship Jewelry to Store
+  Severity:    MEDIUM
+  Category:    Bottleneck Duration
+  Description: Step has long duration: 7200 minutes (120.0 hours)
+  Impact:      Process delay, potential bottleneck
+  Recommendation: Review step for automation or parallelization opportunities
+
+[GAP-041] Step 6: Process POSM at DHL
+  Severity:    MEDIUM
+  Category:    Bottleneck Duration
+  Description: Step has long duration: 1440 minutes (24.0 hours)
+  Impact:      Process delay, potential bottleneck
+  Recommendation: Review step for automation or parallelization opportunities
+
+[GAP-042] Step 7: Ship POSM to Store
+  Severity:    MEDIUM
+  Category:    Bottleneck Duration
+  Description: Step has long duration: 2880 minutes (48.0 hours)
+  Impact:      Process delay, potential bottleneck
+  Recommendation: Review step for automation or parallelization opportunities
+
+[GAP-043] Step 15: Process Return Credit
+  Severity:    MEDIUM
+  Category:    Bottleneck Duration
+  Description: Step has long duration: 2880 minutes (48.0 hours)
+  Impact:      Process delay, potential bottleneck
+  Recommendation: Review step for automation or parallelization opportunities
+
+[GAP-044] Step 18: Review & Resolve POSM Claim
+  Severity:    MEDIUM
+  Category:    Bottleneck Duration
+  Description: Step has long duration: 2880 minutes (48.0 hours)
+  Impact:      Process delay, potential bottleneck
+  Recommendation: Review step for automation or parallelization opportunities
+
+[GAP-045] Step 20: Investigate Lost Shipment
+  Severity:    MEDIUM
+  Category:    Bottleneck Duration
+  Description: Step has long duration: 7200 minutes (120.0 hours)
+  Impact:      Process delay, potential bottleneck
+  Recommendation: Review step for automation or parallelization opportunities
+
+[GAP-046] Step 21: Resolve Lost in Transit
+  Severity:    MEDIUM
+  Category:    Bottleneck Duration
+  Description: Step has long duration: 2880 minutes (48.0 hours)
+  Impact:      Process delay, potential bottleneck
+  Recommendation: Review step for automation or parallelization opportunities
+
+
+RECOMMENDATIONS
+--------------------------------------------------------------------------------
+1. Review process timing and identify optimization opportunities (8 gaps)
+
+================================================================================
+Analysis completed: 2025-11-28T14:08:23.970639Z
+================================================================================

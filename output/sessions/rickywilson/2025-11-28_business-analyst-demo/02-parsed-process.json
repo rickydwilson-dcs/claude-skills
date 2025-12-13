@@ -1,0 +1,85 @@
+{
+  "process_name": "Customer Onboarding Process",
+  "process_description": "End-to-end process for onboarding enterprise customers from contract to go-live",
+  "process_owner": "Sarah Johnson",
+  "steps": [
+    {
+      "id": "step_001",
+      "name": "Contract Received",
+      "description": "Receive and validate signed contract from Sales",
+      "sequence": 1,
+      "role": "Sales Operations",
+      "duration_minutes": 480,
+      "inputs": ["Signed contract"],
+      "outputs": ["Customer record in CRM"],
+      "tools": ["Salesforce CRM"]
+    },
+    {
+      "id": "step_002", 
+      "name": "Send Welcome Package",
+      "description": "Send welcome email and schedule kickoff meeting",
+      "sequence": 2,
+      "role": "Customer Success Manager",
+      "duration_minutes": 960,
+      "inputs": ["Customer record"],
+      "outputs": ["Welcome email sent", "Kickoff scheduled"],
+      "tools": ["HubSpot", "Calendly"]
+    },
+    {
+      "id": "step_003",
+      "name": "Technical Setup",
+      "description": "Configure customer environment and infrastructure",
+      "sequence": 3,
+      "role": "Solutions Engineer",
+      "duration_minutes": 2400,
+      "inputs": ["Technical requirements"],
+      "outputs": ["Environment configured"],
+      "tools": ["AWS Console", "Terraform"]
+    },
+    {
+      "id": "step_004",
+      "name": "Data Migration",
+      "description": "Migrate and validate customer data",
+      "sequence": 4,
+      "role": "Data Engineer",
+      "duration_minutes": 3360,
+      "inputs": ["Source data files"],
+      "outputs": ["Data migrated and validated"],
+      "tools": ["Python", "SQL"]
+    },
+    {
+      "id": "step_005",
+      "name": "User Training",
+      "description": "Train end users on the system",
+      "sequence": 5,
+      "role": "Training Specialist",
+      "duration_minutes": 1440,
+      "inputs": ["Training curriculum"],
+      "outputs": ["Users trained", "Certification complete"],
+      "tools": ["LMS", "Zoom"]
+    },
+    {
+      "id": "step_006",
+      "name": "Go-Live",
+      "description": "Final verification and production launch",
+      "sequence": 6,
+      "role": "Customer Success Manager",
+      "duration_minutes": 480,
+      "inputs": ["All checklist items"],
+      "outputs": ["Customer using production system"],
+      "tools": ["Jira", "Confluence"]
+    }
+  ],
+  "roles": ["Sales Operations", "Customer Success Manager", "Solutions Engineer", "Data Engineer", "Training Specialist"],
+  "stakeholders": [
+    {"name": "VP of Customer Success", "role": "Sponsor"},
+    {"name": "IT Director", "role": "Approver"},
+    {"name": "End Users", "role": "Informed"},
+    {"name": "Finance Team", "role": "Consulted"}
+  ],
+  "kpis": [
+    {"name": "Time to Value", "target": "21 days"},
+    {"name": "Customer Satisfaction", "target": "4.5/5"},
+    {"name": "First Week Engagement", "target": "80%"}
+  ]
+}

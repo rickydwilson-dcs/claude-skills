@@ -1,0 +1,113 @@
+================================================================================
+GAP ANALYSIS REPORT: Customer Onboarding Process
+================================================================================
+
+SUMMARY
+--------------------------------------------------------------------------------
+Completeness Score:  90.0%
+Health Status:       Excellent (GREEN)
+Total Steps:         6
+Total Gaps Found:    11
+
+GAPS BY SEVERITY
+--------------------------------------------------------------------------------
+  Critical:  1
+  High:      1
+  Medium:    4
+  Low:       5
+
+KEY FINDINGS
+--------------------------------------------------------------------------------
+1. No Error Handling: Process has no documented error handling or exception paths
+2. No Validation: Process has no quality checks or validation steps
+
+DETAILED GAPS
+--------------------------------------------------------------------------------
+
+[GAP-001] Step 2: Send Welcome Package
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Customer record' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-002] Step 3: Technical Setup
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Technical requirements' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-003] Step 4: Data Migration
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Source data files' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-004] Step 5: User Training
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'Training curriculum' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-005] Step 6: Go-Live
+  Severity:    LOW
+  Category:    Orphaned Input
+  Description: Input 'All checklist items' has no clear source from previous steps
+  Impact:      Unclear where this input comes from
+  Recommendation: Identify source step that produces this input
+
+[GAP-006] Overall Process
+  Severity:    CRITICAL
+  Category:    No Error Handling
+  Description: Process has no documented error handling or exception paths
+  Impact:      No recovery mechanism for failures, unclear escalation
+  Recommendation: Add error handling steps and exception paths throughout process
+
+[GAP-007] Step 2: Send Welcome Package
+  Severity:    MEDIUM
+  Category:    Bottleneck Duration
+  Description: Step has long duration: 960 minutes (16.0 hours)
+  Impact:      Process delay, potential bottleneck
+  Recommendation: Review step for automation or parallelization opportunities
+
+[GAP-008] Step 3: Technical Setup
+  Severity:    MEDIUM
+  Category:    Bottleneck Duration
+  Description: Step has long duration: 2400 minutes (40.0 hours)
+  Impact:      Process delay, potential bottleneck
+  Recommendation: Review step for automation or parallelization opportunities
+
+[GAP-009] Step 4: Data Migration
+  Severity:    MEDIUM
+  Category:    Bottleneck Duration
+  Description: Step has long duration: 3360 minutes (56.0 hours)
+  Impact:      Process delay, potential bottleneck
+  Recommendation: Review step for automation or parallelization opportunities
+
+[GAP-010] Step 5: User Training
+  Severity:    MEDIUM
+  Category:    Bottleneck Duration
+  Description: Step has long duration: 1440 minutes (24.0 hours)
+  Impact:      Process delay, potential bottleneck
+  Recommendation: Review step for automation or parallelization opportunities
+
+[GAP-011] Overall Process
+  Severity:    HIGH
+  Category:    No Validation
+  Description: Process has no quality checks or validation steps
+  Impact:      No quality assurance, potential for errors
+  Recommendation: Add validation checkpoints at critical stages
+
+
+RECOMMENDATIONS
+--------------------------------------------------------------------------------
+1. Address 1 critical gap(s) immediately - these represent significant process risks
+2. Review process timing and identify optimization opportunities (4 gaps)
+3. Implement error handling and exception paths throughout process
+
+================================================================================
+Analysis completed: 2025-11-28T13:57:54.943609Z
+================================================================================

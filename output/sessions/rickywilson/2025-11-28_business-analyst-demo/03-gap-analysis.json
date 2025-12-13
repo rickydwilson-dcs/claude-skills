@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.0",
+  "analyzed_at": "2025-11-28T13:58:22.651451Z",
+  "process_id": "unknown",
+  "process_name": "Customer Onboarding Process",
+  "completeness_score": 0.9,
+  "total_gaps": 11,
+  "gaps_by_severity": {
+    "critical": 1,
+    "high": 1,
+    "medium": 4,
+    "low": 5
+  },
+  "gaps": [
+    {
+      "id": "GAP-001",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 2: Send Welcome Package",
+      "step_id": "step_002",
+      "description": "Input 'Customer record' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-002",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 3: Technical Setup",
+      "step_id": "step_003",
+      "description": "Input 'Technical requirements' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-003",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 4: Data Migration",
+      "step_id": "step_004",
+      "description": "Input 'Source data files' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-004",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 5: User Training",
+      "step_id": "step_005",
+      "description": "Input 'Training curriculum' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-005",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 6: Go-Live",
+      "step_id": "step_006",
+      "description": "Input 'All checklist items' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-006",
+      "severity": "critical",
+      "category": "no_error_handling",
+      "element": "Overall Process",
+      "step_id": null,
+      "description": "Process has no documented error handling or exception paths",
+      "impact": "No recovery mechanism for failures, unclear escalation",
+      "recommendation": "Add error handling steps and exception paths throughout process"
+    },
+    {
+      "id": "GAP-007",
+      "severity": "medium",
+      "category": "bottleneck_duration",
+      "element": "Step 2: Send Welcome Package",
+      "step_id": "step_002",
+      "description": "Step has long duration: 960 minutes (16.0 hours)",
+      "impact": "Process delay, potential bottleneck",
+      "recommendation": "Review step for automation or parallelization opportunities"
+    },
+    {
+      "id": "GAP-008",
+      "severity": "medium",
+      "category": "bottleneck_duration",
+      "element": "Step 3: Technical Setup",
+      "step_id": "step_003",
+      "description": "Step has long duration: 2400 minutes (40.0 hours)",
+      "impact": "Process delay, potential bottleneck",
+      "recommendation": "Review step for automation or parallelization opportunities"
+    },
+    {
+      "id": "GAP-009",
+      "severity": "medium",
+      "category": "bottleneck_duration",
+      "element": "Step 4: Data Migration",
+      "step_id": "step_004",
+      "description": "Step has long duration: 3360 minutes (56.0 hours)",
+      "impact": "Process delay, potential bottleneck",
+      "recommendation": "Review step for automation or parallelization opportunities"
+    },
+    {
+      "id": "GAP-010",
+      "severity": "medium",
+      "category": "bottleneck_duration",
+      "element": "Step 5: User Training",
+      "step_id": "step_005",
+      "description": "Step has long duration: 1440 minutes (24.0 hours)",
+      "impact": "Process delay, potential bottleneck",
+      "recommendation": "Review step for automation or parallelization opportunities"
+    },
+    {
+      "id": "GAP-011",
+      "severity": "high",
+      "category": "no_validation",
+      "element": "Overall Process",
+      "step_id": null,
+      "description": "Process has no quality checks or validation steps",
+      "impact": "No quality assurance, potential for errors",
+      "recommendation": "Add validation checkpoints at critical stages"
+    }
+  ],
+  "recommendations": [
+    "Address 1 critical gap(s) immediately - these represent significant process risks",
+    "Review process timing and identify optimization opportunities (4 gaps)",
+    "Implement error handling and exception paths throughout process"
+  ],
+  "analysis_summary": {
+    "health_status": "green",
+    "status_label": "Excellent",
+    "total_steps": 6,
+    "critical_issues": 1,
+    "high_priority_issues": 1,
+    "key_findings": [
+      "No Error Handling: Process has no documented error handling or exception paths",
+      "No Validation: Process has no quality checks or validation steps"
+    ]
+  }
+}

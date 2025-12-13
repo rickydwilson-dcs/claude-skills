@@ -1,0 +1,490 @@
+{
+  "schema_version": "1.0",
+  "analyzed_at": "2025-11-28T14:08:24.009145Z",
+  "process_id": "unknown",
+  "process_name": "Pandora ANZ Inventory Management",
+  "completeness_score": 1.0,
+  "total_gaps": 46,
+  "gaps_by_severity": {
+    "critical": 0,
+    "high": 2,
+    "medium": 9,
+    "low": 35
+  },
+  "gaps": [
+    {
+      "id": "GAP-001",
+      "severity": "medium",
+      "category": "implicit_decision",
+      "element": "Step 14: Receive & Verify Returns at HQ",
+      "step_id": "step_014",
+      "description": "Step implies decision but has no decision points documented",
+      "impact": "Hidden decision logic, lack of transparency",
+      "recommendation": "Add explicit decision point with criteria and options"
+    },
+    {
+      "id": "GAP-002",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 2: Process Order at TDC",
+      "step_id": "step_002",
+      "description": "Input 'Sales order from AX' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-003",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 3: Ship Jewelry to Store",
+      "step_id": "step_003",
+      "description": "Input 'Packed order' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-004",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 3: Ship Jewelry to Store",
+      "step_id": "step_003",
+      "description": "Input 'Packing slip' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-005",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 4: Receive Jewelry at Store",
+      "step_id": "step_004",
+      "description": "Input 'Physical shipment' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-006",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 4: Receive Jewelry at Store",
+      "step_id": "step_004",
+      "description": "Input 'Packing slip' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-007",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 4: Receive Jewelry at Store",
+      "step_id": "step_004",
+      "description": "Input 'SI number from AU Portal' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-008",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 5: Create POSM Order",
+      "step_id": "step_005",
+      "description": "Input 'POSM inventory needs' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-009",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 6: Process POSM at DHL",
+      "step_id": "step_006",
+      "description": "Input 'Sales order from AX' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-010",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 7: Ship POSM to Store",
+      "step_id": "step_007",
+      "description": "Input 'PIK number' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-011",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 8: Receive POSM at Store",
+      "step_id": "step_008",
+      "description": "Input 'Physical shipment' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-012",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 8: Receive POSM at Store",
+      "step_id": "step_008",
+      "description": "Input 'PIK number on label' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-013",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 9: Create Store-to-Store Transfer",
+      "step_id": "step_009",
+      "description": "Input 'Item details' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-014",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 9: Create Store-to-Store Transfer",
+      "step_id": "step_009",
+      "description": "Input 'Destination store' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-015",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 10: Ship Transfer Items",
+      "step_id": "step_010",
+      "description": "Input 'Transfer confirmation' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-016",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 10: Ship Transfer Items",
+      "step_id": "step_010",
+      "description": "Input 'Items to transfer' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-017",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 11: Receive Transfer at Destination",
+      "step_id": "step_011",
+      "description": "Input 'Physical items' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-018",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 11: Receive Transfer at Destination",
+      "step_id": "step_011",
+      "description": "Input 'Transfer notification' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-019",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 12: Create RMA (Return) - AU Stores",
+      "step_id": "step_012",
+      "description": "Input 'Item to return' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-020",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 12: Create RMA (Return) - AU Stores",
+      "step_id": "step_012",
+      "description": "Input 'Reason code' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-021",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 13: Ship Returns to Sydney HQ",
+      "step_id": "step_013",
+      "description": "Input 'RMA barcode' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-022",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 13: Ship Returns to Sydney HQ",
+      "step_id": "step_013",
+      "description": "Input 'Items to return' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-023",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 14: Receive & Verify Returns at HQ",
+      "step_id": "step_014",
+      "description": "Input 'Physical returns' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-024",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 14: Receive & Verify Returns at HQ",
+      "step_id": "step_014",
+      "description": "Input 'RMA barcode' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-025",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 15: Process Return Credit",
+      "step_id": "step_015",
+      "description": "Input 'Verified return' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-026",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 15: Process Return Credit",
+      "step_id": "step_015",
+      "description": "Input 'Return type' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-027",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 16: Commit Credit at Store",
+      "step_id": "step_016",
+      "description": "Input 'SCO notification' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-028",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 17: Create POSM Claim",
+      "step_id": "step_017",
+      "description": "Input 'POSM issue details' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-029",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 17: Create POSM Claim",
+      "step_id": "step_017",
+      "description": "Input 'Claim type' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-030",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 18: Review & Resolve POSM Claim",
+      "step_id": "step_018",
+      "description": "Input 'Claim details' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-031",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 19: Lodge Lost in Transit Claim",
+      "step_id": "step_019",
+      "description": "Input 'Missing shipment details' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-032",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 19: Lodge Lost in Transit Claim",
+      "step_id": "step_019",
+      "description": "Input 'Order reference' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-033",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 20: Investigate Lost Shipment",
+      "step_id": "step_020",
+      "description": "Input 'Claim details' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-034",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 20: Investigate Lost Shipment",
+      "step_id": "step_020",
+      "description": "Input 'Tracking information' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-035",
+      "severity": "low",
+      "category": "orphaned_input",
+      "element": "Step 22: Back Order Cancellation (Weekly)",
+      "step_id": "step_022",
+      "description": "Input 'Back orders > 30 days' has no clear source from previous steps",
+      "impact": "Unclear where this input comes from",
+      "recommendation": "Identify source step that produces this input"
+    },
+    {
+      "id": "GAP-036",
+      "severity": "high",
+      "category": "missing_error_handling",
+      "element": "Step 9: Create Store-to-Store Transfer",
+      "step_id": "step_009",
+      "description": "High-risk step has no error handling or validation",
+      "impact": "Process failure risk, no recovery path",
+      "recommendation": "Add decision point for success/failure with appropriate handling"
+    },
+    {
+      "id": "GAP-037",
+      "severity": "high",
+      "category": "missing_error_handling",
+      "element": "Step 10: Ship Transfer Items",
+      "step_id": "step_010",
+      "description": "High-risk step has no error handling or validation",
+      "impact": "Process failure risk, no recovery path",
+      "recommendation": "Add decision point for success/failure with appropriate handling"
+    },
+    {
+      "id": "GAP-038",
+      "severity": "medium",
+      "category": "bottleneck_duration",
+      "element": "Step 2: Process Order at TDC",
+      "step_id": "step_002",
+      "description": "Step has long duration: 2880 minutes (48.0 hours)",
+      "impact": "Process delay, potential bottleneck",
+      "recommendation": "Review step for automation or parallelization opportunities"
+    },
+    {
+      "id": "GAP-039",
+      "severity": "low",
+      "category": "automation_opportunity",
+      "element": "Step 2: Process Order at TDC",
+      "step_id": "step_002",
+      "description": "Manual step may be automatable",
+      "impact": "Time-consuming, error-prone, inefficient",
+      "recommendation": "Evaluate automation feasibility (RPA, API integration, workflow tool)"
+    },
+    {
+      "id": "GAP-040",
+      "severity": "medium",
+      "category": "bottleneck_duration",
+      "element": "Step 3: Ship Jewelry to Store",
+      "step_id": "step_003",
+      "description": "Step has long duration: 7200 minutes (120.0 hours)",
+      "impact": "Process delay, potential bottleneck",
+      "recommendation": "Review step for automation or parallelization opportunities"
+    },
+    {
+      "id": "GAP-041",
+      "severity": "medium",
+      "category": "bottleneck_duration",
+      "element": "Step 6: Process POSM at DHL",
+      "step_id": "step_006",
+      "description": "Step has long duration: 1440 minutes (24.0 hours)",
+      "impact": "Process delay, potential bottleneck",
+      "recommendation": "Review step for automation or parallelization opportunities"
+    },
+    {
+      "id": "GAP-042",
+      "severity": "medium",
+      "category": "bottleneck_duration",
+      "element": "Step 7: Ship POSM to Store",
+      "step_id": "step_007",
+      "description": "Step has long duration: 2880 minutes (48.0 hours)",
+      "impact": "Process delay, potential bottleneck",
+      "recommendation": "Review step for automation or parallelization opportunities"
+    },
+    {
+      "id": "GAP-043",
+      "severity": "medium",
+      "category": "bottleneck_duration",
+      "element": "Step 15: Process Return Credit",
+      "step_id": "step_015",
+      "description": "Step has long duration: 2880 minutes (48.0 hours)",
+      "impact": "Process delay, potential bottleneck",
+      "recommendation": "Review step for automation or parallelization opportunities"
+    },
+    {
+      "id": "GAP-044",
+      "severity": "medium",
+      "category": "bottleneck_duration",
+      "element": "Step 18: Review & Resolve POSM Claim",
+      "step_id": "step_018",
+      "description": "Step has long duration: 2880 minutes (48.0 hours)",
+      "impact": "Process delay, potential bottleneck",
+      "recommendation": "Review step for automation or parallelization opportunities"
+    },
+    {
+      "id": "GAP-045",
+      "severity": "medium",
+      "category": "bottleneck_duration",
+      "element": "Step 20: Investigate Lost Shipment",
+      "step_id": "step_020",
+      "description": "Step has long duration: 7200 minutes (120.0 hours)",
+      "impact": "Process delay, potential bottleneck",
+      "recommendation": "Review step for automation or parallelization opportunities"
+    },
+    {
+      "id": "GAP-046",
+      "severity": "medium",
+      "category": "bottleneck_duration",
+      "element": "Step 21: Resolve Lost in Transit",
+      "step_id": "step_021",
+      "description": "Step has long duration: 2880 minutes (48.0 hours)",
+      "impact": "Process delay, potential bottleneck",
+      "recommendation": "Review step for automation or parallelization opportunities"
+    }
+  ],
+  "recommendations": [
+    "Review process timing and identify optimization opportunities (8 gaps)"
+  ],
+  "analysis_summary": {
+    "health_status": "green",
+    "status_label": "Excellent",
+    "total_steps": 22,
+    "critical_issues": 0,
+    "high_priority_issues": 2,
+    "key_findings": [
+      "Missing Error Handling: High-risk step has no error handling or validation",
+      "Missing Error Handling: High-risk step has no error handling or validation"
+    ]
+  }
+}

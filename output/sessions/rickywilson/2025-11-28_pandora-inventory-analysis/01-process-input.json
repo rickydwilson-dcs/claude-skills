@@ -1,0 +1,319 @@
+{
+  "process_name": "Pandora ANZ Inventory Management",
+  "process_description": "End-to-end inventory management for Pandora Australia and New Zealand retail operations covering store replenishment, transfers, returns, and claims processing",
+  "process_owner": "Praneel - Head of Supply Chain",
+  "steps": [
+    {
+      "id": "step_001",
+      "name": "Create Order - Jewelry (O&O/Franchise)",
+      "description": "Store creates sales order for jewelry replenishment via AU Portal",
+      "sequence": 1,
+      "role": "Store Manager",
+      "duration_minutes": 15,
+      "inputs": ["Inventory needs assessment", "Product catalog"],
+      "outputs": ["Sales order in AX"],
+      "tools": ["AU Portal", "AX09"]
+    },
+    {
+      "id": "step_002",
+      "name": "Process Order at TDC",
+      "description": "Thailand Distribution Center processes jewelry order and creates packing slip",
+      "sequence": 2,
+      "role": "TDC Warehouse Team",
+      "duration_minutes": 2880,
+      "inputs": ["Sales order from AX"],
+      "outputs": ["Packing slip (PSAUPJ + SO number)", "Picked items"],
+      "tools": ["TDC System"]
+    },
+    {
+      "id": "step_003",
+      "name": "Ship Jewelry to Store",
+      "description": "TDC ships jewelry order to store via courier",
+      "sequence": 3,
+      "role": "TDC Logistics",
+      "duration_minutes": 7200,
+      "inputs": ["Packed order", "Packing slip"],
+      "outputs": ["Shipment dispatched", "Tracking number"],
+      "tools": ["Courier systems"]
+    },
+    {
+      "id": "step_004",
+      "name": "Receive Jewelry at Store",
+      "description": "Store receives shipment and commits stock to SOH in AR Backoffice",
+      "sequence": 4,
+      "role": "Store Associate",
+      "duration_minutes": 30,
+      "inputs": ["Physical shipment", "Packing slip", "SI number from AU Portal"],
+      "outputs": ["Stock committed to SOH"],
+      "tools": ["AR Backoffice", "AU Portal"],
+      "decisions": [
+        {
+          "question": "Does shipment match packing slip?",
+          "criteria": "Physical count matches documented quantities",
+          "options": ["Accept full shipment", "Accept partial and create supply claim", "Reject shipment"]
+        }
+      ]
+    },
+    {
+      "id": "step_005",
+      "name": "Create POSM Order",
+      "description": "Store creates sales order for Point-of-Sale Materials",
+      "sequence": 5,
+      "role": "Store Manager",
+      "duration_minutes": 15,
+      "inputs": ["POSM inventory needs"],
+      "outputs": ["Sales order in AX"],
+      "tools": ["AU Portal"]
+    },
+    {
+      "id": "step_006",
+      "name": "Process POSM at DHL",
+      "description": "DHL warehouse receives order via Manhattan WMS and creates PIK numbers",
+      "sequence": 6,
+      "role": "DHL Warehouse Team",
+      "duration_minutes": 1440,
+      "inputs": ["Sales order from AX"],
+      "outputs": ["PIK number(s)", "Picked items"],
+      "tools": ["Manhattan WMS"]
+    },
+    {
+      "id": "step_007",
+      "name": "Ship POSM to Store",
+      "description": "DHL picks, packs and ships POSM order",
+      "sequence": 7,
+      "role": "DHL Warehouse Team",
+      "duration_minutes": 2880,
+      "inputs": ["PIK number", "Picked items"],
+      "outputs": ["Shipment with PIK on label"],
+      "tools": ["DHL systems"]
+    },
+    {
+      "id": "step_008",
+      "name": "Receive POSM at Store",
+      "description": "Store receives POSM shipment - PIK number on label only, no pick slip included",
+      "sequence": 8,
+      "role": "Store Associate",
+      "duration_minutes": 30,
+      "inputs": ["Physical shipment", "PIK number on label"],
+      "outputs": ["Stock committed to SOH"],
+      "tools": ["AR Backoffice"]
+    },
+    {
+      "id": "step_009",
+      "name": "Create Store-to-Store Transfer",
+      "description": "Store A creates transfer request to Store B in AR Backoffice",
+      "sequence": 9,
+      "role": "Store Associate (Sending)",
+      "duration_minutes": 10,
+      "inputs": ["Item details", "Destination store"],
+      "outputs": ["Transfer created", "Stock deducted from Store A"],
+      "tools": ["AR Backoffice"]
+    },
+    {
+      "id": "step_010",
+      "name": "Ship Transfer Items",
+      "description": "Store A ships physical items to Store B",
+      "sequence": 10,
+      "role": "Store Associate (Sending)",
+      "duration_minutes": 15,
+      "inputs": ["Transfer confirmation", "Items to transfer"],
+      "outputs": ["Physical shipment sent"],
+      "tools": ["Shipping courier"]
+    },
+    {
+      "id": "step_011",
+      "name": "Receive Transfer at Destination",
+      "description": "Store B accepts or rejects transfer in AR - AX updated on acceptance",
+      "sequence": 11,
+      "role": "Store Associate (Receiving)",
+      "duration_minutes": 10,
+      "inputs": ["Physical items", "Transfer notification"],
+      "outputs": ["Transfer accepted/rejected", "AX stock adjustment"],
+      "tools": ["AR Backoffice", "AX09"],
+      "decisions": [
+        {
+          "question": "Accept or reject transfer?",
+          "criteria": "Items received match transfer request",
+          "options": ["Accept - stock added to Store B", "Reject - stock NOT returned to Store A (manual adjustment needed)"]
+        }
+      ]
+    },
+    {
+      "id": "step_012",
+      "name": "Create RMA (Return) - AU Stores",
+      "description": "Store creates return claim in AU Portal for jewelry returns",
+      "sequence": 12,
+      "role": "Store Associate",
+      "duration_minutes": 15,
+      "inputs": ["Item to return", "Reason code"],
+      "outputs": ["RMA number", "Barcode for packing slip"],
+      "tools": ["AU Portal"]
+    },
+    {
+      "id": "step_013",
+      "name": "Ship Returns to Sydney HQ",
+      "description": "Store ships return parcel to Sydney HQ via Australia Post",
+      "sequence": 13,
+      "role": "Store Associate",
+      "duration_minutes": 15,
+      "inputs": ["RMA barcode", "Items to return"],
+      "outputs": ["Parcel shipped", "Tracking number"],
+      "tools": ["Australia Post Portal"]
+    },
+    {
+      "id": "step_014",
+      "name": "Receive & Verify Returns at HQ",
+      "description": "Supply Chain Team receives returns, scans RMA barcode, confirms in AX",
+      "sequence": 14,
+      "role": "Returns Logistics Coordinator (Cami)",
+      "duration_minutes": 30,
+      "inputs": ["Physical returns", "RMA barcode"],
+      "outputs": ["Return confirmed in AX", "Items added to AUPJ stock"],
+      "tools": ["AX09"]
+    },
+    {
+      "id": "step_015",
+      "name": "Process Return Credit",
+      "description": "Supply Chain Team creates Sales Credit Order (SCO) in AX",
+      "sequence": 15,
+      "role": "Supply Chain Team",
+      "duration_minutes": 2880,
+      "inputs": ["Verified return", "Return type"],
+      "outputs": ["Sales Credit Order (SCO)", "Credit note"],
+      "tools": ["AX09"]
+    },
+    {
+      "id": "step_016",
+      "name": "Commit Credit at Store",
+      "description": "Store accepts SCO in AR Backoffice to update SOH",
+      "sequence": 16,
+      "role": "Store Associate",
+      "duration_minutes": 10,
+      "inputs": ["SCO notification"],
+      "outputs": ["SOH updated in AR"],
+      "tools": ["AR Backoffice"]
+    },
+    {
+      "id": "step_017",
+      "name": "Create POSM Claim",
+      "description": "Store creates claim for POSM issues (VM Material, Supply, Damaged)",
+      "sequence": 17,
+      "role": "Store Associate",
+      "duration_minutes": 10,
+      "inputs": ["POSM issue details", "Claim type"],
+      "outputs": ["Claim in AU Portal"],
+      "tools": ["AU Portal"]
+    },
+    {
+      "id": "step_018",
+      "name": "Review & Resolve POSM Claim",
+      "description": "Supply Chain Team reviews claim and issues credit or re-ship",
+      "sequence": 18,
+      "role": "Supply Chain Team",
+      "duration_minutes": 2880,
+      "inputs": ["Claim details"],
+      "outputs": ["Credit note OR Re-shipment"],
+      "tools": ["AX09"],
+      "decisions": [
+        {
+          "question": "Claim resolution type?",
+          "criteria": "Based on claim type and validation",
+          "options": ["Issue credit note", "Organize re-shipment", "Reject claim"]
+        }
+      ]
+    },
+    {
+      "id": "step_019",
+      "name": "Lodge Lost in Transit Claim",
+      "description": "Store lodges freight delivery claim for missing shipment",
+      "sequence": 19,
+      "role": "Store Associate",
+      "duration_minutes": 10,
+      "inputs": ["Missing shipment details", "Order reference"],
+      "outputs": ["Freight delivery claim"],
+      "tools": ["AU Portal"]
+    },
+    {
+      "id": "step_020",
+      "name": "Investigate Lost Shipment",
+      "description": "Supply Chain Team investigates with courier",
+      "sequence": 20,
+      "role": "Supply Chain Team",
+      "duration_minutes": 7200,
+      "inputs": ["Claim details", "Tracking information"],
+      "outputs": ["Investigation results"],
+      "tools": ["Courier systems", "AX09"]
+    },
+    {
+      "id": "step_021",
+      "name": "Resolve Lost in Transit",
+      "description": "Process resolution based on investigation - re-ship, credit, or new invoice",
+      "sequence": 21,
+      "role": "Supply Chain Team",
+      "duration_minutes": 2880,
+      "inputs": ["Investigation results"],
+      "outputs": ["Re-shipment OR Credit OR New invoice"],
+      "tools": ["AX09"],
+      "decisions": [
+        {
+          "question": "Resolution type?",
+          "criteria": "Based on investigation outcome",
+          "options": ["Create re-shipment", "Credit the store", "Have store create new order"]
+        }
+      ]
+    },
+    {
+      "id": "step_022",
+      "name": "Back Order Cancellation (Weekly)",
+      "description": "Supply Chain Team cancels back orders older than 30 days to clean up open invoices",
+      "sequence": 22,
+      "role": "Supply Chain Team",
+      "duration_minutes": 60,
+      "inputs": ["Back orders > 30 days"],
+      "outputs": ["Cancelled orders", "Cleaned open invoices"],
+      "tools": ["AX09"]
+    }
+  ],
+  "roles": [
+    "Store Manager",
+    "Store Associate",
+    "Store Associate (Sending)",
+    "Store Associate (Receiving)",
+    "TDC Warehouse Team",
+    "TDC Logistics",
+    "DHL Warehouse Team",
+    "Returns Logistics Coordinator (Cami)",
+    "Supply Chain Team"
+  ],
+  "stakeholders": [
+    {"name": "Praneel", "role": "Sponsor", "title": "Head of Supply Chain"},
+    {"name": "Andrew", "role": "Approver", "title": "D&T"},
+    {"name": "Danni", "role": "Consulted", "title": "Finance Team"},
+    {"name": "Chelsea", "role": "Responsible", "title": "B2B"},
+    {"name": "Paul", "role": "Responsible", "title": "Logistics, B2C, POSM"},
+    {"name": "Cami", "role": "Responsible", "title": "Returns Logistics Coordinator"},
+    {"name": "Store Associates", "role": "Informed", "title": "End Users"},
+    {"name": "Franchise Owners", "role": "Informed", "title": "Partners"}
+  ],
+  "systems": [
+    "AU Portal",
+    "AX09 (ERP)",
+    "AR Backoffice",
+    "Manhattan WMS (DHL)",
+    "TDC System",
+    "Australia Post Portal"
+  ],
+  "pain_points": [
+    "Lead time to process credit claims causes huge inventory inaccuracies",
+    "References on parcels don't match AR (PIK numbers vs SI numbers)",
+    "In-transit stock not visible to stores",
+    "Stores cannot over/under receive - must accept all then create supply claim",
+    "Manual work across multiple systems with different references"
+  ],
+  "kpis": [
+    {"name": "Credit Claim Processing Time", "target": "< 5 days", "current": "Unknown - major pain point"},
+    {"name": "Inventory Accuracy", "target": "98%", "current": "Low due to credit delays"},
+    {"name": "Return Processing Time", "target": "< 7 days"},
+    {"name": "Lost in Transit Rate", "target": "< 1%"}
+  ]
+}
