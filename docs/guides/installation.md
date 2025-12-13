@@ -29,6 +29,30 @@ Before installing, ensure you have the following:
 
 ## Installation Steps
 
+### Quick Start: Interactive Installer
+
+The fastest way to install is using the interactive installation script:
+
+```bash
+# Clone the repository
+git clone https://github.com/rickydwilson-dcs/claude-skills.git
+cd claude-skills
+
+# Run the interactive installer
+./install.sh
+```
+
+The installer will:
+- Check prerequisites (Python 3.8+, Git)
+- Ask which agent domains you need (all, marketing, product, delivery, engineering)
+- Install to `~/.claude-skills/` by default (or custom location)
+- Create a quick start guide
+- Backup any existing installation
+
+### Manual Installation
+
+If you prefer manual control, follow the steps below.
+
 ### 1. Clone the Repository
 
 ```bash
@@ -77,9 +101,35 @@ python3 -c "print('Python environment ready')"
 # All Python tools use standard library only - no pip install required!
 ```
 
-### 5. Install Slash Commands
+### 5. Install Agents
 
-The repository includes 14 slash commands that automate common workflows. Install them to use with Claude Code:
+The repository includes 30 production agents across 4 domains. Install them to use with Claude Code:
+
+```bash
+# Interactive mode - choose which agents to install
+python3 scripts/install_agents.py
+
+# Install ALL agents at once
+python3 scripts/install_agents.py --all --overwrite
+
+# Preview what would be installed (dry run)
+python3 scripts/install_agents.py --dry-run
+
+# List available agents
+python3 scripts/install_agents.py --list
+
+# Install specific agent
+python3 scripts/install_agents.py --agent cs-architect
+
+# Install by domain (marketing, product, delivery, engineering)
+python3 scripts/install_agents.py --domain engineering
+```
+
+Agents are installed to `~/.claude/agents/` (user-level, available everywhere).
+
+### 6. Install Slash Commands
+
+The repository includes 16 slash commands that automate common workflows. Install them to use with Claude Code:
 
 ```bash
 # Interactive mode - choose which commands to install
@@ -110,11 +160,11 @@ After installation, use commands in Claude Code:
 /audit.security        # Security audit
 ```
 
-Commands are installed to `~/.claude/commands/` (or `.claude/commands/` in project).
+Commands are installed to `~/.claude/commands/` (user-level, available everywhere).
 
 ---
 
-### 6. Builder Tools (Optional - For Development)
+### 7. Builder Tools (Optional - For Development)
 
 The repository includes builder tools for creating and validating agents and skills.
 
@@ -144,7 +194,7 @@ python3 scripts/skill_builder.py --validate skills/marketing-team/content-creato
 
 See [Builder Standards](standards/builder-standards.md) for validation criteria.
 
-### 7. Verify Installation
+### 8. Verify Installation
 
 #### Test Architecture Agent Tools
 
@@ -206,6 +256,92 @@ pytest tests/
 # Or use the testing tools
 chmod +x tools/test_cli_standards.sh
 ./tools/test_cli_standards.sh
+```
+
+---
+
+## Global Availability (Use Across All Repos)
+
+To make skills, agents, and commands available across **all repositories** on your machine without duplicating them, use Claude Code's user-level directories with symlinks.
+
+### Directory Locations
+
+| Element | User-Level (Global) | Project-Level (Team) |
+|---------|---------------------|----------------------|
+| **Agents** | `~/.claude/agents/` | `.claude/agents/` |
+| **Skills** | `~/.claude/skills/` | `.claude/skills/` |
+| **Commands** | `~/.claude/commands/` | `.claude/commands/` |
+| **Memory** | `~/.claude/CLAUDE.md` | `./CLAUDE.md` |
+| **MCP Servers** | `~/.claude.json` | `.mcp.json` |
+
+### Complete Directory Structure
+
+After setup, your `~/.claude/` will look like:
+
+```
+~/.claude/
+├── CLAUDE.md       # Global instructions (optional)
+├── agents/         # 30 agents (symlinked)
+├── commands/       # 16 slash commands (symlinked)
+└── skills/         # 31 skills (symlinked)
+```
+
+### Setup Script for Global Availability
+
+Run this script to symlink your claude-skills library for global access:
+
+```bash
+#!/bin/bash
+SKILLS_REPO="$HOME/claude-skills"  # Adjust to your clone location
+
+# Setup user-level agents (symlinks to avoid duplication)
+mkdir -p ~/.claude/agents
+for agent in "$SKILLS_REPO"/agents/*/cs-*.md; do
+  [ -f "$agent" ] && ln -sf "$agent" ~/.claude/agents/
+done
+
+# Setup user-level skills (symlinks to avoid duplication)
+mkdir -p ~/.claude/skills
+for skill_dir in "$SKILLS_REPO"/skills/*/*/; do
+  skill_name=$(basename "$skill_dir")
+  [ -d "$skill_dir" ] && ln -sf "$skill_dir" ~/.claude/skills/"$skill_name"
+done
+
+# Setup user-level commands (symlinks)
+mkdir -p ~/.claude/commands
+for cmd in "$SKILLS_REPO"/commands/**/*.md; do
+  [ -f "$cmd" ] && ln -sf "$cmd" ~/.claude/commands/
+done
+
+echo "✓ Claude Skills now available globally"
+echo "  Agents:   $(ls ~/.claude/agents/*.md 2>/dev/null | wc -l | xargs)"
+echo "  Skills:   $(ls ~/.claude/skills 2>/dev/null | wc -l | xargs)"
+echo "  Commands: $(ls ~/.claude/commands/*.md 2>/dev/null | wc -l | xargs)"
+```
+
+### Key Points
+
+- **Single source of truth**: Keep everything in your `claude-skills` clone
+- **Symlinks**: Changes to your library are immediately available everywhere
+- **No duplication**: Each repo doesn't need its own copy
+- **Team sharing**: Use `.claude/` directories in projects for team-shared versions
+
+### Example: Global CLAUDE.md
+
+Create `~/.claude/CLAUDE.md` for instructions that apply everywhere:
+
+```markdown
+# Global Development Standards
+
+## Available Claude Skills
+See ~/claude-skills/ for full library:
+- cs-architect: System design and architecture decisions
+- cs-code-reviewer: Code quality and best practices
+- cs-devops-engineer: CI/CD and infrastructure
+
+## My Preferences
+- Use conventional commits
+- Branch from develop, PR to main
 ```
 
 ---
