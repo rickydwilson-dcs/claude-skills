@@ -3,8 +3,8 @@
 **Repository:** claude-skills
 **CI/CD System:** GitHub Actions
 **Development Model:** Solo development with feature branches
-**Version:** 1.0
-**Last Updated:** November 7, 2025
+**Version:** 1.1
+**Last Updated:** December 13, 2025
 
 ---
 
@@ -14,6 +14,7 @@
 - [Development Workflow](#development-workflow)
 - [CI/CD Pipeline](#cicd-pipeline)
 - [Workflow Files](#workflow-files)
+- [Auto-Merge Configuration](#auto-merge-configuration-optional)
 - [Common Operations](#common-operations)
 - [Troubleshooting](#troubleshooting)
 
@@ -277,7 +278,92 @@ gh run view <run-id> --log
 
 ### Workflow Control
 
-#### Kill Switch
+#### 6. Auto-Promote to Staging (`.github/workflows/auto-promote.yml`)
+
+**Triggers:** Push to develop, Quality Gates completion on develop
+**Duration:** ~1 minute
+**Purpose:** Automatically promote develop to staging after validation
+
+**Features:**
+- Checks if develop is ahead of staging
+- Fast-forward merge when possible
+- Falls back to merge commit if needed
+- Only runs after Quality Gates pass
+
+#### 7. Create PR to Main (`.github/workflows/promote-to-main.yml`)
+
+**Triggers:** Quality Gates completion on staging
+**Duration:** ~1-2 minutes (plus optional delay)
+**Purpose:** Create PR from staging to main with optional auto-merge
+
+**Features:**
+- Creates PR with detailed changelog
+- Optional auto-merge capability (disabled by default)
+- Respects branch protection rules
+- Emergency kill switch support
+
+---
+
+## Auto-Merge Configuration (Optional)
+
+The staging → main promotion can optionally auto-merge PRs once branch protection requirements are met.
+
+### How It Works
+
+1. Quality Gates pass on staging
+2. Workflow creates PR from staging → main
+3. If auto-merge enabled: waits for delay, then enables GitHub's auto-merge
+4. PR still requires approval per branch protection
+5. Once approved + checks pass, PR auto-merges
+
+### Enable Auto-Merge
+
+Go to Repository Settings → Secrets and variables → Actions → Variables:
+
+| Variable | Value | Description |
+|----------|-------|-------------|
+| `AUTO_MERGE_STAGING_TO_MAIN` | `true` | Enable auto-merge (default: disabled) |
+| `AUTO_MERGE_DELAY_SECONDS` | `60` | Cool-down period before enabling (default: 60) |
+| `AUTO_MERGE_METHOD` | `merge` | Merge method: `merge`, `squash`, or `rebase` (default: merge) |
+
+### Safety Features
+
+1. **Default OFF** - Must explicitly enable via repository variable
+2. **Cool-down Delay** - 60-second window for emergency intervention before auto-merge enables
+3. **Kill Switch** - Add `AUTO_MERGE: DISABLED` to `.github/WORKFLOW_KILLSWITCH` to disable
+4. **Branch Protection** - Auto-merge respects all branch protection rules (approvals, checks)
+5. **Per-PR Cancel** - Run `gh pr merge --disable-auto <PR_NUMBER>` to cancel specific PR
+
+### Auto-Merge vs Manual Merge
+
+| Aspect | Manual Merge (Default) | Auto-Merge (Enabled) |
+|--------|------------------------|----------------------|
+| PR Created | Yes | Yes |
+| Requires Approval | Yes | Yes |
+| Human Clicks Merge | Yes | No (automated) |
+| Branch Protection | Enforced | Enforced |
+| Delay Before Merge | None | Configurable (default 60s) |
+| Emergency Stop | Close PR | Kill switch, disable-auto, close PR |
+
+### Emergency Stop
+
+```bash
+# Cancel auto-merge on specific PR
+gh pr merge --disable-auto <PR_NUMBER>
+
+# Disable globally via kill switch
+echo "AUTO_MERGE: DISABLED" >> .github/WORKFLOW_KILLSWITCH
+git add .github/WORKFLOW_KILLSWITCH
+git commit -m "chore: disable auto-merge via kill switch"
+git push origin main
+
+# Or simply set variable to false
+# Repository Settings → Variables → AUTO_MERGE_STAGING_TO_MAIN = false
+```
+
+---
+
+### Kill Switch
 
 Emergency disable for all workflows:
 
@@ -610,7 +696,11 @@ gh workflow run "CI Quality Gate" --ref develop
 ```
 .github/workflows/
 ├── ci-quality-gate.yml          # Main CI pipeline (25 min)
+├── quality-gates.yml            # Branch-specific validation
+├── auto-promote.yml             # Auto-promote develop → staging
+├── promote-to-main.yml          # Create PR staging → main (with optional auto-merge)
 ├── pr-issue-auto-close.yml      # PR automation
+├── validate-commands.yml        # Daily command validation
 ├── smart-sync.yml               # Issue/Project sync
 ├── claude-code-review.yml       # AI code review
 └── claude.yml                   # Claude integration
@@ -632,14 +722,16 @@ gh workflow run "CI Quality Gate" --ref develop
 - ✅ Comprehensive quality checks (YAML, Python, security, links)
 - ✅ Solo development workflow (direct pushes, no self-approval needed)
 - ✅ Feature branch workflow for larger changes
+- ✅ Auto-promote develop → staging on CI pass
+- ✅ Auto-create PR staging → main with optional auto-merge
 - ✅ Emergency kill switch available
 
 **Recommended Workflow:**
 1. Work on `develop` or feature branches
 2. Push to `develop` (CI runs automatically)
-3. Wait for CI to pass (green checkmark)
-4. Merge `develop` to `main`
-5. Push `main` (CI runs again for production validation)
+3. Wait for CI to pass → auto-promotes to `staging`
+4. Staging validation runs → creates PR to `main`
+5. Review and merge PR (or enable auto-merge)
 
 **Next Steps:**
 - Monitor CI runs after each push
