@@ -940,15 +940,22 @@ lint:
 clean:
 \trm -rf frontend/node_modules frontend/.next frontend/dist
 \trm -rf backend/node_modules backend/dist backend/__pycache__
-{f"""
+{CommonTemplates._docker_makefile_section(config)}
+'''
+
+    @staticmethod
+    def _docker_makefile_section(config: ProjectConfig) -> str:
+        """Return Docker section for Makefile if Docker is enabled"""
+        if config.include_docker:
+            return """
 # Docker commands
 docker-up:
 \tdocker-compose up -d
 
 docker-down:
 \tdocker-compose down
-""" if config.include_docker else ""}
-'''
+"""
+        return ""
 
     @staticmethod
     def readme(config: ProjectConfig) -> str:

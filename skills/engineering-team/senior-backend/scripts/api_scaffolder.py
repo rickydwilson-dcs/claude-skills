@@ -1152,6 +1152,18 @@ describe('User API', () => {
 '''
         self._write_file("tests/integration/user.test.ts", user_test)
 
+    def _get_endpoints_docs(self) -> str:
+        """Return endpoint documentation based on API type"""
+        if self.config.api_type == 'graphql':
+            return """- `GET /graphql` - GraphQL Playground
+- `POST /graphql` - GraphQL endpoint"""
+        else:
+            return """- `GET /api/users` - List all users
+- `GET /api/users/:id` - Get user by ID
+- `POST /api/users` - Create user
+- `PUT /api/users/:id` - Update user
+- `DELETE /api/users/:id` - Delete user"""
+
     def _create_readme(self):
         """Generate README.md"""
         readme = f'''# {self.config.name}
@@ -1182,14 +1194,9 @@ npm run dev
 
 ## API Endpoints
 
-{'### GraphQL' if self.config.api_type == 'graphql' else '### REST'}
+{"### GraphQL" if self.config.api_type == "graphql" else "### REST"}
 
-{'''- `GET /graphql` - GraphQL Playground
-- `POST /graphql` - GraphQL endpoint''' if self.config.api_type == 'graphql' else '''- `GET /api/users` - List all users
-- `GET /api/users/:id` - Get user by ID
-- `POST /api/users` - Create user
-- `PUT /api/users/:id` - Update user
-- `DELETE /api/users/:id` - Delete user'''}
+{self._get_endpoints_docs()}
 
 - `GET /health` - Health check
 

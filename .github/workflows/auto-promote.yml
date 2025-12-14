@@ -2,8 +2,6 @@
 name: Auto-Promote to Staging
 
 on:
-  push:
-    branches: [develop]
   workflow_run:
     workflows: ["Quality Gates"]
     types: [completed]
@@ -16,12 +14,10 @@ jobs:
   promote-to-staging:
     name: Promote develop → staging
     runs-on: ubuntu-latest
-    # Only run if Quality Gates passed on develop
+    # Only promote if Quality Gates passed on develop
     if: |
-      (github.event_name == 'workflow_run' &&
-       github.event.workflow_run.conclusion == 'success' &&
-       github.event.workflow_run.head_branch == 'develop') ||
-      (github.event_name == 'push' && github.ref == 'refs/heads/develop')
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_branch == 'develop'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -39,19 +35,16 @@ jobs:
         run: |
           git fetch origin staging develop
 
-          # Get commit SHAs
           DEVELOP_SHA=$(git rev-parse origin/develop)
           STAGING_SHA=$(git rev-parse origin/staging)
 
           echo "develop: $DEVELOP_SHA"
           echo "staging: $STAGING_SHA"
 
-          # Check if develop has commits not in staging
           COMMITS_AHEAD=$(git rev-list --count origin/staging..origin/develop)
           echo "Develop is $COMMITS_AHEAD commits ahead of staging"
 
           if [ "$COMMITS_AHEAD" -gt 0 ]; then
-            # Check if develop tip is already in staging (merged but not ff)
             if git merge-base --is-ancestor origin/develop origin/staging; then
               echo "needs_promotion=false" >> $GITHUB_OUTPUT
               echo "Develop commits already merged into staging"
@@ -68,7 +61,6 @@ jobs:
         if: steps.check.outputs.needs_promotion == 'true'
         run: |
           git checkout staging
-          # Try fast-forward first, fall back to merge if needed
           if git merge origin/develop --ff-only 2>/dev/null; then
             echo "✓ Fast-forward merge successful"
           else
