@@ -95,6 +95,31 @@ class SecurityScanner:
         'third_party', '.idea', '.vscode', '.next', '.nuxt'
     }
 
+    # Comment patterns by language for false positive filtering
+    COMMENT_PATTERNS = {
+        'python': (r'^\s*#', r'^\s*"""', r"^\s*'''"),
+        'javascript': (r'^\s*//', r'^\s*/\*'),
+        'typescript': (r'^\s*//', r'^\s*/\*'),
+        'java': (r'^\s*//', r'^\s*/\*'),
+        'go': (r'^\s*//', r'^\s*/\*'),
+        'ruby': (r'^\s*#',),
+        'shell': (r'^\s*#',),
+        'sql': (r'^\s*--', r'^\s*/\*'),
+        'yaml': (r'^\s*#',),
+        'c': (r'^\s*//', r'^\s*/\*'),
+        'cpp': (r'^\s*//', r'^\s*/\*'),
+    }
+
+    # Map file extensions to language names
+    LANGUAGE_MAP = {
+        '.py': 'python', '.js': 'javascript', '.ts': 'typescript',
+        '.tsx': 'typescript', '.jsx': 'javascript',
+        '.java': 'java', '.go': 'go', '.rb': 'ruby',
+        '.sh': 'shell', '.bash': 'shell',
+        '.sql': 'sql', '.yaml': 'yaml', '.yml': 'yaml',
+        '.c': 'c', '.h': 'c', '.cpp': 'cpp', '.hpp': 'cpp',
+    }
+
     SKIP_EXTENSIONS = {
         '.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg', '.ico',
         '.pdf', '.doc', '.docx', '.xls', '.xlsx', '.zip', '.tar',
@@ -104,12 +129,13 @@ class SecurityScanner:
     }
 
     def __init__(self, target_path: str, config: Optional[Dict] = None,
-                 verbose: bool = False):
+                 verbose: bool = False, skip_comments: bool = True):
         if verbose:
             logging.getLogger().setLevel(logging.DEBUG)
         self.target_path = Path(target_path)
         self.config = config or {}
         self.verbose = verbose
+        self.skip_comments = skip_comments
         self.findings: List[Finding] = []
         self.files_scanned = 0
         self.lines_scanned = 0
@@ -571,11 +597,41 @@ class SecurityScanner:
                 if b'\x00' in chunk:
                     return False
             return True
-        except:
+        except Exception:
             return False
 
+    def _is_comment_line(self, line: str, file_ext: str) -> bool:
+        """Check if line is a comment (to reduce false positives)"""
+        lang = self.LANGUAGE_MAP.get(file_ext, '')
+        patterns = self.COMMENT_PATTERNS.get(lang, ())
+        return any(re.match(p, line) for p in patterns)
+
+    def _is_pattern_definition(self, line: str) -> bool:
+        """Check if line is part of a security pattern definition (to avoid self-detection)"""
+        # Skip lines that are part of SecurityPattern definitions
+        indicators = [
+            r"regex\s*=\s*r['\"]",           # regex=r'...'
+            r"re\.(search|match|findall|compile)\s*\(",  # re.search(...)
+            r"SecurityPattern\s*\(",         # SecurityPattern(
+            r"description\s*=\s*['\"]",      # description='...'
+            r"recommendation\s*=\s*['\"]",   # recommendation='...'
+            r"^\s*id\s*=\s*['\"]",           # id='...'
+            r"^\s*name\s*=\s*['\"]",         # name='...'
+        ]
+        return any(re.search(ind, line) for ind in indicators)
+
     def _scan_line(self, file_path: Path, line_num: int, line: str):
-        """Scan single line for security patterns"""
+        """Scan single line for security patterns with context awareness"""
+        file_ext = file_path.suffix.lower()
+
+        # Skip comment lines to reduce false positives
+        if self.skip_comments and self._is_comment_line(line, file_ext):
+            return
+
+        # Skip pattern definitions (avoid self-detection in security scanners)
+        if self._is_pattern_definition(line):
+            return
+
         for pattern in self.patterns:
             if re.search(pattern.regex, line):
                 # Redact sensitive content
@@ -831,6 +887,8 @@ Severity Levels:
     parser.add_argument('--config', '-c', help='Configuration file path (JSON)')
     parser.add_argument('--file', '-f', help='Write output to file')
     parser.add_argument('--verbose', '-v', action='store_true', help='Verbose output')
+    parser.add_argument('--include-comments', action='store_true',
+                       help='Include findings in comment lines (default: skip comments)')
 
     parser.add_argument(
         '--version',
@@ -856,7 +914,8 @@ Severity Levels:
         scanner = SecurityScanner(
             target_path=args.input,
             config=config,
-            verbose=args.verbose
+            verbose=args.verbose,
+            skip_comments=not args.include_comments
         )
         results = scanner.run()
 

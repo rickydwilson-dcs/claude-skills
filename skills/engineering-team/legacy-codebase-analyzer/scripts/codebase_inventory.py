@@ -624,7 +624,7 @@ class CodebaseInventory:
             try:
                 dt = datetime.fromisoformat(f.last_modified)
                 dates.append(dt)
-            except:
+            except (ValueError, TypeError):
                 continue
 
         if not dates:

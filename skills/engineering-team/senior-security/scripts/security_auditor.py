@@ -514,7 +514,7 @@ class SecurityAuditor:
             with open(file_path, 'rb') as f:
                 chunk = f.read(512)
                 return b'\x00' in chunk
-        except:
+        except Exception:
             return True
 
     def _check_line(self, file_path: Path, line_num: int, line: str):

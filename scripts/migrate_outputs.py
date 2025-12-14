@@ -335,7 +335,7 @@ def perform_migration(
                 check=True
             )
             git_email = result.stdout.strip()
-        except:
+        except Exception:
             git_user = "unknown"
             git_email = "unknown@example.com"
     else:

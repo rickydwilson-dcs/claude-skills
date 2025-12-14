@@ -536,7 +536,7 @@ class ComplianceChecker:
             with open(file_path, 'rb') as f:
                 chunk = f.read(512)
                 return b'\x00' in chunk
-        except:
+        except Exception:
             return True
 
     def _evaluate_control(self, control: ComplianceControl) -> ComplianceResult:

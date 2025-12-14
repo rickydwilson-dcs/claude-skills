@@ -193,7 +193,7 @@ class TestJsonOutput:
                         json.loads(output.split('\n')[0])
                         # First line is valid JSON but there's more
                         # This might be ok (logging) but worth noting
-                    except:
+                    except json.JSONDecodeError:
                         pass  # Not JSON format issue
 
             except json.JSONDecodeError:

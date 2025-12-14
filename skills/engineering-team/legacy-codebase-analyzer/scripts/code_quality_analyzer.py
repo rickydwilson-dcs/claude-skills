@@ -396,7 +396,7 @@ class CodeQualityAnalyzer:
                 with open(file_path, 'r', encoding='utf-8') as f:
                     lines = f.readlines()
                     content = lines[line_num - 1].strip() if line_num <= len(lines) else "Unknown"
-            except:
+            except Exception:
                 content = "Unknown"
 
             block = DuplicationBlock(

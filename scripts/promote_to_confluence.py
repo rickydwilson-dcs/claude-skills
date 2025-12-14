@@ -147,7 +147,7 @@ def get_git_user() -> Tuple[Optional[str], Optional[str]]:
         email = result.stdout.strip()
 
         return name, email
-    except:
+    except Exception:
         return None, None
 
 

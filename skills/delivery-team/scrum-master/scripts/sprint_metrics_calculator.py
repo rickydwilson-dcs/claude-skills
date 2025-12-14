@@ -350,6 +350,17 @@ class SprintMetricsCalculator:
         print("\n" + "="*60)
 
 def main():
+    try:
+        return _main()
+    except KeyboardInterrupt:
+        logger.info("Operation cancelled by user")
+        return 130
+    except Exception as e:
+        logger.error(f"Unexpected error: {e}")
+        return 1
+
+
+def _main():
     parser = argparse.ArgumentParser(
         description="Calculate sprint metrics and generate insights for agile teams",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -435,6 +446,11 @@ Health Score Components (6-metric formula):
         action='store_true',
         help='Output as JSON'
     )
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
+    )
 
     args = parser.parse_args()
 
@@ -489,4 +505,4 @@ Health Score Components (6-metric formula):
         calculator.print_metrics_report(results)
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

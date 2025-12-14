@@ -250,6 +250,18 @@ def generate_markdown_scorecard(data: dict, title: str, detailed: bool) -> str:
 
 def main():
     """Main entry point."""
+    try:
+        return _main()
+    except KeyboardInterrupt:
+        logger.info("Operation cancelled by user")
+        return 130
+    except Exception as e:
+        logger.error(f"Unexpected error: {e}")
+        return 1
+
+
+def _main():
+    """Internal main function."""
     args = parse_args()
 
     if args.verbose:

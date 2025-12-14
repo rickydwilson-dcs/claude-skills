@@ -391,7 +391,7 @@ class ThreatModeler:
             with open(file_path, 'rb') as f:
                 chunk = f.read(512)
                 return b'\x00' in chunk
-        except:
+        except Exception:
             return True
 
     def _identify_threats(self):
@@ -411,7 +411,7 @@ class ThreatModeler:
                         for pattern in threat_template.get('patterns', []):
                             if re.search(pattern, content):
                                 evidence.append(f"{component.file_path}: Pattern match - {pattern}")
-                    except:
+                    except Exception:
                         continue
 
                 # If evidence found, create a finding
