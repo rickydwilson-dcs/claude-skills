@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   promote-to-staging:
@@ -69,3 +70,12 @@ jobs:
           fi
           git push origin staging
           echo "✓ Successfully promoted develop to staging"
+
+      - name: Trigger staging validation
+        if: steps.check.outputs.needs_promotion == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Triggering Quality Gates workflow on staging..."
+          gh workflow run quality-gates.yml --ref staging
+          echo "✓ Staging validation triggered"
