@@ -16,19 +16,31 @@ Last Updated: 2025-11-05
 """
 
 import argparse
-import json
 import csv
-from io import StringIO
+import json
+import logging
 import math
 import sys
+from datetime import datetime
+from io import StringIO
 from pathlib import Path
 from typing import Dict, List, Tuple
-from datetime import datetime
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 class TeamScalingCalculator:
-    def __init__(self):
+    def __init__(self, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        self.verbose = verbose
         self.conway_factor = 1.5  # Conway's Law impact factor
         self.brooks_factor = 0.75  # Brooks' Law diminishing returns
+        logger.debug("TeamScalingCalculator initialized")
         
         # Optimal team structures based on size
         self.team_structures = {
@@ -54,6 +66,7 @@ class TeamScalingCalculator:
     
     def calculate_scaling_plan(self, current_state: Dict, growth_targets: Dict) -> Dict:
         """Calculate optimal scaling plan"""
+        logger.debug("Calculating scaling plan")
         results = {
             'current_analysis': self._analyze_current_state(current_state),
             'growth_timeline': self._create_growth_timeline(current_state, growth_targets),
@@ -94,7 +107,10 @@ class TeamScalingCalculator:
     
     def _analyze_current_state(self, current_state: Dict) -> Dict:
         """Analyze current team state"""
+        logger.debug("Analyzing current team state")
         total_engineers = current_state.get('headcount', 0)
+        if total_engineers == 0:
+            logger.warning("Current headcount is 0")
         
         analysis = {
             'total_headcount': total_engineers,

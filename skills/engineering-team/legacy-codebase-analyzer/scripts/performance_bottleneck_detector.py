@@ -16,17 +16,25 @@ Author: Claude Skills - Legacy Codebase Analyzer
 Version: 1.0.0
 """
 
-import argparse
-import json
-import os
-import re
-import sys
 from dataclasses import dataclass, asdict
 from datetime import datetime
 from enum import IntEnum
 from pathlib import Path
 from typing import List, Dict, Optional, Set, Tuple
+import argparse
+import json
+import logging
+import os
+import re
+import sys
 
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 class Severity(IntEnum):
     """Severity levels for bottleneck findings"""
@@ -293,9 +301,12 @@ class PerformanceBottleneckDetector:
         self.output_format = output_format.lower()
         self.output_file = output_file
         self.verbose = verbose
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
         self.bottlenecks: List[BottleneckFinding] = []
         self.files_analyzed = 0
         self.lines_analyzed = 0
+        logger.debug("PerformanceBottleneckDetector initialized")
 
     def log(self, message: str) -> None:
         """Log message if verbose mode enabled"""

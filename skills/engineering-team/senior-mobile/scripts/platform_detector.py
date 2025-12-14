@@ -20,27 +20,40 @@ Last Updated: 2025-12-13
 
 import argparse
 import json
+import logging
 import os
 import re
 import sys
-from pathlib import Path
-from typing import Dict, List, Any, Optional, Tuple
 from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 class PlatformDetector:
     """Analyzes mobile projects for platform capabilities and configuration."""
 
-    def __init__(self, project_path: str, depth: str = "standard"):
+    def __init__(self, project_path: str, depth: str = "standard", verbose: bool = False):
         """
         Initialize the detector.
 
         Args:
             project_path: Path to the mobile project
             depth: Analysis depth (quick, standard, deep)
+            verbose: Enable verbose output
         """
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+
         self.project_path = Path(project_path).resolve()
         self.depth = depth
+        self.verbose = verbose
         self.results = {
             "project_type": None,
             "framework_version": None,
@@ -50,6 +63,8 @@ class PlatformDetector:
             "dependencies": {"total": 0, "outdated": 0, "vulnerable": 0},
             "recommendations": []
         }
+
+        logger.debug("PlatformDetector initialized")
 
     def detect(self, check_types: List[str] = None) -> Dict[str, Any]:
         """
@@ -61,6 +76,7 @@ class PlatformDetector:
         Returns:
             Detection results dictionary
         """
+        logger.debug("Starting platform detection")
         if check_types is None or "all" in check_types:
             check_types = ["ios", "android", "dependencies", "config"]
 
@@ -90,6 +106,7 @@ class PlatformDetector:
 
     def _detect_project_type(self):
         """Detect the type of mobile project."""
+        logger.debug("Detecting project type")
         # Check for React Native
         package_json = self.project_path / "package.json"
         if package_json.exists():
@@ -127,6 +144,7 @@ class PlatformDetector:
 
     def _analyze_ios(self):
         """Analyze iOS platform configuration."""
+        logger.debug("Analyzing iOS configuration")
         ios_config = {
             "status": "not_configured",
             "min_version": None,
@@ -152,6 +170,7 @@ class PlatformDetector:
                 break
 
         if not ios_dir:
+            logger.warning("iOS directory not found")
             self.results["platforms"]["ios"] = ios_config
             return
 
@@ -191,6 +210,7 @@ class PlatformDetector:
 
     def _analyze_android(self):
         """Analyze Android platform configuration."""
+        logger.debug("Analyzing Android configuration")
         android_config = {
             "status": "not_configured",
             "min_sdk": None,
@@ -216,6 +236,7 @@ class PlatformDetector:
                 break
 
         if not android_dir:
+            logger.warning("Android directory not found")
             self.results["platforms"]["android"] = android_config
             return
 
@@ -375,7 +396,8 @@ class PlatformDetector:
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
                 return json.load(f)
-        except (json.JSONDecodeError, IOError):
+        except (json.JSONDecodeError, IOError) as e:
+            logger.error(f"Could not read JSON file {file_path}: {e}")
             return None
 
     def _find_file(self, directory: Path, filename: str) -> Optional[Path]:
@@ -791,7 +813,7 @@ Examples:
 
     try:
         # Run detection
-        detector = PlatformDetector(args.project_path, depth=args.depth)
+        detector = PlatformDetector(args.project_path, depth=args.depth, verbose=args.verbose)
         results = detector.detect(check_types=args.check)
 
         # Format output

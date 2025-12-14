@@ -27,11 +27,19 @@ Version: 1.0.0
 import argparse
 import csv
 import json
+import logging
 import re
 import sys
 from collections import defaultdict
 from pathlib import Path
 from typing import Dict, List, Any, Tuple
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 # Exit codes
 EXIT_SUCCESS = 0
@@ -49,6 +57,9 @@ class StakeholderMapper:
 
     def __init__(self, verbose: bool = False):
         """Initialize mapper with scoring systems"""
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("StakeholderMapper initialized")
         self.verbose = verbose
 
         # Role-based influence keywords and scores
@@ -538,7 +549,9 @@ class StakeholderMapper:
         Returns:
             Complete stakeholder map dictionary
         """
+        logger.debug("map_stakeholders called")
         if not stakeholders:
+            logger.error("No stakeholders provided")
             raise ValueError("No stakeholders provided")
 
         mapped_stakeholders = []
@@ -990,6 +1003,7 @@ Exit Codes:
         sys.exit(EXIT_VALIDATION_ERROR)
 
     except json.JSONDecodeError as e:
+        logger.error(f"Invalid JSON: {e}")
         print(f"Parse Error: Invalid JSON - {e}", file=sys.stderr)
         sys.exit(EXIT_PARSE_ERROR)
 

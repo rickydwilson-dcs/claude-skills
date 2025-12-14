@@ -3,14 +3,26 @@
 SEO Content Optimizer - Analyzes and optimizes content for SEO
 """
 
-import re
-from typing import Dict, List, Set
-import json
 import csv
+import json
+import logging
+import re
 from io import StringIO
+from typing import Dict, List, Set
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 class SEOOptimizer:
-    def __init__(self):
+    def __init__(self, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("SEOOptimizer initialized")
+
         # Common stop words to filter
         self.stop_words = {
             'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for',
@@ -29,10 +41,25 @@ class SEOOptimizer:
             'keyword_density': (0.01, 0.03)  # 1-3%
         }
     
-    def analyze(self, content: str, target_keyword: str = None, 
+    def analyze(self, content: str, target_keyword: str = None,
                 secondary_keywords: List[str] = None) -> Dict:
         """Analyze content for SEO optimization"""
-        
+        logger.debug("Starting SEO analysis")
+
+        if not content or not content.strip():
+            logger.warning("Empty or whitespace-only content provided")
+            return {
+                'content_length': 0,
+                'keyword_analysis': {},
+                'structure_analysis': {},
+                'readability': {'score': 0, 'level': 'Unknown'},
+                'meta_suggestions': {},
+                'optimization_score': 0,
+                'recommendations': ['No content to analyze']
+            }
+
+        logger.debug(f"Analyzing content: {len(content)} characters, keyword: {target_keyword}")
+
         analysis = {
             'content_length': len(content.split()),
             'keyword_analysis': {},
@@ -62,9 +89,11 @@ class SEOOptimizer:
         
         return analysis
     
-    def _analyze_keywords(self, content: str, primary: str, 
+    def _analyze_keywords(self, content: str, primary: str,
                          secondary: List[str]) -> Dict:
         """Analyze keyword usage and density"""
+        logger.debug(f"Analyzing keywords: primary='{primary}', secondary={len(secondary) if secondary else 0}")
+
         content_lower = content.lower()
         word_count = len(content.split())
         
@@ -109,6 +138,8 @@ class SEOOptimizer:
     
     def _analyze_structure(self, content: str) -> Dict:
         """Analyze content structure for SEO"""
+        logger.debug("Analyzing content structure")
+
         lines = content.split('\n')
         
         structure = {
@@ -165,10 +196,13 @@ class SEOOptimizer:
     
     def _analyze_readability(self, content: str) -> Dict:
         """Analyze content readability"""
+        logger.debug("Analyzing readability")
+
         sentences = re.split(r'[.!?]+', content)
         words = content.split()
-        
+
         if not sentences or not words:
+            logger.warning("No sentences or words found for readability analysis")
             return {'score': 0, 'level': 'Unknown'}
         
         avg_sentence_length = len(words) / len(sentences)
@@ -388,9 +422,11 @@ def format_csv_output(results: Dict) -> str:
     return output.getvalue()
 
 def optimize_content(content: str, keyword: str = None,
-                     secondary_keywords: List[str] = None, output_format: str = 'text') -> str:
+                     secondary_keywords: List[str] = None, output_format: str = 'text', verbose: bool = False) -> str:
     """Main function to optimize content"""
-    optimizer = SEOOptimizer()
+    logger.debug(f"Optimizing content with format: {output_format}")
+
+    optimizer = SEOOptimizer(verbose=verbose)
 
     # Parse secondary keywords from comma-separated string if provided
     if secondary_keywords and isinstance(secondary_keywords, str):
@@ -539,26 +575,25 @@ For more information, see the skill documentation.
             sys.exit(1)
 
         # Read content
-        if args.verbose:
-            print(f"Reading input file: {args.input}", file=sys.stderr)
+        logger.info(f"Reading input file: {args.input}")
 
         try:
             with open(input_path, 'r', encoding='utf-8') as f:
                 content = f.read()
-        except UnicodeDecodeError:
+        except UnicodeDecodeError as e:
+            logger.error(f"Unable to read file as text: {args.input}")
             print(f"Error: Unable to read file as text: {args.input}", file=sys.stderr)
             print("Hint: Ensure file is UTF-8 encoded text", file=sys.stderr)
             sys.exit(1)
 
-        if args.verbose:
-            print(f"Processing {len(content)} characters...", file=sys.stderr)
-            if args.keyword:
-                print(f"Primary keyword: {args.keyword}", file=sys.stderr)
-            if args.secondary:
-                print(f"Secondary keywords: {args.secondary}", file=sys.stderr)
+        logger.info(f"Processing {len(content)} characters")
+        if args.keyword:
+            logger.info(f"Primary keyword: {args.keyword}")
+        if args.secondary:
+            logger.info(f"Secondary keywords: {args.secondary}")
 
         # Process content
-        output = optimize_content(content, args.keyword, args.secondary, args.output)
+        output = optimize_content(content, args.keyword, args.secondary, args.output, args.verbose)
 
         # Write output
         if args.file:
@@ -567,15 +602,16 @@ For more information, see the skill documentation.
                 with open(output_path, 'w', encoding='utf-8') as f:
                     f.write(output)
 
-                if args.verbose:
-                    print(f"Results written to: {args.file}", file=sys.stderr)
-                else:
+                logger.info(f"Results written to: {args.file}")
+                if not args.verbose:
                     print(f"Output saved to: {args.file}")
 
-            except PermissionError:
+            except PermissionError as e:
+                logger.error(f"Permission denied writing to: {args.file}")
                 print(f"Error: Permission denied writing to: {args.file}", file=sys.stderr)
                 sys.exit(4)
             except Exception as e:
+                logger.error(f"Error writing output file: {e}")
                 print(f"Error writing output file: {e}", file=sys.stderr)
                 sys.exit(4)
         else:
@@ -584,18 +620,22 @@ For more information, see the skill documentation.
         sys.exit(0)
 
     except FileNotFoundError as e:
+        logger.error(f"File not found: {e}")
         print(f"Error: File not found: {e}", file=sys.stderr)
         sys.exit(1)
 
     except PermissionError as e:
+        logger.error(f"Permission denied: {e}")
         print(f"Error: Permission denied: {e}", file=sys.stderr)
         sys.exit(1)
 
     except KeyboardInterrupt:
+        logger.warning("Operation cancelled by user")
         print("\nOperation cancelled by user", file=sys.stderr)
         sys.exit(130)
 
     except Exception as e:
+        logger.error(f"Unexpected error occurred: {e}")
         print(f"Error: Unexpected error occurred: {e}", file=sys.stderr)
         if args.verbose:
             import traceback

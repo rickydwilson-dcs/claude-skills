@@ -12,11 +12,19 @@ Sprint Priority = RICE_Score * Goal_Alignment * (1 - Dependency_Risk) * Expertis
 import argparse
 import csv
 import json
+import logging
 import sys
 from datetime import datetime
 from pathlib import Path
 from statistics import mean
 from typing import Dict, List, Optional
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 class SprintBacklogOptimizer:
@@ -24,6 +32,9 @@ class SprintBacklogOptimizer:
 
     def __init__(self, verbose: bool = False):
         self.verbose = verbose
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("SprintBacklogOptimizer initialized")
 
     def calculate_sprint_priority(self, item: Dict, sprint_goal: str = "") -> float:
         """
@@ -70,6 +81,10 @@ class SprintBacklogOptimizer:
         Returns:
             Sorted list with sprint_priority added
         """
+        logger.debug(f"Optimizing {len(items)} backlog items")
+        if not items:
+            logger.warning("Empty items list provided for optimization")
+
         for item in items:
             item['sprint_priority'] = self.calculate_sprint_priority(item, sprint_goal)
 
@@ -131,6 +146,7 @@ class SprintBacklogOptimizer:
         Returns:
             List of risk assessments
         """
+        logger.debug(f"Assessing risks for {len(items)} sprint items")
         risks = []
 
         # Check for dependency risks
@@ -397,6 +413,12 @@ Sprint Priority Formula:
         '--verbose', '-v',
         action='store_true',
         help='Enable verbose output'
+    )
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
     )
 
     args = parser.parse_args()

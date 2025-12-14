@@ -5,16 +5,27 @@ Calculates RICE scores for feature prioritization
 RICE = (Reach x Impact x Confidence) / Effort
 """
 
-import json
+import argparse
 import csv
+import json
+import logging
 import sys
 from typing import List, Dict, Tuple
-import argparse
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 class RICECalculator:
     """Calculate RICE scores for feature prioritization"""
-    
-    def __init__(self):
+
+    def __init__(self, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("RICECalculator initialized")
         self.impact_map = {
             'massive': 3.0,
             'high': 2.0,
@@ -40,30 +51,37 @@ class RICECalculator:
     def calculate_rice(self, reach: int, impact: str, confidence: str, effort: str) -> float:
         """
         Calculate RICE score
-        
+
         Args:
             reach: Number of users/customers affected per quarter
             impact: massive/high/medium/low/minimal
             confidence: high/medium/low (percentage)
             effort: xl/l/m/s/xs (person-months)
         """
+        logger.debug(f"Calculating RICE: reach={reach}, impact={impact}, confidence={confidence}, effort={effort}")
         impact_score = self.impact_map.get(impact.lower(), 1.0)
         confidence_score = self.confidence_map.get(confidence.lower(), 50) / 100
         effort_score = self.effort_map.get(effort.lower(), 5)
-        
+
         if effort_score == 0:
+            logger.warning("Effort score is 0, returning RICE score of 0")
             return 0
-        
+
         rice_score = (reach * impact_score * confidence_score) / effort_score
         return round(rice_score, 2)
     
     def prioritize_features(self, features: List[Dict]) -> List[Dict]:
         """
         Calculate RICE scores and rank features
-        
+
         Args:
             features: List of feature dictionaries with RICE components
         """
+        logger.debug(f"Prioritizing {len(features)} features")
+        if not features:
+            logger.warning("Empty features list provided")
+            return []
+
         for feature in features:
             feature['rice_score'] = self.calculate_rice(
                 feature.get('reach', 0),
@@ -71,7 +89,7 @@ class RICECalculator:
                 feature.get('confidence', 'medium'),
                 feature.get('effort', 'm')
             )
-        
+
         # Sort by RICE score descending
         return sorted(features, key=lambda x: x['rice_score'], reverse=True)
     
@@ -79,7 +97,9 @@ class RICECalculator:
         """
         Analyze the feature portfolio for balance and insights
         """
+        logger.debug(f"Analyzing portfolio of {len(features)} features")
         if not features:
+            logger.warning("Empty features list for portfolio analysis")
             return {}
         
         total_effort = sum(

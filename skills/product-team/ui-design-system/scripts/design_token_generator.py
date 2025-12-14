@@ -5,24 +5,36 @@ Creates consistent design system tokens for colors, typography, spacing, and mor
 """
 
 import argparse
+import colorsys
 import json
+import logging
 import sys
 from pathlib import Path
 from typing import Dict, List, Tuple
-import colorsys
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 class DesignTokenGenerator:
     """Generate comprehensive design system tokens"""
     
-    def __init__(self):
+    def __init__(self, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("DesignTokenGenerator initialized")
         self.base_unit = 8  # 8pt grid system
         self.type_scale_ratio = 1.25  # Major third
         self.base_font_size = 16
         
-    def generate_complete_system(self, brand_color: str = "#0066CC", 
+    def generate_complete_system(self, brand_color: str = "#0066CC",
                                 style: str = "modern") -> Dict:
         """Generate complete design token system"""
-        
+        logger.debug(f"generate_complete_system called with brand_color={brand_color}, style={style}")
+
         tokens = {
             'meta': {
                 'version': '1.0.0',
@@ -571,7 +583,7 @@ For more information, see the skill documentation.
             print(f"Brand color: {args.brand}", file=sys.stderr)
 
         # Generate tokens
-        generator = DesignTokenGenerator()
+        generator = DesignTokenGenerator(verbose=args.verbose)
         tokens = generator.generate_complete_system(args.brand, args.style)
 
         if args.verbose:

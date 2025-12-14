@@ -5,17 +5,29 @@ Changelog Generator - Generate CHANGELOG entries from git commit history
 Parses conventional commits and generates Keep a Changelog formatted output.
 """
 
-import subprocess
-import re
 import json
-from typing import Dict, List, Tuple
+import logging
+import re
+import subprocess
 from datetime import datetime
 from pathlib import Path
+from typing import Dict, List, Tuple
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 class ChangelogGenerator:
-    def __init__(self):
+    def __init__(self, verbose: bool = False):
         """Initialize the changelog generator"""
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("ChangelogGenerator initialized")
+
         # Conventional commit type mappings
         self.type_mappings = {
             'feat': 'Added',
@@ -48,6 +60,7 @@ class ChangelogGenerator:
 
     def get_last_tag(self) -> str:
         """Get the last git tag or return None"""
+        logger.debug("Retrieving last git tag")
         try:
             result = subprocess.run(
                 ['git', 'describe', '--tags', '--abbrev=0'],
@@ -55,12 +68,16 @@ class ChangelogGenerator:
                 text=True,
                 check=True
             )
-            return result.stdout.strip()
-        except (subprocess.CalledProcessError, FileNotFoundError):
+            tag = result.stdout.strip()
+            logger.debug(f"Found last tag: {tag}")
+            return tag
+        except (subprocess.CalledProcessError, FileNotFoundError) as e:
+            logger.warning(f"Could not retrieve last tag: {e}")
             return None
 
     def get_commits(self, since: str, until: str = 'HEAD') -> List[Dict]:
         """Get commits between two refs"""
+        logger.debug(f"Retrieving commits from {since} to {until}")
         try:
             # Use a unique separator to handle multiline commit bodies
             sep = '|||COMMIT_SEP|||'
@@ -76,6 +93,7 @@ class ChangelogGenerator:
             )
 
             if not result.stdout.strip():
+                logger.warning(f"No commits found between {since} and {until}")
                 return []
 
             commits = []
@@ -98,11 +116,14 @@ class ChangelogGenerator:
                         'date': parts[4].strip() if len(parts) > 4 else ''
                     })
 
+            logger.debug(f"Retrieved {len(commits)} commits")
             return commits
 
         except subprocess.CalledProcessError as e:
+            logger.error(f"Failed to get git commits: {e}")
             raise RuntimeError(f"Failed to get git commits: {e}")
         except FileNotFoundError:
+            logger.error("git command not found")
             raise RuntimeError("git command not found. Ensure git is installed and in PATH")
 
     def parse_conventional_commit(self, commit: Dict) -> Tuple[str, str, str, str, bool, List[str]]:
@@ -141,6 +162,7 @@ class ChangelogGenerator:
 
     def categorize_commits(self, commits: List[Dict]) -> Dict[str, List[Dict]]:
         """Categorize commits by type"""
+        logger.debug(f"Categorizing {len(commits)} commits")
         categorized = {category: [] for category in self.categories}
 
         for commit in commits:
@@ -179,6 +201,7 @@ class ChangelogGenerator:
                                    version: str = 'Unreleased',
                                    date: str = None) -> str:
         """Generate Keep a Changelog formatted output"""
+        logger.debug(f"Generating Keep a Changelog format for version {version}")
         if date is None:
             date = datetime.now().strftime('%Y-%m-%d')
 
@@ -206,6 +229,7 @@ class ChangelogGenerator:
     def generate_simple_format(self, categorized: Dict[str, List[Dict]],
                                version: str = 'Unreleased') -> str:
         """Generate simple changelog format"""
+        logger.debug(f"Generating simple format for version {version}")
         lines = [f"# {version}", ""]
 
         for category in self.categories:
@@ -222,6 +246,7 @@ class ChangelogGenerator:
                             version: str, since: str, until: str,
                             total_commits: int) -> str:
         """Generate JSON changelog format"""
+        logger.debug(f"Generating JSON format for version {version}")
         # Filter out empty categories
         categories_with_content = {
             category: [entry['message'] for entry in entries]
@@ -242,6 +267,7 @@ class ChangelogGenerator:
 
     def prepend_to_changelog(self, content: str, changelog_path: Path) -> None:
         """Prepend new content to existing CHANGELOG.md"""
+        logger.debug(f"Prepending content to {changelog_path}")
         existing_content = ""
 
         if changelog_path.exists():
@@ -287,7 +313,8 @@ def generate_changelog(since: str = None, until: str = 'HEAD',
                        version: str = 'Unreleased',
                        output_file: str = None,
                        prepend: bool = False,
-                       dry_run: bool = False) -> str:
+                       dry_run: bool = False,
+                       verbose: bool = False) -> str:
     """
     Generate changelog from git commits
 
@@ -299,11 +326,13 @@ def generate_changelog(since: str = None, until: str = 'HEAD',
         output_file: Output file path
         prepend: Prepend to existing CHANGELOG.md
         dry_run: Preview without writing
+        verbose: Enable verbose logging
 
     Returns:
         Generated changelog content
     """
-    generator = ChangelogGenerator()
+    logger.debug(f"Starting changelog generation from {since} to {until}")
+    generator = ChangelogGenerator(verbose=verbose)
 
     # Determine since ref
     if since is None:
@@ -321,9 +350,11 @@ def generate_changelog(since: str = None, until: str = 'HEAD',
     try:
         commits = generator.get_commits(since, until)
     except RuntimeError as e:
+        logger.error(f"Failed to retrieve commits: {e}")
         raise RuntimeError(f"Failed to retrieve commits: {e}")
 
     if not commits:
+        logger.warning(f"No commits found between {since} and {until}")
         print(f"📋 No commits found between {since} and {until}")
         return ""
 
@@ -489,7 +520,8 @@ For more information, see the technical-writer skill documentation.
             version=args.version,
             output_file=args.output,
             prepend=args.prepend,
-            dry_run=args.dry_run
+            dry_run=args.dry_run,
+            verbose=False  # Verbose is handled by print statements
         )
 
         if not result:

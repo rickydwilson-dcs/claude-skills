@@ -3,16 +3,27 @@
 Documentation Quality Analyzer - Analyzes markdown documentation for quality, completeness, and readability
 """
 
-import re
 import json
+import logging
 import os
-from typing import Dict, List, Tuple
+import re
 from pathlib import Path
+from typing import Dict, List, Tuple
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 class DocumentQualityAnalyzer:
-    def __init__(self):
+    def __init__(self, verbose: bool = False):
         """Initialize the documentation quality analyzer"""
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("DocumentQualityAnalyzer initialized")
 
         # Required sections for complete documentation
         self.required_sections = {'overview', 'installation', 'usage'}
@@ -40,6 +51,7 @@ class DocumentQualityAnalyzer:
 
     def analyze_file(self, file_path: str, checks: List[str] = None) -> Dict:
         """Analyze a single markdown file for quality"""
+        logger.debug(f"Analyzing file: {file_path}")
 
         if checks is None:
             checks = ['structure', 'links', 'completeness', 'readability']
@@ -48,11 +60,13 @@ class DocumentQualityAnalyzer:
             with open(file_path, 'r', encoding='utf-8') as f:
                 content = f.read()
         except UnicodeDecodeError:
+            logger.error(f"Unable to read file as UTF-8: {file_path}")
             return {
                 'file': file_path,
                 'error': 'Unable to read file as UTF-8 text'
             }
         except FileNotFoundError:
+            logger.error(f"File not found: {file_path}")
             return {
                 'file': file_path,
                 'error': 'File not found'
@@ -101,21 +115,27 @@ class DocumentQualityAnalyzer:
 
     def analyze_directory(self, directory: str, checks: List[str] = None) -> List[Dict]:
         """Analyze all markdown files in a directory"""
+        logger.debug(f"Analyzing directory: {directory}")
 
         results = []
         dir_path = Path(directory)
 
         if not dir_path.exists():
+            logger.error(f"Directory not found: {directory}")
             return [{'error': f'Directory not found: {directory}'}]
 
         if not dir_path.is_dir():
+            logger.error(f"Not a directory: {directory}")
             return [{'error': f'Not a directory: {directory}'}]
 
         # Find all markdown files recursively
         md_files = list(dir_path.rglob('*.md'))
 
         if not md_files:
+            logger.warning(f"No markdown files found in: {directory}")
             return [{'error': f'No markdown files found in: {directory}'}]
+
+        logger.debug(f"Found {len(md_files)} markdown files")
 
         for md_file in md_files:
             result = self.analyze_file(str(md_file), checks)
@@ -125,6 +145,7 @@ class DocumentQualityAnalyzer:
 
     def _check_structure(self, content: str) -> Tuple[int, List[Dict]]:
         """Check document structure and heading hierarchy"""
+        logger.debug("Checking document structure")
 
         score = 100
         issues = []
@@ -209,6 +230,7 @@ class DocumentQualityAnalyzer:
 
     def _check_readability(self, content: str) -> Tuple[int, Dict, List[Dict]]:
         """Analyze readability using multiple metrics"""
+        logger.debug("Checking document readability")
 
         score = 100
         issues = []
@@ -223,6 +245,7 @@ class DocumentQualityAnalyzer:
         words = text.split()
 
         if not sentences or not words:
+            logger.warning("Insufficient content for readability analysis")
             return 0, {}, [{
                 'type': 'readability',
                 'severity': 'high',
@@ -321,6 +344,7 @@ class DocumentQualityAnalyzer:
 
     def _check_completeness(self, content: str) -> Tuple[int, List[Dict]]:
         """Check for completeness and placeholders"""
+        logger.debug("Checking document completeness")
 
         score = 100
         issues = []
@@ -407,6 +431,7 @@ class DocumentQualityAnalyzer:
 
     def _check_links(self, content: str, file_path: str) -> Tuple[int, List[Dict]]:
         """Check internal markdown links"""
+        logger.debug("Checking document links")
 
         score = 100
         issues = []
@@ -735,11 +760,12 @@ For more information, see the skill documentation.
 
     try:
         # Initialize analyzer
-        analyzer = DocumentQualityAnalyzer()
+        analyzer = DocumentQualityAnalyzer(verbose=args.verbose)
 
         # Check if path exists
         path = Path(args.path)
         if not path.exists():
+            logger.error(f"Path not found: {args.path}")
             print(f"❌ Error: Path not found: {args.path}", file=sys.stderr)
             sys.exit(2)
 

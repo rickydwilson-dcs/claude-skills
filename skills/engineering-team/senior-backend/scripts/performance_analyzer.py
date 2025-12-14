@@ -8,10 +8,18 @@ and provides optimization recommendations for APIs, databases, and services.
 
 import argparse
 import json
+import logging
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional
-from datetime import datetime
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 class PerformanceAnalyzer:
     """Analyzes backend performance metrics and identifies optimization opportunities"""
@@ -44,6 +52,10 @@ class PerformanceAnalyzer:
     }
 
     def __init__(self, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("PerformanceAnalyzer initialized")
+
         self.verbose = verbose
         self.metrics = {}
         self.bottlenecks = []
@@ -51,7 +63,9 @@ class PerformanceAnalyzer:
 
     def analyze_api_performance(self, response_times: List[float]) -> Dict:
         """Analyze API endpoint response times"""
+        logger.debug(f"Analyzing API performance with {len(response_times) if response_times else 0} samples")
         if not response_times:
+            logger.warning("No API response times provided for analysis")
             return {'status': 'no_data'}
 
         avg_time = sum(response_times) / len(response_times)
@@ -94,7 +108,9 @@ class PerformanceAnalyzer:
 
     def analyze_database_performance(self, query_times: List[float], query_types: List[str] = None) -> Dict:
         """Analyze database query performance"""
+        logger.debug(f"Analyzing database performance with {len(query_times) if query_times else 0} queries")
         if not query_times:
+            logger.warning("No database query times provided for analysis")
             return {'status': 'no_data'}
 
         avg_time = sum(query_times) / len(query_times)
@@ -131,6 +147,7 @@ class PerformanceAnalyzer:
 
     def analyze_resource_usage(self, cpu_usage: float, memory_usage: float) -> Dict:
         """Analyze CPU and memory usage"""
+        logger.debug(f"Analyzing resource usage: CPU={cpu_usage}%, Memory={memory_usage}%")
         analysis = {
             'cpu_usage_percent': round(cpu_usage, 1),
             'memory_usage_percent': round(memory_usage, 1)
@@ -172,6 +189,7 @@ class PerformanceAnalyzer:
 
     def generate_recommendations(self) -> List[str]:
         """Generate optimization recommendations based on bottlenecks"""
+        logger.debug(f"Generating recommendations based on {len(self.bottlenecks)} bottlenecks")
         recommendations = []
 
         # Group bottlenecks by type
@@ -218,6 +236,7 @@ class PerformanceAnalyzer:
 
     def calculate_performance_score(self) -> int:
         """Calculate overall performance score (0-100)"""
+        logger.debug("Calculating performance score")
         score = 100
 
         for bottleneck in self.bottlenecks:
@@ -332,6 +351,12 @@ Examples:
         help='Output file path'
     )
 
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
+    )
+
     args = parser.parse_args()
 
     analyzer = PerformanceAnalyzer(verbose=args.verbose)
@@ -346,7 +371,12 @@ Examples:
                 args.db_times = data.get('db_times', [])
                 args.cpu = data.get('cpu_usage')
                 args.memory = data.get('memory_usage')
+        except FileNotFoundError:
+            logger.error(f"File not found: {args.file}")
+            print(f"Error: File not found: {args.file}", file=sys.stderr)
+            sys.exit(1)
         except Exception as e:
+            logger.error(f"Error loading file: {e}")
             print(f"Error loading file: {e}", file=sys.stderr)
             sys.exit(1)
 
@@ -363,6 +393,7 @@ Examples:
         metrics['resource_usage'] = analyzer.analyze_resource_usage(args.cpu, args.memory)
 
     if not metrics:
+        logger.warning("No metrics provided for analysis")
         parser.print_help()
         sys.exit(0)
 

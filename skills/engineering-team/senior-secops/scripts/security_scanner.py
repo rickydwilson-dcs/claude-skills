@@ -14,6 +14,7 @@ Part of the senior-secops skill package.
 import argparse
 import csv
 import json
+import logging
 import os
 import re
 import sys
@@ -23,6 +24,13 @@ from enum import Enum
 from io import StringIO
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 class Severity(Enum):
@@ -97,6 +105,8 @@ class SecurityScanner:
 
     def __init__(self, target_path: str, config: Optional[Dict] = None,
                  verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
         self.target_path = Path(target_path)
         self.config = config or {}
         self.verbose = verbose
@@ -104,9 +114,11 @@ class SecurityScanner:
         self.files_scanned = 0
         self.lines_scanned = 0
         self.patterns = self._load_patterns()
+        logger.debug("SecurityScanner initialized")
 
     def _load_patterns(self) -> List[SecurityPattern]:
         """Load all security detection patterns"""
+        logger.debug("Loading security detection patterns")
         patterns = []
         patterns.extend(self._secret_patterns())
         patterns.extend(self._injection_patterns())
@@ -493,6 +505,7 @@ class SecurityScanner:
 
     def run(self) -> Dict:
         """Execute the security scan"""
+        logger.debug("Starting security scan execution")
         if self.verbose:
             print(f"Starting security scan: {self.target_path}")
 
@@ -501,12 +514,14 @@ class SecurityScanner:
         elif self.target_path.is_dir():
             self._scan_directory(self.target_path)
         else:
+            logger.error(f"Target path does not exist: {self.target_path}")
             raise ValueError(f"Target path does not exist: {self.target_path}")
 
         return self._generate_results()
 
     def _scan_directory(self, directory: Path):
         """Recursively scan directory"""
+        logger.debug(f"Scanning directory: {directory}")
         for root, dirs, files in os.walk(directory):
             # Skip excluded directories
             dirs[:] = [d for d in dirs if d not in self.SKIP_DIRS]
@@ -544,6 +559,7 @@ class SecurityScanner:
                 print(f"  Scanned {self.files_scanned} files...")
 
         except Exception as e:
+            logger.warning(f"Error scanning {file_path}: {e}")
             if self.verbose:
                 print(f"  Error scanning {file_path}: {e}")
 
@@ -595,6 +611,7 @@ class SecurityScanner:
 
     def _generate_results(self) -> Dict:
         """Generate comprehensive scan results"""
+        logger.debug("Generating security scan results")
         # Count by severity
         severity_counts = {s.name: 0 for s in Severity}
         for finding in self.findings:
@@ -814,6 +831,12 @@ Severity Levels:
     parser.add_argument('--config', '-c', help='Configuration file path (JSON)')
     parser.add_argument('--file', '-f', help='Write output to file')
     parser.add_argument('--verbose', '-v', action='store_true', help='Verbose output')
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
+    )
 
     args = parser.parse_args()
 

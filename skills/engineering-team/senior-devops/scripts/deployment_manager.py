@@ -30,18 +30,26 @@ Version: 1.0.0
 """
 
 import argparse
-import json
-import os
-import sys
 import hashlib
+import json
+import logging
+import os
 import socket
-import urllib.request
+import sys
 import urllib.error
+import urllib.request
 from dataclasses import dataclass, field, asdict
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
 from typing import Dict, List, Optional, Any, Tuple
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 # ============================================================================
@@ -231,6 +239,10 @@ class DeploymentManager:
             verbose: Enable verbose output
             dry_run: Show plan without executing
         """
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("DeploymentManager initialized")
+
         self.verbose = verbose
         self.dry_run = dry_run
         self.config = config
@@ -255,8 +267,10 @@ class DeploymentManager:
 
     def _load_config(self, config_file: str) -> DeploymentConfig:
         """Load deployment configuration from file."""
+        logger.debug(f"Loading config from {config_file}")
         path = Path(config_file)
         if not path.exists():
+            logger.error(f"Config file not found: {config_file}")
             raise FileNotFoundError(f"Config file not found: {config_file}")
 
         content = path.read_text()
@@ -383,7 +397,9 @@ class DeploymentManager:
         Returns:
             Tuple of (success, message)
         """
+        logger.debug(f"Performing health check on {host}")
         if not self.config or not self.config.health_check:
+            logger.warning("No health check configured")
             return True, "No health check configured"
 
         hc = self.config.health_check
@@ -508,7 +524,9 @@ class DeploymentManager:
         Returns:
             DeploymentPlan with ordered steps
         """
+        logger.debug(f"Creating deployment plan: {from_version} -> {self.config.version if self.config else 'unknown'}")
         if not self.config:
+            logger.error("No deployment configuration provided")
             raise ValueError("No deployment configuration provided")
 
         plan = DeploymentPlan(
@@ -872,7 +890,9 @@ class DeploymentManager:
         Returns:
             DeploymentRecord with execution results
         """
+        logger.debug(f"Starting deployment: {from_version} -> {self.config.version if self.config else 'unknown'}")
         if not self.config:
+            logger.error("No deployment configuration provided")
             raise ValueError("No deployment configuration provided")
 
         deployment_id = self._generate_deployment_id()
@@ -920,6 +940,7 @@ class DeploymentManager:
             self._log("Deployment completed successfully!", "success")
 
         except Exception as e:
+            logger.error(f"Deployment failed: {e}")
             self._log(f"Deployment failed: {e}", "error")
             record.status = DeploymentStatus.FAILED.value
             record.error_message = str(e)

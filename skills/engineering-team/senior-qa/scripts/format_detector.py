@@ -4,14 +4,22 @@ Format Detector
 Auto-detect test framework and coverage format from project configuration
 """
 
+import argparse
+import csv
+import json
+import logging
 import os
 import sys
-import json
-import csv
 from io import StringIO
-import argparse
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 class FormatDetector:
@@ -87,6 +95,10 @@ class FormatDetector:
     }
 
     def __init__(self, target_path: str, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("FormatDetector initialized")
+
         self.target_path = Path(target_path)
         self.verbose = verbose
         self.results = {
@@ -102,6 +114,7 @@ class FormatDetector:
 
     def run(self) -> Dict:
         """Execute the detection process"""
+        logger.debug("Starting format detection run")
         print(f"🚀 Running {self.__class__.__name__}...")
         print(f"📁 Target: {self.target_path}")
 
@@ -117,6 +130,7 @@ class FormatDetector:
             return self.results
 
         except Exception as e:
+            logger.error(f"Error during format detection: {e}")
             print(f"❌ Error: {e}")
             self.results['status'] = 'error'
             self.results['error'] = str(e)
@@ -124,7 +138,9 @@ class FormatDetector:
 
     def validate_target(self):
         """Validate the target path exists"""
+        logger.debug("Validating target path")
         if not self.target_path.exists():
+            logger.warning(f"Target path does not exist: {self.target_path}")
             raise ValueError(f"Target path does not exist: {self.target_path}")
 
         if self.verbose:
@@ -401,6 +417,12 @@ For more information, see the skill documentation.
         '--verbose', '-v',
         action='store_true',
         help='Enable verbose output'
+    )
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
     )
 
     args = parser.parse_args()

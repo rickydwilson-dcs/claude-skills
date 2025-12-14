@@ -6,14 +6,25 @@ Creates well-formed user stories with acceptance criteria
 
 import argparse
 import json
+import logging
 import sys
 from pathlib import Path
 from typing import Dict, List, Tuple
 
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
 class UserStoryGenerator:
     """Generate INVEST-compliant user stories"""
-    
-    def __init__(self):
+
+    def __init__(self, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("UserStoryGenerator initialized")
         self.personas = {
             'end_user': {
                 'name': 'End User',

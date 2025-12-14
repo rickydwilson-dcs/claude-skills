@@ -17,18 +17,26 @@ Features:
 - Priority-ranked recommendations
 """
 
-import os
-import sys
-import json
-import csv
-import re
-import xml.etree.ElementTree as ET
-from io import StringIO
 import argparse
-from pathlib import Path
-from typing import Dict, List, Optional, Any, Tuple
+import csv
+import json
+import logging
+import os
+import re
+import sys
+import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field, asdict
 from datetime import datetime
+from io import StringIO
+from pathlib import Path
+from typing import Dict, List, Optional, Any, Tuple
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -114,6 +122,10 @@ class CoverageAnalyzer:
     def __init__(self, target_path: str, verbose: bool = False,
                  format_type: str = 'auto', threshold: float = 80.0,
                  baseline: Optional[float] = None):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("CoverageAnalyzer initialized")
+
         self.target_path = Path(target_path)
         self.verbose = verbose
         self.format_type = format_type
@@ -142,12 +154,14 @@ class CoverageAnalyzer:
 
     def run(self) -> Dict:
         """Execute coverage analysis"""
+        logger.debug("Starting coverage analysis run")
         print(f"Running CoverageAnalyzer...")
         print(f"Target: {self.target_path}")
 
         try:
             coverage_file = self.find_coverage_file()
             if not coverage_file:
+                logger.warning(f"No coverage file found in {self.target_path}")
                 raise ValueError(f"No coverage file found in {self.target_path}")
 
             print(f"Found coverage file: {coverage_file}")
@@ -163,6 +177,7 @@ class CoverageAnalyzer:
             return self.results
 
         except Exception as e:
+            logger.error(f"Error during coverage analysis: {e}")
             print(f"Error: {e}")
             self.results['status'] = 'error'
             self.results['error'] = str(e)
@@ -173,6 +188,7 @@ class CoverageAnalyzer:
 
     def find_coverage_file(self) -> Optional[Path]:
         """Find coverage file based on format or auto-detect"""
+        logger.debug("Finding coverage file")
         if self.target_path.is_file():
             return self.target_path
 
@@ -203,11 +219,17 @@ class CoverageAnalyzer:
                         print(f"Auto-detected format: {fmt}")
                     return path
 
+        logger.warning("No coverage file found")
         return None
 
     def parse_coverage(self, coverage_file: Path):
         """Parse coverage file based on detected format"""
+        logger.debug(f"Parsing coverage file: {coverage_file}")
         content = coverage_file.read_text()
+
+        if not content:
+            logger.warning(f"Empty coverage file: {coverage_file}")
+            return
 
         if self.format_type == 'lcov':
             self.parse_lcov(content)
@@ -224,6 +246,7 @@ class CoverageAnalyzer:
             elif content.strip().startswith('{'):
                 self.parse_istanbul(content)
             else:
+                logger.error(f"Unable to detect coverage format for {coverage_file}")
                 raise ValueError(f"Unable to detect coverage format for {coverage_file}")
 
     def parse_lcov(self, content: str):
@@ -867,6 +890,12 @@ For more information, see the skill documentation.
         '--verbose', '-v',
         action='store_true',
         help='Enable verbose output'
+    )
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
     )
 
     args = parser.parse_args()

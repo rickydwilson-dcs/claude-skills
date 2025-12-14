@@ -5,14 +5,22 @@ Analyzes project structure and detects architecture patterns.
 Supports MVC, Clean Architecture, Hexagonal, Layered, and Microservices patterns.
 """
 
-import os
-import sys
-import json
-import re
 import argparse
+import json
+import logging
+import os
+import re
+import sys
+from collections import defaultdict
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
-from collections import defaultdict
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 # Architecture pattern definitions
@@ -96,15 +104,19 @@ class StructureAnalyzer:
     """Analyzes project directory structure"""
 
     def __init__(self, root_path: Path, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
         self.root_path = root_path
         self.verbose = verbose
         self.structure: Dict = {}
         self.directories: Set[str] = set()
         self.files: Set[str] = set()
         self.file_extensions: Dict[str, int] = defaultdict(int)
+        logger.debug("StructureAnalyzer initialized")
 
     def analyze(self) -> Dict:
         """Analyze the project structure"""
+        logger.debug(f"Starting structure analysis of {self.root_path}")
         self._scan_directory(self.root_path)
 
         return {
@@ -163,12 +175,16 @@ class PatternDetector:
     """Detects architecture patterns in a project"""
 
     def __init__(self, directories: Set[str], files: Set[str], verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
         self.directories = directories
         self.files = files
         self.verbose = verbose
+        logger.debug("PatternDetector initialized")
 
     def detect(self) -> List[Dict]:
         """Detect all matching architecture patterns"""
+        logger.debug("Starting pattern detection")
         matches = []
 
         for pattern_id, pattern_def in ARCHITECTURE_PATTERNS.items():
@@ -262,11 +278,15 @@ class LayerViolationDetector:
     }
 
     def __init__(self, root_path: Path, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
         self.root_path = root_path
         self.verbose = verbose
+        logger.debug("LayerViolationDetector initialized")
 
     def detect(self) -> List[Dict]:
         """Detect layer violations by analyzing imports"""
+        logger.debug("Starting layer violation detection")
         violations = []
 
         # Scan Python files for import violations
@@ -300,6 +320,7 @@ class LayerViolationDetector:
                             break
 
             except Exception as e:
+                logger.warning(f"Could not analyze {py_file}: {e}")
                 if self.verbose:
                     print(f"  Warning: Could not analyze {py_file}: {e}", file=sys.stderr)
 
@@ -338,12 +359,16 @@ class ProjectArchitect:
     """Main class for project architecture analysis"""
 
     def __init__(self, target_path: str, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
         self.target_path = Path(target_path)
         self.verbose = verbose
         self.results: Dict = {}
+        logger.debug("ProjectArchitect initialized")
 
     def run(self) -> Dict:
         """Execute the main functionality"""
+        logger.debug(f"Running architecture analysis for {self.target_path}")
         if self.verbose:
             print(f"Analyzing project architecture: {self.target_path}", file=sys.stderr)
 
@@ -357,14 +382,18 @@ class ProjectArchitect:
 
     def validate_target(self):
         """Validate the target path exists"""
+        logger.debug("Validating target path")
         if not self.target_path.exists():
+            logger.error(f"Target path does not exist: {self.target_path}")
             raise ValueError(f"Target path does not exist: {self.target_path}")
 
         if not self.target_path.is_dir():
+            logger.error(f"Target must be a directory: {self.target_path}")
             raise ValueError(f"Target must be a directory: {self.target_path}")
 
     def analyze_structure(self):
         """Analyze the project structure"""
+        logger.debug("Analyzing project structure")
         analyzer = StructureAnalyzer(self.target_path, self.verbose)
         structure = analyzer.analyze()
 
@@ -386,6 +415,7 @@ class ProjectArchitect:
 
     def detect_patterns(self):
         """Detect architecture patterns"""
+        logger.debug("Detecting architecture patterns")
         detector = PatternDetector(self._directories, self._files, self.verbose)
         patterns = detector.detect()
 
@@ -398,6 +428,7 @@ class ProjectArchitect:
 
     def detect_violations(self):
         """Detect architecture violations"""
+        logger.debug("Detecting layer violations")
         detector = LayerViolationDetector(self.target_path, self.verbose)
         violations = detector.detect()
 
@@ -409,6 +440,7 @@ class ProjectArchitect:
 
     def generate_assessment(self):
         """Generate overall architecture assessment"""
+        logger.debug("Generating architecture assessment")
         primary = self.results.get('primary_pattern')
         violations = self.results.get('violation_count', 0)
 
@@ -660,9 +692,11 @@ For more information, see the skill documentation.
             print(output)
 
     except ValueError as e:
+        logger.error(f"Validation error: {e}")
         print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)
     except Exception as e:
+        logger.error(f"Unexpected error: {e}")
         print(f"Unexpected error: {e}", file=sys.stderr)
         sys.exit(1)
 

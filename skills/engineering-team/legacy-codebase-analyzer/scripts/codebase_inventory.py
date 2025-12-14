@@ -9,18 +9,26 @@ tool provides the baseline data that all other legacy analysis tools consume.
 Part of the legacy-codebase-analyzer skill package.
 """
 
-import argparse
-import csv
-import json
-import os
-import re
-import sys
 from dataclasses import dataclass, field
 from datetime import datetime
 from io import StringIO
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
+import argparse
+import csv
+import json
+import logging
+import os
+import re
+import sys
 
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 @dataclass
 class FileInfo:
@@ -233,6 +241,9 @@ class CodebaseInventory:
         self.exclude_patterns = exclude_patterns or []
         self.max_depth = max_depth
         self.verbose = verbose
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("CodebaseInventory initialized")
 
         self.files: List[FileInfo] = []
         self.languages: Dict[str, LanguageStats] = {}
@@ -921,6 +932,12 @@ Output Formats:
     parser.add_argument(
         '--verbose', '-v', action='store_true',
         help='Enable verbose output'
+    )
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
     )
 
     args = parser.parse_args()

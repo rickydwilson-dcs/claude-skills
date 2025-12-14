@@ -8,17 +8,27 @@ Provides actionable insights for sprint retrospectives and planning.
 
 import argparse
 import json
+import logging
 import sys
-from pathlib import Path
-from typing import Dict, List, Optional
 from datetime import datetime, timedelta
+from pathlib import Path
 from statistics import mean, stdev
+from typing import Dict, List, Optional
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 class SprintMetricsCalculator:
     """Calculates and analyzes sprint metrics for agile teams"""
 
     def __init__(self, verbose: bool = False):
         self.verbose = verbose
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
         self.metrics = {
             'calculated_at': datetime.now().isoformat(),
             'velocity': 0,
@@ -26,10 +36,13 @@ class SprintMetricsCalculator:
             'sprint_health': 'unknown',
             'recommendations': []
         }
+        logger.debug("SprintMetricsCalculator initialized")
 
     def calculate_velocity(self, story_points: List[int]) -> Dict:
         """Calculate team velocity from completed story points"""
+        logger.debug(f"Calculating velocity from {len(story_points)} sprints")
         if not story_points:
+            logger.warning("Empty story points list provided")
             return {'average': 0, 'trend': 'unknown', 'stability': 'unknown'}
 
         avg_velocity = mean(story_points)
@@ -66,7 +79,9 @@ class SprintMetricsCalculator:
 
     def calculate_completion_rate(self, committed: int, completed: int) -> Dict:
         """Calculate sprint completion rate"""
+        logger.debug(f"Calculating completion rate: {completed}/{committed}")
         if committed == 0:
+            logger.warning("Zero committed points provided")
             return {'rate': 0, 'status': 'no_commitment'}
 
         rate = (completed / committed) * 100
@@ -203,6 +218,7 @@ class SprintMetricsCalculator:
         Returns:
             Dict with score, grade, and component breakdown
         """
+        logger.debug(f"Calculating health score with {blockers} blockers, morale={morale}")
         breakdown = {}
 
         # 1. Velocity stability (15 points max)

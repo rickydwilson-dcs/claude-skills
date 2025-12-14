@@ -8,11 +8,19 @@ and actionable improvements for sales and product strategy.
 
 import argparse
 import json
+import logging
 import sys
+from collections import Counter
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional
-from datetime import datetime
-from collections import Counter
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 class WinLossAnalyzer:
     """Analyze win/loss patterns and generate insights"""
@@ -28,27 +36,51 @@ class WinLossAnalyzer:
     ]
 
     def __init__(self, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("WinLossAnalyzer initialized")
+
         self.verbose = verbose
         self.deals = []
         self.insights = {}
 
     def load_deals(self, file_path: str) -> List[Dict]:
         """Load deal data from JSON file"""
+        logger.debug(f"Loading deals from: {file_path}")
+
         try:
             with open(file_path, 'r') as f:
                 data = json.load(f)
-                return data if isinstance(data, list) else data.get('deals', [])
+                deals = data if isinstance(data, list) else data.get('deals', [])
+                logger.info(f"Loaded {len(deals)} deals")
+                return deals
         except FileNotFoundError:
+            logger.error(f"File not found: {file_path}")
             print(f"Error: File not found: {file_path}", file=sys.stderr)
             sys.exit(1)
         except json.JSONDecodeError as e:
+            logger.error(f"Invalid JSON: {e}")
             print(f"Error: Invalid JSON: {e}", file=sys.stderr)
             sys.exit(1)
 
     def analyze_deals(self, deals: List[Dict]) -> Dict:
         """Analyze all deals and generate insights"""
+        logger.debug("Starting deal analysis")
+
+        if not deals:
+            logger.warning("No deals provided for analysis")
+            return {
+                'summary': {'total_deals': 0, 'wins': 0, 'losses': 0, 'win_rate': 0},
+                'win_analysis': {},
+                'loss_analysis': {},
+                'competitive_analysis': {},
+                'segment_analysis': {},
+                'insights': ['No deals to analyze']
+            }
+
         wins = [d for d in deals if d.get('outcome') == 'won']
         losses = [d for d in deals if d.get('outcome') == 'lost']
+        logger.info(f"Analyzing {len(wins)} wins and {len(losses)} losses")
 
         analysis = {
             'summary': {
@@ -68,7 +100,10 @@ class WinLossAnalyzer:
 
     def analyze_wins(self, wins: List[Dict]) -> Dict:
         """Analyze won deals"""
+        logger.debug(f"Analyzing {len(wins)} won deals")
+
         if not wins:
+            logger.warning("No won deals to analyze")
             return {'count': 0}
 
         # Top win reasons
@@ -101,7 +136,10 @@ class WinLossAnalyzer:
 
     def analyze_losses(self, losses: List[Dict]) -> Dict:
         """Analyze lost deals"""
+        logger.debug(f"Analyzing {len(losses)} lost deals")
+
         if not losses:
+            logger.warning("No lost deals to analyze")
             return {'count': 0}
 
         # Top loss reasons
@@ -133,9 +171,12 @@ class WinLossAnalyzer:
 
     def analyze_competitive(self, deals: List[Dict]) -> Dict:
         """Analyze competitive win/loss patterns"""
+        logger.debug("Analyzing competitive patterns")
+
         competitive_deals = [d for d in deals if d.get('competitor_present')]
 
         if not competitive_deals:
+            logger.warning("No competitive deals found")
             return {'competitive_deals': 0}
 
         wins_competitive = [d for d in competitive_deals if d.get('outcome') == 'won']
@@ -190,6 +231,8 @@ class WinLossAnalyzer:
 
     def generate_insights(self, wins: List[Dict], losses: List[Dict]) -> List[str]:
         """Generate actionable insights from win/loss data"""
+        logger.debug("Generating insights")
+
         insights = []
 
         # Win rate insights
@@ -280,6 +323,8 @@ class WinLossAnalyzer:
 
     def print_report(self, analysis: Dict):
         """Print human-readable win/loss report"""
+        logger.debug("Generating win/loss report")
+
         summary = analysis['summary']
 
         print("\n" + "="*60)
@@ -398,6 +443,12 @@ Examples:
         help='Output file path'
     )
 
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
+    )
+
     args = parser.parse_args()
 
     analyzer = WinLossAnalyzer(verbose=args.verbose)
@@ -405,6 +456,7 @@ Examples:
 
     # Filter by date if provided
     if args.date_from or args.date_to:
+        logger.info(f"Filtering deals by date: {args.date_from} to {args.date_to}")
         filtered_deals = []
         for deal in deals:
             deal_date = deal.get('date', '')
@@ -413,6 +465,7 @@ Examples:
             if args.date_to and deal_date > args.date_to:
                 continue
             filtered_deals.append(deal)
+        logger.info(f"Filtered to {len(filtered_deals)} deals")
         deals = filtered_deals
 
     # Analyze deals
@@ -420,10 +473,17 @@ Examples:
 
     # Output
     if args.json:
+        logger.debug("Formatting output as JSON")
         output = json.dumps(analysis, indent=2)
         if args.output:
-            Path(args.output).write_text(output)
-            print(f"Report written to {args.output}")
+            try:
+                Path(args.output).write_text(output)
+                logger.info(f"Report written to {args.output}")
+                print(f"Report written to {args.output}")
+            except Exception as e:
+                logger.error(f"Error writing output file: {e}")
+                print(f"Error writing output file: {e}", file=sys.stderr)
+                sys.exit(1)
         else:
             print(output)
     else:

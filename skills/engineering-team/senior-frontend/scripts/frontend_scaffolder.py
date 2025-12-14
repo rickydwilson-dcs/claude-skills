@@ -17,6 +17,7 @@ Uses Python standard library only - no external dependencies required.
 
 import argparse
 import json
+import logging
 import os
 import sys
 from dataclasses import dataclass, field
@@ -24,6 +25,13 @@ from datetime import datetime
 from enum import Enum
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 class ProjectFramework(Enum):
@@ -110,6 +118,10 @@ class FrontendScaffolder:
     """
 
     def __init__(self, config: ProjectConfig):
+        if config.verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("FrontendScaffolder initialized")
+
         self.config = config
         self.files_created: List[str] = []
         self.directories_created: List[str] = []
@@ -117,6 +129,7 @@ class FrontendScaffolder:
 
     def scaffold(self) -> ScaffoldingResult:
         """Execute complete project scaffolding."""
+        logger.debug(f"Scaffolding {self.config.framework.value} project: {self.config.name}")
         if self.config.verbose:
             print(f"Scaffolding {self.config.framework.value} project: {self.config.name}")
 
@@ -173,6 +186,7 @@ class FrontendScaffolder:
             self._create_readme(project_dir)
 
         except Exception as e:
+            logger.error(f"Scaffolding failed: {e}")
             self.errors.append(str(e))
 
         # Generate next steps
@@ -193,6 +207,7 @@ class FrontendScaffolder:
 
     def _create_directory_structure(self, project_dir: Path) -> None:
         """Create base directory structure."""
+        logger.debug(f"Creating directory structure for {self.config.framework.value}")
         if self.config.framework == ProjectFramework.NEXTJS:
             dirs = [
                 "app",
@@ -252,14 +267,22 @@ class FrontendScaffolder:
             if self.config.verbose:
                 print(f"  Created directory: {dir_path}")
 
+        if not dirs:
+            logger.warning("No directories to create")
+
     def _write_file(self, project_dir: Path, relative_path: str, content: str) -> None:
         """Write a file to the project."""
+        logger.debug(f"Writing file: {relative_path}")
         file_path = project_dir / relative_path
 
         if not self.config.dry_run:
-            file_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(file_path, 'w') as f:
-                f.write(content)
+            try:
+                file_path.parent.mkdir(parents=True, exist_ok=True)
+                with open(file_path, 'w') as f:
+                    f.write(content)
+            except IOError as e:
+                logger.error(f"Failed to write {relative_path}: {e}")
+                raise
 
         self.files_created.append(relative_path)
         if self.config.verbose:

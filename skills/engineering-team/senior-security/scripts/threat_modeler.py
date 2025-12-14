@@ -14,6 +14,7 @@ Part of the senior-security skill package.
 import argparse
 import csv
 import json
+import logging
 import os
 import re
 import sys
@@ -23,6 +24,13 @@ from enum import Enum
 from io import StringIO
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 class ThreatCategory(Enum):
@@ -281,19 +289,24 @@ class ThreatModeler:
 
     def __init__(self, target_path: str, config: Optional[Dict] = None,
                  verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
         self.target_path = Path(target_path)
         self.config = config or {}
         self.verbose = verbose
         self.components: List[SystemComponent] = []
         self.findings: List[ThreatFinding] = []
         self.files_analyzed = 0
+        logger.debug("ThreatModeler initialized")
 
     def run(self) -> Dict:
         """Execute threat modeling analysis"""
+        logger.debug("Starting threat modeling execution")
         if self.verbose:
             print(f"Starting threat modeling: {self.target_path}")
 
         if not self.target_path.exists():
+            logger.error(f"Target path does not exist: {self.target_path}")
             raise ValueError(f"Target path does not exist: {self.target_path}")
 
         # Discover system components
@@ -306,6 +319,7 @@ class ThreatModeler:
 
     def _discover_components(self):
         """Discover system components from codebase"""
+        logger.debug("Discovering system components")
         if self.target_path.is_file():
             self._analyze_file(self.target_path)
         else:
@@ -351,6 +365,7 @@ class ThreatModeler:
                         break
 
         except Exception as e:
+            logger.warning(f"Error analyzing {file_path}: {e}")
             if self.verbose:
                 print(f"  Error analyzing {file_path}: {e}")
 
@@ -381,6 +396,7 @@ class ThreatModeler:
 
     def _identify_threats(self):
         """Identify threats using STRIDE methodology"""
+        logger.debug("Identifying threats using STRIDE methodology")
         for category, threats in self.STRIDE_THREATS.items():
             for threat_template in threats:
                 evidence = []
@@ -451,6 +467,9 @@ class ThreatModeler:
 
     def _generate_results(self) -> Dict:
         """Generate comprehensive threat model results"""
+        logger.debug("Generating threat modeling results")
+        if not self.findings:
+            logger.warning("No threats identified in analysis")
         # Count by category
         category_counts = {cat.value: 0 for cat in ThreatCategory}
         for finding in self.findings:
@@ -719,6 +738,12 @@ STRIDE Categories:
     parser.add_argument('--config', '-c', help='Configuration file path (JSON)')
     parser.add_argument('--file', '-f', help='Write output to file')
     parser.add_argument('--verbose', '-v', action='store_true', help='Verbose output')
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
+    )
 
     args = parser.parse_args()
 

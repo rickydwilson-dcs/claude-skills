@@ -4,16 +4,24 @@ Test Spec Generator
 Generate Given-When-Then test specifications from feature requirements
 """
 
-import os
-import sys
-import json
-import csv
-import re
-from io import StringIO
 import argparse
+import csv
+import json
+import logging
+import os
+import re
+import sys
+from datetime import datetime
+from io import StringIO
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
-from datetime import datetime
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 class TestSpecGenerator:
@@ -61,6 +69,10 @@ class TestSpecGenerator:
     def __init__(self, target_path: str, verbose: bool = False,
                  requirement: str = None, framework: str = 'jest',
                  include_edge_cases: bool = True):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("TestSpecGenerator initialized")
+
         self.target_path = Path(target_path)
         self.verbose = verbose
         self.requirement = requirement or ''
@@ -79,6 +91,7 @@ class TestSpecGenerator:
 
     def run(self) -> Dict:
         """Execute test spec generation"""
+        logger.debug("Starting test spec generation run")
         print(f"🚀 Running {self.__class__.__name__}...")
         print(f"📁 Target: {self.target_path}")
         if self.requirement:
@@ -98,6 +111,7 @@ class TestSpecGenerator:
             return self.results
 
         except Exception as e:
+            logger.error(f"Error during test spec generation: {e}")
             print(f"❌ Error: {e}")
             self.results['status'] = 'error'
             self.results['error'] = str(e)
@@ -105,7 +119,9 @@ class TestSpecGenerator:
 
     def validate_target(self):
         """Validate the target path exists"""
+        logger.debug("Validating target path")
         if not self.target_path.exists():
+            logger.warning(f"Target path does not exist: {self.target_path}")
             raise ValueError(f"Target path does not exist: {self.target_path}")
 
         if self.verbose:
@@ -671,6 +687,12 @@ For more information, see the skill documentation.
         '--verbose', '-v',
         action='store_true',
         help='Enable verbose output'
+    )
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
     )
 
     args = parser.parse_args()

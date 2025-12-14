@@ -26,12 +26,20 @@ Last Updated: 2025-12-13
 
 import argparse
 import json
-import sys
+import logging
 import re
+import sys
 import xml.etree.ElementTree as ET
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Any, Optional, Tuple
-from datetime import datetime
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 class ValidationIssue:
@@ -66,6 +74,10 @@ class AppStoreValidator:
     GOOGLE_ICON_SIZES = [48, 72, 96, 144, 192, 512]
 
     def __init__(self, project_path: Path, build_path: Optional[Path] = None, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("AppStoreValidator initialized")
+
         self.project_path = project_path
         self.build_path = build_path
         self.verbose = verbose
@@ -89,10 +101,12 @@ class AppStoreValidator:
 
     def validate_apple_app_store(self) -> Dict[str, Any]:
         """Validate Apple App Store requirements."""
+        logger.debug("Starting Apple App Store validation")
         self.log("Starting Apple App Store validation...")
 
         ios_path = self.project_path / "ios"
         if not ios_path.exists():
+            logger.warning(f"iOS project directory not found at {ios_path}")
             self.add_issue(
                 ValidationIssue.ERROR,
                 "Apple/Project",
@@ -169,6 +183,7 @@ class AppStoreValidator:
                 self.add_passed("Info.plist contains all required keys")
 
         except ET.ParseError as e:
+            logger.error(f"Failed to parse Info.plist: {e}")
             self.add_issue(
                 ValidationIssue.ERROR,
                 "Apple/Metadata",
@@ -369,10 +384,12 @@ class AppStoreValidator:
 
     def validate_google_play_store(self) -> Dict[str, Any]:
         """Validate Google Play Store requirements."""
+        logger.debug("Starting Google Play Store validation")
         self.log("Starting Google Play Store validation...")
 
         android_path = self.project_path / "android"
         if not android_path.exists():
+            logger.warning(f"Android project directory not found at {android_path}")
             self.add_issue(
                 ValidationIssue.ERROR,
                 "Google/Project",
@@ -970,6 +987,7 @@ skills/engineering-team/senior-mobile/SKILL.md
         sys.exit(130)
 
     except Exception as e:
+        logger.error(f"Unexpected error occurred: {e}", exc_info=args.verbose)
         print(f"Error: Unexpected error occurred: {e}", file=sys.stderr)
         if args.verbose:
             import traceback

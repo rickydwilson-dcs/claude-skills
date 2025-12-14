@@ -13,15 +13,23 @@ A comprehensive monorepo scaffolding tool that generates:
 Part of the senior-fullstack skill package.
 """
 
+import argparse
+import json
+import logging
 import os
 import sys
-import json
-import argparse
-from pathlib import Path
-from enum import Enum
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional
 from datetime import datetime
+from enum import Enum
+from pathlib import Path
+from typing import Dict, List, Optional
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 # =============================================================================
@@ -654,12 +662,18 @@ class ProjectScaffolder:
     DEFAULT_PACKAGES = ['shared', 'web', 'api']
 
     def __init__(self, config: MonorepoConfig, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+
         self.config = config
         self.verbose = verbose
         self.files_created: List[str] = []
 
+        logger.debug("ProjectScaffolder initialized")
+
     def run(self) -> Dict:
         """Execute the scaffolding"""
+        logger.debug("Starting scaffolding run")
         if self.verbose:
             print(f"Creating monorepo: {self.config.name}", file=sys.stderr)
             print(f"Output: {self.config.output_path}", file=sys.stderr)
@@ -680,6 +694,7 @@ class ProjectScaffolder:
 
     def _create_directories(self):
         """Create the directory structure"""
+        logger.debug("Creating directory structure")
         root = self.config.output_path
 
         # Create root directory
@@ -757,6 +772,7 @@ class ProjectScaffolder:
 
     def _create_package(self, package_name: str):
         """Create a package with its files"""
+        logger.debug(f"Creating package: {package_name}")
         pkg_dir = self.config.output_path / 'packages' / package_name
         full_name = f"@{self.config.name}/{package_name}"
         is_shared = package_name == 'shared'

@@ -17,6 +17,7 @@ Part of the senior-secops skill package.
 import argparse
 import csv
 import json
+import logging
 import os
 import re
 import sys
@@ -26,6 +27,13 @@ from enum import Enum
 from io import StringIO
 from pathlib import Path
 from typing import Dict, List, Optional, Set
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 class ComplianceStatus(Enum):
@@ -87,6 +95,8 @@ class ComplianceChecker:
 
     def __init__(self, target_path: str, frameworks: List[str] = None,
                  config: Optional[Dict] = None, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
         self.target_path = Path(target_path)
         self.frameworks = frameworks or ['SOC2']
         self.config = config or {}
@@ -94,9 +104,11 @@ class ComplianceChecker:
         self.results: List[ComplianceResult] = []
         self.files_analyzed = 0
         self.controls = self._load_controls()
+        logger.debug("ComplianceChecker initialized")
 
     def _load_controls(self) -> List[ComplianceControl]:
         """Load compliance controls for selected frameworks"""
+        logger.debug(f"Loading controls for frameworks: {self.frameworks}")
         controls = []
         for framework in self.frameworks:
             if framework == 'SOC2':
@@ -460,11 +472,13 @@ class ComplianceChecker:
 
     def run(self) -> Dict:
         """Execute compliance check"""
+        logger.debug("Starting compliance check execution")
         if self.verbose:
             print(f"Starting compliance check: {self.target_path}")
             print(f"Frameworks: {', '.join(self.frameworks)}")
 
         if not self.target_path.exists():
+            logger.error(f"Target path does not exist: {self.target_path}")
             raise ValueError(f"Target path does not exist: {self.target_path}")
 
         # Scan codebase for compliance evidence
@@ -479,6 +493,7 @@ class ComplianceChecker:
 
     def _scan_codebase(self):
         """Scan codebase to collect compliance evidence"""
+        logger.debug("Starting codebase scan for compliance evidence")
         self.evidence_cache: Dict[str, List[str]] = {}
 
         if self.target_path.is_file():
@@ -511,6 +526,7 @@ class ComplianceChecker:
                         self.evidence_cache[control.id].append(str(file_path))
 
         except Exception as e:
+            logger.warning(f"Error scanning {file_path}: {e}")
             if self.verbose:
                 print(f"  Error scanning {file_path}: {e}")
 
@@ -525,6 +541,7 @@ class ComplianceChecker:
 
     def _evaluate_control(self, control: ComplianceControl) -> ComplianceResult:
         """Evaluate a single compliance control"""
+        logger.debug(f"Evaluating control: {control.id}")
         evidence = self.evidence_cache.get(control.id, [])
         unique_evidence = list(set(evidence))[:5]  # Limit evidence list
 
@@ -559,6 +576,7 @@ class ComplianceChecker:
 
     def _generate_results(self) -> Dict:
         """Generate comprehensive compliance results"""
+        logger.debug("Generating compliance results")
         # Calculate compliance score
         total = len(self.results)
         compliant = sum(1 for r in self.results if r.status == ComplianceStatus.COMPLIANT)
@@ -753,6 +771,12 @@ Supported Frameworks:
     parser.add_argument('--config', '-c', help='Configuration file path (JSON)')
     parser.add_argument('--file', '-f', help='Write output to file')
     parser.add_argument('--verbose', '-v', action='store_true', help='Verbose output')
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
+    )
 
     args = parser.parse_args()
 

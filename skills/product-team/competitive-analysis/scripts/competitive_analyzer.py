@@ -17,10 +17,18 @@ Version: 1.0.0
 
 import argparse
 import json
+import logging
 import os
 import sys
 from datetime import datetime
 from pathlib import Path
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 def parse_args():
@@ -100,6 +108,7 @@ def discover_items(path: str, scope: str) -> dict:
     Returns:
         Dictionary with discovered items
     """
+    logger.debug(f"Discovering items in {path} (scope: {scope})")
     items = {
         "skills": [],
         "commands": [],
@@ -109,6 +118,7 @@ def discover_items(path: str, scope: str) -> dict:
     path = Path(path)
 
     if not path.exists():
+        logger.warning(f"Path does not exist: {path}")
         return items
 
     # Discover skills
@@ -171,6 +181,7 @@ def score_item(item_path: str) -> dict:
     Returns:
         Dictionary with scores per dimension
     """
+    logger.debug(f"Scoring item: {item_path}")
     # Placeholder scoring - actual implementation would parse and analyze content
     scores = {
         "documentation": 3,
@@ -204,7 +215,8 @@ def score_item(item_path: str) -> dict:
             if "assets/" in content or "templates/" in content:
                 scores["references"] = 5
 
-    except Exception:
+    except Exception as e:
+        logger.error(f"Error scoring item {item_path}: {e}")
         pass
 
     return scores
@@ -222,6 +234,7 @@ def calculate_weighted_score(scores: dict) -> float:
     - Automation: 15%
     - References: 15%
     """
+    logger.debug("Calculating weighted score")
     weights = {
         "documentation": 0.20,
         "tool_quality": 0.20,
@@ -241,6 +254,7 @@ def compare_items(our_items: dict, their_items: dict) -> dict:
 
     Returns comparison results with winners for each item.
     """
+    logger.debug("Comparing items between repositories")
     results = {
         "better": [],
         "same": [],
@@ -264,6 +278,7 @@ def compare_items(our_items: dict, their_items: dict) -> dict:
 
 def generate_report(results: dict, output_format: str) -> str:
     """Generate analysis report in specified format."""
+    logger.debug(f"Generating report in {output_format} format")
 
     if output_format == "json":
         return json.dumps(results, indent=2)
@@ -312,6 +327,8 @@ def main():
     args = parse_args()
 
     if args.verbose:
+        logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("Verbose mode enabled")
         print(f"Analyzing competitor at: {args.competitor_path}")
         print(f"Our repository: {args.our_path}")
         print(f"Scope: {args.scope}")

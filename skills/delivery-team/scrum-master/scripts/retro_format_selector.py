@@ -19,9 +19,17 @@ Supported Formats:
 
 import argparse
 import json
+import logging
 import sys
 from datetime import datetime
 from typing import Dict, List, Optional
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 class RetroFormatSelector:
@@ -29,7 +37,10 @@ class RetroFormatSelector:
 
     def __init__(self, verbose: bool = False):
         self.verbose = verbose
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
         self.formats = self._initialize_formats()
+        logger.debug("RetroFormatSelector initialized")
 
     def _initialize_formats(self) -> Dict[str, Dict]:
         """Initialize the 8 retrospective formats with metadata"""
@@ -145,6 +156,7 @@ class RetroFormatSelector:
         Returns:
             Recommendation with primary format, alternatives, and rationale
         """
+        logger.debug(f"Recommending format: team_size={team_size}, time={time_available}, focus={focus}")
         scores = {}
         rationales = {}
 
@@ -278,7 +290,9 @@ class RetroFormatSelector:
         Returns:
             Complete facilitation guide
         """
+        logger.debug(f"Getting facilitation guide for: {format_key}")
         if format_key not in self.formats:
+            logger.warning(f"Unknown format requested: {format_key}")
             return {'error': f'Unknown format: {format_key}'}
 
         fmt = self.formats[format_key]
@@ -594,6 +608,12 @@ Available Formats:
         '--verbose', '-v',
         action='store_true',
         help='Enable verbose output'
+    )
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
     )
 
     args = parser.parse_args()

@@ -5,14 +5,22 @@ Generates Mermaid and PlantUML diagrams from code analysis.
 Supports component diagrams, dependency graphs, and class diagrams.
 """
 
-import os
-import sys
-import json
-import re
 import argparse
+import json
+import logging
+import os
+import re
+import sys
+from collections import defaultdict
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
-from collections import defaultdict
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 class CodeAnalyzer:
@@ -33,14 +41,18 @@ class CodeAnalyzer:
     TYPESCRIPT_CLASS_PATTERN = re.compile(r'^(?:export\s+)?class\s+(\w+)(?:\s+extends\s+(\w+))?(?:\s+implements\s+([^{]+))?')
 
     def __init__(self, root_path: Path, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
         self.root_path = root_path
         self.verbose = verbose
         self.modules: Dict[str, Dict] = {}
         self.classes: Dict[str, Dict] = {}
         self.dependencies: Dict[str, Set[str]] = defaultdict(set)
+        logger.debug("CodeAnalyzer initialized")
 
     def analyze(self) -> Dict:
         """Analyze all supported files in the directory"""
+        logger.debug(f"Starting analysis of {self.root_path}")
         if self.root_path.is_file():
             self._analyze_file(self.root_path)
         else:
@@ -64,9 +76,11 @@ class CodeAnalyzer:
 
     def _analyze_file(self, file_path: Path) -> None:
         """Analyze a single file"""
+        logger.debug(f"Analyzing file: {file_path}")
         try:
             content = file_path.read_text(encoding='utf-8', errors='ignore')
         except Exception as e:
+            logger.warning(f"Could not read {file_path}: {e}")
             if self.verbose:
                 print(f"  Warning: Could not read {file_path}: {e}", file=sys.stderr)
             return
@@ -375,14 +389,18 @@ class ArchitectureDiagramGenerator:
     """Main class for generating architecture diagrams from code analysis"""
 
     def __init__(self, target_path: str, verbose: bool = False, diagram_format: str = 'mermaid'):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
         self.target_path = Path(target_path)
         self.verbose = verbose
         self.diagram_format = diagram_format
         self.results: Dict = {}
         self.analysis: Dict = {}
+        logger.debug("ArchitectureDiagramGenerator initialized")
 
     def run(self) -> Dict:
         """Execute the main functionality"""
+        logger.debug(f"Running diagram generation for {self.target_path}")
         if self.verbose:
             print(f"Analyzing: {self.target_path}", file=sys.stderr)
 
@@ -397,11 +415,14 @@ class ArchitectureDiagramGenerator:
 
     def validate_target(self):
         """Validate the target path exists and is accessible"""
+        logger.debug("Validating target path")
         if not self.target_path.exists():
+            logger.error(f"Target path does not exist: {self.target_path}")
             raise ValueError(f"Target path does not exist: {self.target_path}")
 
     def analyze(self):
         """Perform code analysis"""
+        logger.debug("Starting code analysis")
         analyzer = CodeAnalyzer(self.target_path, self.verbose)
         self.analysis = analyzer.analyze()
 
@@ -415,11 +436,15 @@ class ArchitectureDiagramGenerator:
 
     def generate_diagrams(self):
         """Generate diagrams based on analysis"""
+        logger.debug(f"Generating diagrams in {self.diagram_format} format")
         self.results['diagrams'] = {}
 
         modules = self.analysis['modules']
         dependencies = self.analysis['dependencies']
         classes = self.analysis['classes']
+
+        if not modules:
+            logger.warning("No modules found to generate diagrams")
 
         if self.diagram_format in ('mermaid', 'all'):
             self.results['diagrams']['mermaid'] = {
@@ -568,9 +593,11 @@ For more information, see the skill documentation.
             print(output)
 
     except ValueError as e:
+        logger.error(f"Validation error: {e}")
         print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)
     except Exception as e:
+        logger.error(f"Unexpected error: {e}")
         print(f"Unexpected error: {e}", file=sys.stderr)
         sys.exit(1)
 

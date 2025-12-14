@@ -8,10 +8,18 @@ Generates competitive battlecards and win/loss insights.
 
 import argparse
 import json
+import logging
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional
-from datetime import datetime
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 class CompetitorTracker:
     """Track and analyze competitive intelligence"""
@@ -22,26 +30,37 @@ class CompetitorTracker:
     ]
 
     def __init__(self, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("CompetitorTracker initialized")
+
         self.verbose = verbose
         self.competitors = []
         self.analysis = {}
 
     def load_competitors(self, file_path: str) -> List[Dict]:
         """Load competitor data from JSON file"""
+        logger.debug(f"Loading competitors from: {file_path}")
+
         try:
             with open(file_path, 'r') as f:
                 data = json.load(f)
-                return data if isinstance(data, list) else data.get('competitors', [])
+                competitors = data if isinstance(data, list) else data.get('competitors', [])
+                logger.info(f"Loaded {len(competitors)} competitors")
+                return competitors
         except FileNotFoundError:
+            logger.error(f"File not found: {file_path}")
             print(f"Error: File not found: {file_path}", file=sys.stderr)
             sys.exit(1)
         except json.JSONDecodeError as e:
+            logger.error(f"Invalid JSON: {e}")
             print(f"Error: Invalid JSON: {e}", file=sys.stderr)
             sys.exit(1)
 
     def analyze_competitor(self, competitor: Dict) -> Dict:
         """Analyze single competitor"""
         name = competitor.get('name', 'Unknown')
+        logger.debug(f"Analyzing competitor: {name}")
 
         analysis = {
             'name': name,
@@ -71,6 +90,8 @@ class CompetitorTracker:
 
     def calculate_threat_level(self, competitor: Dict) -> str:
         """Calculate competitive threat level"""
+        logger.debug("Calculating threat level")
+
         score = 0
 
         # Market presence
@@ -115,6 +136,8 @@ class CompetitorTracker:
 
     def identify_differentiation(self, competitor: Dict) -> List[str]:
         """Identify differentiation opportunities"""
+        logger.debug("Identifying differentiation opportunities")
+
         opportunities = []
 
         # Feature-based differentiation
@@ -257,6 +280,8 @@ class CompetitorTracker:
 
     def print_report(self, analysis: List[Dict]):
         """Print competitive intelligence report"""
+        logger.debug("Generating competitive intelligence report")
+
         print("\n" + "="*60)
         print("COMPETITIVE INTELLIGENCE REPORT")
         print("="*60)
@@ -350,12 +375,24 @@ Examples:
         help='Output file path'
     )
 
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
+    )
+
     args = parser.parse_args()
 
     tracker = CompetitorTracker(verbose=args.verbose)
     competitors_data = tracker.load_competitors(args.file)
 
+    if not competitors_data:
+        logger.warning("No competitor data found")
+        print("Warning: No competitor data found in file", file=sys.stderr)
+        sys.exit(0)
+
     # Analyze all competitors
+    logger.info(f"Analyzing {len(competitors_data)} competitors")
     analysis = []
     for comp_data in competitors_data:
         comp_analysis = tracker.analyze_competitor(comp_data)
@@ -364,6 +401,7 @@ Examples:
     # Generate battlecards if requested
     battlecards = []
     if args.battlecards:
+        logger.info("Generating competitive battlecards")
         for comp in analysis:
             battlecards.append(tracker.generate_battlecard(comp))
 
@@ -382,10 +420,17 @@ Examples:
 
     # Output results
     if args.json:
+        logger.debug("Formatting output as JSON")
         output = json.dumps(output_data, indent=2)
         if args.output:
-            Path(args.output).write_text(output)
-            print(f"Report written to {args.output}")
+            try:
+                Path(args.output).write_text(output)
+                logger.info(f"Report written to {args.output}")
+                print(f"Report written to {args.output}")
+            except Exception as e:
+                logger.error(f"Error writing output file: {e}")
+                print(f"Error writing output file: {e}", file=sys.stderr)
+                sys.exit(1)
         else:
             print(output)
     else:

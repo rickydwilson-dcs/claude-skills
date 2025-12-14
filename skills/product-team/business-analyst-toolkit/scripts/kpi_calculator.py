@@ -23,15 +23,23 @@ Exit Codes:
 """
 
 import argparse
-import json
-import sys
 import csv
+import json
+import logging
+import math
 import statistics
+import sys
+from collections import defaultdict
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, List, Any, Optional, Tuple
-from datetime import datetime, timedelta
-import math
-from collections import defaultdict
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 EXIT_SUCCESS = 0
 EXIT_VALIDATION_ERROR = 1
@@ -43,6 +51,9 @@ class KPICalculator:
 
     def __init__(self, verbose: bool = False):
         """Initialize calculator with verbosity setting"""
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("KPICalculator initialized")
         self.verbose = verbose
 
         # Six Sigma DPMO to Sigma Level lookup (approximate)
@@ -66,6 +77,9 @@ class KPICalculator:
 
     def parse_input_data(self, input_path: Path) -> List[Dict[str, Any]]:
         """Parse execution data from JSON or CSV file"""
+        logger.debug(f"parse_input_data called with: {input_path}")
+        if not input_path.exists():
+            logger.error(f"Input file not found: {input_path}")
         self.log(f"Parsing input file: {input_path}")
 
         if not input_path.exists():
@@ -228,6 +242,9 @@ class KPICalculator:
                        baseline: Optional[Dict[str, Any]] = None,
                        process: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """Calculate all KPIs from execution data"""
+        logger.debug("calculate_kpis called")
+        if not executions:
+            logger.warning("No execution data provided")
         self.log("Calculating KPIs...")
 
         if not executions:
@@ -929,6 +946,12 @@ Exit Codes:
                        help='Include ASCII charts in markdown output')
     parser.add_argument('--verbose', action='store_true',
                        help='Enable verbose logging')
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
+    )
 
     args = parser.parse_args()
 

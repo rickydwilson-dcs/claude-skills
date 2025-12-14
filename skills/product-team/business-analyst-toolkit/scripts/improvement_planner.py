@@ -18,11 +18,19 @@ License: MIT
 
 import argparse
 import json
+import logging
 import sys
+from collections import defaultdict
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, List, Any, Optional
-from collections import defaultdict
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 # Exit codes
 EXIT_SUCCESS = 0
@@ -42,6 +50,9 @@ class ImprovementPlanner:
             timeline_weeks: Target timeline in weeks for improvements
             verbose: Enable verbose output
         """
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("ImprovementPlanner initialized")
         self.timeline_weeks = timeline_weeks
         self.verbose = verbose
 
@@ -108,6 +119,9 @@ class ImprovementPlanner:
         Returns:
             Comprehensive improvement plan dictionary
         """
+        logger.debug("create_plan method called")
+        if not gaps_data:
+            logger.warning("Empty gaps_data provided")
         if self.verbose:
             print(f"📋 Creating improvement plan for: {gaps_data.get('process_name', 'Unknown Process')}")
 
@@ -169,6 +183,9 @@ class ImprovementPlanner:
 
     def _extract_gaps(self, gaps_data: Dict[str, Any]) -> List[Dict[str, Any]]:
         """Extract gaps list from various input formats"""
+        logger.debug("_extract_gaps called")
+        if not gaps_data:
+            logger.warning("No gaps_data provided to _extract_gaps")
         # Handle different input structures
         if 'gaps' in gaps_data:
             return gaps_data['gaps']
@@ -853,6 +870,12 @@ def main():
     parser.add_argument('--verbose', '-v', action='store_true',
                        help='Verbose output')
 
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
+    )
+
     args = parser.parse_args()
 
     try:
@@ -869,6 +892,7 @@ def main():
             with open(gaps_file, 'r', encoding='utf-8') as f:
                 gaps_data = json.load(f)
         except json.JSONDecodeError as e:
+            logger.error(f"Invalid JSON in gaps file: {e}")
             print(f"❌ Error: Invalid JSON in gaps file: {e}", file=sys.stderr)
             sys.exit(EXIT_PARSE_ERROR)
 

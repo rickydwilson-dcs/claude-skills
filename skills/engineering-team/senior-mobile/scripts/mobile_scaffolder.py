@@ -23,11 +23,19 @@ Last Updated: 2025-12-13
 
 import argparse
 import json
-import sys
+import logging
 import os
-from pathlib import Path
-from typing import Dict, List, Any, Optional
+import sys
 from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 class MobileScaffolder:
@@ -49,6 +57,10 @@ class MobileScaffolder:
     CI_PLATFORMS = ['github-actions', 'bitrise', 'codemagic', 'none']
 
     def __init__(self, project_name: str, **options):
+        verbose = options.get('verbose', False)
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+
         self.project_name = project_name
         self.framework = options.get('framework', 'react-native')
         self.platforms = options.get('platforms', 'both')
@@ -58,11 +70,13 @@ class MobileScaffolder:
         self.ci = options.get('ci', 'github-actions')
         self.output_dir = Path(options.get('output_dir', '.'))
         self.dry_run = options.get('dry_run', False)
-        self.verbose = options.get('verbose', False)
+        self.verbose = verbose
 
         self.project_path = self.output_dir / self.project_name
         self.files_created = []
         self.dirs_created = []
+
+        logger.debug("MobileScaffolder initialized")
 
     def _default_navigation(self):
         """Get default navigation for framework"""
@@ -84,10 +98,12 @@ class MobileScaffolder:
 
     def validate(self) -> List[str]:
         """Validate configuration and return list of errors"""
+        logger.debug("Validating configuration")
         errors = []
 
         # Validate project name
         if not self.project_name:
+            logger.warning("Project name is missing")
             errors.append("Project name is required")
         elif not self.project_name.replace('-', '').replace('_', '').isalnum():
             errors.append(f"Invalid project name: {self.project_name} (use alphanumeric, hyphens, underscores)")
@@ -126,6 +142,7 @@ class MobileScaffolder:
 
     def scaffold(self) -> Dict[str, Any]:
         """Generate the project structure"""
+        logger.debug("Starting scaffold generation")
         start_time = datetime.now()
 
         if self.verbose:
@@ -165,6 +182,7 @@ class MobileScaffolder:
 
     def _scaffold_react_native(self):
         """Scaffold React Native or Expo project"""
+        logger.debug(f"Scaffolding {self.framework} project")
         # Create directory structure
         self._create_dir('')
         self._create_dir('src')
@@ -246,6 +264,7 @@ class MobileScaffolder:
 
     def _scaffold_flutter(self):
         """Scaffold Flutter project"""
+        logger.debug("Scaffolding Flutter project")
         # Create directory structure
         self._create_dir('')
         self._create_dir('lib')

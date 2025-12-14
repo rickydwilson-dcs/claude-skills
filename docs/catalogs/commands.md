@@ -1,7 +1,7 @@
 # Commands Catalog
 
-**Total Commands:** 12
-**Last Updated:** November 24, 2025
+**Total Commands:** 16
+**Last Updated:** December 14, 2025
 **Status:** Production-ready
 
 ---
@@ -182,11 +182,11 @@ python3 scripts/install_commands.py --command review.code
 
 ### By Category
 - **Analysis:** 4 commands
-- **Generation:** 2 commands
-- **Git:** 2 commands
-- **Workflow:** 3 commands
+- **Generation:** 3 commands
+- **Git:** 3 commands
+- **Workflow:** 4 commands
 - **Test:** 1 command (sample)
-- **Total:** 12 production-ready commands
+- **Total:** 16 production-ready commands
 
 ### By Complexity
 - **Simple:** 4 commands (33%)

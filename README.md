@@ -232,7 +232,7 @@ See [Usage Guide](docs/USAGE.md) for comprehensive examples and patterns.
 
 ## 🛠️ Production CLI Tools
 
-**60 standardized Python CLI tools** with comprehensive testing framework (v2.0.0):
+**92 standardized Python CLI tools** with comprehensive testing framework:
 
 ### CLI Features
 - **Consistent Interface** - All tools use `--help`, `--version`, `--output`, `--file`, `--verbose`
@@ -341,9 +341,9 @@ This repository is a fork of [Claude Skills Library](https://github.com/alirezar
 
 **Key Differences in Pandora Edition:**
 - Focus on Pandora's SDLC (architecture, security, product management, delivery)
-- 43 skills covering software delivery lifecycle (vs original marketing focus)
-- 60 Python CLI tools for automated analysis
-- 28 workflow orchestrator agents (v2.0)
+- 34 skills covering software delivery lifecycle (vs original marketing focus)
+- 92 Python CLI tools for automated analysis
+- 34 workflow orchestrator agents (v2.0)
 - Comprehensive testing framework (2,814 tests)
 - Zero dependencies (Python 3.8+ standard library only)
 

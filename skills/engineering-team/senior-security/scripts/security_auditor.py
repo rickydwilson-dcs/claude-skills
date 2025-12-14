@@ -15,6 +15,7 @@ Part of the senior-security skill package.
 import argparse
 import csv
 import json
+import logging
 import os
 import re
 import sys
@@ -24,6 +25,13 @@ from enum import Enum
 from io import StringIO
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 class AuditCategory(Enum):
@@ -98,6 +106,8 @@ class SecurityAuditor:
 
     def __init__(self, target_path: str, config: Optional[Dict] = None,
                  verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
         self.target_path = Path(target_path)
         self.config = config or {}
         self.verbose = verbose
@@ -105,9 +115,11 @@ class SecurityAuditor:
         self.files_audited = 0
         self.lines_audited = 0
         self.checks = self._load_checks()
+        logger.debug("SecurityAuditor initialized")
 
     def _load_checks(self) -> List[AuditCheck]:
         """Load all security audit checks"""
+        logger.debug("Loading security audit checks")
         checks = []
         checks.extend(self._authentication_checks())
         checks.extend(self._authorization_checks())
@@ -449,10 +461,12 @@ class SecurityAuditor:
 
     def run(self) -> Dict:
         """Execute security audit"""
+        logger.debug("Starting security audit execution")
         if self.verbose:
             print(f"Starting security audit: {self.target_path}")
 
         if not self.target_path.exists():
+            logger.error(f"Target path does not exist: {self.target_path}")
             raise ValueError(f"Target path does not exist: {self.target_path}")
 
         # Audit files
@@ -469,6 +483,7 @@ class SecurityAuditor:
 
     def _audit_file(self, file_path: Path):
         """Audit a single file"""
+        logger.debug(f"Auditing file: {file_path}")
         try:
             if file_path.suffix.lower() not in self.CODE_EXTENSIONS:
                 return
@@ -489,6 +504,7 @@ class SecurityAuditor:
                 print(f"  Audited {self.files_audited} files...")
 
         except Exception as e:
+            logger.warning(f"Error auditing {file_path}: {e}")
             if self.verbose:
                 print(f"  Error auditing {file_path}: {e}")
 
@@ -519,6 +535,7 @@ class SecurityAuditor:
 
     def _generate_results(self) -> Dict:
         """Generate comprehensive audit results"""
+        logger.debug("Generating security audit results")
         # Count by severity
         severity_counts = {s.name: 0 for s in Severity}
         for finding in self.findings:
@@ -732,6 +749,12 @@ Audit Categories:
     parser.add_argument('--config', '-c', help='Configuration file path (JSON)')
     parser.add_argument('--file', '-f', help='Write output to file')
     parser.add_argument('--verbose', '-v', action='store_true', help='Verbose output')
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
+    )
 
     args = parser.parse_args()
 

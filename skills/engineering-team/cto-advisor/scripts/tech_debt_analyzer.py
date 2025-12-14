@@ -16,17 +16,29 @@ Last Updated: 2025-11-05
 """
 
 import argparse
-import json
 import csv
-from io import StringIO
+import json
+import logging
 import math
 import sys
+from datetime import datetime
+from io import StringIO
 from pathlib import Path
 from typing import Dict, List, Tuple
-from datetime import datetime
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 class TechDebtAnalyzer:
-    def __init__(self):
+    def __init__(self, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        self.verbose = verbose
+        logger.debug("TechDebtAnalyzer initialized")
         self.debt_categories = {
             'architecture': {
                 'weight': 0.25,
@@ -75,6 +87,7 @@ class TechDebtAnalyzer:
     
     def analyze_system(self, system_data: Dict) -> Dict:
         """Analyze a system for technical debt"""
+        logger.debug("Analyzing system for technical debt")
         results = {
             'timestamp': datetime.now().isoformat(),
             'system_name': system_data.get('name', 'Unknown'),

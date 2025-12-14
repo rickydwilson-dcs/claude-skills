@@ -11,6 +11,7 @@ Part of the code-reviewer skill package.
 import argparse
 import csv
 import json
+import logging
 import os
 import re
 import subprocess
@@ -21,6 +22,13 @@ from enum import Enum
 from io import StringIO
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 class RiskLevel(Enum):
@@ -104,9 +112,12 @@ class PrAnalyzer:
         self.base_branch = base_branch
         self.head_branch = head_branch
         self.verbose = verbose
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
         self.file_changes: List[FileChange] = []
         self.risk_flags: List[RiskFlag] = []
         self.results: Dict = {}
+        logger.debug("PrAnalyzer initialized")
 
     def run_git_command(self, args: List[str]) -> Tuple[str, int]:
         """Run a git command and return output and return code"""
@@ -282,6 +293,7 @@ class PrAnalyzer:
 
     def scan_diff_for_security(self, diff_output: str) -> List[RiskFlag]:
         """Scan diff for security issues in added lines"""
+        logger.debug("Scanning diff for security issues")
         risks = []
         current_file = ""
 
@@ -435,12 +447,14 @@ class PrAnalyzer:
 
     def run(self) -> Dict:
         """Execute the PR analysis"""
+        logger.debug("Starting PR analysis")
         if self.verbose:
             print(f"Analyzing: {self.target_path}")
             print(f"Comparing: {self.base_branch}...{self.head_branch}")
 
         # Validate git repo
         if not self.check_git_repo():
+            logger.error(f"Not a git repository: {self.target_path}")
             return {
                 'status': 'error',
                 'error': f"Not a git repository: {self.target_path}"
@@ -449,12 +463,14 @@ class PrAnalyzer:
         # Check if branches exist
         merge_base = self.get_merge_base()
         if not merge_base:
+            logger.error(f"Cannot find merge base between {self.base_branch} and {self.head_branch}")
             return {
                 'status': 'error',
                 'error': f"Cannot find merge base between {self.base_branch} and {self.head_branch}"
             }
 
         # Parse file changes
+        logger.debug("Parsing file changes")
         self.file_changes = self.parse_file_changes()
         if self.verbose:
             print(f"Found {len(self.file_changes)} changed files")
@@ -688,6 +704,12 @@ Risk Levels:
     parser.add_argument(
         '--verbose', '-v', action='store_true',
         help='Enable verbose output'
+    )
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
     )
 
     args = parser.parse_args()

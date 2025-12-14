@@ -4,17 +4,25 @@ Fixture Generator
 Generate test fixtures with boundary values, edge cases, and realistic test data
 """
 
-import os
-import sys
-import json
+import argparse
 import csv
+import json
+import logging
+import os
 import random
 import string
+import sys
+from datetime import datetime, timedelta
 from io import StringIO
-import argparse
 from pathlib import Path
 from typing import Dict, List, Optional, Any, Union
-from datetime import datetime, timedelta
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 class FixtureGenerator:
@@ -93,6 +101,10 @@ class FixtureGenerator:
 
     def __init__(self, target_path: str, verbose: bool = False,
                  data_type: str = None, count: int = 5, include_edge_cases: bool = True):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("FixtureGenerator initialized")
+
         self.target_path = Path(target_path)
         self.verbose = verbose
         self.data_type = data_type
@@ -109,6 +121,7 @@ class FixtureGenerator:
 
     def run(self) -> Dict:
         """Execute fixture generation"""
+        logger.debug("Starting fixture generation run")
         print(f"🚀 Running {self.__class__.__name__}...")
         print(f"📁 Target: {self.target_path}")
 
@@ -125,6 +138,7 @@ class FixtureGenerator:
             return self.results
 
         except Exception as e:
+            logger.error(f"Error during fixture generation: {e}")
             print(f"❌ Error: {e}")
             self.results['status'] = 'error'
             self.results['error'] = str(e)
@@ -132,7 +146,9 @@ class FixtureGenerator:
 
     def validate_target(self):
         """Validate the target path exists"""
+        logger.debug("Validating target path")
         if not self.target_path.exists():
+            logger.warning(f"Target path does not exist: {self.target_path}")
             raise ValueError(f"Target path does not exist: {self.target_path}")
 
         if self.verbose:
@@ -421,6 +437,12 @@ For more information, see the skill documentation.
         '--verbose', '-v',
         action='store_true',
         help='Enable verbose output'
+    )
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
     )
 
     args = parser.parse_args()

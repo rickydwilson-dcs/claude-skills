@@ -14,18 +14,26 @@ Features:
 - Mock generation support
 """
 
-import os
-import sys
-import json
-import csv
-import re
-import ast
-from io import StringIO
 import argparse
-from pathlib import Path
-from typing import Dict, List, Optional, Any, Tuple, Set
+import ast
+import csv
+import json
+import logging
+import os
+import re
+import sys
 from dataclasses import dataclass, field, asdict
 from datetime import datetime
+from io import StringIO
+from pathlib import Path
+from typing import Dict, List, Optional, Any, Tuple, Set
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -725,6 +733,10 @@ class TestSuiteGenerator:
     def __init__(self, target_path: str, verbose: bool = False,
                  framework: str = 'jest', recursive: bool = False,
                  with_mocks: bool = False, output_dir: Optional[str] = None):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("TestSuiteGenerator initialized")
+
         self.target_path = Path(target_path)
         self.verbose = verbose
         self.framework = framework
@@ -749,6 +761,7 @@ class TestSuiteGenerator:
 
     def run(self) -> Dict:
         """Execute test suite generation"""
+        logger.debug("Starting test suite generation run")
         print(f"Running TestSuiteGenerator...")
         print(f"Target: {self.target_path}")
         print(f"Framework: {self.framework}")
@@ -757,6 +770,7 @@ class TestSuiteGenerator:
             # Find source files
             source_files = self._find_source_files()
             if not source_files:
+                logger.warning(f"No source files found in {self.target_path}")
                 raise ValueError(f"No source files found in {self.target_path}")
 
             print(f"Found {len(source_files)} source files")
@@ -772,6 +786,7 @@ class TestSuiteGenerator:
             return self.results
 
         except Exception as e:
+            logger.error(f"Error during test suite generation: {e}")
             print(f"Error: {e}")
             self.results['status'] = 'error'
             self.results['error'] = str(e)
@@ -1146,6 +1161,12 @@ For more information, see the skill documentation.
         '--verbose', '-v',
         action='store_true',
         help='Enable verbose output'
+    )
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
     )
 
     args = parser.parse_args()

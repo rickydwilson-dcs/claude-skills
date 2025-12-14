@@ -9,10 +9,11 @@ analysis for Python-specific checks.
 Part of the code-reviewer skill package.
 """
 
-import ast
 import argparse
+import ast
 import csv
 import json
+import logging
 import os
 import re
 import sys
@@ -22,6 +23,13 @@ from enum import Enum
 from io import StringIO
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 class Severity(Enum):
@@ -90,10 +98,13 @@ class CodeQualityChecker:
         self.language = language
         self.min_severity = Severity[min_severity.upper()]
         self.verbose = verbose
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
         self.patterns = self._load_patterns()
         self.findings: List[Finding] = []
         self.files_analyzed = 0
         self.results: Dict = {}
+        logger.debug("CodeQualityChecker initialized")
 
     def _load_patterns(self) -> List[Pattern]:
         """Load all detection patterns"""
@@ -312,11 +323,13 @@ class CodeQualityChecker:
 
     def discover_files(self) -> List[Path]:
         """Recursively find source files to analyze"""
+        logger.debug(f"Discovering files in {self.target_path}")
         files = []
 
         if self.target_path.is_file():
             if self._is_source_file(self.target_path):
                 return [self.target_path]
+            logger.warning(f"File {self.target_path} is not a recognized source file")
             return []
 
         for root, dirs, filenames in os.walk(self.target_path):
@@ -347,9 +360,9 @@ class CodeQualityChecker:
             except (UnicodeDecodeError, UnicodeError):
                 continue
             except Exception as e:
-                if self.verbose:
-                    print(f"  Warning: Could not read {file_path}: {e}")
+                logger.warning(f"Could not read {file_path}: {e}")
                 return None
+        logger.warning(f"Failed to read {file_path} with any encoding")
         return None
 
     def match_patterns(self, content: str, language: str, file_path: str) -> List[Finding]:
@@ -563,10 +576,12 @@ class CodeQualityChecker:
 
     def run(self) -> Dict:
         """Execute the analysis"""
+        logger.debug("Starting code quality analysis")
         if self.verbose:
             print(f"Analyzing: {self.target_path}")
 
         if not self.target_path.exists():
+            logger.error(f"Target path does not exist: {self.target_path}")
             return {
                 'status': 'error',
                 'error': f"Target path does not exist: {self.target_path}"
@@ -717,6 +732,12 @@ Severity Levels:
     parser.add_argument(
         '--verbose', '-v', action='store_true',
         help='Enable verbose output'
+    )
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
     )
 
     args = parser.parse_args()

@@ -6,28 +6,45 @@ Calculate blended and channel-specific CAC for marketing campaigns.
 Supports multiple time periods and channel breakdowns.
 """
 
-import sys
-import json
 import csv
+import json
+import logging
+import sys
 from io import StringIO
 from typing import Dict, List
 
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
 def calculate_cac(total_spend: float, customers_acquired: int) -> float:
     """Calculate basic CAC"""
+    logger.debug(f"Calculating CAC: spend=${total_spend}, customers={customers_acquired}")
+
     if customers_acquired == 0:
+        logger.warning("No customers acquired - CAC calculation returns 0")
         return 0.0
     return round(total_spend / customers_acquired, 2)
 
 def calculate_channel_cac(channel_data: List[Dict]) -> Dict:
     """
     Calculate CAC per channel
-    
+
     Args:
         channel_data: List of dicts with 'channel', 'spend', 'customers' keys
-        
+
     Returns:
         Dict with channel CAC breakdown and blended CAC
     """
+    logger.debug(f"Calculating CAC for {len(channel_data)} channels")
+
+    if not channel_data:
+        logger.warning("No channel data provided")
+        return {}
+
     results = {}
     total_spend = 0
     total_customers = 0
@@ -145,18 +162,30 @@ def format_json_output(results: Dict) -> str:
 
 def load_channel_data_from_json(file_path: str) -> List[Dict]:
     """Load channel data from JSON file"""
+    logger.debug(f"Loading channel data from: {file_path}")
+
     import json
     from pathlib import Path
 
-    with open(file_path, 'r') as f:
-        data = json.load(f)
+    try:
+        with open(file_path, 'r') as f:
+            data = json.load(f)
+    except FileNotFoundError as e:
+        logger.error(f"File not found: {file_path}")
+        raise
+    except json.JSONDecodeError as e:
+        logger.error(f"Invalid JSON in file: {file_path}")
+        raise
 
     # Support both array format and object format
     if isinstance(data, list):
+        logger.debug(f"Loaded {len(data)} channels from array format")
         return data
     elif isinstance(data, dict) and 'channels' in data:
+        logger.debug(f"Loaded {len(data['channels'])} channels from object format")
         return data['channels']
     else:
+        logger.error("JSON file has invalid format")
         raise ValueError("JSON file must contain an array of channel data or an object with 'channels' key")
 
 def main():
@@ -243,11 +272,15 @@ For more information, see the skill documentation.
 
     args = parser.parse_args()
 
+    # Set logging level based on verbose flag
+    if args.verbose:
+        logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("Verbose logging enabled")
+
     try:
         # Get channel data
         if args.example:
-            if args.verbose:
-                print("Using example channel data", file=sys.stderr)
+            logger.info("Using example channel data")
 
             channel_data = [
                 {'channel': 'LinkedIn Ads', 'spend': 15000, 'customers': 10},
@@ -264,27 +297,29 @@ For more information, see the skill documentation.
                 sys.exit(1)
 
             if not input_path.is_file():
+                logger.error(f"Path is not a file: {args.input}")
                 print(f"Error: Path is not a file: {args.input}", file=sys.stderr)
                 sys.exit(1)
 
-            if args.verbose:
-                print(f"Reading channel data from: {args.input}", file=sys.stderr)
+            logger.info(f"Reading channel data from: {args.input}")
 
             try:
                 channel_data = load_channel_data_from_json(str(input_path))
             except json.JSONDecodeError as e:
+                logger.error(f"Invalid JSON file: {e}")
                 print(f"Error: Invalid JSON file: {e}", file=sys.stderr)
                 sys.exit(3)
             except ValueError as e:
+                logger.error(f"Invalid data format: {e}")
                 print(f"Error: {e}", file=sys.stderr)
                 sys.exit(3)
         else:
+            logger.error("No input file or --example flag provided")
             print("Error: Either provide an input file or use --example", file=sys.stderr)
             print("Run with --help for usage information", file=sys.stderr)
             sys.exit(2)
 
-        if args.verbose:
-            print(f"Processing {len(channel_data)} channels...", file=sys.stderr)
+        logger.info(f"Processing {len(channel_data)} channels")
 
         # Calculate CAC
         results = calculate_channel_cac(channel_data)
@@ -304,15 +339,16 @@ For more information, see the skill documentation.
                 with open(output_path, 'w', encoding='utf-8') as f:
                     f.write(output)
 
-                if args.verbose:
-                    print(f"Results written to: {args.file}", file=sys.stderr)
-                else:
+                logger.info(f"Results written to: {args.file}")
+                if not args.verbose:
                     print(f"Output saved to: {args.file}")
 
-            except PermissionError:
+            except PermissionError as e:
+                logger.error(f"Permission denied writing to: {args.file}")
                 print(f"Error: Permission denied writing to: {args.file}", file=sys.stderr)
                 sys.exit(4)
             except Exception as e:
+                logger.error(f"Error writing output file: {e}")
                 print(f"Error writing output file: {e}", file=sys.stderr)
                 sys.exit(4)
         else:
@@ -321,18 +357,22 @@ For more information, see the skill documentation.
         sys.exit(0)
 
     except FileNotFoundError as e:
+        logger.error(f"File not found: {e}")
         print(f"Error: File not found: {e}", file=sys.stderr)
         sys.exit(1)
 
     except PermissionError as e:
+        logger.error(f"Permission denied: {e}")
         print(f"Error: Permission denied: {e}", file=sys.stderr)
         sys.exit(1)
 
     except KeyboardInterrupt:
+        logger.warning("Operation cancelled by user")
         print("\nOperation cancelled by user", file=sys.stderr)
         sys.exit(130)
 
     except Exception as e:
+        logger.error(f"Unexpected error occurred: {e}")
         print(f"Error: Unexpected error occurred: {e}", file=sys.stderr)
         if args.verbose:
             import traceback

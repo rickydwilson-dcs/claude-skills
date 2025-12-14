@@ -12,15 +12,23 @@ Usage:
     python modernization_roadmap_generator.py -i debt_score.json -o json -f roadmap.json
 """
 
-import argparse
-import json
-import sys
-from pathlib import Path
 from dataclasses import dataclass, field, asdict
-from typing import List, Dict, Optional, Tuple
 from datetime import datetime, timedelta
 from enum import Enum
+from pathlib import Path
+from typing import List, Dict, Optional, Tuple
+import argparse
+import json
+import logging
+import sys
 
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 class Priority(Enum):
     """Work item priority levels"""
@@ -154,6 +162,9 @@ class RoadmapGenerator:
         self.timeline_months = timeline_months
         self.num_phases = num_phases
         self.verbose = verbose
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("ModernizationRoadmapGenerator initialized")
 
         # Effort calculation constants
         self.POINTS_PER_PERSON_WEEK = 8  # Story points per person per week
@@ -1039,6 +1050,12 @@ Examples:
         '--verbose', '-v',
         action='store_true',
         help='Enable verbose output'
+    )
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
     )
 
     args = parser.parse_args()

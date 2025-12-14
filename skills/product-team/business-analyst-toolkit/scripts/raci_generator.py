@@ -20,12 +20,20 @@ License: MIT
 import argparse
 import csv
 import json
+import logging
 import re
 import sys
 from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Set
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 # Exit codes
 EXIT_SUCCESS = 0
@@ -82,11 +90,17 @@ class RACIGenerator:
     """Generates RACI matrices from process documentation"""
 
     def __init__(self, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("RACIGenerator initialized")
         self.verbose = verbose
         self.valid_raci_codes = VALID_RACI_CODES
 
     def generate(self, process_data: Dict[str, any], template: Optional[Dict] = None) -> Dict[str, any]:
         """Generate RACI matrix from process data"""
+        logger.debug("generate method called")
+        if not process_data:
+            logger.warning("Empty process_data provided")
         if self.verbose:
             print("🔄 Generating RACI matrix...")
 
@@ -97,6 +111,7 @@ class RACIGenerator:
             roles = self._extract_roles(process_data)
 
         if not roles:
+            logger.error("No roles found in process data or template")
             raise ValueError("No roles found in process data or template")
 
         # Extract activities
@@ -754,6 +769,12 @@ def main():
     parser.add_argument('--output-file', '-f', type=str,
                         help='Write output to file instead of stdout')
 
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
+    )
+
     args = parser.parse_args()
 
     try:
@@ -842,6 +863,7 @@ def main():
         print(f"❌ File not found: {e}", file=sys.stderr)
         sys.exit(EXIT_PARSE_ERROR)
     except json.JSONDecodeError as e:
+        logger.error(f"Invalid JSON: {e}")
         print(f"❌ Invalid JSON: {e}", file=sys.stderr)
         sys.exit(EXIT_PARSE_ERROR)
     except ValueError as e:

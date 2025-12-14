@@ -5,14 +5,22 @@ Analyzes package dependencies from package.json and requirements.txt files.
 Detects circular dependencies, builds dependency trees, and visualizes relationships.
 """
 
-import os
-import sys
-import json
-import re
 import argparse
+import json
+import logging
+import os
+import re
+import sys
+from collections import defaultdict
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
-from collections import defaultdict
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 class DependencyParser:
@@ -21,10 +29,12 @@ class DependencyParser:
     @staticmethod
     def parse_package_json(file_path: Path) -> Dict[str, Dict]:
         """Parse npm package.json file"""
+        logger.debug(f"Parsing package.json: {file_path}")
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
         except (json.JSONDecodeError, FileNotFoundError) as e:
+            logger.error(f"Error parsing package.json {file_path}: {e}")
             return {'error': str(e)}
 
         dependencies = {}
@@ -71,6 +81,7 @@ class DependencyParser:
     @staticmethod
     def parse_requirements_txt(file_path: Path) -> Dict[str, Dict]:
         """Parse Python requirements.txt file"""
+        logger.debug(f"Parsing requirements.txt: {file_path}")
         dependencies = {}
         version_pattern = re.compile(r'^([a-zA-Z0-9_-]+)\s*([<>=!~]+)?\s*([0-9a-zA-Z.*]+)?')
 
@@ -78,6 +89,7 @@ class DependencyParser:
             with open(file_path, 'r', encoding='utf-8') as f:
                 lines = f.readlines()
         except FileNotFoundError as e:
+            logger.error(f"Error parsing requirements.txt {file_path}: {e}")
             return {'error': str(e)}
 
         for line in lines:
@@ -113,12 +125,14 @@ class DependencyParser:
     @staticmethod
     def parse_pyproject_toml(file_path: Path) -> Dict[str, Dict]:
         """Parse Python pyproject.toml file (basic TOML parsing without external deps)"""
+        logger.debug(f"Parsing pyproject.toml: {file_path}")
         dependencies = {}
 
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
                 content = f.read()
         except FileNotFoundError as e:
+            logger.error(f"Error parsing pyproject.toml {file_path}: {e}")
             return {'error': str(e)}
 
         # Simple regex-based TOML parsing for dependencies
@@ -175,12 +189,16 @@ class DependencyParser:
 class CircularDependencyDetector:
     """Detects circular dependencies in a dependency graph"""
 
-    def __init__(self, dependencies: Dict[str, Set[str]]):
+    def __init__(self, dependencies: Dict[str, Set[str]], verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
         self.dependencies = dependencies
         self.cycles: List[List[str]] = []
+        logger.debug("CircularDependencyDetector initialized")
 
     def detect(self) -> List[List[str]]:
         """Find all circular dependencies using DFS"""
+        logger.debug("Starting circular dependency detection")
         visited: Set[str] = set()
         rec_stack: Set[str] = set()
         path: List[str] = []
@@ -213,12 +231,16 @@ class CircularDependencyDetector:
 class DependencyTreeBuilder:
     """Builds a hierarchical dependency tree"""
 
-    def __init__(self, root_deps: Dict[str, Dict], max_depth: int = 3):
+    def __init__(self, root_deps: Dict[str, Dict], max_depth: int = 3, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
         self.root_deps = root_deps
         self.max_depth = max_depth
+        logger.debug("DependencyTreeBuilder initialized")
 
     def build(self) -> Dict:
         """Build the dependency tree"""
+        logger.debug("Building dependency tree")
         tree = {
             'name': 'root',
             'children': [],
@@ -240,14 +262,18 @@ class DependencyAnalyzer:
     """Main class for dependency analysis"""
 
     def __init__(self, target_path: str, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
         self.target_path = Path(target_path)
         self.verbose = verbose
         self.results: Dict = {}
         self.all_dependencies: Dict[str, Dict] = {}
         self.dependency_graph: Dict[str, Set[str]] = defaultdict(set)
+        logger.debug("DependencyAnalyzer initialized")
 
     def run(self) -> Dict:
         """Execute the main functionality"""
+        logger.debug(f"Running dependency analysis for {self.target_path}")
         if self.verbose:
             print(f"Analyzing dependencies in: {self.target_path}", file=sys.stderr)
 
@@ -260,11 +286,14 @@ class DependencyAnalyzer:
 
     def validate_target(self):
         """Validate the target path exists"""
+        logger.debug("Validating target path")
         if not self.target_path.exists():
+            logger.error(f"Target path does not exist: {self.target_path}")
             raise ValueError(f"Target path does not exist: {self.target_path}")
 
     def discover_and_parse(self):
         """Discover and parse all dependency files"""
+        logger.debug("Starting file discovery and parsing")
         parsed_files = []
 
         if self.target_path.is_file():
@@ -297,6 +326,9 @@ class DependencyAnalyzer:
         self.results['parsed_files'] = len(parsed_files)
         self.results['sources'] = parsed_files
 
+        if not parsed_files:
+            logger.warning("No dependency files found to parse")
+
         # Aggregate all dependencies
         for parsed in parsed_files:
             for name, info in parsed.get('dependencies', {}).items():
@@ -321,6 +353,7 @@ class DependencyAnalyzer:
 
     def analyze_dependencies(self):
         """Analyze the collected dependencies"""
+        logger.debug("Analyzing dependencies")
         # Build dependency graph (simplified - actual transitive deps would need registry lookups)
         for name in self.all_dependencies:
             self.dependency_graph[name] = set()
@@ -374,6 +407,7 @@ class DependencyAnalyzer:
 
     def generate_visualizations(self):
         """Generate visualization outputs"""
+        logger.debug("Generating visualizations")
         self.results['visualizations'] = {}
 
         # Generate Mermaid dependency tree
@@ -590,9 +624,11 @@ For more information, see the skill documentation.
             print(output)
 
     except ValueError as e:
+        logger.error(f"Validation error: {e}")
         print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)
     except Exception as e:
+        logger.error(f"Unexpected error: {e}")
         print(f"Unexpected error: {e}", file=sys.stderr)
         sys.exit(1)
 

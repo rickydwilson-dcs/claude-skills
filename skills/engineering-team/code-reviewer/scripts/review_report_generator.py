@@ -11,6 +11,7 @@ Part of the code-reviewer skill package.
 import argparse
 import csv
 import json
+import logging
 import sys
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -18,6 +19,13 @@ from enum import Enum
 from io import StringIO
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 class Severity(Enum):
@@ -71,16 +79,21 @@ class ReviewReportGenerator:
         self.title = title
         self.output_format = output_format
         self.verbose = verbose
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
         self.findings: List[Finding] = []
         self.report_data: Dict = {}
+        logger.debug("ReviewReportGenerator initialized")
 
     def load_findings(self) -> bool:
         """Load findings from file or provided data"""
+        logger.debug("Loading findings")
         # Load from file if specified
         if self.findings_file:
             try:
                 file_path = Path(self.findings_file)
                 if not file_path.exists():
+                    logger.warning(f"File not found: {self.findings_file}")
                     if self.verbose:
                         print(f"Warning: File not found: {self.findings_file}")
                     return False
@@ -98,10 +111,12 @@ class ReviewReportGenerator:
                     self.findings_data = data if isinstance(data, list) else []
 
             except json.JSONDecodeError as e:
+                logger.error(f"Invalid JSON in {self.findings_file}: {e}")
                 if self.verbose:
                     print(f"Warning: Invalid JSON in {self.findings_file}: {e}")
                 return False
             except Exception as e:
+                logger.error(f"Error reading {self.findings_file}: {e}")
                 if self.verbose:
                     print(f"Warning: Error reading {self.findings_file}: {e}")
                 return False
@@ -604,6 +619,12 @@ Input Format:
         '--verbose', '-v',
         action='store_true',
         help='Enable verbose output'
+    )
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
     )
 
     args = parser.parse_args()

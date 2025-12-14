@@ -38,12 +38,20 @@ Version: 1.0.0
 
 import argparse
 import json
-import sys
+import logging
 import re
+import sys
+from collections import defaultdict
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, List, Any, Optional, Tuple
-from datetime import datetime, timedelta
-from collections import defaultdict
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 # Exit codes
 EXIT_SUCCESS = 0
@@ -63,6 +71,9 @@ class CharterBuilder:
             template_path: Path to custom charter template
             verbose: Enable verbose output
         """
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("CharterBuilder initialized")
         self.template_path = template_path
         self.verbose = verbose
         self.required_sections = [
@@ -116,8 +127,10 @@ class CharterBuilder:
         Raises:
             ValueError: If file format is unsupported or parsing fails
         """
+        logger.debug(f"parse_input_file called with: {file_path}")
         path = Path(file_path)
         if not path.exists():
+            logger.error(f"File not found: {file_path}")
             raise ValueError(f"File not found: {file_path}")
 
         self.log(f"Parsing input file: {file_path}")
@@ -130,6 +143,7 @@ class CharterBuilder:
                 self.log(f"Parsed JSON with {len(data)} top-level keys")
                 return data
             except json.JSONDecodeError as e:
+                logger.error(f"Invalid JSON in file {file_path}: {e}")
                 raise ValueError(f"Invalid JSON: {e}")
 
         # Try text file
@@ -599,6 +613,9 @@ class CharterBuilder:
         Returns:
             Complete charter dictionary
         """
+        logger.debug("build_charter called")
+        if not data.get('objectives'):
+            logger.warning("No objectives provided in charter data")
         self.log("Building charter from input data")
 
         # Extract components
@@ -995,6 +1012,12 @@ Input Formats:
                         help='Output format (default: markdown)')
     parser.add_argument('--verbose', action='store_true',
                         help='Enable verbose output')
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
+    )
 
     args = parser.parse_args()
 

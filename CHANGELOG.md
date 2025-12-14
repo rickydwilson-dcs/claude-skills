@@ -5,6 +5,39 @@ All notable changes to the Claude Skills Library will be documented in this file
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.8.0] - 2025-12-14 - Logging & Documentation Enhancement
+
+### Added
+
+**Python Logging Implementation (92 scripts):**
+- Added standardized logging configuration to all 92 Python scripts
+- 77 scripts received new logging (previously missing)
+- 15 scripts already had logging (AI/ML/Data skills)
+- Consistent logging format: `'%(asctime)s - %(levelname)s - %(message)s'`
+
+**Logging Features:**
+- `logger.debug()` - Method entry points and initialization
+- `logger.warning()` - Edge cases (empty inputs, missing files, defaults)
+- `logger.error()` - Exception handlers with context
+- Verbose flag (`-v`/`--verbose`) connects to `logging.DEBUG` level
+
+**Documentation Updates:**
+- README.md statistics updated (92 Python tools, 34 agents, 34 skills)
+- Fixed inconsistent tool counts in attribution section
+
+### Changed
+
+- All Python scripts now support `-v`/`--verbose` for debug output
+- 100% logging coverage across all skill scripts
+
+### Statistics
+- **Agents**: 34 (unchanged)
+- **Skills**: 34 (unchanged)
+- **Commands**: 16 (unchanged)
+- **Python Tools**: 92 (all now with logging)
+
+---
+
 ## [3.7.0] - 2025-12-13 - Mobile Development Suite
 
 ### Added

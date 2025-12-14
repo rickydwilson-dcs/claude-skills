@@ -111,6 +111,12 @@ For more information, see the skill documentation.
         help='Enable verbose output'
     )
 
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
+    )
+
     args = parser.parse_args()
 
     tool = FeatureEngineeringPipeline(

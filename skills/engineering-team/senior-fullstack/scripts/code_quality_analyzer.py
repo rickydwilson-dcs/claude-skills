@@ -13,19 +13,27 @@ A comprehensive code quality analysis tool for fullstack projects that:
 Part of the senior-fullstack skill package.
 """
 
-import os
-import sys
-import re
-import json
-import csv
 import argparse
+import csv
+import json
+import logging
+import os
+import re
+import sys
+from collections import defaultdict
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
 from io import StringIO
 from pathlib import Path
-from enum import Enum
-from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Set, Tuple
-from datetime import datetime
-from collections import defaultdict
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 # =============================================================================
@@ -378,6 +386,9 @@ class CodeQualityAnalyzer:
 
     def __init__(self, target_path: str, config: Optional[Dict] = None,
                  verbose: bool = False, checks: Optional[List[str]] = None):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+
         self.target_path = Path(target_path).resolve()
         self.config = config or {}
         self.verbose = verbose
@@ -396,6 +407,8 @@ class CodeQualityAnalyzer:
         self.has_backend = False
         self.frontend_dir: Optional[Path] = None
         self.backend_dir: Optional[Path] = None
+
+        logger.debug("CodeQualityAnalyzer initialized")
 
     def _load_checks(self) -> List[QualityCheck]:
         """Load all quality check definitions"""
@@ -418,6 +431,7 @@ class CodeQualityAnalyzer:
 
     def run(self) -> Dict:
         """Execute the full quality analysis"""
+        logger.debug("Starting quality analysis run")
         if self.verbose:
             print(f"Analyzing: {self.target_path}", file=sys.stderr)
 
@@ -438,6 +452,7 @@ class CodeQualityAnalyzer:
 
     def _detect_project_structure(self):
         """Detect frontend/backend directories"""
+        logger.debug("Detecting project structure")
         common_frontend = ['frontend', 'client', 'web', 'app', 'src/app', 'src/pages']
         common_backend = ['backend', 'server', 'api', 'src/api', 'src/server']
 
@@ -488,11 +503,13 @@ class CodeQualityAnalyzer:
 
     def _analyze_file(self, file_path: Path):
         """Analyze a single file for quality issues"""
+        logger.debug(f"Analyzing file: {file_path}")
         try:
             with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
                 content = f.read()
                 lines = content.split('\n')
         except (IOError, OSError) as e:
+            logger.error(f"Could not read {file_path}: {e}")
             if self.verbose:
                 print(f"Warning: Could not read {file_path}: {e}", file=sys.stderr)
             return
@@ -687,6 +704,7 @@ class CodeQualityAnalyzer:
 
     def _check_readme_quality(self):
         """Check README file quality"""
+        logger.debug("Checking README quality")
         readme_path = None
         for name in ['README.md', 'readme.md', 'README.rst']:
             path = self.target_path / name
@@ -695,6 +713,7 @@ class CodeQualityAnalyzer:
                 break
 
         if not readme_path:
+            logger.warning("No README file found")
             return
 
         try:

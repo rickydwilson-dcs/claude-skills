@@ -26,17 +26,25 @@ Version: 1.0.0
 Last Updated: 2025-12-13
 """
 
-import argparse
-import json
-import csv
-import sys
-import math
-from pathlib import Path
 from dataclasses import dataclass, field, asdict
-from typing import Dict, List, Optional, Tuple
 from datetime import datetime
 from io import StringIO
+from pathlib import Path
+from typing import Dict, List, Optional, Tuple
+import argparse
+import csv
+import json
+import logging
+import math
+import sys
 
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 @dataclass
 class DebtItem:
@@ -130,6 +138,9 @@ class TechnicalDebtScorer:
         self.team_size = team_size
         self.business_context = business_context or self.DEFAULT_BUSINESS_CONTEXT
         self.verbose = verbose
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("TechnicalDebtScorer initialized")
         self.debt_items: List[DebtItem] = []
         self.category_scores: Dict[str, CategoryScore] = {}
 
@@ -820,6 +831,12 @@ Examples:
                        help='JSON file with business cost/risk parameters')
     parser.add_argument('--verbose', '-v', action='store_true',
                        help='Enable verbose output')
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
+    )
 
     args = parser.parse_args()
 

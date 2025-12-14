@@ -15,6 +15,7 @@ Uses Python standard library only - no external dependencies required.
 
 import argparse
 import json
+import logging
 import os
 import re
 import sys
@@ -23,6 +24,13 @@ from datetime import datetime
 from enum import Enum
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 class Framework(Enum):
@@ -127,6 +135,10 @@ class ComponentGenerator:
     """
 
     def __init__(self, config: ComponentConfig):
+        if config.verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("ComponentGenerator initialized")
+
         self.config = config
         self.files: List[GeneratedFile] = []
         self.errors: List[str] = []
@@ -134,11 +146,13 @@ class ComponentGenerator:
 
     def generate(self) -> GenerationResult:
         """Generate complete component package."""
+        logger.debug(f"Generating {self.config.framework.value} component: {self.config.name}")
         if self.config.verbose:
             print(f"Generating {self.config.framework.value} component: {self.config.name}")
 
         # Validate component name
         if not self._validate_component_name():
+            logger.error(f"Invalid component name: {self.config.name}")
             return self._create_error_result("Invalid component name")
 
         # Generate based on framework and type
@@ -173,6 +187,7 @@ class ComponentGenerator:
             self._generate_index_file()
 
         except Exception as e:
+            logger.error(f"Component generation failed: {e}")
             self.errors.append(str(e))
 
         # Write files if not dry run
@@ -192,17 +207,20 @@ class ComponentGenerator:
 
     def _validate_component_name(self) -> bool:
         """Validate component name format."""
+        logger.debug(f"Validating component name: {self.config.name}")
         name = self.config.name
 
         # Hooks must start with 'use'
         if self.config.component_type == ComponentType.HOOK:
             if not name.startswith("use"):
+                logger.warning("Hook names must start with 'use'")
                 self.errors.append("Hook names must start with 'use' (e.g., useDebounce)")
                 return False
             return bool(re.match(r'^use[A-Z][a-zA-Z0-9]*$', name))
 
         # Components should be PascalCase
         if not re.match(r'^[A-Z][a-zA-Z0-9]*$', name):
+            logger.warning(f"Component name '{name}' should be PascalCase")
             self.warnings.append(f"Component name '{name}' should be PascalCase")
 
         return True
@@ -1234,6 +1252,7 @@ export const WithClassName: Story = {{
 
     def _write_files(self) -> None:
         """Write generated files to disk."""
+        logger.debug("Writing generated files to disk")
         base_dir = self.config.output_dir
 
         for file in self.files:
@@ -1246,6 +1265,7 @@ export const WithClassName: Story = {{
                 if self.config.verbose:
                     print(f"  Created: {file.relative_path}")
             except IOError as e:
+                logger.error(f"Failed to write {file.relative_path}: {e}")
                 self.errors.append(f"Failed to write {file.relative_path}: {e}")
 
     def _create_error_result(self, error: str) -> GenerationResult:

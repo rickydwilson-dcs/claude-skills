@@ -4,14 +4,26 @@ API Documentation Formatter - Generates formatted API documentation from structu
 """
 
 import json
-import re
+import logging
 import os
+import re
 from typing import Dict, List, Any
 from pathlib import Path
 
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
 
 class ApiDocFormatter:
-    def __init__(self, base_url: str = None, include_examples: bool = True):
+    def __init__(self, base_url: str = None, include_examples: bool = True, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("ApiDocFormatter initialized")
+
         self.base_url = base_url or "https://api.example.com"
         self.include_examples = include_examples
 
@@ -26,26 +38,33 @@ class ApiDocFormatter:
 
     def parse_json_spec(self, json_path: str) -> Dict:
         """Parse API specification from JSON file"""
+        logger.debug(f"Parsing JSON specification from: {json_path}")
         try:
             with open(json_path, 'r', encoding='utf-8') as f:
                 spec = json.load(f)
+            logger.debug(f"Successfully parsed JSON spec with {len(spec.get('endpoints', []))} endpoints")
             return spec
         except json.JSONDecodeError as e:
+            logger.error(f"Invalid JSON file: {e}")
             raise ValueError(f"Invalid JSON file: {e}")
         except Exception as e:
+            logger.error(f"Error reading JSON file: {e}")
             raise ValueError(f"Error reading JSON file: {e}")
 
     def parse_code_directory(self, directory: str) -> Dict:
         """Parse API endpoints from Python/JavaScript code files"""
+        logger.debug(f"Parsing code directory: {directory}")
         endpoints = []
         dir_path = Path(directory)
 
         if not dir_path.exists():
+            logger.error(f"Directory not found: {directory}")
             raise ValueError(f"Directory not found: {directory}")
 
         # Find Python and JavaScript files
         py_files = list(dir_path.rglob('*.py'))
         js_files = list(dir_path.rglob('*.js'))
+        logger.debug(f"Found {len(py_files)} Python files and {len(js_files)} JavaScript files")
 
         # Parse Python files for Flask/FastAPI routes
         for file in py_files:
@@ -54,6 +73,10 @@ class ApiDocFormatter:
         # Parse JavaScript files for Express routes
         for file in js_files:
             endpoints.extend(self._parse_javascript_file(file))
+
+        logger.debug(f"Extracted {len(endpoints)} total endpoints")
+        if not endpoints:
+            logger.warning("No API endpoints found in directory")
 
         return {'endpoints': endpoints}
 
@@ -102,7 +125,8 @@ class ApiDocFormatter:
                         'source': str(file_path)
                     })
 
-        except Exception:
+        except Exception as e:
+            logger.warning(f"Could not parse Python file {file_path}: {e}")
             pass  # Skip files that can't be parsed
 
         return endpoints
@@ -139,17 +163,20 @@ class ApiDocFormatter:
                         'source': str(file_path)
                     })
 
-        except Exception:
+        except Exception as e:
+            logger.warning(f"Could not parse JavaScript file {file_path}: {e}")
             pass  # Skip files that can't be parsed
 
         return endpoints
 
     def format_markdown(self, spec: Dict, template_path: str = None) -> str:
         """Format API specification as Markdown documentation"""
+        logger.debug("Formatting API specification as Markdown")
         output = []
 
         # Use custom template if provided
         if template_path and Path(template_path).exists():
+            logger.debug(f"Using custom template: {template_path}")
             return self._apply_template(spec, template_path)
 
         # Default template
@@ -159,6 +186,7 @@ class ApiDocFormatter:
         endpoints = spec.get('endpoints', [])
 
         if not endpoints:
+            logger.warning("No endpoints found in specification")
             output.append("_No endpoints found._\n")
             return '\n'.join(output)
 
@@ -385,6 +413,7 @@ class ApiDocFormatter:
 
     def format_openapi_yaml(self, spec: Dict) -> str:
         """Format API specification as OpenAPI YAML"""
+        logger.debug("Formatting API specification as OpenAPI YAML")
         output = []
 
         output.append("openapi: 3.0.0")
@@ -445,13 +474,15 @@ def format_api_docs(source: str, output_format: str = 'markdown',
                    include_examples: bool = True, base_url: str = None,
                    template: str = None, verbose: bool = False) -> str:
     """Main function to format API documentation"""
+    logger.debug(f"Starting API docs formatting for source: {source}")
 
-    formatter = ApiDocFormatter(base_url=base_url, include_examples=include_examples)
+    formatter = ApiDocFormatter(base_url=base_url, include_examples=include_examples, verbose=verbose)
 
     # Determine source type
     source_path = Path(source)
 
     if not source_path.exists():
+        logger.error(f"Source not found: {source}")
         raise FileNotFoundError(f"Source not found: {source}")
 
     # Parse source
@@ -464,6 +495,7 @@ def format_api_docs(source: str, output_format: str = 'markdown',
             print(f"📚 Scanning directory for API endpoints: {source}")
         spec = formatter.parse_code_directory(source)
     else:
+        logger.error(f"Invalid source type: {source}")
         raise ValueError(f"Source must be a JSON file or directory: {source}")
 
     if verbose:

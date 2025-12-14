@@ -8,10 +8,18 @@ prioritizes mitigation strategies, and generates risk registers for software pro
 
 import argparse
 import json
+import logging
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional
-from datetime import datetime
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 class RiskAssessmentTool:
     """Assess and prioritize project risks"""
@@ -39,6 +47,8 @@ class RiskAssessmentTool:
 
     def __init__(self, verbose: bool = False):
         self.verbose = verbose
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
         self.risks = []
         self.assessment = {
             'assessed_at': datetime.now().isoformat(),
@@ -47,6 +57,7 @@ class RiskAssessmentTool:
             'high_risks': 0,
             'overall_score': 0
         }
+        logger.debug("RiskAssessmentTool initialized")
 
     def calculate_risk_score(self, probability: str, impact: str) -> int:
         """Calculate risk score from probability and impact"""
@@ -67,6 +78,7 @@ class RiskAssessmentTool:
 
     def assess_risk(self, risk_data: Dict) -> Dict:
         """Assess a single risk"""
+        logger.debug(f"Assessing risk: {risk_data.get('name', 'Unnamed')}")
         probability = risk_data.get('probability', 'medium')
         impact = risk_data.get('impact', 'medium')
 
@@ -89,14 +101,19 @@ class RiskAssessmentTool:
 
     def load_risks_from_file(self, file_path: str) -> List[Dict]:
         """Load risks from JSON file"""
+        logger.debug(f"Loading risks from file: {file_path}")
         try:
             with open(file_path, 'r') as f:
                 data = json.load(f)
-                return data if isinstance(data, list) else data.get('risks', [])
+                risks = data if isinstance(data, list) else data.get('risks', [])
+                logger.debug(f"Loaded {len(risks)} risks from file")
+                return risks
         except FileNotFoundError:
+            logger.error(f"File not found: {file_path}")
             print(f"Error: File not found: {file_path}", file=sys.stderr)
             sys.exit(1)
         except json.JSONDecodeError as e:
+            logger.error(f"Invalid JSON in file: {e}")
             print(f"Error: Invalid JSON: {e}", file=sys.stderr)
             sys.exit(1)
 
@@ -179,6 +196,10 @@ class RiskAssessmentTool:
 
     def generate_report(self, risks: List[Dict]) -> Dict:
         """Generate comprehensive risk assessment report"""
+        logger.debug(f"Generating risk report for {len(risks)} risks")
+        if not risks:
+            logger.warning("No risks provided for report generation")
+
         prioritized = self.prioritize_risks(risks)
 
         # Count by level
@@ -364,6 +385,12 @@ Examples:
     parser.add_argument(
         '-o', '--output',
         help='Output file path'
+    )
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
     )
 
     args = parser.parse_args()

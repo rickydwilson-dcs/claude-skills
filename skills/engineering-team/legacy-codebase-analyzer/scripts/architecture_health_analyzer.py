@@ -11,17 +11,25 @@ Usage:
     python architecture_health_analyzer.py -i . --file report.json --verbose
 """
 
-import ast
-import argparse
-import json
-import sys
-import os
+from collections import defaultdict, deque
+from dataclasses import dataclass, field, asdict
+from enum import Enum
 from pathlib import Path
 from typing import Dict, List, Set, Optional, Tuple
-from dataclasses import dataclass, field, asdict
-from collections import defaultdict, deque
-from enum import Enum
+import argparse
+import ast
+import json
+import logging
+import os
+import sys
 
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 class LayerType(Enum):
     """Application layer types"""
@@ -186,6 +194,9 @@ class ArchitectureHealthAnalyzer:
     def __init__(self, root_path: Path, verbose: bool = False):
         self.root_path = root_path.resolve()
         self.verbose = verbose
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("ArchitectureHealthAnalyzer initialized")
         self.modules: Dict[str, ModuleInfo] = {}
         self.dependency_graph: Dict[str, Set[str]] = defaultdict(set)
 
@@ -855,6 +866,12 @@ Output Formats:
         '--verbose', '-v',
         action='store_true',
         help='Enable verbose logging'
+    )
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
     )
 
     args = parser.parse_args()

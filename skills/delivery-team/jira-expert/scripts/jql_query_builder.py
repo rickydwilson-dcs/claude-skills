@@ -8,9 +8,17 @@ sprint queries, custom field searches, and complex boolean logic.
 
 import argparse
 import json
+import logging
 import sys
-from typing import Dict, List, Optional
 from datetime import datetime, timedelta
+from typing import Dict, List, Optional
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 class JQLQueryBuilder:
     """Builds and validates JQL queries for Jira"""
@@ -25,11 +33,15 @@ class JQLQueryBuilder:
 
     def __init__(self, verbose: bool = False):
         self.verbose = verbose
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
         self.query_parts = []
         self.order_by = []
+        logger.debug("JQLQueryBuilder initialized")
 
     def build_sprint_query(self, sprint_name: str, project: str = None) -> str:
         """Build query for specific sprint"""
+        logger.debug(f"Building sprint query for: {sprint_name}")
         parts = [f'sprint = "{sprint_name}"']
         if project:
             parts.append(f'project = {project}')
@@ -66,6 +78,7 @@ class JQLQueryBuilder:
 
     def build_custom_query(self, conditions: List[Dict]) -> str:
         """Build custom query from conditions list"""
+        logger.debug(f"Building custom query from {len(conditions)} conditions")
         parts = []
         for condition in conditions:
             field = condition.get('field')
@@ -104,6 +117,7 @@ class JQLQueryBuilder:
 
     def validate_query(self, query: str) -> Dict:
         """Validate JQL query syntax"""
+        logger.debug("Validating JQL query")
         validation = {
             'valid': True,
             'warnings': [],
@@ -112,6 +126,7 @@ class JQLQueryBuilder:
 
         # Check for common issues
         if not query:
+            logger.warning("Empty query provided for validation")
             validation['valid'] = False
             validation['warnings'].append("Query is empty")
             return validation
@@ -229,6 +244,12 @@ Examples:
         '--json',
         action='store_true',
         help='Output as JSON'
+    )
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
     )
 
     args = parser.parse_args()

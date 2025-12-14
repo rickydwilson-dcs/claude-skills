@@ -17,15 +17,23 @@ License: MIT
 
 import argparse
 import json
+import logging
+import os
 import re
 import sys
 import uuid
 from datetime import datetime
-from typing import Dict, List, Optional, Tuple
-from urllib.request import urlopen, Request
-from urllib.error import URLError, HTTPError
 from html.parser import HTMLParser
-import os
+from typing import Dict, List, Optional, Tuple
+from urllib.error import URLError, HTTPError
+from urllib.request import urlopen, Request
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 # Optional dependencies (graceful fallback)
 try:
@@ -65,6 +73,9 @@ class ProcessParser:
     """Main process parser class"""
 
     def __init__(self, input_source: str, input_type: Optional[str] = None, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("ProcessParser initialized")
         self.source = input_source
         self.type = input_type or self._detect_type()
         self.verbose = verbose
@@ -89,6 +100,7 @@ class ProcessParser:
 
     def parse(self) -> Dict:
         """Parse input and return structured process JSON"""
+        logger.debug(f"parse method called for {self.type}: {self.source}")
         if self.verbose:
             print(f"📄 Parsing {self.type}: {self.source}")
 
@@ -107,6 +119,7 @@ class ProcessParser:
             raise ValueError(f"Unsupported input type: {self.type}")
 
         if not content:
+            logger.warning("No content could be extracted from input")
             raise ValueError("No content could be extracted from input")
 
         # Extract process structure from text content
@@ -159,10 +172,13 @@ class ProcessParser:
             return text
 
         except HTTPError as e:
+            logger.error(f"HTTP error {e.code}: {e.reason}")
             raise ValueError(f"HTTP error {e.code}: {e.reason}")
         except URLError as e:
+            logger.error(f"URL error: {e.reason}")
             raise ValueError(f"URL error: {e.reason}")
         except Exception as e:
+            logger.error(f"Failed to fetch URL: {str(e)}")
             raise ValueError(f"Failed to fetch URL: {str(e)}")
 
     def _parse_image(self) -> str:
@@ -550,6 +566,12 @@ def main():
     parser.add_argument('--format', type=str, default='json', choices=['json', 'yaml'],
                         help='Output format (default: json)')
     parser.add_argument('--verbose', '-v', action='store_true', help='Verbose output')
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
+    )
 
     args = parser.parse_args()
 

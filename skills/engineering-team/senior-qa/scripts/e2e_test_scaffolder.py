@@ -13,16 +13,24 @@ Features:
 - Configuration file generation
 """
 
+import argparse
+import csv
+import json
+import logging
 import os
 import sys
-import json
-import csv
-from io import StringIO
-import argparse
-from pathlib import Path
-from typing import Dict, List, Optional, Any, Set
 from dataclasses import dataclass, field, asdict
 from datetime import datetime
+from io import StringIO
+from pathlib import Path
+from typing import Dict, List, Optional, Any, Set
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -92,6 +100,10 @@ class E2ETestScaffolder:
                  framework: str = 'playwright', output_dir: Optional[str] = None,
                  ci_provider: Optional[str] = None, base_url: str = 'http://localhost:3000',
                  pages_only: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("E2ETestScaffolder initialized")
+
         self.target_path = Path(target_path)
         self.verbose = verbose
         self.framework = framework
@@ -118,6 +130,7 @@ class E2ETestScaffolder:
 
     def run(self) -> Dict:
         """Execute E2E test scaffolding"""
+        logger.debug("Starting E2E test scaffolding run")
         print(f"Running E2ETestScaffolder...")
         print(f"Target: {self.target_path}")
         print(f"Framework: {self.framework}")
@@ -126,8 +139,10 @@ class E2ETestScaffolder:
         try:
             # Detect existing setup
             existing = self._detect_existing_setup()
-            if existing and self.verbose:
-                print(f"Detected existing setup: {existing}")
+            if existing:
+                logger.debug(f"Detected existing setup: {existing}")
+                if self.verbose:
+                    print(f"Detected existing setup: {existing}")
 
             # Create directory structure
             self._create_directories()
@@ -164,6 +179,7 @@ class E2ETestScaffolder:
             return self.results
 
         except Exception as e:
+            logger.error(f"Error during E2E scaffolding: {e}")
             print(f"Error: {e}")
             self.results['status'] = 'error'
             self.results['error'] = str(e)
@@ -1745,6 +1761,12 @@ For more information, see the skill documentation.
         '--verbose', '-v',
         action='store_true',
         help='Enable verbose output'
+    )
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
     )
 
     args = parser.parse_args()

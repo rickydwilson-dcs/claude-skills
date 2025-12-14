@@ -26,10 +26,18 @@ License: MIT
 
 import argparse
 import json
+import logging
 import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Any
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 # Exit codes
 EXIT_SUCCESS = 0
@@ -60,6 +68,9 @@ class GapAnalyzer:
             severity_threshold: Minimum severity to report (critical|high|medium|low)
             verbose: Enable verbose logging
         """
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("GapAnalyzer initialized")
         self.severity_threshold = severity_threshold.lower()
         self.verbose = verbose
         self.gaps = []
@@ -77,6 +88,9 @@ class GapAnalyzer:
         Returns:
             Analysis result with identified gaps
         """
+        logger.debug("analyze method called")
+        if not process_data:
+            logger.warning("Empty process_data provided to analyze")
         self._log("Starting gap analysis")
 
         # Validate schema
@@ -151,7 +165,10 @@ class GapAnalyzer:
 
     def _identify_missing_owners(self, process_data: Dict[str, Any]) -> None:
         """Identify steps without clear role/owner assignments."""
+        logger.debug("_identify_missing_owners called")
         steps = process_data.get('steps', [])
+        if not steps:
+            logger.warning("No steps found in process_data")
 
         for i, step in enumerate(steps):
             step_id = step.get('id', f'step_{i+1:03d}')
@@ -880,6 +897,12 @@ def main():
                        help='Enable verbose output')
     parser.add_argument('--overwrite', action='store_true',
                        help='Overwrite existing output file')
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
+    )
 
     args = parser.parse_args()
 

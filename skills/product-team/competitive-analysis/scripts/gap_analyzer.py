@@ -17,9 +17,17 @@ Version: 1.0.0
 
 import argparse
 import json
+import logging
 import sys
 from datetime import datetime
 from pathlib import Path
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 def parse_args():
@@ -109,6 +117,9 @@ def calculate_priority(impact: int, urgency: int, strategic: int, effort: int) -
     Returns:
         Priority score (0-5)
     """
+    logger.debug(f"Calculating priority: impact={impact}, urgency={urgency}, strategic={strategic}, effort={effort}")
+    if effort == 0:
+        logger.warning("Effort is 0, using default value of 5 for inverse calculation")
     effort_inverse = 5 / effort if effort > 0 else 5
     score = (impact * 0.4) + (urgency * 0.3) + (strategic * 0.2) + (effort_inverse * 0.1)
     return round(score, 2)
@@ -116,6 +127,7 @@ def calculate_priority(impact: int, urgency: int, strategic: int, effort: int) -
 
 def classify_severity(priority_score: float) -> str:
     """Classify gap severity based on priority score."""
+    logger.debug(f"Classifying severity for priority score: {priority_score}")
     if priority_score >= 4.0:
         return "critical"
     elif priority_score >= 3.0:
@@ -132,6 +144,7 @@ def identify_gaps(our_path: str, competitor_path: str) -> list:
 
     Returns list of gap dictionaries with scoring.
     """
+    logger.debug(f"Identifying gaps: our_path={our_path}, competitor_path={competitor_path}")
     gaps = []
 
     # Placeholder gap identification
@@ -189,18 +202,23 @@ def identify_gaps(our_path: str, competitor_path: str) -> list:
 
 def filter_gaps(gaps: list, severity: str) -> list:
     """Filter gaps by severity level."""
+    logger.debug(f"Filtering gaps by severity: {severity}")
     if severity == "all":
         return gaps
-    return [g for g in gaps if g["severity"] == severity]
+    filtered = [g for g in gaps if g["severity"] == severity]
+    logger.debug(f"Filtered {len(filtered)} gaps out of {len(gaps)}")
+    return filtered
 
 
 def sort_by_priority(gaps: list) -> list:
     """Sort gaps by priority score (descending)."""
+    logger.debug("Sorting gaps by priority score")
     return sorted(gaps, key=lambda x: x["priority_score"], reverse=True)
 
 
 def generate_report(gaps: list, output_format: str) -> str:
     """Generate gap analysis report."""
+    logger.debug(f"Generating report in {output_format} format with {len(gaps)} gaps")
 
     if output_format == "json":
         return json.dumps(gaps, indent=2)
@@ -264,6 +282,8 @@ def main():
     args = parse_args()
 
     if args.verbose:
+        logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("Verbose mode enabled")
         print(f"Analyzing gaps with competitor at: {args.competitor_path}")
         print(f"Severity filter: {args.severity}")
         print("")

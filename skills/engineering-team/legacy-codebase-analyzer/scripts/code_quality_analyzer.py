@@ -20,16 +20,24 @@ Usage:
     python code_quality_analyzer.py -i ./src --threshold-complexity 15 --verbose
 """
 
-import argparse
-import ast
-import json
-import os
-import sys
 from collections import defaultdict
 from dataclasses import dataclass, asdict, field
 from pathlib import Path
 from typing import List, Dict, Any, Set, Tuple, Optional
+import argparse
+import ast
+import json
+import logging
+import os
+import sys
 
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 @dataclass
 class ComplexityResult:
@@ -219,6 +227,9 @@ class CodeQualityAnalyzer:
         self.threshold_complexity = threshold_complexity
         self.threshold_duplication = threshold_duplication
         self.verbose = verbose
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("CodeQualityAnalyzer initialized")
 
         self.complexity_results: List[ComplexityResult] = []
         self.code_smells: List[CodeSmell] = []
@@ -703,6 +714,12 @@ Examples:
         '--verbose', '-v',
         action='store_true',
         help='Enable verbose output'
+    )
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
     )
 
     args = parser.parse_args()

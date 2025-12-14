@@ -6,16 +6,27 @@ Creates research-backed user personas from user data and interviews
 
 import argparse
 import json
+import logging
+import random
 import sys
+from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Dict, List, Tuple
-from collections import Counter, defaultdict
-import random
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 class PersonaGenerator:
     """Generate data-driven personas from user research"""
     
-    def __init__(self):
+    def __init__(self, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("PersonaGenerator initialized")
         self.persona_components = {
             'demographics': ['age', 'location', 'occupation', 'education', 'income'],
             'psychographics': ['goals', 'frustrations', 'motivations', 'values'],
@@ -50,10 +61,13 @@ class PersonaGenerator:
             }
         }
     
-    def generate_persona_from_data(self, user_data: List[Dict], 
+    def generate_persona_from_data(self, user_data: List[Dict],
                                   interview_insights: List[Dict] = None) -> Dict:
         """Generate persona from user data and optional interview insights"""
-        
+        logger.debug("generate_persona_from_data called")
+        if not user_data:
+            logger.warning("No user_data provided")
+
         # Analyze user data for patterns
         patterns = self._analyze_user_patterns(user_data)
         
@@ -533,6 +547,7 @@ def load_user_data_from_json(filepath: str) -> List[Dict]:
         print(f"Error: Input file not found: {filepath}", file=sys.stderr)
         sys.exit(1)
     except json.JSONDecodeError as e:
+        logger.error(f"Invalid JSON in file: {e}")
         print(f"Error: Invalid JSON in file: {e}", file=sys.stderr)
         sys.exit(1)
 
@@ -571,7 +586,7 @@ For more information, see the skill documentation.
     args = parser.parse_args()
 
     try:
-        generator = PersonaGenerator()
+        generator = PersonaGenerator(verbose=args.verbose)
 
         # Load user data (from file or use sample)
         if args.data:

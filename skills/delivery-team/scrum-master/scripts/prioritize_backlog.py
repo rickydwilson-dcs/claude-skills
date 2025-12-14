@@ -10,10 +10,18 @@ Where value, effort, and risk are scored 1-10.
 import argparse
 import csv
 import json
+import logging
 import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 class BacklogPrioritizer:
@@ -21,11 +29,14 @@ class BacklogPrioritizer:
 
     def __init__(self, verbose: bool = False):
         self.verbose = verbose
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
         self.weights = {
             'value': 0.4,
             'effort': 0.3,
             'risk': 0.3
         }
+        logger.debug("BacklogPrioritizer initialized")
 
     def calculate_priority_score(self, value: int, effort: int, risk: int) -> float:
         """
@@ -62,6 +73,10 @@ class BacklogPrioritizer:
         Returns:
             Sorted list with priority_score added to each item
         """
+        logger.debug(f"Prioritizing {len(items)} backlog items")
+        if not items:
+            logger.warning("Empty items list provided for prioritization")
+
         for item in items:
             item['priority_score'] = self.calculate_priority_score(
                 item.get('value', 5),
@@ -191,7 +206,9 @@ class BacklogPrioritizer:
         Returns:
             Analysis dictionary with statistics
         """
+        logger.debug("Analyzing backlog statistics")
         if not items:
+            logger.warning("Empty items list provided for analysis")
             return {'status': 'empty', 'total_items': 0}
 
         total_points = sum(item.get('story_points', 0) for item in items)
@@ -408,6 +425,12 @@ Scoring Guide:
         '--verbose', '-v',
         action='store_true',
         help='Enable verbose output'
+    )
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
     )
 
     args = parser.parse_args()

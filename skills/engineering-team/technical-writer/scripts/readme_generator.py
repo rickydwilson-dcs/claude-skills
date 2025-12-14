@@ -3,16 +3,28 @@
 README Generator - Generates or updates README files with project statistics
 """
 
-import re
-import os
 import json
-from typing import Dict, List, Optional, Tuple
-from pathlib import Path
+import logging
+import os
+import re
 from datetime import datetime
+from pathlib import Path
+from typing import Dict, List, Optional, Tuple
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 class ReadmeGenerator:
-    def __init__(self):
+    def __init__(self, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("ReadmeGenerator initialized")
+
         # Project type indicators
         self.project_indicators = {
             'python': ['setup.py', 'pyproject.toml', 'requirements.txt', 'setup.cfg'],
@@ -40,6 +52,7 @@ class ReadmeGenerator:
 
     def detect_project_type(self, project_path: Path) -> Tuple[str, List[str]]:
         """Detect project type based on manifest files"""
+        logger.debug(f"Detecting project type for: {project_path}")
         detected_types = []
         features = []
 
@@ -74,11 +87,13 @@ class ReadmeGenerator:
             features.append('docker-compose')
 
         primary_type = detected_types[0] if detected_types else 'generic'
+        logger.debug(f"Detected project type: {primary_type}, features: {features}")
 
         return primary_type, features
 
     def count_statistics(self, project_path: Path) -> Dict:
         """Count project statistics"""
+        logger.debug(f"Counting statistics for: {project_path}")
         stats = {
             'total_files': 0,
             'total_lines': 0,
@@ -139,14 +154,17 @@ class ReadmeGenerator:
                         if item.suffix in {'.md', '.rst', '.txt', '.adoc'}:
                             stats['docs'] += 1
 
-                except (UnicodeDecodeError, PermissionError):
+                except (UnicodeDecodeError, PermissionError) as e:
                     # Skip binary files or files without read permission
+                    logger.warning(f"Could not read file {item}: {e}")
                     pass
 
+        logger.debug(f"Statistics: {stats['total_files']} files, {stats['total_lines']} lines")
         return stats
 
     def generate_badges(self, project_type: str, features: List[str]) -> List[str]:
         """Generate relevant badges for the project"""
+        logger.debug(f"Generating badges for project type: {project_type}")
         badges = []
 
         # Language/framework badges
@@ -372,6 +390,7 @@ class ReadmeGenerator:
     def generate_readme(self, project_path: Path, template: str = 'standard',
                        sections: List[str] = None, merge: bool = False) -> str:
         """Generate complete README content"""
+        logger.debug(f"Generating README with template: {template}")
 
         if sections is None:
             sections = ['all']
@@ -464,9 +483,11 @@ class ReadmeGenerator:
 
     def merge_readme(self, project_path: Path, new_content: str) -> str:
         """Merge new content with existing README, preserving custom sections"""
+        logger.debug("Merging with existing README")
         readme_path = project_path / 'README.md'
 
         if not readme_path.exists():
+            logger.warning("No existing README found to merge with")
             return new_content
 
         existing_content = readme_path.read_text(encoding='utf-8')
@@ -486,16 +507,19 @@ class ReadmeGenerator:
 def generate_readme_file(project_path: str, template: str = 'standard',
                         sections: List[str] = None, merge: bool = False,
                         dry_run: bool = False, output_file: str = 'README.md',
-                        output_format: str = 'text') -> str:
+                        output_format: str = 'text', verbose: bool = False) -> str:
     """Main function to generate README"""
-    generator = ReadmeGenerator()
+    logger.debug(f"Starting README generation for: {project_path}")
+    generator = ReadmeGenerator(verbose=verbose)
 
     project_path = Path(project_path).resolve()
 
     if not project_path.exists():
+        logger.error(f"Project path not found: {project_path}")
         raise FileNotFoundError(f"Project path not found: {project_path}")
 
     if not project_path.is_dir():
+        logger.error(f"Path is not a directory: {project_path}")
         raise NotADirectoryError(f"Path is not a directory: {project_path}")
 
     # Detect project
@@ -673,7 +697,8 @@ For more information, see the skill documentation.
             merge=args.merge,
             dry_run=args.dry_run,
             output_file=args.output,
-            output_format=args.format
+            output_format=args.format,
+            verbose=args.verbose
         )
 
         print(output)

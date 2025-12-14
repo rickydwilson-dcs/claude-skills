@@ -16,16 +16,24 @@ Standard library only - no external dependencies required.
 
 import argparse
 import json
+import logging
+import ssl
+import statistics
 import sys
 import time
-import statistics
-import urllib.request
 import urllib.error
-import ssl
+import urllib.request
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Dict, List, Optional
-from dataclasses import dataclass, field
-from concurrent.futures import ThreadPoolExecutor, as_completed
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -64,6 +72,10 @@ class APILoadTester:
     def __init__(self, url: str, concurrent_users: int = 10, total_requests: int = 100,
                  method: str = "GET", headers: Optional[Dict[str, str]] = None,
                  payload: Optional[str] = None, timeout: int = 30, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("APILoadTester initialized")
+
         self.url = url
         self.concurrent_users = concurrent_users
         self.total_requests = total_requests
@@ -79,6 +91,7 @@ class APILoadTester:
 
     def _make_request(self) -> RequestResult:
         """Execute a single HTTP request and measure response time"""
+        logger.debug(f"Making {self.method} request to {self.url}")
         start_time = time.perf_counter()
         try:
             data = self.payload.encode('utf-8') if self.payload else None
@@ -93,10 +106,13 @@ class APILoadTester:
                 return RequestResult(True, response.status, (time.perf_counter() - start_time) * 1000, len(response_data))
 
         except urllib.error.HTTPError as e:
+            logger.error(f"HTTP error {e.code}: {e.reason}")
             return RequestResult(False, e.code, (time.perf_counter() - start_time) * 1000, 0, f"HTTP {e.code}: {e.reason}")
         except urllib.error.URLError as e:
+            logger.error(f"URL error: {str(e.reason)}")
             return RequestResult(False, 0, (time.perf_counter() - start_time) * 1000, 0, f"URL Error: {str(e.reason)}")
         except Exception as e:
+            logger.error(f"Request exception: {str(e)}")
             return RequestResult(False, 0, (time.perf_counter() - start_time) * 1000, 0, str(e))
 
     def _worker(self, request_count: int) -> List[RequestResult]:
@@ -112,6 +128,7 @@ class APILoadTester:
 
     def run(self) -> LoadTestMetrics:
         """Execute the load test and return metrics"""
+        logger.debug(f"Starting load test: {self.url} with {self.concurrent_users} users, {self.total_requests} requests")
         if self.verbose:
             print(f"Starting load test: {self.url}")
             print(f"  Users: {self.concurrent_users}, Requests: {self.total_requests}, Method: {self.method}\n")
@@ -132,7 +149,9 @@ class APILoadTester:
 
     def _calculate_metrics(self, total_time: float) -> LoadTestMetrics:
         """Calculate aggregated metrics from results"""
+        logger.debug("Calculating load test metrics")
         if not self.results:
+            logger.warning("No results to calculate metrics from")
             return LoadTestMetrics(0, 0, 0, total_time, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
         successful = [r for r in self.results if r.success]

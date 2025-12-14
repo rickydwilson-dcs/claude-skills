@@ -16,6 +16,7 @@ Standard library only - no external dependencies required.
 
 import argparse
 import json
+import logging
 import os
 import sys
 from dataclasses import dataclass, field
@@ -23,6 +24,13 @@ from datetime import datetime
 from enum import Enum
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 class CloudProvider(Enum):

@@ -18,13 +18,21 @@ Standard library only - no external dependencies required.
 import argparse
 import hashlib
 import json
+import logging
 import os
 import re
 import sys
+from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Any
-from dataclasses import dataclass, field
+from typing import Any, Dict, List, Optional, Tuple
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -72,6 +80,10 @@ class DatabaseMigrationTool:
     """
 
     def __init__(self, migrations_dir: str = "prisma/migrations", verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("DatabaseMigrationTool initialized")
+
         self.migrations_dir = Path(migrations_dir)
         self.verbose = verbose
         self.history_file = self.migrations_dir / "_migration_history.json"
@@ -83,9 +95,11 @@ class DatabaseMigrationTool:
 
     def _load_history(self) -> Dict[str, Any]:
         """Load migration history from file"""
+        logger.debug(f"Loading migration history from {self.history_file}")
         if self.history_file.exists():
             with open(self.history_file, 'r') as f:
                 return json.load(f)
+        logger.warning("Migration history file not found, returning empty history")
         return {"applied_migrations": [], "last_applied": None}
 
     def _save_history(self, history: Dict[str, Any]):
@@ -110,8 +124,10 @@ class DatabaseMigrationTool:
 
     def _find_migrations(self) -> List[Migration]:
         """Find all migration files in the migrations directory"""
+        logger.debug(f"Finding migrations in {self.migrations_dir}")
         migrations = []
         if not self.migrations_dir.exists():
+            logger.warning(f"Migrations directory does not exist: {self.migrations_dir}")
             return migrations
 
         for item in sorted(self.migrations_dir.iterdir()):
@@ -141,6 +157,7 @@ class DatabaseMigrationTool:
 
     def create(self, name: str, sql: Optional[str] = None) -> Dict[str, Any]:
         """Create a new migration file"""
+        logger.debug(f"Creating new migration: {name}")
         timestamp = self._generate_timestamp()
         safe_name = self._sanitize_name(name)
         migration_dir = self.migrations_dir / f"{timestamp}_{safe_name}"
@@ -199,6 +216,7 @@ class DatabaseMigrationTool:
 
     def status(self) -> MigrationStatus:
         """Get status of all migrations"""
+        logger.debug("Getting migration status")
         history = self._load_history()
         applied_names = {m["name"] for m in history.get("applied_migrations", [])}
 
@@ -228,9 +246,11 @@ class DatabaseMigrationTool:
 
     def migrate(self, dry_run: bool = False) -> Dict[str, Any]:
         """Run pending migrations"""
+        logger.debug(f"Running migrations (dry_run={dry_run})")
         status = self.status()
 
         if not status.pending:
+            logger.warning("No pending migrations to apply")
             return {
                 "status": "success",
                 "action": "migrate",
@@ -274,10 +294,12 @@ class DatabaseMigrationTool:
 
     def rollback(self, steps: int = 1, dry_run: bool = False) -> Dict[str, Any]:
         """Rollback migrations"""
+        logger.debug(f"Rolling back {steps} migration(s) (dry_run={dry_run})")
         history = self._load_history()
         applied = history.get("applied_migrations", [])
 
         if not applied:
+            logger.warning("No migrations to rollback")
             return {
                 "status": "success",
                 "action": "rollback",
@@ -331,10 +353,12 @@ class DatabaseMigrationTool:
 
     def diff(self, schema1_path: str, schema2_path: str) -> Dict[str, Any]:
         """Detect differences between two schema files"""
+        logger.debug(f"Comparing schemas: {schema1_path} vs {schema2_path}")
         try:
             schema1 = Path(schema1_path).read_text()
             schema2 = Path(schema2_path).read_text()
         except FileNotFoundError as e:
+            logger.error(f"Schema file not found: {e.filename}")
             return {
                 "status": "error",
                 "message": f"Schema file not found: {e.filename}"

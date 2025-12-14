@@ -13,15 +13,23 @@ A comprehensive fullstack application scaffolding tool that generates:
 Part of the senior-fullstack skill package.
 """
 
+import argparse
+import json
+import logging
 import os
 import sys
-import json
-import argparse
-from pathlib import Path
-from enum import Enum
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional
 from datetime import datetime
+from enum import Enum
+from pathlib import Path
+from typing import Dict, List, Optional
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 # =============================================================================
@@ -1040,12 +1048,18 @@ class FullstackScaffolder:
     """Fullstack application scaffolder"""
 
     def __init__(self, config: ProjectConfig, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+
         self.config = config
         self.verbose = verbose
         self.files_created: List[str] = []
 
+        logger.debug("FullstackScaffolder initialized")
+
     def run(self) -> Dict:
         """Execute the scaffolding"""
+        logger.debug("Starting scaffolding run")
         if self.verbose:
             print(f"Creating fullstack app: {self.config.name}", file=sys.stderr)
             print(f"Frontend: {self.config.frontend.value}", file=sys.stderr)
@@ -1075,6 +1089,7 @@ class FullstackScaffolder:
 
     def _create_directories(self):
         """Create the directory structure"""
+        logger.debug("Creating directory structure")
         root = self.config.output_path
         root.mkdir(parents=True, exist_ok=True)
 
@@ -1105,6 +1120,7 @@ class FullstackScaffolder:
 
     def _create_frontend(self):
         """Create frontend files"""
+        logger.debug(f"Creating frontend ({self.config.frontend.value})")
         frontend = self.config.output_path / 'frontend'
 
         if self.config.frontend == FrontendFramework.NEXTJS:
@@ -1177,6 +1193,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 
     def _create_backend(self):
         """Create backend files"""
+        logger.debug(f"Creating backend ({self.config.backend.value})")
         backend = self.config.output_path / 'backend'
 
         if self.config.backend == BackendFramework.FASTAPI:

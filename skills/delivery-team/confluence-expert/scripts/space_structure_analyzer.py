@@ -6,13 +6,21 @@ Analyzes Confluence space documentation structure, identifies gaps, suggests imp
 and validates against documentation best practices.
 """
 
+import argparse
+import json
+import logging
 import os
 import sys
-import json
-import argparse
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional
-from datetime import datetime
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 class SpaceStructureAnalyzer:
     """Analyzes Confluence space structure and documentation patterns"""
@@ -20,6 +28,8 @@ class SpaceStructureAnalyzer:
     def __init__(self, space_path: str, verbose: bool = False):
         self.space_path = Path(space_path)
         self.verbose = verbose
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
         self.results = {
             'analyzed_at': datetime.now().isoformat(),
             'space_path': str(space_path),
@@ -28,9 +38,11 @@ class SpaceStructureAnalyzer:
             'issues': [],
             'recommendations': []
         }
+        logger.debug("SpaceStructureAnalyzer initialized")
 
     def run(self) -> Dict:
         """Execute the space structure analysis"""
+        logger.debug(f"Starting space structure analysis for: {self.space_path}")
         if self.verbose:
             print(f"🔍 Analyzing Confluence Space Structure...")
             print(f"📁 Path: {self.space_path}")
@@ -48,6 +60,7 @@ class SpaceStructureAnalyzer:
             return self.results
 
         except Exception as e:
+            logger.error(f"Analysis failed: {e}")
             print(f"❌ Error: {e}", file=sys.stderr)
             sys.exit(1)
 
@@ -64,8 +77,12 @@ class SpaceStructureAnalyzer:
 
     def analyze_structure(self):
         """Analyze the documentation structure"""
+        logger.debug("Analyzing documentation structure")
         md_files = list(self.space_path.rglob('*.md'))
         self.results['pages_count'] = len(md_files)
+
+        if len(md_files) == 0:
+            logger.warning("No markdown files found in space path")
 
         # Check for standard documentation patterns
         required_pages = ['README.md', 'OVERVIEW.md', 'INDEX.md']
@@ -215,6 +232,12 @@ Examples:
     parser.add_argument(
         '-o', '--output',
         help='Output file path (default: stdout)'
+    )
+
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
     )
 
     args = parser.parse_args()

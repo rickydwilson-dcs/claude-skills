@@ -17,9 +17,17 @@ Version: 1.0.0
 
 import argparse
 import json
+import logging
 import sys
 from datetime import datetime
 from pathlib import Path
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 def parse_args():
@@ -87,6 +95,7 @@ Examples:
 
 def load_analysis(file_path: str) -> dict:
     """Load analysis data from JSON file."""
+    logger.debug(f"Loading analysis from: {file_path if file_path else 'sample data'}")
     if file_path and Path(file_path).exists():
         with open(file_path, 'r') as f:
             return json.load(f)
@@ -129,14 +138,17 @@ def load_analysis(file_path: str) -> dict:
 
 def calculate_percentages(summary: dict) -> dict:
     """Calculate percentages for each category."""
+    logger.debug("Calculating category percentages")
     total = sum(summary.values())
     if total == 0:
+        logger.warning("Total summary count is 0, returning zero percentages")
         return {k: 0 for k in summary}
     return {k: round((v / total) * 100) for k, v in summary.items()}
 
 
 def generate_ascii_scorecard(data: dict, title: str, detailed: bool) -> str:
     """Generate ASCII box scorecard."""
+    logger.debug(f"Generating ASCII scorecard (detailed={detailed})")
     summary = data["summary"]
     percentages = calculate_percentages(summary)
     assessment = data["overall"]["assessment"]
@@ -186,6 +198,7 @@ def generate_ascii_scorecard(data: dict, title: str, detailed: bool) -> str:
 
 def generate_markdown_scorecard(data: dict, title: str, detailed: bool) -> str:
     """Generate markdown format scorecard."""
+    logger.debug(f"Generating Markdown scorecard (detailed={detailed})")
     summary = data["summary"]
     percentages = calculate_percentages(summary)
     assessment = data["overall"]["assessment"]
@@ -240,6 +253,8 @@ def main():
     args = parse_args()
 
     if args.verbose:
+        logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("Verbose mode enabled")
         print(f"Loading analysis from: {args.analysis_file or 'sample data'}")
         print(f"Format: {args.format}")
         print("")

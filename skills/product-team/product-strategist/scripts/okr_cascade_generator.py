@@ -6,15 +6,26 @@ Creates aligned OKRs from company strategy down to team level
 
 import argparse
 import json
+import logging
 import sys
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, List
-from datetime import datetime, timedelta
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 class OKRGenerator:
     """Generate and cascade OKRs across the organization"""
-    
-    def __init__(self):
+
+    def __init__(self, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("OKRGenerator initialized")
         self.okr_templates = {
             'growth': {
                 'objectives': [
@@ -90,8 +101,10 @@ class OKRGenerator:
     
     def generate_company_okrs(self, strategy: str, metrics: Dict) -> Dict:
         """Generate company-level OKRs based on strategy"""
-        
+        logger.debug(f"Generating company OKRs for strategy: {strategy}")
+
         if strategy not in self.okr_templates:
+            logger.warning(f"Unknown strategy '{strategy}', defaulting to 'growth'")
             strategy = 'growth'  # Default
         
         template = self.okr_templates[strategy]

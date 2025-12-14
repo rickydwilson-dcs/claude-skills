@@ -5,17 +5,28 @@ Extracts insights, patterns, and opportunities from user interviews
 """
 
 import argparse
+import json
+import logging
 import re
 import sys
+from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Dict, List, Tuple, Set
-from collections import Counter, defaultdict
-import json
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 class InterviewAnalyzer:
     """Analyze customer interviews for insights and patterns"""
-    
-    def __init__(self):
+
+    def __init__(self, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("InterviewAnalyzer initialized")
         # Pain point indicators
         self.pain_indicators = [
             'frustrat', 'annoy', 'difficult', 'hard', 'confus', 'slow',
@@ -50,6 +61,10 @@ class InterviewAnalyzer:
     
     def analyze_interview(self, text: str) -> Dict:
         """Analyze a single interview transcript"""
+        logger.debug(f"Analyzing interview transcript ({len(text)} characters)")
+        if not text or not text.strip():
+            logger.warning("Empty interview text provided")
+            return {}
         text_lower = text.lower()
         sentences = self._split_sentences(text)
         

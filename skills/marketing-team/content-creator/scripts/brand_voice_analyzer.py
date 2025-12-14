@@ -3,14 +3,26 @@
 Brand Voice Analyzer - Analyzes content to establish and maintain brand voice consistency
 """
 
-import re
-from typing import Dict, List, Tuple
-import json
 import csv
+import json
+import logging
+import re
 from io import StringIO
+from typing import Dict, List, Tuple
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 class BrandVoiceAnalyzer:
-    def __init__(self):
+    def __init__(self, verbose: bool = False):
+        if verbose:
+            logging.getLogger().setLevel(logging.DEBUG)
+        logger.debug("BrandVoiceAnalyzer initialized")
+
         self.voice_dimensions = {
             'formality': {
                 'formal': ['hereby', 'therefore', 'furthermore', 'pursuant', 'regarding'],
@@ -28,8 +40,21 @@ class BrandVoiceAnalyzer:
     
     def analyze_text(self, text: str) -> Dict:
         """Analyze text for brand voice characteristics"""
+        logger.debug("Starting text analysis")
+
+        if not text or not text.strip():
+            logger.warning("Empty or whitespace-only text provided")
+            return {
+                'word_count': 0,
+                'readability_score': 0,
+                'voice_profile': {},
+                'sentence_analysis': {'average_length': 0, 'variety': 'low', 'count': 0},
+                'recommendations': ['No content to analyze']
+            }
+
         text_lower = text.lower()
         word_count = len(text.split())
+        logger.debug(f"Analyzing {word_count} words")
         
         results = {
             'word_count': word_count,
@@ -61,11 +86,14 @@ class BrandVoiceAnalyzer:
     
     def _calculate_readability(self, text: str) -> float:
         """Calculate Flesch Reading Ease score"""
+        logger.debug("Calculating readability score")
+
         sentences = re.split(r'[.!?]+', text)
         words = text.split()
         syllables = sum(self._count_syllables(word) for word in words)
-        
+
         if len(sentences) == 0 or len(words) == 0:
+            logger.warning("No sentences or words found for readability calculation")
             return 0
         
         avg_sentence_length = len(words) / len(sentences)
@@ -96,11 +124,14 @@ class BrandVoiceAnalyzer:
     
     def _analyze_sentences(self, text: str) -> Dict:
         """Analyze sentence structure"""
+        logger.debug("Analyzing sentence structure")
+
         sentences = re.split(r'[.!?]+', text)
         sentences = [s.strip() for s in sentences if s.strip()]
-        
+
         if not sentences:
-            return {'average_length': 0, 'variety': 'low'}
+            logger.warning("No sentences found in text")
+            return {'average_length': 0, 'variety': 'low', 'count': 0}
         
         lengths = [len(s.split()) for s in sentences]
         avg_length = sum(lengths) / len(lengths) if lengths else 0
@@ -165,9 +196,11 @@ def format_csv_output(results: Dict) -> str:
 
     return output.getvalue()
 
-def analyze_content(content: str, output_format: str = 'json') -> str:
+def analyze_content(content: str, output_format: str = 'json', verbose: bool = False) -> str:
     """Main function to analyze content"""
-    analyzer = BrandVoiceAnalyzer()
+    logger.debug(f"Analyzing content with format: {output_format}")
+
+    analyzer = BrandVoiceAnalyzer(verbose=verbose)
     results = analyzer.analyze_text(content)
 
     if output_format == 'csv':
@@ -267,22 +300,21 @@ For more information, see the skill documentation.
             sys.exit(1)
 
         # Read content
-        if args.verbose:
-            print(f"Reading input file: {args.input}", file=sys.stderr)
+        logger.info(f"Reading input file: {args.input}")
 
         try:
             with open(input_path, 'r', encoding='utf-8') as f:
                 content = f.read()
-        except UnicodeDecodeError:
+        except UnicodeDecodeError as e:
+            logger.error(f"Unable to read file as text: {args.input}")
             print(f"Error: Unable to read file as text: {args.input}", file=sys.stderr)
             print("Hint: Ensure file is UTF-8 encoded text", file=sys.stderr)
             sys.exit(1)
 
-        if args.verbose:
-            print(f"Analyzing {len(content)} characters...", file=sys.stderr)
+        logger.info(f"Analyzing {len(content)} characters")
 
         # Process content
-        output = analyze_content(content, args.output)
+        output = analyze_content(content, args.output, args.verbose)
 
         # Write output
         if args.file:
@@ -291,15 +323,16 @@ For more information, see the skill documentation.
                 with open(output_path, 'w', encoding='utf-8') as f:
                     f.write(output)
 
-                if args.verbose:
-                    print(f"Results written to: {args.file}", file=sys.stderr)
-                else:
+                logger.info(f"Results written to: {args.file}")
+                if not args.verbose:
                     print(f"Output saved to: {args.file}")
 
-            except PermissionError:
+            except PermissionError as e:
+                logger.error(f"Permission denied writing to: {args.file}")
                 print(f"Error: Permission denied writing to: {args.file}", file=sys.stderr)
                 sys.exit(4)
             except Exception as e:
+                logger.error(f"Error writing output file: {e}")
                 print(f"Error writing output file: {e}", file=sys.stderr)
                 sys.exit(4)
         else:
@@ -308,18 +341,22 @@ For more information, see the skill documentation.
         sys.exit(0)
 
     except FileNotFoundError as e:
+        logger.error(f"File not found: {e}")
         print(f"Error: File not found: {e}", file=sys.stderr)
         sys.exit(1)
 
     except PermissionError as e:
+        logger.error(f"Permission denied: {e}")
         print(f"Error: Permission denied: {e}", file=sys.stderr)
         sys.exit(1)
 
     except KeyboardInterrupt:
+        logger.warning("Operation cancelled by user")
         print("\nOperation cancelled by user", file=sys.stderr)
         sys.exit(130)
 
     except Exception as e:
+        logger.error(f"Unexpected error occurred: {e}")
         print(f"Error: Unexpected error occurred: {e}", file=sys.stderr)
         if args.verbose:
             import traceback
