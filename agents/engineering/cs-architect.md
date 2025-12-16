@@ -29,11 +29,17 @@ classification:
   model: sonnet
 
 # === RELATIONSHIPS ===
-related-agents: []
-related-skills: [engineering-team/senior-architect]
+related-agents: [cs-technical-writer]
+related-skills: [engineering-team/senior-architect, engineering-team/technical-writer]
 related-commands: []
 orchestrates:
   skill: engineering-team/senior-architect
+collaborates-with:
+  - agent: cs-technical-writer
+    purpose: Architecture diagram generation using Mermaid (flowcharts, sequence, class, ERD, architecture)
+    required: optional
+    features-enabled: [architecture-diagrams, sequence-diagrams, class-diagrams, erd-diagrams]
+    without-collaborator: "Architecture documentation will be text-only without visual diagrams"
 
 # === TECHNICAL ===
 tools: [Read, Write, Bash, Grep, Glob]
@@ -48,10 +54,15 @@ compatibility:
 
 # === EXAMPLES ===
 examples:
-  -
-    title: Example Workflow
-    input: "TODO: Add example input for cs-architect"
-    output: "TODO: Add expected output"
+  - title: "Design System Architecture"
+    input: "Design scalable architecture for e-commerce platform with microservices"
+    output: "Architecture document with component diagram, technology stack recommendations, and scaling strategy"
+  - title: "Evaluate Technology Stack"
+    input: "Compare Next.js vs Remix for new frontend application"
+    output: "Technology evaluation matrix with pros/cons, performance benchmarks, and recommendation"
+  - title: "Generate Architecture Diagram"
+    input: "Create visual architecture diagram for payment processing system"
+    output: "Mermaid diagram generated via cs-technical-writer collaboration"
 
 # === ANALYTICS ===
 stats:
@@ -69,7 +80,7 @@ updated: 2025-11-27
 license: MIT
 
 # === DISCOVERABILITY ===
-tags: [architect, architecture, design, engineering]
+tags: [architect, architecture, design, diagrams, engineering, mermaid]
 featured: false
 verified: true
 
@@ -616,11 +627,81 @@ echo "4. Plan migration strategy"
 ## Related Agents
 
 - [cs-cto-advisor](../c-level/cs-cto-advisor.md) - Provides strategic technical leadership and technology vision that guides architecture decisions
+- [cs-technical-writer](cs-technical-writer.md) - **Collaborates for Mermaid diagram generation** (architecture, sequence, class, ERD diagrams)
 - [cs-backend-engineer](cs-backend-engineer.md) - Implements backend services following architecture patterns and guidelines
 - [cs-frontend-engineer](cs-frontend-engineer.md) - Implements frontend applications following architecture patterns and component design
 - [cs-fullstack-engineer](cs-fullstack-engineer.md) - Implements end-to-end features following full-stack architecture patterns
 - [cs-devops-engineer](cs-devops-engineer.md) - Implements infrastructure and deployment pipelines based on architecture design
 - [cs-security-engineer](cs-security-engineer.md) - Validates security patterns and implements security requirements in architecture
+
+## Collaboration: Architecture Diagram Generation
+
+**For architecture diagrams, cs-architect delegates to cs-technical-writer's Mermaid Diagram Generator.**
+
+This follows the complementary design principle - architecture design stays with cs-architect, while diagram generation is a technical-writer capability.
+
+### Collaboration Workflow
+
+1. **cs-architect designs** the system architecture (components, layers, data flow)
+2. **cs-architect creates** JSON/YAML definition of the architecture
+3. **cs-technical-writer generates** Mermaid diagrams using mermaid_diagram_generator.py
+4. **cs-architect reviews** and embeds diagrams in documentation
+
+### Example: Microservices Architecture Diagram
+
+**Step 1: cs-architect creates architecture definition**
+
+```json
+{
+  "title": "Microservices Architecture",
+  "layers": [
+    {
+      "name": "API Gateway",
+      "components": [
+        {"id": "gateway", "label": "API Gateway", "type": "service"}
+      ]
+    },
+    {
+      "name": "Services",
+      "components": [
+        {"id": "user_svc", "label": "User Service", "type": "service"},
+        {"id": "order_svc", "label": "Order Service", "type": "service"},
+        {"id": "payment_svc", "label": "Payment Service", "type": "service"}
+      ]
+    },
+    {
+      "name": "Data",
+      "components": [
+        {"id": "user_db", "label": "User DB", "type": "database"},
+        {"id": "order_db", "label": "Order DB", "type": "database"}
+      ]
+    }
+  ],
+  "connections": [
+    {"from": "gateway", "to": "user_svc", "label": "REST"},
+    {"from": "gateway", "to": "order_svc", "label": "REST"},
+    {"from": "user_svc", "to": "user_db"},
+    {"from": "order_svc", "to": "order_db"}
+  ]
+}
+```
+
+**Step 2: cs-technical-writer generates diagram**
+
+```bash
+python ../../skills/engineering-team/technical-writer/scripts/mermaid_diagram_generator.py \
+  --type architecture \
+  --input architecture.json \
+  --output markdown \
+  --title "Microservices Architecture"
+```
+
+**Diagram Types Available:**
+- `architecture` - System components and layers
+- `sequence` - API interactions and message flows
+- `class` - Domain models and object relationships
+- `erd` - Database schemas and entity relationships
+- `state` - Service state machines and workflows
 
 ## References
 

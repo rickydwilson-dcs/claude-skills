@@ -2,7 +2,7 @@
 # === CORE IDENTITY ===
 name: cs-technical-writer
 title: Technical Writer Specialist
-description: Documentation specialist for README generation, CHANGELOG management, API documentation, and documentation quality analysis across engineering projects
+description: Documentation specialist for README generation, CHANGELOG management, API documentation, Mermaid diagram generation, and documentation quality analysis across engineering projects
 domain: engineering
 subdomain: documentation
 skills: technical-writer
@@ -16,6 +16,7 @@ use-cases:
   - Generating comprehensive README files with usage examples and badges
   - Maintaining CHANGELOG with semantic versioning and release notes
   - Creating API documentation from code comments and OpenAPI specs
+  - Generating Mermaid diagrams (architecture, flowcharts, sequence, ERD, swimlanes)
   - Auditing documentation quality across repositories
   - Synchronizing documentation with code changes
 
@@ -32,6 +33,17 @@ classification:
 related-agents: [cs-code-reviewer, cs-architect, cs-backend-engineer, cs-devops-engineer]
 related-skills: [engineering-team/technical-writer, engineering-team/code-reviewer, engineering-team/senior-backend]
 related-commands: [update.docs, generate.api-docs]
+collaborates-with:
+  - agent: cs-architect
+    purpose: Architecture documentation with system design context
+    required: optional
+    features-enabled: [architecture-context, design-docs, system-diagrams]
+    without-collaborator: "Architecture documentation may lack system context"
+  - agent: cs-code-reviewer
+    purpose: Documentation review and API accuracy validation
+    required: optional
+    features-enabled: [doc-review, api-validation, example-verification]
+    without-collaborator: "Documentation accuracy will lack code review validation"
 orchestrates:
   skill: engineering-team/technical-writer
 
@@ -40,7 +52,7 @@ tools: [Read, Write, Bash, Grep, Glob]
 dependencies:
   tools: [Read, Write, Bash, Grep, Glob]
   mcp-tools: []
-  scripts: [readme_generator.py, changelog_generator.py, api_doc_formatter.py, doc_quality_analyzer.py]
+  scripts: [readme_generator.py, changelog_generator.py, api_doc_formatter.py, doc_quality_analyzer.py, mermaid_diagram_generator.py]
 compatibility:
   claude-ai: true
   claude-code: true
@@ -57,6 +69,12 @@ examples:
   - title: "Generate API Documentation"
     input: "Document REST API from OpenAPI spec and route handlers"
     output: "API.md with endpoint descriptions, request/response examples, authentication"
+  - title: "Create Architecture Diagram"
+    input: "Generate microservices architecture diagram from system design"
+    output: "Mermaid diagram with components, connections, and layered structure"
+  - title: "Generate Swimlane Process Flow"
+    input: "Document cross-functional order fulfillment process"
+    output: "Swimlane diagram showing roles, steps, and handoffs"
   - title: "Audit Documentation Quality"
     input: "Review documentation across repository for completeness"
     output: "Quality report with coverage scores and improvement recommendations"
@@ -82,9 +100,11 @@ tags:
   - changelog
   - content
   - developer-experience
+  - diagrams
   - documentation
   - engineering
   - markdown
+  - mermaid
   - readme
   - technical-writing
 featured: false
@@ -113,7 +133,7 @@ By combining automated analysis with structured templates and best practices, th
 
 ### Python Tools
 
-This agent leverages four production-ready Python automation tools for comprehensive documentation workflows:
+This agent leverages five production-ready Python automation tools for comprehensive documentation workflows:
 
 1. **README Generator**
    - **Purpose:** Generate comprehensive, professional README files from repository metadata, package.json/pyproject.toml analysis, and codebase structure
@@ -173,6 +193,19 @@ This agent leverages four production-ready Python automation tools for comprehen
      - Outdated content detection (last modified vs code changes)
      - Consistency checks (heading hierarchy, terminology usage)
    - **Use Cases:** Documentation audits before releases, quality gate enforcement in CI/CD, documentation debt tracking, onboarding guide validation
+
+5. **Mermaid Diagram Generator**
+   - **Purpose:** Generate Mermaid diagrams for technical and business documentation including architecture, flowcharts, sequence diagrams, class diagrams, ERDs, swimlanes, journey maps, Gantt charts, and more
+   - **Path:** `../../skills/engineering-team/technical-writer/scripts/mermaid_diagram_generator.py`
+   - **Usage:** `python ../../skills/engineering-team/technical-writer/scripts/mermaid_diagram_generator.py --type [flowchart|sequence|class|erd|state|architecture|swimlane|journey|gantt|quadrant|timeline|mindmap] --input definition.json [--output markdown|mermaid|html]`
+   - **Features:**
+     - Technical diagrams: flowcharts, sequence, class, ERD, state, architecture
+     - Business analysis diagrams: swimlanes, journey maps, Gantt charts, quadrants, timelines, mindmaps
+     - Code scanning for automatic class diagram generation from Python/TypeScript
+     - Multiple input formats (JSON, YAML)
+     - Multiple output formats (Mermaid, Markdown, HTML)
+     - Complementary to stakeholder_mapper.py (which handles people/org relationship diagrams)
+   - **Use Cases:** Architecture documentation, API interaction diagrams, database schema visualization, cross-functional process flows (swimlanes), customer journey mapping, project timeline visualization, feature prioritization matrices
 
 ### Knowledge Bases
 

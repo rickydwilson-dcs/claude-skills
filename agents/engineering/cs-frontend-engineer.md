@@ -33,6 +33,22 @@ related-agents: []
 related-skills:
   - engineering-team/engineering-team/senior-frontend
 related-commands: []
+collaborates-with:
+  - agent: cs-qa-engineer
+    purpose: Test strategy and quality assurance for UI components and user flows
+    required: recommended
+    features-enabled: [component-testing, e2e-testing, accessibility-testing]
+    without-collaborator: "Frontend code will lack comprehensive test coverage"
+  - agent: cs-technical-writer
+    purpose: Component documentation with state diagrams and user journey maps
+    required: optional
+    features-enabled: [component-docs, state-diagrams, journey-maps]
+    without-collaborator: "Component documentation will be text-only without visual diagrams"
+  - agent: cs-ui-designer
+    purpose: Design system alignment and UI/UX review for components
+    required: optional
+    features-enabled: [design-review, accessibility-audit, responsive-validation]
+    without-collaborator: "UI components may lack design system consistency"
 orchestrates:
   skill: engineering-team/engineering-team/senior-frontend
 
@@ -49,10 +65,9 @@ compatibility:
 
 # === EXAMPLES ===
 examples:
-  -
-    title: Example Workflow
-    input: "TODO: Add example input for cs-frontend-engineer"
-    output: "TODO: Add expected output"
+  - title: "Component Development"
+    input: "Build responsive dashboard with data visualization"
+    output: "React components with charts, responsive grid layout, and accessible interactions"
 
 # === ANALYTICS ===
 stats:

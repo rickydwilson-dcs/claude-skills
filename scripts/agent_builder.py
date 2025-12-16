@@ -94,52 +94,134 @@ def simple_yaml_parse(yaml_str: str) -> Dict:
     """
     Simple YAML parser for agent frontmatter (standard library only)
 
-    Handles basic key-value pairs and lists.
-    Does NOT support nested objects or complex YAML features.
+    Handles:
+    - Basic key-value pairs
+    - Lists (both inline [...] and multi-line with -)
+    - Single-level nested objects (like stats, classification, dependencies)
+
+    Does NOT support deeply nested structures (3+ levels).
     """
-    result = {}
-    current_key = None
-    list_items = []
+    result: Dict = {}
+    current_key: Optional[str] = None
+    current_dict: Optional[Dict] = None
+    list_items: List = []
+    lines = yaml_str.strip().split('\n')
 
-    for line in yaml_str.strip().split('\n'):
-        line = line.strip()
+    i = 0
+    while i < len(lines):
+        raw_line = lines[i]
+        stripped = raw_line.strip()
 
-        if not line or line.startswith('#'):
+        # Skip empty lines and comments
+        if not stripped or stripped.startswith('#'):
+            i += 1
             continue
 
-        # List item
-        if line.startswith('- '):
-            item = line[2:].strip()
-            list_items.append(item)
+        # Calculate indentation (2 spaces = 1 level)
+        indent = len(raw_line) - len(raw_line.lstrip())
+        is_indented = indent >= 2
+
+        # List item (either top-level or nested)
+        if stripped.startswith('- '):
+            item = stripped[2:].strip()
+            # Handle list item with nested dict (- title: "...", etc.)
+            if ':' in item and not item.startswith('"') and not item.startswith("'"):
+                # This is a dict item in a list (like examples)
+                dict_item = {}
+                key, value = item.split(':', 1)
+                dict_item[key.strip()] = value.strip().strip('"\'')
+                # Look ahead for more keys in this dict item
+                j = i + 1
+                while j < len(lines):
+                    next_raw = lines[j]
+                    next_stripped = next_raw.strip()
+                    next_indent = len(next_raw) - len(next_raw.lstrip())
+                    # Same or deeper indent and has key-value
+                    if next_indent >= indent + 2 and ':' in next_stripped and not next_stripped.startswith('-'):
+                        k, v = next_stripped.split(':', 1)
+                        dict_item[k.strip()] = v.strip().strip('"\'')
+                        j += 1
+                    else:
+                        break
+                list_items.append(dict_item)
+                i = j
+                continue
+            else:
+                list_items.append(item)
+            i += 1
             continue
 
         # Key-value pair
-        if ':' in line:
-            # Save previous list if any
+        if ':' in stripped:
+            # Save previous collection if any
             if current_key and list_items:
                 result[current_key] = list_items
                 list_items = []
+            if current_key and current_dict:
+                result[current_key] = current_dict
+                current_dict = None
 
-            key, value = line.split(':', 1)
+            key, value = stripped.split(':', 1)
             key = key.strip()
             value = value.strip()
+
+            # Handle indented key (part of nested dict)
+            if is_indented and current_key and current_dict is not None:
+                # Convert value types
+                if value.lower() == 'true':
+                    current_dict[key] = True
+                elif value.lower() == 'false':
+                    current_dict[key] = False
+                elif value.replace('.', '', 1).replace('-', '', 1).isdigit():
+                    current_dict[key] = float(value) if '.' in value else int(value)
+                elif value.startswith('[') and value.endswith(']'):
+                    items = value[1:-1].split(',')
+                    current_dict[key] = [item.strip() for item in items if item.strip()]
+                else:
+                    current_dict[key] = value.strip('"\'')
+                i += 1
+                continue
 
             # Handle inline lists [item1, item2]
             if value.startswith('[') and value.endswith(']'):
                 items = value[1:-1].split(',')
-                result[key] = [item.strip() for item in items]
+                result[key] = [item.strip() for item in items if item.strip()]
                 current_key = None
-            # Empty value - expect list on next lines
+                current_dict = None
+            # Empty value - could be list or nested dict
             elif not value:
                 current_key = key
+                # Check next line to determine if list or dict
+                if i + 1 < len(lines):
+                    next_stripped = lines[i + 1].strip()
+                    if next_stripped.startswith('- '):
+                        current_dict = None  # It's a list
+                    else:
+                        current_dict = {}  # It's a nested dict
+                else:
+                    current_dict = None
             # Simple value
             else:
-                result[key] = value
+                # Convert value types
+                if value.lower() == 'true':
+                    result[key] = True
+                elif value.lower() == 'false':
+                    result[key] = False
+                elif value.replace('.', '', 1).replace('-', '', 1).isdigit():
+                    result[key] = float(value) if '.' in value else int(value)
+                else:
+                    result[key] = value.strip('"\'')
                 current_key = None
+                current_dict = None
 
-    # Save final list if any
-    if current_key and list_items:
-        result[current_key] = list_items
+        i += 1
+
+    # Save final collection if any
+    if current_key:
+        if list_items:
+            result[current_key] = list_items
+        elif current_dict is not None:
+            result[current_key] = current_dict
 
     return result
 
@@ -459,6 +541,66 @@ class AgentValidator:
 
         return None
 
+    def _validate_collaborates_with(self, frontmatter: Dict) -> Optional[str]:
+        """
+        Validate collaborates-with structure for agent dependencies.
+
+        Expected format:
+        collaborates-with:
+          - agent: cs-technical-writer
+            purpose: Description of collaboration
+            required: optional|recommended|required
+            features-enabled:
+              - feature-1
+              - feature-2
+            without-collaborator: "What doesn't work without this"
+
+        Returns error message or None.
+        """
+        if 'collaborates-with' not in frontmatter:
+            return None
+
+        collaborations = frontmatter['collaborates-with']
+
+        if not isinstance(collaborations, list):
+            return "collaborates-with must be a list"
+
+        valid_required_values = ['optional', 'recommended', 'required']
+
+        for idx, collab in enumerate(collaborations):
+            if not isinstance(collab, dict):
+                return f"collaborates-with[{idx}] must be a dictionary"
+
+            # Required fields
+            if 'agent' not in collab:
+                return f"collaborates-with[{idx}] missing required 'agent' field"
+
+            if 'purpose' not in collab:
+                return f"collaborates-with[{idx}] missing required 'purpose' field"
+
+            # Validate agent name format
+            agent_name = collab.get('agent', '')
+            if not agent_name.startswith('cs-'):
+                return f"collaborates-with[{idx}].agent must start with 'cs-': {agent_name}"
+
+            # Validate required field if present
+            if 'required' in collab:
+                if collab['required'] not in valid_required_values:
+                    return f"collaborates-with[{idx}].required must be one of: {', '.join(valid_required_values)}"
+
+            # Validate features-enabled if present (accept list or string for parser compatibility)
+            if 'features-enabled' in collab:
+                features = collab['features-enabled']
+                if not isinstance(features, (list, str)):
+                    return f"collaborates-with[{idx}].features-enabled must be a list or string"
+
+            # Validate without-collaborator if present
+            if 'without-collaborator' in collab:
+                if not isinstance(collab['without-collaborator'], str):
+                    return f"collaborates-with[{idx}].without-collaborator must be a string"
+
+        return None
+
     # -------------------------------------------------------------------------
     # Public Validation Methods
     # -------------------------------------------------------------------------
@@ -534,6 +676,11 @@ class AgentValidator:
 
         # Legacy fields validation (backward compatibility)
         error = self._validate_legacy_fields(frontmatter)
+        if error:
+            return False, error
+
+        # Collaborates-with validation (agent dependencies)
+        error = self._validate_collaborates_with(frontmatter)
         if error:
             return False, error
 

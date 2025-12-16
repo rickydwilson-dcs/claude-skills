@@ -32,6 +32,22 @@ classification:
 related-agents: []
 related-skills: [engineering-team/senior-qa]
 related-commands: []
+collaborates-with:
+  - agent: cs-code-reviewer
+    purpose: Code review with test coverage assessment and quality validation
+    required: recommended
+    features-enabled: [coverage-review, quality-gates, review-automation]
+    without-collaborator: "Test results will lack code review integration"
+  - agent: cs-devops-engineer
+    purpose: CI/CD integration for continuous testing pipelines
+    required: recommended
+    features-enabled: [ci-testing, pipeline-integration, automated-gates]
+    without-collaborator: "Tests will not be integrated into CI/CD pipelines"
+  - agent: cs-technical-writer
+    purpose: Test documentation with coverage reports and test architecture diagrams
+    required: optional
+    features-enabled: [test-docs, coverage-reports, test-architecture-diagrams]
+    without-collaborator: "Test documentation will be text-only without visual diagrams"
 orchestrates:
   skill: engineering-team/senior-qa
 
@@ -48,10 +64,9 @@ compatibility:
 
 # === EXAMPLES ===
 examples:
-  -
-    title: Example Workflow
-    input: "TODO: Add example input for cs-qa-engineer"
-    output: "TODO: Add expected output"
+  - title: "Test Strategy"
+    input: "Create test strategy for new payment feature"
+    output: "Comprehensive test plan with unit, integration, E2E tests, and coverage targets"
 
 # === ANALYTICS ===
 stats:

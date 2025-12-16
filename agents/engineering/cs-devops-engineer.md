@@ -32,6 +32,22 @@ classification:
 related-agents: []
 related-skills: [engineering-team/senior-devops]
 related-commands: []
+collaborates-with:
+  - agent: cs-architect
+    purpose: Infrastructure architecture and deployment topology design
+    required: recommended
+    features-enabled: [infra-architecture, deployment-patterns, scalability-planning]
+    without-collaborator: "Infrastructure decisions made without architecture review"
+  - agent: cs-security-engineer
+    purpose: Security hardening for CI/CD pipelines and infrastructure
+    required: recommended
+    features-enabled: [pipeline-security, secrets-management, compliance-scanning]
+    without-collaborator: "Infrastructure may lack security hardening and compliance"
+  - agent: cs-technical-writer
+    purpose: Infrastructure documentation with architecture and deployment diagrams
+    required: optional
+    features-enabled: [infra-docs, architecture-diagrams, runbooks]
+    without-collaborator: "Infrastructure documentation will be text-only without visual diagrams"
 orchestrates:
   skill: engineering-team/senior-devops
 
@@ -48,10 +64,9 @@ compatibility:
 
 # === EXAMPLES ===
 examples:
-  -
-    title: Example Workflow
-    input: "TODO: Add example input for cs-devops-engineer"
-    output: "TODO: Add expected output"
+  - title: "CI/CD Pipeline"
+    input: "Set up GitHub Actions for Node.js app with staging and production"
+    output: "Complete CI/CD pipeline with testing, Docker builds, and multi-environment deployments"
 
 # === ANALYTICS ===
 stats:

@@ -32,6 +32,22 @@ classification:
 related-agents: []
 related-skills: [engineering-team/senior-data-engineer]
 related-commands: []
+collaborates-with:
+  - agent: cs-qa-engineer
+    purpose: Data quality testing and pipeline validation
+    required: recommended
+    features-enabled: [data-quality-tests, pipeline-validation, schema-testing]
+    without-collaborator: "Data pipelines will lack comprehensive quality validation"
+  - agent: cs-technical-writer
+    purpose: Pipeline documentation with data flow and ERD diagrams
+    required: optional
+    features-enabled: [pipeline-docs, erd-diagrams, data-flow-diagrams]
+    without-collaborator: "Data documentation will be text-only without visual diagrams"
+  - agent: cs-architect
+    purpose: Data architecture review and warehouse design guidance
+    required: optional
+    features-enabled: [data-architecture, warehouse-design, scalability-review]
+    without-collaborator: "Data architecture decisions made without formal review"
 orchestrates:
   skill: engineering-team/senior-data-engineer
 
@@ -48,10 +64,9 @@ compatibility:
 
 # === EXAMPLES ===
 examples:
-  -
-    title: Example Workflow
-    input: "TODO: Add example input for cs-data-engineer"
-    output: "TODO: Add expected output"
+  - title: "Data Pipeline"
+    input: "Build ETL pipeline for customer analytics from multiple sources"
+    output: "Airflow DAG with data extraction, transformation, quality checks, and warehouse loading"
 
 # === ANALYTICS ===
 stats:

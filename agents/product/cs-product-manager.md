@@ -29,13 +29,20 @@ classification:
   model: sonnet
 
 # === RELATIONSHIPS ===
-related-agents: []
+related-agents: [cs-technical-writer]
 related-skills:
   - product-team/product-manager-toolkit
   - product-team/competitive-analysis
+  - engineering-team/technical-writer
 related-commands: []
 orchestrates:
-  skill: product-team/product-team/product-manager-toolkit
+  skill: product-team/product-manager-toolkit
+collaborates-with:
+  - agent: cs-technical-writer
+    purpose: Mermaid diagram generation for roadmaps (Gantt), prioritization matrices (quadrant), and feature mindmaps
+    required: optional
+    features-enabled: [gantt-roadmaps, quadrant-prioritization, journey-maps, feature-mindmaps]
+    without-collaborator: "Roadmaps and prioritization will be text/table format without visual diagrams"
 
 # === TECHNICAL ===
 tools: [Read, Write, Bash, Grep, Glob]
@@ -50,10 +57,15 @@ compatibility:
 
 # === EXAMPLES ===
 examples:
-  -
-    title: Example Workflow
-    input: "TODO: Add example input for cs-product-manager"
-    output: "TODO: Add expected output"
+  - title: "Prioritize Feature Backlog"
+    input: "Prioritize our Q1 feature backlog using RICE framework"
+    output: "RICE-scored feature list with prioritization matrix (quadrant diagram via cs-technical-writer)"
+  - title: "Create Product Roadmap"
+    input: "Build a 6-month roadmap for the mobile app launch"
+    output: "Phased roadmap with Gantt chart visualization (via cs-technical-writer)"
+  - title: "Analyze Customer Interviews"
+    input: "Synthesize insights from 15 customer discovery interviews"
+    output: "Themes, pain points, and opportunity areas with journey map"
 
 # === ANALYTICS ===
 stats:
@@ -71,7 +83,7 @@ updated: 2025-11-27
 license: MIT
 
 # === DISCOVERABILITY ===
-tags: [development, manager, product]
+tags: [development, diagrams, gantt, manager, mermaid, prioritization, product, roadmap]
 featured: false
 verified: true
 

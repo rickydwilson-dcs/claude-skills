@@ -32,6 +32,22 @@ classification:
 related-agents: []
 related-skills: [engineering-team/code-reviewer]
 related-commands: []
+collaborates-with:
+  - agent: cs-security-engineer
+    purpose: Security-focused code review and vulnerability detection
+    required: recommended
+    features-enabled: [security-review, vulnerability-scanning, owasp-checks]
+    without-collaborator: "Code reviews will lack deep security analysis"
+  - agent: cs-qa-engineer
+    purpose: Test coverage analysis and quality metrics review
+    required: optional
+    features-enabled: [coverage-analysis, quality-metrics, test-review]
+    without-collaborator: "Code reviews will lack test coverage assessment"
+  - agent: cs-architect
+    purpose: Architecture pattern validation and design review
+    required: optional
+    features-enabled: [pattern-review, design-validation, refactoring-guidance]
+    without-collaborator: "Code reviews will lack architecture-level feedback"
 orchestrates:
   skill: engineering-team/code-reviewer
 
@@ -48,10 +64,9 @@ compatibility:
 
 # === EXAMPLES ===
 examples:
-  -
-    title: Example Workflow
-    input: "TODO: Add example input for cs-code-reviewer"
-    output: "TODO: Add expected output"
+  - title: "Code Review"
+    input: "Review pull request for API authentication refactor"
+    output: "Detailed review with security findings, code quality issues, and improvement suggestions"
 
 # === ANALYTICS ===
 stats:

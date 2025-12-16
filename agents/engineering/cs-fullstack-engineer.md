@@ -32,6 +32,27 @@ classification:
 related-agents: []
 related-skills: [engineering-team/senior-fullstack]
 related-commands: []
+collaborates-with:
+  - agent: cs-qa-engineer
+    purpose: End-to-end test strategy across frontend and backend layers
+    required: recommended
+    features-enabled: [e2e-testing, integration-tests, api-contract-testing]
+    without-collaborator: "Full-stack applications will lack comprehensive test coverage"
+  - agent: cs-architect
+    purpose: Architecture guidance for full-stack patterns and system design
+    required: recommended
+    features-enabled: [architecture-review, system-design, tech-stack-decisions]
+    without-collaborator: "Architecture decisions made without formal review process"
+  - agent: cs-security-engineer
+    purpose: Security review across full application stack
+    required: recommended
+    features-enabled: [security-audit, auth-patterns, data-protection]
+    without-collaborator: "Security vulnerabilities may go undetected across stack"
+  - agent: cs-technical-writer
+    purpose: System documentation with architecture and data flow diagrams
+    required: optional
+    features-enabled: [system-docs, architecture-diagrams, api-docs]
+    without-collaborator: "System documentation will be text-only without visual diagrams"
 orchestrates:
   skill: engineering-team/senior-fullstack
 
@@ -48,10 +69,9 @@ compatibility:
 
 # === EXAMPLES ===
 examples:
-  -
-    title: Example Workflow
-    input: "TODO: Add example input for cs-fullstack-engineer"
-    output: "TODO: Add expected output"
+  - title: "Full-Stack Feature"
+    input: "Implement user authentication with OAuth and profile management"
+    output: "Complete auth flow with React frontend, Node.js backend, and PostgreSQL storage"
 
 # === ANALYTICS ===
 stats:

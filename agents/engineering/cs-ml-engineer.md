@@ -32,6 +32,22 @@ classification:
 related-agents: []
 related-skills: [engineering-team/senior-ml-engineer]
 related-commands: []
+collaborates-with:
+  - agent: cs-qa-engineer
+    purpose: Model testing, validation pipelines, and ML quality assurance
+    required: recommended
+    features-enabled: [model-testing, validation-pipelines, performance-benchmarks]
+    without-collaborator: "ML models will lack comprehensive testing and validation"
+  - agent: cs-data-engineer
+    purpose: Feature engineering pipelines and data preparation
+    required: recommended
+    features-enabled: [feature-pipelines, data-preparation, data-quality]
+    without-collaborator: "ML pipelines may lack robust data infrastructure"
+  - agent: cs-technical-writer
+    purpose: Model documentation with architecture and pipeline diagrams
+    required: optional
+    features-enabled: [model-docs, architecture-diagrams, pipeline-diagrams]
+    without-collaborator: "ML documentation will be text-only without visual diagrams"
 orchestrates:
   skill: engineering-team/senior-ml-engineer
 
@@ -48,10 +64,9 @@ compatibility:
 
 # === EXAMPLES ===
 examples:
-  -
-    title: Example Workflow
-    input: "TODO: Add example input for cs-ml-engineer"
-    output: "TODO: Add expected output"
+  - title: "ML Model Pipeline"
+    input: "Deploy recommendation model with feature store and monitoring"
+    output: "MLflow pipeline with feature engineering, model training, serving, and drift detection"
 
 # === ANALYTICS ===
 stats:

@@ -29,13 +29,20 @@ classification:
   model: sonnet
 
 # === RELATIONSHIPS ===
-related-agents: []
+related-agents: [cs-technical-writer]
 related-skills:
   - product-team/product-strategist
   - product-team/competitive-analysis
+  - engineering-team/technical-writer
 related-commands: []
 orchestrates:
-  skill: product-team/product-team/product-strategist
+  skill: product-team/product-strategist
+collaborates-with:
+  - agent: cs-technical-writer
+    purpose: Mermaid diagram generation for roadmap timelines, OKR mindmaps, and strategic prioritization quadrants
+    required: optional
+    features-enabled: [timeline-roadmaps, okr-mindmaps, quadrant-prioritization]
+    without-collaborator: "Strategic roadmaps and OKR visualizations will be text/table format without visual diagrams"
 
 # === TECHNICAL ===
 tools: [Read, Write, Bash, Grep, Glob]
@@ -50,10 +57,15 @@ compatibility:
 
 # === EXAMPLES ===
 examples:
-  -
-    title: Example Workflow
-    input: "TODO: Add example input for cs-product-strategist"
-    output: "TODO: Add expected output"
+  - title: "Generate OKR Cascade"
+    input: "Create OKRs for Q1 aligned with company goal of 50% revenue growth"
+    output: "OKR cascade with company, team, and individual objectives (mindmap via cs-technical-writer)"
+  - title: "Build Product Roadmap"
+    input: "Create 2025 product roadmap with quarterly milestones"
+    output: "Strategic roadmap with timeline visualization (via cs-technical-writer)"
+  - title: "Strategic Prioritization"
+    input: "Prioritize strategic initiatives by impact and effort"
+    output: "Initiative list with quadrant chart for stakeholder presentation"
 
 # === ANALYTICS ===
 stats:
@@ -71,7 +83,7 @@ updated: 2025-11-27
 license: MIT
 
 # === DISCOVERABILITY ===
-tags: [development, product, strategist]
+tags: [development, diagrams, mermaid, mindmap, okr, product, roadmap, strategist, timeline]
 featured: false
 verified: true
 

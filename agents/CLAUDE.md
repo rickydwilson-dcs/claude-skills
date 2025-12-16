@@ -302,6 +302,14 @@ related-commands: [/review.code, /generate.tests]
 orchestrates:
   skill: engineering-team/senior-backend
 
+# === COLLABORATION ===
+collaborates-with:                   # Optional: Agent dependencies for enhanced features
+  - agent: cs-technical-writer       # Agent name (must be cs-* prefixed)
+    purpose: Architecture diagram generation using Mermaid
+    required: optional               # optional, recommended, required
+    features-enabled: [architecture-diagrams, sequence-diagrams]
+    without-collaborator: "Documentation will be text-only without visual diagrams"
+
 # === TECHNICAL ===
 tools: [Read, Write, Bash, Grep, Glob]
 dependencies:
@@ -352,11 +360,78 @@ execution: coordinated
 - **Website Display**: User-facing information (difficulty, time-saved, use-cases)
 - **Agent Classification**: Type system for resource management
 - **Relationships**: Cross-references to other assets
+- **Collaboration**: Optional dependencies on other agents for enhanced features
 - **Technical**: Tools and dependencies
 - **Examples**: Sample inputs/outputs
 - **Analytics**: Marketplace metrics (placeholder)
 - **Versioning**: Author and version tracking
 - **Discoverability**: Tags and feature flags
+
+### Agent Collaboration Pattern (collaborates-with)
+
+The `collaborates-with` section defines optional dependencies between agents. This enables:
+- **Website downloads**: Prompting users to download collaborator agents for full functionality
+- **Feature discovery**: Showing what capabilities are unlocked with collaborators
+- **Graceful degradation**: Clear communication of what works without collaborators
+
+**Schema:**
+```yaml
+collaborates-with:
+  - agent: cs-technical-writer          # Required: Agent name (must be cs-* prefixed)
+    purpose: "Description of collaboration"  # Required: Why this collaboration exists
+    required: optional                  # Optional: optional|recommended|required
+    features-enabled: [feature-1, feature-2]  # Optional: Features unlocked
+    without-collaborator: "What doesn't work"  # Optional: Degraded functionality
+```
+
+**Field Definitions:**
+| Field | Required | Values | Description |
+|-------|----------|--------|-------------|
+| `agent` | Yes | cs-* name | The collaborating agent identifier |
+| `purpose` | Yes | string | Why this collaboration adds value |
+| `required` | No | optional, recommended, required | Dependency strength |
+| `features-enabled` | No | list | Specific features unlocked by collaborator |
+| `without-collaborator` | No | string | What functionality is lost without collaborator |
+
+**Examples:**
+
+**Documentation Collaboration (optional):**
+```yaml
+collaborates-with:
+  - agent: cs-technical-writer
+    purpose: API documentation generation with sequence diagrams
+    required: optional
+    features-enabled: [api-docs, sequence-diagrams, architecture-diagrams]
+    without-collaborator: "API documentation will be text-only without visual diagrams"
+```
+
+**Quality Collaboration (recommended):**
+```yaml
+collaborates-with:
+  - agent: cs-qa-engineer
+    purpose: Test strategy and quality assurance for backend services
+    required: recommended
+    features-enabled: [api-test-generation, integration-tests, load-testing]
+    without-collaborator: "Backend code will lack comprehensive test coverage"
+```
+
+**Security Collaboration (recommended):**
+```yaml
+collaborates-with:
+  - agent: cs-security-engineer
+    purpose: Security review for authentication and API security patterns
+    required: recommended
+    features-enabled: [security-audit, auth-patterns, owasp-compliance]
+    without-collaborator: "Security vulnerabilities may go undetected"
+```
+
+**Validation:**
+The `agent_builder.py` validator checks:
+- `agent` field is present and starts with `cs-`
+- `purpose` field is present
+- `required` is one of: optional, recommended, required
+- `features-enabled` is a list or string
+- `without-collaborator` is a string
 
 ### Required Markdown Sections
 

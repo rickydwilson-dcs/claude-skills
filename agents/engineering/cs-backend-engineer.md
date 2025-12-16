@@ -32,6 +32,27 @@ classification:
 related-agents: []
 related-skills: [engineering-team/senior-backend]
 related-commands: []
+collaborates-with:
+  - agent: cs-qa-engineer
+    purpose: Test strategy and quality assurance for API endpoints and backend services
+    required: recommended
+    features-enabled: [api-test-generation, integration-tests, load-testing]
+    without-collaborator: "Backend code will lack comprehensive test coverage and quality validation"
+  - agent: cs-security-engineer
+    purpose: Security review for authentication, authorization, and API security patterns
+    required: recommended
+    features-enabled: [security-audit, auth-patterns, owasp-compliance]
+    without-collaborator: "Security vulnerabilities may go undetected in backend services"
+  - agent: cs-technical-writer
+    purpose: API documentation generation with sequence diagrams and architecture docs
+    required: optional
+    features-enabled: [api-docs, sequence-diagrams, architecture-diagrams]
+    without-collaborator: "API documentation will be text-only without visual diagrams"
+  - agent: cs-architect
+    purpose: Architecture guidance for microservices, database design, and scalability
+    required: optional
+    features-enabled: [architecture-review, design-patterns, scalability-planning]
+    without-collaborator: "Architecture decisions made without formal review process"
 orchestrates:
   skill: engineering-team/senior-backend
 
@@ -48,10 +69,9 @@ compatibility:
 
 # === EXAMPLES ===
 examples:
-  -
-    title: Example Workflow
-    input: "TODO: Add example input for cs-backend-engineer"
-    output: "TODO: Add expected output"
+  - title: "API Development"
+    input: "Build REST API with authentication and rate limiting"
+    output: "Express API with JWT auth, rate limiting middleware, and comprehensive error handling"
 
 # === ANALYTICS ===
 stats:

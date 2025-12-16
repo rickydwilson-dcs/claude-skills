@@ -32,6 +32,22 @@ classification:
 related-agents: []
 related-skills: [engineering-team/senior-security]
 related-commands: []
+collaborates-with:
+  - agent: cs-code-reviewer
+    purpose: Security-aware code review integration
+    required: recommended
+    features-enabled: [security-code-review, vulnerability-reporting, fix-validation]
+    without-collaborator: "Security findings will lack code review context"
+  - agent: cs-devops-engineer
+    purpose: Infrastructure security and CI/CD pipeline hardening
+    required: recommended
+    features-enabled: [infra-security, pipeline-hardening, secrets-management]
+    without-collaborator: "Security recommendations may lack infrastructure context"
+  - agent: cs-technical-writer
+    purpose: Security documentation with threat models and architecture diagrams
+    required: optional
+    features-enabled: [security-docs, threat-model-diagrams, compliance-reports]
+    without-collaborator: "Security documentation will be text-only without visual diagrams"
 orchestrates:
   skill: engineering-team/senior-security
 
@@ -48,10 +64,9 @@ compatibility:
 
 # === EXAMPLES ===
 examples:
-  -
-    title: Example Workflow
-    input: "TODO: Add example input for cs-security-engineer"
-    output: "TODO: Add expected output"
+  - title: "Security Audit"
+    input: "Perform security audit on e-commerce application"
+    output: "OWASP Top 10 assessment with vulnerability report and remediation roadmap"
 
 # === ANALYTICS ===
 stats:
