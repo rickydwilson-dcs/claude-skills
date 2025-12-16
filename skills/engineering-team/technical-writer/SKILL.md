@@ -3,7 +3,7 @@
 # === CORE IDENTITY ===
 name: technical-writer
 title: Technical Writer Skill Package
-description: Comprehensive documentation automation with quality analysis, README generation, CHANGELOG management, and API documentation formatting. Integrates with /update.docs command. Use for documentation audits, technical writing, API docs, README creation, and maintaining project documentation.
+description: Comprehensive documentation automation with quality analysis, README generation, CHANGELOG management, API documentation formatting, and Mermaid diagram generation. Integrates with /update.docs command. Use for documentation audits, technical writing, API docs, README creation, diagram generation, and maintaining project documentation.
 domain: engineering
 subdomain: documentation
 
@@ -16,6 +16,7 @@ use-cases:
   - Automated README generation and updates
   - CHANGELOG maintenance and synchronization
   - API documentation creation and formatting
+  - Mermaid diagram generation (architecture, flowcharts, sequence, class, ERD, state)
   - Pre-release documentation reviews
   - Technical writing workflows
 
@@ -40,6 +41,7 @@ dependencies:
     - readme_generator.py
     - changelog_generator.py
     - api_doc_formatter.py
+    - mermaid_diagram_generator.py
   references:
     - technical_writing_standards.md
     - api_documentation_patterns.md
@@ -87,7 +89,7 @@ updated: 2025-11-28
 license: MIT
 
 # === DISCOVERABILITY ===
-tags: [documentation, technical-writing, readme, changelog, api-docs, markdown, quality-analysis]
+tags: [documentation, technical-writing, readme, changelog, api-docs, markdown, quality-analysis, mermaid, diagrams, architecture]
 featured: false
 verified: true
 ---
@@ -477,6 +479,130 @@ git commit -m "docs(api): create comprehensive API documentation"
 - Consistent formatting throughout
 - Quality score ≥ 80/100
 
+### Workflow 6: Technical Diagram Generation (30-60 min)
+
+**Scenario:** Creating architecture, process flow, or data model diagrams for documentation
+
+```bash
+# 1. Architecture diagram for system documentation
+python scripts/mermaid_diagram_generator.py --type architecture \
+    --input system-design.json --output markdown \
+    --title "Microservices Architecture"
+
+# Tool generates:
+# - Component diagram with layered structure
+# - Connection flows between services
+# - External system integrations
+# - Color-coded component types
+
+# 2. Sequence diagram for API interaction documentation
+python scripts/mermaid_diagram_generator.py --type sequence \
+    --input auth-flow.json --output markdown
+
+# Tool generates:
+# - Participant definitions with roles
+# - Message flows with labels
+# - Synchronous/async calls
+# - Activation indicators
+
+# 3. Class diagram from source code (auto-discovery)
+python scripts/mermaid_diagram_generator.py --type class \
+    --scan src/models/ --output markdown \
+    --title "Domain Model"
+
+# Tool scans and generates:
+# - Class definitions with attributes
+# - Method signatures
+# - Inheritance relationships
+# - Associations between classes
+
+# 4. ERD for database documentation
+python scripts/mermaid_diagram_generator.py --type erd \
+    --input schema.json --output markdown
+
+# 5. State diagram for workflow documentation
+python scripts/mermaid_diagram_generator.py --type state \
+    --input order-lifecycle.json --output markdown
+
+# 6. Embed in documentation
+# Copy generated Mermaid blocks into documentation
+# Verify rendering in GitHub/GitLab/docs site
+```
+
+**Time Estimate:** 30-60 minutes (vs 2-3 hours manual diagram creation)
+
+**Success Criteria:**
+- Diagrams accurately represent system/data/process
+- Mermaid syntax valid and renders correctly
+- Consistent styling across diagrams
+- Diagrams embedded in documentation
+- All relationships clearly shown
+
+### Workflow 7: Business Process Documentation (1-2 hours)
+
+**Scenario:** Creating process diagrams for business analysts or stakeholder presentations
+
+```bash
+# 1. Swimlane diagram for cross-functional process
+python scripts/mermaid_diagram_generator.py --type swimlane \
+    --input order-fulfillment.json --output markdown \
+    --title "Order Fulfillment Process"
+
+# Tool generates:
+# - Department/role lanes
+# - Process steps within lanes
+# - Cross-lane handoffs
+# - Color-coded lanes
+
+# 2. Customer journey map
+python scripts/mermaid_diagram_generator.py --type journey \
+    --input onboarding-journey.json --output markdown
+
+# Tool generates:
+# - Journey sections/phases
+# - Touchpoints with satisfaction scores
+# - Actor annotations
+# - Experience visualization
+
+# 3. Project timeline (Gantt chart)
+python scripts/mermaid_diagram_generator.py --type gantt \
+    --input project-plan.json --output markdown
+
+# Tool generates:
+# - Phased task sections
+# - Dependencies between tasks
+# - Milestones
+# - Critical path highlighting
+
+# 4. Prioritization matrix (Quadrant chart)
+python scripts/mermaid_diagram_generator.py --type quadrant \
+    --input features.json --output markdown \
+    --title "Feature Prioritization"
+
+# Tool generates:
+# - Labeled axes (effort/value, risk/impact)
+# - Quadrant labels
+# - Positioned feature points
+# - Visual prioritization
+
+# 5. Mindmap for brainstorming documentation
+python scripts/mermaid_diagram_generator.py --type mindmap \
+    --input improvement-ideas.json --output markdown
+
+# 6. Timeline for roadmap communication
+python scripts/mermaid_diagram_generator.py --type timeline \
+    --input roadmap-2025.json --output markdown
+```
+
+**Time Estimate:** 1-2 hours (vs 3-4 hours manual creation)
+
+**Success Criteria:**
+- Diagrams clear and readable for business audience
+- Cross-functional flows accurately represented
+- Handoffs and dependencies visible
+- Consistent visual style
+- Embedded in stakeholder documentation
+
 ## Python Tools
 
 ### 1. Documentation Quality Analyzer
@@ -754,6 +880,111 @@ Required: Bearer token
 | 404 | USER_NOT_FOUND | User with specified ID does not exist |
 | 401 | UNAUTHORIZED | Invalid or missing authentication token |
 ```
+
+### 5. Mermaid Diagram Generator
+
+Comprehensive diagram generation for technical and business documentation.
+
+**Key Features:**
+- Technical diagrams: flowcharts, sequence, class, ERD, state, architecture
+- Business analysis diagrams: swimlanes, journey maps, Gantt charts, quadrants, timelines, mindmaps
+- Multiple input formats (JSON, YAML)
+- Multiple output formats (Mermaid, Markdown, HTML)
+- Code scanning for class diagram generation
+- Complementary to business-analyst stakeholder diagrams
+
+**Common Usage:**
+```bash
+# Generate flowchart from JSON definition
+python scripts/mermaid_diagram_generator.py --type flowchart --input process.json
+
+# Generate sequence diagram for API flows
+python scripts/mermaid_diagram_generator.py --type sequence --input api-flow.yaml
+
+# Generate class diagram by scanning source code
+python scripts/mermaid_diagram_generator.py --type class --scan src/models/
+
+# Generate swimlane for cross-functional processes (BA use case)
+python scripts/mermaid_diagram_generator.py --type swimlane --input order-fulfillment.json
+
+# Generate customer journey map (BA use case)
+python scripts/mermaid_diagram_generator.py --type journey --input onboarding.json
+
+# Generate Gantt chart for project timeline
+python scripts/mermaid_diagram_generator.py --type gantt --input project.json
+
+# Generate priority quadrant matrix
+python scripts/mermaid_diagram_generator.py --type quadrant --input features.json
+
+# Output as Markdown with title
+python scripts/mermaid_diagram_generator.py --type architecture --input system.json \
+    --output markdown --title "System Architecture"
+```
+
+**Diagram Types:**
+
+| Type | Category | Description |
+|------|----------|-------------|
+| flowchart | Technical | Process flows, decision trees, workflows |
+| sequence | Technical | API calls, service interactions, message flows |
+| class | Technical | Object models, inheritance hierarchies |
+| erd | Technical | Database schemas, entity relationships |
+| state | Technical | State machines, workflow states, lifecycles |
+| architecture | Technical | System architecture, component diagrams |
+| swimlane | Business | Cross-functional process flows with role/dept lanes |
+| journey | Business | Customer/user journey maps with touchpoints |
+| gantt | Business | Project timelines, milestones, dependencies |
+| quadrant | Business | Priority matrices, effort/impact analysis |
+| timeline | Business | Event timelines, roadmaps, milestones |
+| mindmap | Business | Brainstorming, idea organization |
+
+**Use Cases:**
+- Architecture documentation for technical specs
+- API interaction documentation (sequence diagrams)
+- Database schema documentation (ERDs)
+- Process documentation for business analysts
+- Cross-functional workflow documentation (swimlanes)
+- Customer experience mapping (journey maps)
+- Project planning visualization (Gantt)
+- Feature prioritization (quadrant charts)
+- Roadmap communication (timelines)
+
+**Output Example (Swimlane):**
+```mermaid
+%% Order Fulfillment Process
+%% Swimlane Process Diagram
+flowchart LR
+    subgraph customer[Customer]
+        order(["Place Order"])
+        receive(["Receive Package"])
+    end
+
+    subgraph sales[Sales Team]
+        verify["Verify Order"]
+        confirm["Send Confirmation"]
+    end
+
+    subgraph warehouse[Warehouse]
+        pick["Pick Items"]
+        pack["Pack Order"]
+        ship["Ship"]
+    end
+
+    order --> verify
+    verify --> confirm
+    confirm --> pick
+    pick --> pack
+    pack --> ship
+    ship -.->|Tracking info| receive
+
+    style customer fill:#e3f2fd,stroke:#666
+    style sales fill:#fff3e0,stroke:#666
+    style warehouse fill:#e8f5e9,stroke:#666
+```
+
+**Complementary Design:**
+- `business-analyst-toolkit/stakeholder_mapper.py`: Stakeholder relationship diagrams (people/orgs)
+- `technical-writer/mermaid_diagram_generator.py`: All other diagram types (technical + business)
 
 ## Reference Documentation
 
