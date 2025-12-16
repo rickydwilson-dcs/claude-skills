@@ -1,0 +1,437 @@
+{
+  "__comment": "New Relic Service Overview Dashboard Template",
+  "__description": "RED method dashboard for monitoring service health using NRQL queries",
+  "__usage": "Replace {{SERVICE_NAME}} and {{ACCOUNT_ID}} with your values. Import via NerdGraph API or New Relic UI.",
+  "name": "{{SERVICE_NAME}} - Service Overview",
+  "description": "RED method metrics (Rate, Errors, Duration) for {{SERVICE_NAME}}",
+  "permissions": "PUBLIC_READ_WRITE",
+  "pages": [
+    {
+      "name": "Overview",
+      "description": "High-level service health metrics",
+      "widgets": [
+        {
+          "title": "Request Rate",
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT rate(count(*), 1 minute) as 'Requests/min' FROM Transaction WHERE appName = '{{SERVICE_NAME}}' TIMESERIES"
+              }
+            ],
+            "legend": {
+              "enabled": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            }
+          },
+          "layout": {
+            "column": 1,
+            "row": 1,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "title": "Error Rate",
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT percentage(count(*), WHERE error IS true) as 'Error %' FROM Transaction WHERE appName = '{{SERVICE_NAME}}' TIMESERIES"
+              }
+            ],
+            "legend": {
+              "enabled": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "colors": {
+              "seriesOverrides": [
+                {
+                  "seriesName": "Error %",
+                  "color": "#ff4d4d"
+                }
+              ]
+            }
+          },
+          "layout": {
+            "column": 5,
+            "row": 1,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "title": "Response Time (P99)",
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT percentile(duration, 99) as 'P99', percentile(duration, 95) as 'P95', percentile(duration, 50) as 'P50' FROM Transaction WHERE appName = '{{SERVICE_NAME}}' TIMESERIES"
+              }
+            ],
+            "legend": {
+              "enabled": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            }
+          },
+          "layout": {
+            "column": 9,
+            "row": 1,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "title": "Throughput",
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT rate(count(*), 1 minute) as 'Requests/min' FROM Transaction WHERE appName = '{{SERVICE_NAME}}' SINCE 5 minutes ago"
+              }
+            ],
+            "thresholds": [
+              {
+                "alertSeverity": "WARNING",
+                "value": 10
+              },
+              {
+                "alertSeverity": "CRITICAL",
+                "value": 1
+              }
+            ]
+          },
+          "layout": {
+            "column": 1,
+            "row": 4,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "title": "Error Count",
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT count(*) as 'Errors' FROM TransactionError WHERE appName = '{{SERVICE_NAME}}' SINCE 5 minutes ago"
+              }
+            ],
+            "thresholds": [
+              {
+                "alertSeverity": "WARNING",
+                "value": 5
+              },
+              {
+                "alertSeverity": "CRITICAL",
+                "value": 20
+              }
+            ]
+          },
+          "layout": {
+            "column": 3,
+            "row": 4,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "title": "Apdex Score",
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT apdex(duration, 0.5) as 'Apdex' FROM Transaction WHERE appName = '{{SERVICE_NAME}}' SINCE 5 minutes ago"
+              }
+            ],
+            "thresholds": [
+              {
+                "alertSeverity": "WARNING",
+                "value": 0.85
+              },
+              {
+                "alertSeverity": "CRITICAL",
+                "value": 0.7
+              }
+            ]
+          },
+          "layout": {
+            "column": 5,
+            "row": 4,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "title": "P99 Latency",
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT percentile(duration, 99) as 'P99 (s)' FROM Transaction WHERE appName = '{{SERVICE_NAME}}' SINCE 5 minutes ago"
+              }
+            ],
+            "thresholds": [
+              {
+                "alertSeverity": "WARNING",
+                "value": 0.5
+              },
+              {
+                "alertSeverity": "CRITICAL",
+                "value": 1.0
+              }
+            ]
+          },
+          "layout": {
+            "column": 7,
+            "row": 4,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "title": "Requests by Endpoint",
+          "visualization": {
+            "id": "viz.bar"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT count(*) FROM Transaction WHERE appName = '{{SERVICE_NAME}}' FACET request.uri SINCE 1 hour ago LIMIT 10"
+              }
+            ],
+            "legend": {
+              "enabled": false
+            }
+          },
+          "layout": {
+            "column": 9,
+            "row": 4,
+            "width": 4,
+            "height": 2
+          }
+        },
+        {
+          "title": "Errors by Type",
+          "visualization": {
+            "id": "viz.table"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT count(*) as 'Count', latest(error.message) as 'Message' FROM TransactionError WHERE appName = '{{SERVICE_NAME}}' FACET error.class SINCE 1 hour ago LIMIT 10"
+              }
+            ]
+          },
+          "layout": {
+            "column": 1,
+            "row": 6,
+            "width": 6,
+            "height": 3
+          }
+        },
+        {
+          "title": "Slowest Transactions",
+          "visualization": {
+            "id": "viz.table"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT average(duration) as 'Avg (s)', percentile(duration, 99) as 'P99 (s)', count(*) as 'Count' FROM Transaction WHERE appName = '{{SERVICE_NAME}}' FACET name SINCE 1 hour ago LIMIT 10"
+              }
+            ]
+          },
+          "layout": {
+            "column": 7,
+            "row": 6,
+            "width": 6,
+            "height": 3
+          }
+        }
+      ]
+    },
+    {
+      "name": "Infrastructure",
+      "description": "Resource utilization metrics (USE method)",
+      "widgets": [
+        {
+          "title": "CPU Utilization",
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT average(cpuPercent) as 'CPU %' FROM SystemSample WHERE hostname LIKE '%{{SERVICE_NAME}}%' OR appName = '{{SERVICE_NAME}}' TIMESERIES"
+              }
+            ],
+            "legend": {
+              "enabled": true
+            },
+            "yAxisLeft": {
+              "zero": true,
+              "max": 100
+            }
+          },
+          "layout": {
+            "column": 1,
+            "row": 1,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "title": "Memory Utilization",
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT average(memoryUsedPercent) as 'Memory %' FROM SystemSample WHERE hostname LIKE '%{{SERVICE_NAME}}%' OR appName = '{{SERVICE_NAME}}' TIMESERIES"
+              }
+            ],
+            "legend": {
+              "enabled": true
+            },
+            "yAxisLeft": {
+              "zero": true,
+              "max": 100
+            }
+          },
+          "layout": {
+            "column": 5,
+            "row": 1,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "title": "Disk Utilization",
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT average(diskUsedPercent) as 'Disk %' FROM SystemSample WHERE hostname LIKE '%{{SERVICE_NAME}}%' FACET device TIMESERIES"
+              }
+            ],
+            "legend": {
+              "enabled": true
+            },
+            "yAxisLeft": {
+              "zero": true,
+              "max": 100
+            }
+          },
+          "layout": {
+            "column": 9,
+            "row": 1,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "title": "Network I/O",
+          "visualization": {
+            "id": "viz.area"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT average(receiveBytesPerSecond) as 'Bytes In/s', average(transmitBytesPerSecond) as 'Bytes Out/s' FROM SystemSample WHERE hostname LIKE '%{{SERVICE_NAME}}%' TIMESERIES"
+              }
+            ],
+            "legend": {
+              "enabled": true
+            }
+          },
+          "layout": {
+            "column": 1,
+            "row": 4,
+            "width": 6,
+            "height": 3
+          }
+        },
+        {
+          "title": "Load Average",
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT average(loadAverageOneMinute) as '1 min', average(loadAverageFiveMinute) as '5 min', average(loadAverageFifteenMinute) as '15 min' FROM SystemSample WHERE hostname LIKE '%{{SERVICE_NAME}}%' TIMESERIES"
+              }
+            ],
+            "legend": {
+              "enabled": true
+            }
+          },
+          "layout": {
+            "column": 7,
+            "row": 4,
+            "width": 6,
+            "height": 3
+          }
+        }
+      ]
+    }
+  ],
+  "variables": [
+    {
+      "name": "environment",
+      "title": "Environment",
+      "type": "NRQL",
+      "nrqlQuery": {
+        "accountIds": ["{{ACCOUNT_ID}}"],
+        "query": "SELECT uniques(tags.env) FROM Transaction WHERE appName = '{{SERVICE_NAME}}'"
+      },
+      "isMultiSelection": false,
+      "defaultValues": [
+        {
+          "value": {
+            "string": "production"
+          }
+        }
+      ]
+    }
+  ]
+}

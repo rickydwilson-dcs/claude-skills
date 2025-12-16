@@ -42,6 +42,7 @@ dependencies:
     - changelog_generator.py
     - api_doc_formatter.py
     - mermaid_diagram_generator.py
+    - interactive_doc_wizard.py
   references:
     - technical_writing_standards.md
     - api_documentation_patterns.md
@@ -79,13 +80,13 @@ stats:
   reviews: 0
 
 # === VERSIONING ===
-version: v1.0.0
+version: v1.1.0
 author: Claude Skills Team
 contributors:
   - Documentation Team
   - Engineering Team
 created: 2025-11-28
-updated: 2025-11-28
+updated: 2025-12-16
 license: MIT
 
 # === DISCOVERABILITY ===
@@ -603,6 +604,97 @@ python scripts/mermaid_diagram_generator.py --type timeline \
 - Consistent visual style
 - Embedded in stakeholder documentation
 
+### Workflow 8: Interactive Documentation Creation (10-30 min)
+
+**Scenario:** Using guided wizards to create documentation through step-by-step interactive workflows
+
+```bash
+# 1. Start interactive README wizard
+python scripts/interactive_doc_wizard.py --workflow readme
+
+# Wizard guides through 8 steps:
+# Step 1: Project name and description
+# Step 2: Technology stack detection (auto-detected)
+# Step 3: Installation instructions
+# Step 4: Usage examples
+# Step 5: API overview (if applicable)
+# Step 6: Contributing guidelines
+# Step 7: License selection
+# Step 8: Preview and confirmation
+
+# 2. Run CHANGELOG workflow for release preparation
+python scripts/interactive_doc_wizard.py --workflow changelog
+
+# Wizard guides through 6 steps:
+# - Version number and release type
+# - Commit range selection
+# - Change categorization review
+# - Breaking changes documentation
+# - Release notes enhancement
+# - Output format selection
+
+# 3. Documentation audit workflow
+python scripts/interactive_doc_wizard.py --workflow audit --output audit-report.md
+
+# Wizard guides through 7 steps:
+# - Select documentation scope (README, API, guides)
+# - Configure quality thresholds
+# - Run automated analysis
+# - Review findings by severity
+# - Generate improvement recommendations
+# - Create action items
+# - Export audit report
+
+# 4. API documentation workflow
+python scripts/interactive_doc_wizard.py --workflow api-docs
+
+# Wizard guides through 10 steps:
+# - Source selection (OpenAPI, code annotations, manual)
+# - Endpoint discovery
+# - Authentication documentation
+# - Request/response examples
+# - Error handling documentation
+# - Rate limiting configuration
+# - Output format selection
+
+# 5. User guide workflow
+python scripts/interactive_doc_wizard.py --workflow user-guide
+
+# Wizard guides through 12 steps:
+# - Target audience definition
+# - Guide structure selection
+# - Getting started content
+# - Feature documentation
+# - Troubleshooting section
+# - FAQ generation
+# - Review and finalization
+
+# 6. Non-interactive mode with config file
+python scripts/interactive_doc_wizard.py --config readme_config.yaml --output README.md
+
+# 7. Dry-run mode (preview without writing)
+python scripts/interactive_doc_wizard.py --workflow readme --dry-run
+```
+
+**Available Workflows:**
+
+| Workflow | Steps | Time | Description |
+|----------|-------|------|-------------|
+| `readme` | 8 | 10-15 min | Interactive README creation with project analysis |
+| `api-docs` | 10 | 15-20 min | Generate API reference from code or specs |
+| `changelog` | 6 | 5-10 min | Create changelog from git history |
+| `audit` | 7 | 10-15 min | Quality assessment of existing documentation |
+| `user-guide` | 12 | 20-30 min | Interactive user guide generation |
+
+**Time Estimate:** 10-30 minutes per workflow (vs 1-3 hours manual creation)
+
+**Success Criteria:**
+- All wizard steps complete successfully
+- Generated documentation passes quality analyzer (score >= 80)
+- Output matches project context and requirements
+- Config file mode available for automation
+- Dry-run mode works for preview
+
 ## Python Tools
 
 ### 1. Documentation Quality Analyzer
@@ -986,6 +1078,101 @@ flowchart LR
 - `business-analyst-toolkit/stakeholder_mapper.py`: Stakeholder relationship diagrams (people/orgs)
 - `technical-writer/mermaid_diagram_generator.py`: All other diagram types (technical + business)
 
+### 6. Interactive Documentation Wizard
+
+Step-by-step guided documentation creation through interactive CLI workflows.
+
+**Key Features:**
+- 5 interactive workflows (readme, api-docs, changelog, audit, user-guide)
+- Project auto-detection (language, framework, tests, CI)
+- Decision tree navigation (adaptive questions based on context)
+- Multiple output formats (markdown, html, json)
+- Config file mode for non-interactive/automated usage
+- Dry-run mode for preview without writing
+- Integration with existing tools (doc_quality_analyzer, readme_generator, changelog_generator)
+
+**Common Usage:**
+```bash
+# Start README wizard interactively
+python scripts/interactive_doc_wizard.py --workflow readme
+
+# Run audit workflow with output file
+python scripts/interactive_doc_wizard.py --workflow audit --output audit_report.md
+
+# Non-interactive mode with config file
+python scripts/interactive_doc_wizard.py --config readme_config.yaml --output README.md
+
+# Dry-run mode (preview without writing)
+python scripts/interactive_doc_wizard.py --workflow readme --dry-run
+
+# Show available workflows
+python scripts/interactive_doc_wizard.py --help
+```
+
+**Available Workflows:**
+
+| Workflow | Steps | Time Est. | Description |
+|----------|-------|-----------|-------------|
+| `readme` | 8 | 10-15 min | Interactive README creation with project analysis |
+| `api-docs` | 10 | 15-20 min | Generate API reference from code or specs |
+| `changelog` | 6 | 5-10 min | Create changelog from git history |
+| `audit` | 7 | 10-15 min | Quality assessment of existing documentation |
+| `user-guide` | 12 | 20-30 min | Interactive user guide generation |
+
+**Use Cases:**
+- First-time README creation for new projects
+- Release preparation with changelog and migration docs
+- Documentation quality audits before releases
+- API documentation from scratch or OpenAPI specs
+- User guide creation for developer onboarding
+- Automated documentation generation in CI/CD pipelines
+- Standardized documentation across multiple repositories
+
+**Output Example:**
+```
+============================================================
+          INTERACTIVE DOCUMENTATION WIZARD
+============================================================
+Version: 1.0.0
+
+Available Workflows:
+  1. README Creation (8 steps, ~10-15 min)
+  2. API Documentation (10 steps, ~15-20 min)
+  3. Changelog Generation (6 steps, ~5-10 min)
+  4. Documentation Audit (7 steps, ~10-15 min)
+  5. User Guide Creation (12 steps, ~20-30 min)
+
+Select a workflow (1-5): 1
+
+============================================================
+README CREATION WORKFLOW
+============================================================
+
+Step 1/8: Project Information
+------------------------------------------------------------
+Auto-detected project name: my-awesome-project
+Is this correct? (Y/n): y
+
+Step 2/8: Technology Stack
+------------------------------------------------------------
+Detected languages: Python (78%), JavaScript (22%)
+Detected framework: FastAPI
+Detected package manager: pip
+Include detected stack? (Y/n): y
+
+[... continues through all steps ...]
+
+Step 8/8: Preview & Confirm
+------------------------------------------------------------
+Preview generated README.md:
+
+# my-awesome-project
+...
+
+Write to README.md? (Y/n): y
+✓ README.md created successfully!
+```
+
 ## Reference Documentation
 
 Detailed guides available in the `references/` directory:
@@ -1219,7 +1406,7 @@ fi
 
 ---
 
-**Version:** 1.0.0
-**Last Updated:** 2025-11-28
+**Version:** 1.1.0
+**Last Updated:** 2025-12-16
 **Documentation Structure:** Progressive disclosure with references/
 **Integration:** Powers /update.docs command and CI/CD documentation workflows

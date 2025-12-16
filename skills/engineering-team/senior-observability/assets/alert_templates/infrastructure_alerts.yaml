@@ -1,0 +1,419 @@
+# Infrastructure Alerting Rules Template
+# USE Method alerts for infrastructure resources
+#
+# Usage: Replace {{NAMESPACE}} and threshold values as needed
+
+groups:
+  - name: infrastructure-alerts
+    interval: 30s
+    rules:
+      # ============================================
+      # NODE ALERTS
+      # ============================================
+
+      # Critical: Node down
+      - alert: NodeDown
+        expr: up{job="node-exporter"} == 0
+        for: 5m
+        labels:
+          severity: critical
+          category: infrastructure
+        annotations:
+          summary: "Node {{ $labels.instance }} is down"
+          description: |
+            Node {{ $labels.instance }} has been unreachable for more than 5 minutes.
+
+            Investigate node health and network connectivity.
+          runbook_url: "https://runbooks.example.com/infrastructure/node-down"
+
+      # Critical: Node CPU high
+      - alert: NodeCPUHigh
+        expr: |
+          100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 90
+        for: 15m
+        labels:
+          severity: critical
+          category: infrastructure
+          resource: cpu
+        annotations:
+          summary: "Node {{ $labels.instance }} CPU usage above 90%"
+          description: |
+            Node {{ $labels.instance }} has sustained CPU usage above 90% for 15 minutes.
+
+            Current usage: {{ $value | humanize }}%
+          runbook_url: "https://runbooks.example.com/infrastructure/cpu-high"
+
+      # Warning: Node CPU elevated
+      - alert: NodeCPUElevated
+        expr: |
+          100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 75
+        for: 30m
+        labels:
+          severity: warning
+          category: infrastructure
+          resource: cpu
+        annotations:
+          summary: "Node {{ $labels.instance }} CPU usage elevated"
+          description: |
+            Node {{ $labels.instance }} has sustained CPU usage above 75% for 30 minutes.
+
+            Current usage: {{ $value | humanize }}%
+          runbook_url: "https://runbooks.example.com/infrastructure/cpu-elevated"
+
+      # Critical: Node memory high
+      - alert: NodeMemoryHigh
+        expr: |
+          (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes)
+          / node_memory_MemTotal_bytes * 100 > 90
+        for: 15m
+        labels:
+          severity: critical
+          category: infrastructure
+          resource: memory
+        annotations:
+          summary: "Node {{ $labels.instance }} memory usage above 90%"
+          description: |
+            Node {{ $labels.instance }} has sustained memory usage above 90% for 15 minutes.
+
+            Current usage: {{ $value | humanize }}%
+            Risk of OOM kills.
+          runbook_url: "https://runbooks.example.com/infrastructure/memory-high"
+
+      # Warning: Node memory elevated
+      - alert: NodeMemoryElevated
+        expr: |
+          (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes)
+          / node_memory_MemTotal_bytes * 100 > 75
+        for: 30m
+        labels:
+          severity: warning
+          category: infrastructure
+          resource: memory
+        annotations:
+          summary: "Node {{ $labels.instance }} memory usage elevated"
+          description: |
+            Node {{ $labels.instance }} has sustained memory usage above 75% for 30 minutes.
+
+            Current usage: {{ $value | humanize }}%
+          runbook_url: "https://runbooks.example.com/infrastructure/memory-elevated"
+
+      # Critical: Node disk space critical
+      - alert: NodeDiskSpaceCritical
+        expr: |
+          (node_filesystem_size_bytes{fstype!~"tmpfs|overlay"} - node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"})
+          / node_filesystem_size_bytes{fstype!~"tmpfs|overlay"} * 100 > 90
+        for: 5m
+        labels:
+          severity: critical
+          category: infrastructure
+          resource: disk
+        annotations:
+          summary: "Node {{ $labels.instance }} disk space critical on {{ $labels.mountpoint }}"
+          description: |
+            Node {{ $labels.instance }} has less than 10% disk space remaining on {{ $labels.mountpoint }}.
+
+            Current usage: {{ $value | humanize }}%
+            Take immediate action to prevent disk full.
+          runbook_url: "https://runbooks.example.com/infrastructure/disk-critical"
+
+      # Warning: Node disk space low
+      - alert: NodeDiskSpaceLow
+        expr: |
+          (node_filesystem_size_bytes{fstype!~"tmpfs|overlay"} - node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"})
+          / node_filesystem_size_bytes{fstype!~"tmpfs|overlay"} * 100 > 75
+        for: 30m
+        labels:
+          severity: warning
+          category: infrastructure
+          resource: disk
+        annotations:
+          summary: "Node {{ $labels.instance }} disk space low on {{ $labels.mountpoint }}"
+          description: |
+            Node {{ $labels.instance }} has less than 25% disk space remaining on {{ $labels.mountpoint }}.
+
+            Current usage: {{ $value | humanize }}%
+          runbook_url: "https://runbooks.example.com/infrastructure/disk-low"
+
+      # Warning: Disk I/O saturation
+      - alert: NodeDiskIOSaturation
+        expr: |
+          rate(node_disk_io_time_weighted_seconds_total[5m]) > 0.9
+        for: 15m
+        labels:
+          severity: warning
+          category: infrastructure
+          resource: disk
+        annotations:
+          summary: "Node {{ $labels.instance }} disk I/O saturated"
+          description: |
+            Node {{ $labels.instance }} disk {{ $labels.device }} is experiencing I/O saturation.
+
+            This may cause performance degradation.
+          runbook_url: "https://runbooks.example.com/infrastructure/disk-io-saturation"
+
+      # Critical: Node load high
+      - alert: NodeLoadHigh
+        expr: |
+          node_load1 / count by(instance) (node_cpu_seconds_total{mode="idle"}) > 2
+        for: 15m
+        labels:
+          severity: critical
+          category: infrastructure
+          resource: cpu
+        annotations:
+          summary: "Node {{ $labels.instance }} load is very high"
+          description: |
+            Node {{ $labels.instance }} 1-minute load average is more than 2x the CPU count.
+
+            Current load: {{ $value | humanize }}
+          runbook_url: "https://runbooks.example.com/infrastructure/load-high"
+
+      # Warning: OOM kills detected
+      - alert: NodeOOMKills
+        expr: |
+          increase(node_vmstat_oom_kill[1h]) > 0
+        for: 1m
+        labels:
+          severity: warning
+          category: infrastructure
+          resource: memory
+        annotations:
+          summary: "OOM kills detected on {{ $labels.instance }}"
+          description: |
+            Node {{ $labels.instance }} has experienced {{ $value }} OOM kills in the last hour.
+
+            Investigate memory-hungry processes.
+          runbook_url: "https://runbooks.example.com/infrastructure/oom-kills"
+
+      # ============================================
+      # KUBERNETES ALERTS
+      # ============================================
+
+      # Critical: Pod crash looping
+      - alert: PodCrashLooping
+        expr: |
+          rate(kube_pod_container_status_restarts_total[15m]) * 60 * 15 > 3
+        for: 5m
+        labels:
+          severity: critical
+          category: kubernetes
+        annotations:
+          summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} is crash looping"
+          description: |
+            Pod {{ $labels.namespace }}/{{ $labels.pod }} has restarted {{ $value | humanize }} times in the last 15 minutes.
+
+            Check pod logs and events.
+          runbook_url: "https://runbooks.example.com/kubernetes/pod-crashloop"
+
+      # Warning: Pod not ready
+      - alert: PodNotReady
+        expr: |
+          sum by(namespace, pod) (kube_pod_status_phase{phase=~"Pending|Unknown"}) > 0
+        for: 15m
+        labels:
+          severity: warning
+          category: kubernetes
+        annotations:
+          summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} not ready"
+          description: |
+            Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in non-ready state for 15 minutes.
+
+            Check pod events and resource availability.
+          runbook_url: "https://runbooks.example.com/kubernetes/pod-not-ready"
+
+      # Critical: Deployment replica mismatch
+      - alert: DeploymentReplicaMismatch
+        expr: |
+          kube_deployment_spec_replicas != kube_deployment_status_available_replicas
+        for: 15m
+        labels:
+          severity: critical
+          category: kubernetes
+        annotations:
+          summary: "Deployment {{ $labels.namespace }}/{{ $labels.deployment }} replica mismatch"
+          description: |
+            Deployment {{ $labels.namespace }}/{{ $labels.deployment }} has not matched desired replica count for 15 minutes.
+
+            Desired: {{ with query "kube_deployment_spec_replicas{deployment='{{ $labels.deployment }}'}" }}{{ . | first | value }}{{ end }}
+            Available: {{ with query "kube_deployment_status_available_replicas{deployment='{{ $labels.deployment }}'}" }}{{ . | first | value }}{{ end }}
+          runbook_url: "https://runbooks.example.com/kubernetes/deployment-replica-mismatch"
+
+      # Warning: PVC nearly full
+      - alert: PVCNearlyFull
+        expr: |
+          kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes * 100 > 80
+        for: 15m
+        labels:
+          severity: warning
+          category: kubernetes
+          resource: storage
+        annotations:
+          summary: "PVC {{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }} is {{ $value | humanize }}% full"
+          description: |
+            PersistentVolumeClaim {{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }} is over 80% utilized.
+
+            Consider increasing size or cleanup.
+          runbook_url: "https://runbooks.example.com/kubernetes/pvc-nearly-full"
+
+      # ============================================
+      # NETWORK ALERTS
+      # ============================================
+
+      # Warning: Network errors
+      - alert: NetworkErrors
+        expr: |
+          sum by(instance) (rate(node_network_receive_errs_total[5m]) + rate(node_network_transmit_errs_total[5m])) > 10
+        for: 5m
+        labels:
+          severity: warning
+          category: infrastructure
+          resource: network
+        annotations:
+          summary: "Network errors detected on {{ $labels.instance }}"
+          description: |
+            Node {{ $labels.instance }} is experiencing network errors.
+
+            Errors per second: {{ $value | humanize }}
+          runbook_url: "https://runbooks.example.com/infrastructure/network-errors"
+
+      # Warning: Network receive saturation
+      - alert: NetworkReceiveSaturation
+        expr: |
+          rate(node_network_receive_bytes_total{device!~"lo|veth.*|docker.*|br.*"}[5m])
+          / node_network_speed_bytes{device!~"lo|veth.*|docker.*|br.*"} * 100 > 80
+        for: 15m
+        labels:
+          severity: warning
+          category: infrastructure
+          resource: network
+        annotations:
+          summary: "Network receive bandwidth saturated on {{ $labels.instance }}"
+          description: |
+            Node {{ $labels.instance }} device {{ $labels.device }} is using over 80% of available bandwidth for receiving.
+
+            Current utilization: {{ $value | humanize }}%
+          runbook_url: "https://runbooks.example.com/infrastructure/network-saturation"
+
+      # ============================================
+      # DATABASE ALERTS (PostgreSQL example)
+      # ============================================
+
+      # Critical: Database connections high
+      - alert: PostgreSQLConnectionsHigh
+        expr: |
+          sum by(instance) (pg_stat_activity_count) / sum by(instance) (pg_settings_max_connections) * 100 > 80
+        for: 5m
+        labels:
+          severity: critical
+          category: database
+          resource: connections
+        annotations:
+          summary: "PostgreSQL {{ $labels.instance }} connection usage high"
+          description: |
+            PostgreSQL {{ $labels.instance }} is using over 80% of max_connections.
+
+            Current usage: {{ $value | humanize }}%
+            Risk of connection exhaustion.
+          runbook_url: "https://runbooks.example.com/database/connections-high"
+
+      # Warning: Database replication lag
+      - alert: PostgreSQLReplicationLag
+        expr: |
+          pg_replication_lag > 30
+        for: 5m
+        labels:
+          severity: warning
+          category: database
+          resource: replication
+        annotations:
+          summary: "PostgreSQL replication lag on {{ $labels.instance }}"
+          description: |
+            PostgreSQL {{ $labels.instance }} replication lag is {{ $value | humanize }} seconds.
+
+            This may impact read replicas and disaster recovery.
+          runbook_url: "https://runbooks.example.com/database/replication-lag"
+
+      # Critical: Database slow queries
+      - alert: PostgreSQLSlowQueries
+        expr: |
+          rate(pg_stat_statements_seconds_total{query!~".*pg_stat.*"}[5m]) / rate(pg_stat_statements_calls_total{query!~".*pg_stat.*"}[5m]) > 1
+        for: 10m
+        labels:
+          severity: warning
+          category: database
+          resource: performance
+        annotations:
+          summary: "Slow queries detected on PostgreSQL {{ $labels.instance }}"
+          description: |
+            PostgreSQL {{ $labels.instance }} has queries averaging over 1 second.
+
+            Average query time: {{ $value | humanizeDuration }}
+          runbook_url: "https://runbooks.example.com/database/slow-queries"
+
+      # ============================================
+      # MESSAGE QUEUE ALERTS (Kafka example)
+      # ============================================
+
+      # Warning: Consumer lag high
+      - alert: KafkaConsumerLagHigh
+        expr: |
+          sum by(consumergroup, topic) (kafka_consumergroup_lag) > 10000
+        for: 15m
+        labels:
+          severity: warning
+          category: messaging
+          resource: consumer
+        annotations:
+          summary: "Kafka consumer group {{ $labels.consumergroup }} lag high on {{ $labels.topic }}"
+          description: |
+            Consumer group {{ $labels.consumergroup }} has {{ $value }} messages lag on topic {{ $labels.topic }}.
+
+            Consider scaling consumers.
+          runbook_url: "https://runbooks.example.com/kafka/consumer-lag"
+
+      # Critical: Kafka under-replicated partitions
+      - alert: KafkaUnderReplicatedPartitions
+        expr: |
+          sum by(topic) (kafka_topic_partition_under_replicated_partition) > 0
+        for: 5m
+        labels:
+          severity: critical
+          category: messaging
+          resource: replication
+        annotations:
+          summary: "Kafka under-replicated partitions on {{ $labels.topic }}"
+          description: |
+            Topic {{ $labels.topic }} has {{ $value }} under-replicated partitions.
+
+            This impacts data durability. Check broker health.
+          runbook_url: "https://runbooks.example.com/kafka/under-replicated"
+
+# ============================================
+# RECORDING RULES
+# ============================================
+  - name: infrastructure-recording
+    interval: 30s
+    rules:
+      # CPU usage
+      - record: instance:node_cpu:rate5m
+        expr: |
+          100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
+
+      # Memory usage
+      - record: instance:node_memory:ratio
+        expr: |
+          (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes
+
+      # Disk usage
+      - record: instance:node_disk:ratio
+        expr: |
+          (node_filesystem_size_bytes - node_filesystem_avail_bytes) / node_filesystem_size_bytes
+
+      # Network throughput
+      - record: instance:node_network:receive_bytes_rate5m
+        expr: |
+          sum by(instance) (rate(node_network_receive_bytes_total[5m]))
+
+      - record: instance:node_network:transmit_bytes_rate5m
+        expr: |
+          sum by(instance) (rate(node_network_transmit_bytes_total[5m]))

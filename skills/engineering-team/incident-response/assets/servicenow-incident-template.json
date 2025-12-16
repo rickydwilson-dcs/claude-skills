@@ -1,0 +1,51 @@
+{
+  "_comment": "ServiceNow Incident Creation Template - Customize placeholders before use",
+  "_documentation": "https://docs.servicenow.com/bundle/tokyo-application-development/page/integrate/inbound-rest/concept/c_TableAPI.html",
+
+  "short_description": "{{alert_name}} - {{affected_service}}",
+  "description": "Alert: {{alert_description}}\n\nSeverity: {{severity}}\nSource: {{alert_source}}\nTimestamp: {{timestamp}}\n\nAffected Systems:\n  - Service: {{affected_service}}\n  - Environment: {{environment}}\n\nRunbook: {{runbook_url}}",
+
+  "category": "Software",
+  "subcategory": "Application",
+
+  "impact": "{{impact}}",
+  "urgency": "{{urgency}}",
+  "priority": "{{priority}}",
+
+  "assignment_group": "{{assignment_group}}",
+  "cmdb_ci": "{{ci_sys_id_or_name}}",
+
+  "caller_id": "monitoring-system",
+  "contact_type": "Monitoring",
+
+  "u_source_system": "Pandora",
+  "u_environment": "{{environment}}",
+  "u_region": "ANZ",
+
+  "correlation_id": "{{source}}-{{alert_id}}-{{timestamp}}",
+
+  "_placeholder_mappings": {
+    "alert_name": "Name of the alert (e.g., 'High CPU Usage')",
+    "affected_service": "Name of affected service/application",
+    "alert_description": "Detailed description of the alert condition",
+    "severity": "P0, P1, P2, P3 or critical, high, warning, low",
+    "alert_source": "Prometheus, NewRelic, DataDog, PagerDuty, etc.",
+    "timestamp": "ISO 8601 timestamp (e.g., 2024-01-15T10:30:00Z)",
+    "environment": "production, staging, development",
+    "runbook_url": "URL to incident runbook",
+    "impact": "1 (High), 2 (Medium), 3 (Low)",
+    "urgency": "1 (High), 2 (Medium), 3 (Low)",
+    "priority": "1-5 (calculated from impact and urgency)",
+    "assignment_group": "ServiceNow assignment group name or sys_id",
+    "ci_sys_id_or_name": "CMDB Configuration Item sys_id or name",
+    "source": "Alert source system identifier",
+    "alert_id": "Unique alert identifier from source system"
+  },
+
+  "_severity_to_priority_mapping": {
+    "P0_Critical": {"impact": 1, "urgency": 1, "priority": 1},
+    "P1_High": {"impact": 2, "urgency": 1, "priority": 2},
+    "P2_Medium": {"impact": 2, "urgency": 2, "priority": 3},
+    "P3_Low": {"impact": 3, "urgency": 3, "priority": 4}
+  }
+}

@@ -980,6 +980,596 @@ query = user_metrics.writeStream \
 query.awaitTermination()
 ```
 
+### Stateful Stream Processing
+
+**Keyed State Pattern:**
+```python
+from pyflink.datastream import KeyedProcessFunction
+from pyflink.datastream.state import ValueStateDescriptor, ListStateDescriptor
+
+class StatefulAggregator(KeyedProcessFunction):
+    """Maintains state per key for running aggregations."""
+
+    def open(self, runtime_context):
+        # Value state for running sum
+        sum_descriptor = ValueStateDescriptor("running_sum", float)
+        self.running_sum = runtime_context.get_state(sum_descriptor)
+
+        # List state for recent values
+        list_descriptor = ListStateDescriptor("recent_values", float)
+        self.recent_values = runtime_context.get_list_state(list_descriptor)
+
+    def process_element(self, value, ctx):
+        # Update running sum
+        current_sum = self.running_sum.value() or 0.0
+        self.running_sum.update(current_sum + value.amount)
+
+        # Maintain sliding window of recent values
+        self.recent_values.add(value.amount)
+
+        # Emit aggregated result
+        yield {
+            "key": ctx.get_current_key(),
+            "running_sum": current_sum + value.amount,
+            "count": sum(1 for _ in self.recent_values.get())
+        }
+```
+
+**State Backend Configuration:**
+```python
+# RocksDB for large state
+env.set_state_backend(RocksDBStateBackend("file:///tmp/state"))
+
+# HashMap for small state (faster but memory-bound)
+env.set_state_backend(HashMapStateBackend())
+
+# State TTL configuration
+from pyflink.datastream.state import StateTtlConfig, TimeCharacteristic
+
+ttl_config = StateTtlConfig.builder(Time.hours(24)) \
+    .set_update_type(StateTtlConfig.UpdateType.OnCreateAndWrite) \
+    .set_state_visibility(StateTtlConfig.StateVisibility.NeverReturnExpired) \
+    .build()
+```
+
+### Stream Joins
+
+**Stream-Stream Join (Windowed):**
+```python
+# Join two streams within a time window
+from pyspark.sql.functions import expr
+
+orders_stream = spark.readStream.format("kafka") \
+    .option("subscribe", "orders").load()
+
+payments_stream = spark.readStream.format("kafka") \
+    .option("subscribe", "payments").load()
+
+# Join orders with payments within 10-minute window
+joined_stream = orders_stream.join(
+    payments_stream,
+    expr("""
+        orders.order_id = payments.order_id AND
+        payments.timestamp BETWEEN orders.timestamp AND orders.timestamp + INTERVAL 10 MINUTES
+    """),
+    "leftOuter"
+)
+```
+
+**Stream-Table Join (Enrichment):**
+```python
+# Enrich stream with static reference data
+from pyspark.sql.functions import broadcast
+
+# Load reference data (small enough to broadcast)
+customers_df = spark.read.parquet("s3://bucket/customers")
+
+# Join streaming orders with customer data
+enriched_orders = orders_stream.join(
+    broadcast(customers_df),
+    orders_stream.customer_id == customers_df.customer_id,
+    "left"
+)
+```
+
+**Temporal Table Join (Flink):**
+```java
+// Join with versioned table based on event time
+Table orders = tableEnv.from("orders_stream");
+Table products = tableEnv.from("products_versioned");
+
+Table enrichedOrders = orders.joinLateral(
+    products.createTemporalTableFunction(
+        $("valid_from"),  // Time attribute
+        $("product_id")   // Primary key
+    ),
+    $("order_product_id").isEqual($("product_id"))
+);
+```
+
+### Windowing Strategies
+
+**Tumbling Window:**
+```python
+from pyspark.sql.functions import window
+
+# Non-overlapping fixed-size windows
+tumbling_agg = events_stream \
+    .groupBy(
+        window("timestamp", "5 minutes"),  # 5-minute tumbling window
+        "user_id"
+    ) \
+    .agg(
+        count("*").alias("event_count"),
+        sum("value").alias("total_value")
+    )
+```
+
+**Sliding Window:**
+```python
+# Overlapping windows with slide interval
+sliding_agg = events_stream \
+    .groupBy(
+        window("timestamp", "10 minutes", "2 minutes"),  # 10-min window, 2-min slide
+        "category"
+    ) \
+    .agg(
+        avg("value").alias("avg_value"),
+        max("value").alias("max_value")
+    )
+```
+
+**Session Window:**
+```python
+from pyspark.sql.functions import session_window
+
+# Dynamic windows based on activity gaps
+session_agg = events_stream \
+    .groupBy(
+        session_window("timestamp", "30 minutes"),  # 30-min inactivity gap
+        "user_id"
+    ) \
+    .agg(
+        count("*").alias("events_in_session"),
+        first("timestamp").alias("session_start"),
+        last("timestamp").alias("session_end")
+    )
+```
+
+**Late Data Handling:**
+```python
+# Allow late data up to 1 hour
+windowed_counts = events_stream \
+    .withWatermark("timestamp", "1 hour") \
+    .groupBy(
+        window("timestamp", "10 minutes"),
+        "category"
+    ) \
+    .count()
+
+# Write with update mode for late data
+query = windowed_counts.writeStream \
+    .outputMode("update") \
+    .format("console") \
+    .start()
+```
+
+### Exactly-Once Semantics
+
+**Kafka Exactly-Once Producer:**
+```python
+from kafka import KafkaProducer
+
+producer = KafkaProducer(
+    bootstrap_servers=['kafka:9092'],
+    acks='all',
+    enable_idempotence=True,  # Enable idempotent producer
+    max_in_flight_requests_per_connection=5,
+    retries=2147483647,
+    transactional_id='my-transactional-producer'  # Enable transactions
+)
+
+# Initialize transactions
+producer.init_transactions()
+
+try:
+    producer.begin_transaction()
+
+    # Send multiple messages atomically
+    producer.send('topic1', key=b'key1', value=b'value1')
+    producer.send('topic2', key=b'key2', value=b'value2')
+
+    # Commit transaction
+    producer.commit_transaction()
+except Exception as e:
+    producer.abort_transaction()
+    raise
+```
+
+**Flink Exactly-Once Checkpointing:**
+```java
+StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+
+// Enable exactly-once checkpointing
+env.enableCheckpointing(60000);  // 60 second interval
+env.getCheckpointConfig().setCheckpointingMode(CheckpointingMode.EXACTLY_ONCE);
+env.getCheckpointConfig().setMinPauseBetweenCheckpoints(1000);
+env.getCheckpointConfig().setCheckpointTimeout(60000);
+env.getCheckpointConfig().setMaxConcurrentCheckpoints(1);
+env.getCheckpointConfig().setExternalizedCheckpointCleanup(
+    ExternalizedCheckpointCleanup.RETAIN_ON_CANCELLATION
+);
+
+// Use RocksDB for large state
+env.setStateBackend(new EmbeddedRocksDBStateBackend());
+env.getCheckpointConfig().setCheckpointStorage("s3://bucket/checkpoints");
+```
+
+**End-to-End Exactly-Once:**
+```python
+# Kafka source -> Flink processing -> Kafka sink with exactly-once
+
+kafka_sink = KafkaSink.builder() \
+    .set_bootstrap_servers("kafka:9092") \
+    .set_record_serializer(
+        KafkaRecordSerializationSchema.builder()
+            .set_topic("output-topic")
+            .set_value_serialization_schema(SimpleStringSchema())
+            .build()
+    ) \
+    .set_delivery_guarantee(DeliveryGuarantee.EXACTLY_ONCE) \
+    .set_transactional_id_prefix("flink-txn") \
+    .build()
+```
+
+### Event Time Processing
+
+**Watermark Strategies:**
+```python
+from pyflink.common import WatermarkStrategy, Duration
+
+# Bounded out-of-orderness watermark
+watermark_strategy = WatermarkStrategy \
+    .for_bounded_out_of_orderness(Duration.of_seconds(10)) \
+    .with_timestamp_assigner(lambda event, ts: event.event_time)
+
+# Monotonously increasing timestamps
+monotonous_strategy = WatermarkStrategy \
+    .for_monotonous_timestamps() \
+    .with_timestamp_assigner(lambda event, ts: event.event_time)
+
+# Custom watermark generator
+class PunctuatedWatermarkGenerator(WatermarkGenerator):
+    def on_event(self, event, timestamp, output):
+        if event.is_watermark_marker:
+            output.emit_watermark(Watermark(event.watermark_time))
+
+    def on_periodic_emit(self, output):
+        pass  # No periodic watermarks
+```
+
+**Handling Late Data:**
+```java
+// Flink side outputs for late data
+OutputTag<Event> lateDataTag = new OutputTag<Event>("late-data") {};
+
+SingleOutputStreamOperator<Result> mainStream = eventStream
+    .assignTimestampsAndWatermarks(watermarkStrategy)
+    .keyBy(Event::getKey)
+    .window(TumblingEventTimeWindows.of(Time.minutes(5)))
+    .allowedLateness(Time.minutes(1))
+    .sideOutputLateData(lateDataTag)
+    .process(new MyWindowFunction());
+
+// Get late data stream
+DataStream<Event> lateStream = mainStream.getSideOutput(lateDataTag);
+
+// Handle late data separately
+lateStream.addSink(new LateDataSink());
+```
+
+### Backpressure and Flow Control
+
+**Detecting Backpressure:**
+```python
+# Kafka consumer with backpressure monitoring
+from kafka import KafkaConsumer
+import time
+
+consumer = KafkaConsumer(
+    'my-topic',
+    bootstrap_servers=['kafka:9092'],
+    max_poll_records=500,  # Limit batch size
+    fetch_max_wait_ms=500,
+    fetch_min_bytes=1
+)
+
+processing_times = []
+
+for message in consumer:
+    start = time.time()
+
+    # Process message
+    process_message(message)
+
+    elapsed = time.time() - start
+    processing_times.append(elapsed)
+
+    # Detect backpressure (processing slower than arrival rate)
+    if len(processing_times) > 100:
+        avg_time = sum(processing_times[-100:]) / 100
+        if avg_time > 0.1:  # >100ms average
+            print(f"Backpressure detected! Avg processing: {avg_time:.3f}s")
+            # Implement throttling or scaling logic
+```
+
+**Rate Limiting:**
+```python
+from pyspark.sql.streaming import StreamingQuery
+
+# Limit input rate
+rate_limited_stream = spark.readStream \
+    .format("kafka") \
+    .option("maxOffsetsPerTrigger", 10000) \
+    .option("kafka.max.poll.records", 500) \
+    .load()
+
+# Trigger-based rate control
+query = rate_limited_stream.writeStream \
+    .trigger(processingTime="10 seconds") \
+    .format("parquet") \
+    .start()
+```
+
+### Apache Flink Patterns
+
+**DataStream API Pattern:**
+```java
+DataStream<Event> events = env.fromSource(kafkaSource, watermarkStrategy, "kafka");
+
+DataStream<Result> results = events
+    .filter(e -> e.getType().equals("purchase"))
+    .keyBy(Event::getUserId)
+    .window(TumblingEventTimeWindows.of(Time.hours(1)))
+    .aggregate(new PurchaseAggregator())
+    .filter(r -> r.getTotalAmount() > 100);
+
+results.sinkTo(kafkaSink);
+```
+
+**Complex Event Processing (CEP):**
+```java
+import org.apache.flink.cep.CEP;
+import org.apache.flink.cep.pattern.Pattern;
+
+// Define pattern: login -> browse -> purchase within 30 minutes
+Pattern<Event, ?> pattern = Pattern.<Event>begin("login")
+    .where(e -> e.getType().equals("login"))
+    .followedBy("browse")
+    .where(e -> e.getType().equals("browse"))
+    .followedBy("purchase")
+    .where(e -> e.getType().equals("purchase"))
+    .within(Time.minutes(30));
+
+PatternStream<Event> patternStream = CEP.pattern(events.keyBy(Event::getUserId), pattern);
+
+DataStream<Alert> alerts = patternStream.process(new PatternProcessFunction<Event, Alert>() {
+    @Override
+    public void processMatch(Map<String, List<Event>> match, Context ctx, Collector<Alert> out) {
+        Event login = match.get("login").get(0);
+        Event purchase = match.get("purchase").get(0);
+        out.collect(new Alert(login.getUserId(), "Quick conversion detected"));
+    }
+});
+```
+
+**Async I/O Pattern:**
+```java
+// Asynchronous enrichment from external service
+AsyncDataStream.unorderedWait(
+    eventStream,
+    new AsyncEnrichmentFunction(),
+    30,  // timeout
+    TimeUnit.SECONDS,
+    100  // capacity
+);
+
+class AsyncEnrichmentFunction extends RichAsyncFunction<Event, EnrichedEvent> {
+    private transient AsyncHttpClient client;
+
+    @Override
+    public void asyncInvoke(Event event, ResultFuture<EnrichedEvent> future) {
+        CompletableFuture.supplyAsync(() -> {
+            // Make async HTTP call
+            Response response = client.get("/api/enrich/" + event.getId()).join();
+            return new EnrichedEvent(event, response.getBody());
+        }).thenAccept(result -> future.complete(Collections.singleton(result)));
+    }
+}
+```
+
+### AWS Kinesis Patterns
+
+**Kinesis Data Streams Producer:**
+```python
+import boto3
+import json
+
+kinesis = boto3.client('kinesis', region_name='us-east-1')
+
+def put_record(stream_name, data, partition_key):
+    """Put single record to Kinesis."""
+    response = kinesis.put_record(
+        StreamName=stream_name,
+        Data=json.dumps(data),
+        PartitionKey=partition_key
+    )
+    return response['SequenceNumber']
+
+def put_records_batch(stream_name, records):
+    """Put batch of records with retry logic."""
+    kinesis_records = [
+        {
+            'Data': json.dumps(r['data']),
+            'PartitionKey': r['partition_key']
+        }
+        for r in records
+    ]
+
+    response = kinesis.put_records(
+        StreamName=stream_name,
+        Records=kinesis_records
+    )
+
+    # Handle failed records
+    if response['FailedRecordCount'] > 0:
+        failed = [r for r, resp in zip(records, response['Records'])
+                  if 'ErrorCode' in resp]
+        # Retry failed records
+        put_records_batch(stream_name, failed)
+```
+
+**Kinesis Consumer with KCL:**
+```python
+from amazon_kclpy import kcl
+from amazon_kclpy.kcl import RecordProcessorBase
+
+class MyRecordProcessor(RecordProcessorBase):
+    def __init__(self):
+        self.checkpoint_freq = 100
+        self.record_count = 0
+
+    def process_records(self, records, checkpointer):
+        for record in records:
+            data = json.loads(record.get('data'))
+            # Process record
+            self.process_single_record(data)
+            self.record_count += 1
+
+        # Checkpoint after processing batch
+        if self.record_count >= self.checkpoint_freq:
+            checkpointer.checkpoint()
+            self.record_count = 0
+
+    def shutdown(self, checkpointer, reason):
+        if reason == 'TERMINATE':
+            checkpointer.checkpoint()
+```
+
+**Enhanced Fan-Out Consumer:**
+```python
+import boto3
+
+kinesis = boto3.client('kinesis', region_name='us-east-1')
+
+# Register consumer for enhanced fan-out
+response = kinesis.register_stream_consumer(
+    StreamARN='arn:aws:kinesis:us-east-1:123456789012:stream/my-stream',
+    ConsumerName='my-efo-consumer'
+)
+
+consumer_arn = response['Consumer']['ConsumerARN']
+
+# Subscribe to shard with enhanced fan-out
+def subscribe_to_shard(consumer_arn, shard_id):
+    response = kinesis.subscribe_to_shard(
+        ConsumerARN=consumer_arn,
+        ShardId=shard_id,
+        StartingPosition={'Type': 'LATEST'}
+    )
+
+    for event in response['EventStream']:
+        if 'SubscribeToShardEvent' in event:
+            for record in event['SubscribeToShardEvent']['Records']:
+                yield record
+```
+
+### Change Data Capture (CDC) for Streaming
+
+**Debezium CDC Pattern:**
+```json
+{
+  "name": "postgres-cdc-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "database.hostname": "postgres",
+    "database.port": "5432",
+    "database.user": "debezium",
+    "database.password": "${DB_PASSWORD}",
+    "database.dbname": "mydb",
+    "database.server.name": "dbserver1",
+    "table.include.list": "public.orders,public.customers",
+    "plugin.name": "pgoutput",
+    "publication.autocreate.mode": "filtered",
+    "slot.name": "debezium_slot",
+    "heartbeat.interval.ms": 10000,
+    "transforms": "route",
+    "transforms.route.type": "org.apache.kafka.connect.transforms.RegexRouter",
+    "transforms.route.regex": "([^.]+)\\.([^.]+)\\.([^.]+)",
+    "transforms.route.replacement": "cdc.$3"
+  }
+}
+```
+
+**Processing CDC Events:**
+```python
+def process_cdc_event(event):
+    """Process Debezium CDC event."""
+    payload = event['payload']
+    operation = payload['op']
+
+    if operation == 'c':  # Create/Insert
+        handle_insert(payload['after'])
+    elif operation == 'u':  # Update
+        handle_update(payload['before'], payload['after'])
+    elif operation == 'd':  # Delete
+        handle_delete(payload['before'])
+    elif operation == 'r':  # Read (snapshot)
+        handle_snapshot(payload['after'])
+
+def handle_update(before, after):
+    """Handle CDC update event with change tracking."""
+    changes = {}
+    for key in after.keys():
+        if before.get(key) != after.get(key):
+            changes[key] = {
+                'old': before.get(key),
+                'new': after.get(key)
+            }
+
+    if changes:
+        emit_change_event({
+            'operation': 'UPDATE',
+            'table': event['source']['table'],
+            'primary_key': extract_pk(after),
+            'changes': changes,
+            'timestamp': event['ts_ms']
+        })
+```
+
+**CDC to Streaming Pipeline:**
+```python
+# CDC events -> Kafka -> Flink -> Data Lake
+
+# Flink CDC Source
+from pyflink.datastream.connectors import FlinkKafkaConsumer
+
+cdc_source = FlinkKafkaConsumer(
+    topics='cdc.orders',
+    deserialization_schema=JsonRowDeserializationSchema.builder()
+        .typeInfo(cdc_type_info)
+        .build(),
+    properties=kafka_properties
+)
+
+env.add_source(cdc_source) \
+    .map(parse_cdc_event) \
+    .filter(lambda e: e['op'] in ['c', 'u', 'd']) \
+    .key_by(lambda e: e['after']['id'] if e['after'] else e['before']['id']) \
+    .process(CDCMergeFunction()) \
+    .add_sink(delta_lake_sink)
+```
+
 ---
 
 ## Data Governance Framework

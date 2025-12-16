@@ -7,8 +7,11 @@ Complete documentation for the data engineering Python automation tools.
 1. [pipeline_orchestrator.py](#pipeline_orchestratorpy)
 2. [data_quality_validator.py](#data_quality_validatorpy)
 3. [etl_performance_optimizer.py](#etl_performance_optimizerpy)
-4. [Tool Integration Patterns](#tool-integration-patterns)
-5. [Best Practices](#best-practices)
+4. [stream_processor.py](#stream_processorpy)
+5. [streaming_quality_validator.py](#streaming_quality_validatorpy)
+6. [kafka_config_generator.py](#kafka_config_generatorpy)
+7. [Tool Integration Patterns](#tool-integration-patterns)
+8. [Best Practices](#best-practices)
 
 ---
 
@@ -794,6 +797,544 @@ Options:
 
 ---
 
+## stream_processor.py
+
+**Purpose:** Generate and validate streaming pipeline configurations for Kafka, Flink, and Kinesis.
+
+### Overview
+
+The Stream Processor generates production-ready streaming pipeline configurations with best practice defaults. It supports multiple streaming platforms and provides validation, scaffolding, and Docker Compose generation for local development.
+
+### Features
+
+- **Multi-Platform Support:** Kafka, Apache Flink, AWS Kinesis, Spark Streaming
+- **Configuration Validation:** Best practice checking with warnings and errors
+- **Job Scaffolding:** Generate Flink/Spark job templates
+- **Topic Configuration:** Kafka topic configs with retention and compaction policies
+- **Docker Compose:** Local streaming stack generation
+- **Exactly-Once Configuration:** Built-in patterns for exactly-once semantics
+
+### Usage
+
+#### Basic Usage
+
+```bash
+# Validate streaming configuration
+python scripts/stream_processor.py --config streaming_config.yaml --validate
+
+# Generate Kafka topic configurations
+python scripts/stream_processor.py --config streaming_config.yaml --mode kafka --generate --output kafka/
+
+# Generate Flink job scaffolding
+python scripts/stream_processor.py --config streaming_config.yaml --mode flink --generate --output flink-jobs/
+
+# Generate Docker Compose for local development
+python scripts/stream_processor.py --config streaming_config.yaml --mode docker --generate --output docker/
+```
+
+#### Configuration File Format
+
+```yaml
+# streaming_config.yaml
+name: user-events-pipeline
+version: "1.0.0"
+architecture: kappa  # kappa or lambda
+
+sources:
+  - name: user-events
+    type: kafka
+    config:
+      bootstrap_servers:
+        - kafka-cluster:9092
+      topic: raw-user-events
+      consumer_group: events-processor
+      security_protocol: SASL_SSL
+
+processing:
+  engine: flink  # flink, spark, kafka-streams
+  parallelism: 8
+  checkpointing:
+    interval_ms: 60000
+    mode: exactly_once
+    storage: s3://checkpoints/user-events/
+
+  transformations:
+    - name: parse_json
+      type: map
+      function: parse_user_event
+    - name: filter_events
+      type: filter
+      condition: "event_type IN ('click', 'purchase', 'signup')"
+    - name: aggregate_metrics
+      type: window_aggregate
+      window:
+        type: tumbling
+        size: 5m
+      group_by: [user_id, event_type]
+
+sinks:
+  - name: processed-events
+    type: kafka
+    config:
+      topic: processed-user-events
+      exactly_once: true
+  - name: dlq-sink
+    type: kafka
+    config:
+      topic: user-events-dlq
+
+quality:
+  max_consumer_lag: 10000
+  max_latency_ms: 5000
+  max_dlq_rate: 0.01
+```
+
+### Command-Line Options
+
+```
+Options:
+  --config PATH           Streaming configuration file (YAML)
+  --mode TYPE             Generation mode: kafka, flink, kinesis, spark, docker
+  --validate              Validate configuration only
+  --generate              Generate output files
+  --output PATH           Output directory
+  --format TYPE           Output format: yaml, json, properties
+  --version               Show version and exit
+  --help                  Show this message and exit
+```
+
+### Validation Checks
+
+The validator checks for:
+
+- Required fields (name, sources, sinks)
+- Parallelism configuration (recommended: 4-32)
+- Checkpoint interval (recommended: 30s-120s)
+- Consumer group naming conventions
+- Security configuration presence
+- Exactly-once compatibility settings
+
+### Generated Outputs
+
+**Kafka Mode:**
+- Topic configuration files (.properties)
+- Producer/consumer configuration templates
+- Schema Registry integration configs
+
+**Flink Mode:**
+- Java/Python job scaffolding
+- Checkpoint configuration
+- State backend configuration
+- Kafka connector setup
+
+**Docker Mode:**
+- docker-compose.yaml with full streaming stack
+- Zookeeper, Kafka, Schema Registry, Flink, Kafka UI
+
+---
+
+## streaming_quality_validator.py
+
+**Purpose:** Real-time data quality monitoring for streaming pipelines.
+
+### Overview
+
+The Streaming Quality Validator monitors the health of streaming pipelines by tracking consumer lag, data freshness, schema drift, throughput metrics, and dead letter queue rates. It provides quality scores and actionable recommendations.
+
+### Features
+
+- **Consumer Lag Monitoring:** Track records behind for consumer groups
+- **Data Freshness Validation:** P50/P95/P99 latency measurement
+- **Schema Drift Detection:** Field additions, removals, type changes
+- **Throughput Analysis:** Events/second and bytes/second metrics
+- **Dead Letter Queue Monitoring:** DLQ rate tracking
+- **Quality Scoring:** Overall health score with recommendations
+
+### Usage
+
+#### Basic Usage
+
+```bash
+# Monitor consumer lag
+python scripts/streaming_quality_validator.py \
+    --lag \
+    --consumer-group events-processor \
+    --threshold 10000 \
+    --output lag-report.json
+
+# Monitor data freshness
+python scripts/streaming_quality_validator.py \
+    --freshness \
+    --topic processed-user-events \
+    --max-latency-ms 5000 \
+    --output freshness-report.json
+
+# Monitor throughput
+python scripts/streaming_quality_validator.py \
+    --throughput \
+    --topic raw-user-events \
+    --min-events-per-sec 1000 \
+    --output throughput-report.json
+
+# Detect schema drift
+python scripts/streaming_quality_validator.py \
+    --drift \
+    --schema-registry http://schema-registry:8081 \
+    --subject user-events-value \
+    --output drift-report.json
+
+# Monitor dead letter queue
+python scripts/streaming_quality_validator.py \
+    --dlq \
+    --dlq-topic user-events-dlq \
+    --main-topic processed-user-events \
+    --max-dlq-rate 0.01 \
+    --output dlq-report.json
+
+# Full quality validation
+python scripts/streaming_quality_validator.py \
+    --lag --consumer-group events-processor --threshold 10000 \
+    --freshness --topic processed-user-events --max-latency-ms 5000 \
+    --throughput --min-events-per-sec 1000 \
+    --dlq --dlq-topic user-events-dlq --max-dlq-rate 0.01 \
+    --output streaming-quality-report.html
+```
+
+### Output Report Format
+
+```json
+{
+  "timestamp": "2025-12-16T10:30:00Z",
+  "overall_health": {
+    "status": "HEALTHY",
+    "score": 96.5
+  },
+  "dimensions": {
+    "consumer_lag": {
+      "status": "OK",
+      "value": 2500,
+      "threshold": 10000,
+      "score": 100
+    },
+    "data_freshness": {
+      "status": "OK",
+      "p50_ms": 450,
+      "p95_ms": 1200,
+      "p99_ms": 2800,
+      "threshold_ms": 5000,
+      "score": 95
+    },
+    "throughput": {
+      "status": "OK",
+      "events_per_sec": 8500,
+      "bytes_per_sec": 2125000,
+      "threshold": 1000,
+      "score": 100
+    },
+    "schema_drift": {
+      "status": "OK",
+      "changes_detected": 0,
+      "score": 100
+    },
+    "dlq_rate": {
+      "status": "OK",
+      "rate": 0.003,
+      "threshold": 0.01,
+      "score": 90
+    }
+  },
+  "recommendations": [
+    "Consider adding more partitions to handle throughput spikes",
+    "DLQ rate trending up - investigate failed records"
+  ]
+}
+```
+
+### Command-Line Options
+
+```
+Options:
+  --lag                     Monitor consumer lag
+  --consumer-group NAME     Consumer group to monitor
+  --threshold INT           Max acceptable lag (records)
+
+  --freshness               Monitor data freshness
+  --topic NAME              Topic to monitor freshness
+  --max-latency-ms INT      Max acceptable latency
+
+  --throughput              Monitor throughput
+  --min-events-per-sec INT  Minimum events per second
+
+  --drift                   Detect schema drift
+  --schema-registry URL     Schema Registry URL
+  --subject NAME            Schema subject to monitor
+
+  --dlq                     Monitor dead letter queue
+  --dlq-topic NAME          DLQ topic name
+  --main-topic NAME         Main topic for rate calculation
+  --max-dlq-rate FLOAT      Max acceptable DLQ rate (0-1)
+
+  --output PATH             Output report path
+  --format TYPE             Output format: json, html, prometheus
+  --continuous              Run continuously (daemon mode)
+  --interval INT            Check interval in seconds
+  --version                 Show version and exit
+  --help                    Show this message and exit
+```
+
+### Integration with Monitoring Systems
+
+**Prometheus Metrics Export:**
+```bash
+python scripts/streaming_quality_validator.py \
+    --lag --consumer-group events-processor --threshold 10000 \
+    --format prometheus \
+    --continuous \
+    --port 9249
+```
+
+**Exposed Metrics:**
+- `streaming_consumer_lag{consumer_group, topic}`
+- `streaming_data_freshness_p50_ms{topic}`
+- `streaming_data_freshness_p95_ms{topic}`
+- `streaming_throughput_events_per_sec{topic}`
+- `streaming_dlq_rate{dlq_topic, main_topic}`
+- `streaming_overall_health_score`
+
+---
+
+## kafka_config_generator.py
+
+**Purpose:** Generate production-grade Kafka configurations for topics, producers, consumers, and Kafka Streams.
+
+### Overview
+
+The Kafka Config Generator creates optimized Kafka configurations with security, performance, and reliability best practices. It supports multiple profiles for different use cases and generates configurations in multiple formats.
+
+### Features
+
+- **Topic Configuration:** Partitions, replication, retention, compaction
+- **Producer Profiles:** High-throughput, exactly-once, low-latency, ordered
+- **Consumer Profiles:** Exactly-once, high-throughput, batch processing
+- **Kafka Streams Config:** State store tuning, exactly-once processing
+- **Security Configuration:** SASL-PLAIN, SASL-SCRAM, mTLS
+- **Kafka Connect:** Source and sink connector configurations
+- **Multiple Formats:** Properties, YAML, JSON output
+
+### Usage
+
+#### Topic Configuration
+
+```bash
+# Generate topic configuration
+python scripts/kafka_config_generator.py \
+    --topic user-events \
+    --partitions 12 \
+    --replication 3 \
+    --retention-hours 168 \
+    --output topics/user-events.properties
+
+# Compacted topic for changelog
+python scripts/kafka_config_generator.py \
+    --topic user-profiles \
+    --partitions 6 \
+    --replication 3 \
+    --compaction \
+    --output topics/user-profiles.properties
+```
+
+#### Producer Configuration
+
+```bash
+# High-throughput producer
+python scripts/kafka_config_generator.py \
+    --producer \
+    --profile high-throughput \
+    --output producer-high-throughput.properties
+
+# Exactly-once producer
+python scripts/kafka_config_generator.py \
+    --producer \
+    --profile exactly-once \
+    --transactional-id producer-001 \
+    --output producer-exactly-once.properties
+
+# Low-latency producer
+python scripts/kafka_config_generator.py \
+    --producer \
+    --profile low-latency \
+    --output producer-low-latency.properties
+
+# Ordered producer (single partition)
+python scripts/kafka_config_generator.py \
+    --producer \
+    --profile ordered \
+    --output producer-ordered.properties
+```
+
+#### Consumer Configuration
+
+```bash
+# Exactly-once consumer
+python scripts/kafka_config_generator.py \
+    --consumer \
+    --profile exactly-once \
+    --consumer-group events-processor \
+    --output consumer-exactly-once.properties
+
+# High-throughput consumer
+python scripts/kafka_config_generator.py \
+    --consumer \
+    --profile high-throughput \
+    --consumer-group batch-processor \
+    --output consumer-high-throughput.properties
+
+# Batch processing consumer
+python scripts/kafka_config_generator.py \
+    --consumer \
+    --profile batch \
+    --consumer-group daily-aggregator \
+    --max-poll-records 1000 \
+    --output consumer-batch.properties
+```
+
+#### Kafka Streams Configuration
+
+```bash
+# Generate Kafka Streams configuration
+python scripts/kafka_config_generator.py \
+    --streams \
+    --application-id user-events-processor \
+    --exactly-once \
+    --state-dir /data/kafka-streams \
+    --output streams-config.properties
+```
+
+#### Security Configuration
+
+```bash
+# SASL-SCRAM authentication
+python scripts/kafka_config_generator.py \
+    --security \
+    --protocol SASL_SSL \
+    --mechanism SCRAM-SHA-256 \
+    --username producer \
+    --output security-sasl.properties
+
+# mTLS authentication
+python scripts/kafka_config_generator.py \
+    --security \
+    --protocol SSL \
+    --keystore /path/to/keystore.jks \
+    --truststore /path/to/truststore.jks \
+    --output security-mtls.properties
+```
+
+#### Kafka Connect Configuration
+
+```bash
+# JDBC source connector
+python scripts/kafka_config_generator.py \
+    --connect-source \
+    --connector jdbc \
+    --connection-url "jdbc:postgresql://host/db" \
+    --table users \
+    --output connectors/jdbc-source.json
+
+# S3 sink connector
+python scripts/kafka_config_generator.py \
+    --connect-sink \
+    --connector s3 \
+    --bucket data-lake \
+    --prefix events/ \
+    --output connectors/s3-sink.json
+```
+
+### Producer Profiles
+
+| Profile | acks | batch.size | linger.ms | compression | Use Case |
+|---------|------|------------|-----------|-------------|----------|
+| default | 1 | 16384 | 0 | none | General purpose |
+| high-throughput | 1 | 65536 | 10 | lz4 | High volume, some loss OK |
+| exactly-once | all | 16384 | 5 | lz4 | Financial, critical data |
+| low-latency | 1 | 0 | 0 | none | Real-time applications |
+| ordered | all | 16384 | 5 | none | Strict ordering required |
+
+### Consumer Profiles
+
+| Profile | auto.commit | isolation.level | max.poll.records | Use Case |
+|---------|-------------|-----------------|------------------|----------|
+| default | true | read_uncommitted | 500 | General purpose |
+| exactly-once | false | read_committed | 500 | Exactly-once processing |
+| high-throughput | true | read_uncommitted | 1000 | High volume processing |
+| low-latency | false | read_uncommitted | 100 | Real-time applications |
+| batch | false | read_uncommitted | 2000 | Batch processing |
+
+### Command-Line Options
+
+```
+Options:
+  --topic NAME              Generate topic configuration
+  --partitions INT          Number of partitions (default: 6)
+  --replication INT         Replication factor (default: 3)
+  --retention-hours INT     Retention period in hours
+  --compaction              Enable log compaction
+
+  --producer                Generate producer configuration
+  --consumer                Generate consumer configuration
+  --streams                 Generate Kafka Streams configuration
+
+  --profile NAME            Configuration profile
+  --consumer-group NAME     Consumer group ID
+  --application-id NAME     Streams application ID
+  --transactional-id NAME   Transactional ID for exactly-once
+
+  --security                Generate security configuration
+  --protocol TYPE           Security protocol (PLAINTEXT, SSL, SASL_PLAINTEXT, SASL_SSL)
+  --mechanism TYPE          SASL mechanism (PLAIN, SCRAM-SHA-256, SCRAM-SHA-512)
+
+  --connect-source          Generate Connect source connector config
+  --connect-sink            Generate Connect sink connector config
+  --connector TYPE          Connector type (jdbc, s3, elasticsearch, etc.)
+
+  --output PATH             Output file path
+  --format TYPE             Output format: properties, yaml, json
+  --version                 Show version and exit
+  --help                    Show this message and exit
+```
+
+### Generated Configuration Examples
+
+**Topic Configuration:**
+```properties
+# user-events topic configuration
+num.partitions=12
+replication.factor=3
+retention.ms=604800000
+segment.bytes=1073741824
+cleanup.policy=delete
+min.insync.replicas=2
+compression.type=producer
+```
+
+**Exactly-Once Producer:**
+```properties
+# Exactly-once producer configuration
+bootstrap.servers=kafka-cluster:9092
+key.serializer=org.apache.kafka.common.serialization.StringSerializer
+value.serializer=org.apache.kafka.common.serialization.StringSerializer
+enable.idempotence=true
+acks=all
+retries=2147483647
+max.in.flight.requests.per.connection=5
+transactional.id=producer-001
+batch.size=16384
+linger.ms=5
+compression.type=lz4
+```
+
+---
+
 ## Tool Integration Patterns
 
 ### Airflow Integration
@@ -959,5 +1500,5 @@ jobs:
 
 ---
 
-**Last Updated:** 2025-11-08
-**Version:** 1.0.0
+**Last Updated:** December 16, 2025
+**Version:** 2.0.0

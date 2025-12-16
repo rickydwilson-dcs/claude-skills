@@ -44,6 +44,11 @@ collaborates-with:
     required: optional
     features-enabled: [doc-review, api-validation, example-verification]
     without-collaborator: "Documentation accuracy will lack code review validation"
+  - agent: cs-incident-responder
+    purpose: Post-incident report generation and runbook documentation
+    required: optional
+    features-enabled: [incident-reports, timeline-diagrams, lessons-learned]
+    without-collaborator: "Incident documentation will use basic templates"
 orchestrates:
   skill: engineering-team/technical-writer
 
@@ -52,7 +57,7 @@ tools: [Read, Write, Bash, Grep, Glob]
 dependencies:
   tools: [Read, Write, Bash, Grep, Glob]
   mcp-tools: []
-  scripts: [readme_generator.py, changelog_generator.py, api_doc_formatter.py, doc_quality_analyzer.py, mermaid_diagram_generator.py]
+  scripts: [readme_generator.py, changelog_generator.py, api_doc_formatter.py, doc_quality_analyzer.py, mermaid_diagram_generator.py, interactive_doc_wizard.py]
 compatibility:
   claude-ai: true
   claude-code: true
@@ -87,11 +92,11 @@ stats:
   reviews: 0
 
 # === VERSIONING ===
-version: v1.0.0
+version: v1.1.0
 author: Claude Skills Team
 contributors: []
 created: 2025-11-28
-updated: 2025-11-28
+updated: 2025-12-16
 license: MIT
 
 # === DISCOVERABILITY ===
@@ -206,6 +211,20 @@ This agent leverages five production-ready Python automation tools for comprehen
      - Multiple output formats (Mermaid, Markdown, HTML)
      - Complementary to stakeholder_mapper.py (which handles people/org relationship diagrams)
    - **Use Cases:** Architecture documentation, API interaction diagrams, database schema visualization, cross-functional process flows (swimlanes), customer journey mapping, project timeline visualization, feature prioritization matrices
+
+6. **Interactive Documentation Wizard**
+   - **Purpose:** Step-by-step guided documentation creation through interactive CLI workflows with project auto-detection, decision trees, and multiple output formats
+   - **Path:** `../../skills/engineering-team/technical-writer/scripts/interactive_doc_wizard.py`
+   - **Usage:** `python ../../skills/engineering-team/technical-writer/scripts/interactive_doc_wizard.py --workflow [readme|api-docs|changelog|audit|user-guide] [--output FILE] [--config CONFIG.yaml] [--dry-run]`
+   - **Features:**
+     - 5 interactive workflows: README (8 steps), API docs (10 steps), CHANGELOG (6 steps), Audit (7 steps), User Guide (12 steps)
+     - Project auto-detection (language, framework, tests, CI configuration)
+     - Decision tree navigation with adaptive questions
+     - Multiple output formats (markdown, html, json)
+     - Config file mode for non-interactive/CI usage
+     - Dry-run mode for preview without writing files
+     - Integration with existing tools (doc_quality_analyzer, readme_generator, changelog_generator)
+   - **Use Cases:** First-time README creation, release preparation, documentation quality audits, API documentation generation, user guide creation, automated documentation in CI/CD pipelines, standardizing documentation across repositories
 
 ### Knowledge Bases
 
@@ -1070,6 +1089,162 @@ This agent leverages five production-ready Python automation tools for comprehen
 
 **Reference:** See `../../skills/engineering-team/technical-writer/references/technical_writing_standards.md` for release documentation standards and `../../skills/engineering-team/technical-writer/assets/changelog_template.md` for CHANGELOG format.
 
+### Workflow 5: Interactive Documentation Wizard
+
+**Goal:** Use guided step-by-step wizards to create or update documentation through interactive prompts, reducing manual effort and ensuring consistency.
+
+**Duration:** 10-30 minutes (depending on workflow type)
+
+**Steps:**
+
+1. **Select Appropriate Workflow**
+
+   Determine which wizard workflow fits your documentation need:
+   - **README** (8 steps): New project or major README refresh
+   - **API Docs** (10 steps): API documentation from scratch or spec
+   - **Changelog** (6 steps): Release preparation changelog updates
+   - **Audit** (7 steps): Documentation quality assessment
+   - **User Guide** (12 steps): Developer onboarding documentation
+
+2. **Start Interactive Wizard**
+   ```bash
+   cd /path/to/project
+
+   # Start README creation wizard
+   python ../../skills/engineering-team/technical-writer/scripts/interactive_doc_wizard.py \
+     --workflow readme
+
+   # Or start API documentation wizard
+   python ../../skills/engineering-team/technical-writer/scripts/interactive_doc_wizard.py \
+     --workflow api-docs
+
+   # Or start changelog wizard for release
+   python ../../skills/engineering-team/technical-writer/scripts/interactive_doc_wizard.py \
+     --workflow changelog
+
+   # Or run documentation audit
+   python ../../skills/engineering-team/technical-writer/scripts/interactive_doc_wizard.py \
+     --workflow audit --output audit-report.md
+   ```
+
+3. **Follow Step-by-Step Prompts**
+
+   The wizard guides through each step with:
+   - Auto-detected project information (confirm or override)
+   - Multiple choice selections for common options
+   - Free-form input for custom content
+   - Progress indicators showing current step
+   - Contextual help and suggestions
+
+   Example README workflow steps:
+   ```
+   Step 1/8: Project Information
+   - Auto-detected name, description from package.json
+   - Confirm or customize
+
+   Step 2/8: Technology Stack
+   - Auto-detected languages, framework, package manager
+   - Select additional technologies to highlight
+
+   Step 3/8: Installation Instructions
+   - Choose installation methods (npm, pip, docker, etc.)
+   - Customize installation commands
+
+   Step 4/8: Usage Examples
+   - Select example types (basic, advanced, API)
+   - Add custom code examples
+
+   Step 5/8: API Overview
+   - Auto-scan for API endpoints (if applicable)
+   - Document key API features
+
+   Step 6/8: Contributing Guidelines
+   - Select contributing template
+   - Customize project-specific guidelines
+
+   Step 7/8: License Selection
+   - Choose from common licenses (MIT, Apache, GPL)
+   - Or specify custom license
+
+   Step 8/8: Preview & Confirm
+   - Review generated documentation
+   - Make final adjustments
+   - Write to file
+   ```
+
+4. **Preview and Confirm Output**
+   ```bash
+   # Dry-run mode to preview without writing
+   python ../../skills/engineering-team/technical-writer/scripts/interactive_doc_wizard.py \
+     --workflow readme --dry-run
+
+   # Review preview output
+   # Make adjustments if needed
+   # Run again without --dry-run to write file
+   ```
+
+5. **Validate Generated Documentation**
+   ```bash
+   # Run quality analyzer on generated docs
+   python ../../skills/engineering-team/technical-writer/scripts/doc_quality_analyzer.py \
+     --path . --format text
+
+   # Verify quality score meets threshold (80+)
+   ```
+
+6. **Non-Interactive Mode for Automation**
+
+   For CI/CD or batch processing, use config file mode:
+   ```bash
+   # Create config file with wizard responses
+   cat > readme_config.yaml << 'EOF'
+   workflow: readme
+   project:
+     name: my-project
+     description: A great project
+   tech_stack:
+     languages: [Python, TypeScript]
+     framework: FastAPI
+     package_manager: pip
+   installation:
+     methods: [pip, docker]
+   examples:
+     include: true
+     types: [basic, api]
+   license: MIT
+   EOF
+
+   # Run wizard with config file
+   python ../../skills/engineering-team/technical-writer/scripts/interactive_doc_wizard.py \
+     --config readme_config.yaml --output README.md
+   ```
+
+**Expected Output:**
+- Documentation created/updated based on wizard selections
+- Auto-detected project context incorporated
+- Consistent format following best practices
+- Quality score of 80+ on generated documentation
+- Ready for commit and review
+
+**Success Criteria:**
+- All wizard steps complete successfully
+- Generated documentation passes quality analyzer
+- No manual editing required for basic documentation
+- Config file mode enables automation
+- Dry-run mode allows preview before writing
+
+**Available Workflows:**
+
+| Workflow | Steps | Time | Best For |
+|----------|-------|------|----------|
+| `readme` | 8 | 10-15 min | New projects, README refresh |
+| `api-docs` | 10 | 15-20 min | API documentation, OpenAPI integration |
+| `changelog` | 6 | 5-10 min | Release preparation, version tracking |
+| `audit` | 7 | 10-15 min | Quality assessment, improvement planning |
+| `user-guide` | 12 | 20-30 min | Onboarding docs, developer guides |
+
+**Reference:** See `../../skills/engineering-team/technical-writer/SKILL.md#workflow-8-interactive-documentation-creation` for detailed workflow documentation.
+
 ## Decision Framework
 
 ### When to Use This Agent
@@ -1522,7 +1697,7 @@ echo "Report generated: $REPORT_DIR/report-$WEEK.html"
 
 ---
 
-**Version:** 1.0.0
-**Last Updated:** 2025-11-28
+**Version:** 1.1.0
+**Last Updated:** 2025-12-16
 **Agent Type:** Implementation specialist
-**Skill Version:** 1.0.0 (to be created)
+**Skill Version:** 1.1.0

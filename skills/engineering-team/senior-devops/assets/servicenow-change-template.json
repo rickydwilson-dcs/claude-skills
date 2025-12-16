@@ -1,0 +1,89 @@
+{
+  "_comment": "ServiceNow Change Request Template - Customize placeholders before use",
+  "_documentation": "https://docs.servicenow.com/bundle/tokyo-it-service-management/page/product/change-management/concept/c_ITILChangeManagement.html",
+
+  "short_description": "Deployment: {{service_name}} v{{version}}",
+  "description": "Deployment Details:\n================\nService: {{service_name}}\nVersion: {{version}}\nEnvironment: {{environment}}\nStrategy: {{deployment_strategy}}\nOwner: {{deployed_by}}\n\nChanges Included:\n{{change_summary}}\n\nRelated Tickets:\n{{jira_tickets}}",
+
+  "type": "{{change_type}}",
+  "category": "Software",
+  "risk": "{{risk_level}}",
+  "impact": "{{impact}}",
+
+  "start_date": "{{start_time}}",
+  "end_date": "{{end_time}}",
+
+  "assignment_group": "{{assignment_group}}",
+  "cmdb_ci": "{{primary_ci}}",
+
+  "justification": "Deploy {{service_name}} version {{version}} to {{environment}} environment",
+
+  "backout_plan": "Rollback Plan:\n==============\n1. Execute: kubectl rollout undo deployment/{{service_name}}\n2. Verify: kubectl rollout status deployment/{{service_name}}\n3. Monitor: Check service health endpoints\n4. Validate: Confirm previous version running\n\nPrevious Version: {{previous_version}}\nEstimated Rollback Time: {{rollback_time}}",
+
+  "test_plan": "Test Plan:\n==========\nPre-Implementation:\n[ ] Verify deployment configuration\n[ ] Confirm CI pipeline passed\n[ ] Check target environment status\n\nPost-Implementation:\n[ ] Verify pods/containers started\n[ ] Check health endpoints\n[ ] Validate API responses\n[ ] Confirm metrics collection",
+
+  "u_source_system": "Pandora",
+  "u_environment": "{{environment}}",
+
+  "correlation_id": "deploy-{{service_name}}-{{version}}-{{timestamp}}",
+
+  "_placeholder_mappings": {
+    "service_name": "Name of the service being deployed",
+    "version": "Version being deployed (e.g., 2.3.1)",
+    "environment": "Target environment (production, staging, etc.)",
+    "deployment_strategy": "rolling, blue-green, canary, recreate",
+    "deployed_by": "User or system initiating deployment",
+    "change_summary": "List of changes/features in this deployment",
+    "jira_tickets": "Related Jira ticket references",
+    "change_type": "Standard, Normal, or Emergency",
+    "risk_level": "1 (Very High), 2 (High), 3 (Moderate), 4 (Low)",
+    "impact": "1 (High), 2 (Medium), 3 (Low)",
+    "start_time": "Planned start (YYYY-MM-DD HH:MM:SS)",
+    "end_time": "Planned end (YYYY-MM-DD HH:MM:SS)",
+    "assignment_group": "Change management assignment group",
+    "primary_ci": "Primary Configuration Item affected",
+    "previous_version": "Previous version for rollback",
+    "rollback_time": "Estimated time to rollback (e.g., 15 minutes)",
+    "timestamp": "Deployment timestamp"
+  },
+
+  "_change_types": {
+    "Standard": {
+      "description": "Pre-approved, low-risk changes",
+      "approval_required": false,
+      "risk_level": 4,
+      "examples": ["Routine patching", "Configuration updates", "Scheduled deployments"]
+    },
+    "Normal": {
+      "description": "Standard changes requiring CAB approval",
+      "approval_required": true,
+      "risk_level": 3,
+      "examples": ["Feature deployments", "Infrastructure changes", "Database migrations"]
+    },
+    "Emergency": {
+      "description": "Urgent changes bypassing normal approval",
+      "approval_required": "post-implementation",
+      "risk_level": 2,
+      "examples": ["Security patches", "Critical bug fixes", "Service restoration"]
+    }
+  },
+
+  "_risk_assessment": {
+    "very_high": {
+      "level": 1,
+      "criteria": ["Production database schema changes", "Core authentication changes", "Major infrastructure migration"]
+    },
+    "high": {
+      "level": 2,
+      "criteria": ["Production deployment of new features", "Network configuration changes", "Security policy updates"]
+    },
+    "moderate": {
+      "level": 3,
+      "criteria": ["Non-production deployments", "Configuration changes", "Minor version updates"]
+    },
+    "low": {
+      "level": 4,
+      "criteria": ["Documentation updates", "Development environment changes", "Standard maintenance"]
+    }
+  }
+}

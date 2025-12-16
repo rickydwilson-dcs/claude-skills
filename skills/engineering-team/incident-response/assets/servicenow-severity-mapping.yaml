@@ -1,0 +1,142 @@
+# ServiceNow Severity Mapping Configuration
+# Maps observability alert severity levels to ServiceNow incident priority
+#
+# ServiceNow Priority Matrix:
+#   Impact: 1 (High) - Multiple users/systems affected
+#           2 (Medium) - Limited group affected
+#           3 (Low) - Single user affected
+#
+#   Urgency: 1 (High) - Work cannot continue
+#            2 (Medium) - Work can continue with workaround
+#            3 (Low) - Minimal business impact
+#
+#   Priority: 1 (Critical), 2 (High), 3 (Moderate), 4 (Low), 5 (Planning)
+
+severity_mapping:
+  # Critical - Immediate response required
+  P0:
+    impact: 1
+    urgency: 1
+    priority: 1
+    sla_response_minutes: 15
+    sla_resolution_hours: 1
+    description: "Critical incident - Active breach, data loss risk, or critical system down"
+    escalation_group: "Major Incident Management"
+    notify:
+      - slack_channel: "#critical-incidents"
+      - pagerduty: true
+      - email_group: "sev1-response"
+
+  # High - Respond within 30 minutes
+  P1:
+    impact: 2
+    urgency: 1
+    priority: 2
+    sla_response_minutes: 30
+    sla_resolution_hours: 4
+    description: "High priority - Potential breach, major service degradation"
+    escalation_group: "On-Call Engineering"
+    notify:
+      - slack_channel: "#incidents"
+      - pagerduty: true
+
+  # Medium - Respond within 4 hours
+  P2:
+    impact: 2
+    urgency: 2
+    priority: 3
+    sla_response_minutes: 240
+    sla_resolution_hours: 24
+    description: "Medium priority - Service degradation with workaround available"
+    escalation_group: "Platform Engineering"
+    notify:
+      - slack_channel: "#incidents"
+
+  # Low - Respond within 24 hours
+  P3:
+    impact: 3
+    urgency: 3
+    priority: 4
+    sla_response_minutes: 1440
+    sla_resolution_hours: 72
+    description: "Low priority - Minor issue, informational alert"
+    escalation_group: "Platform Engineering"
+    notify:
+      - email_group: "platform-team"
+
+  # Planning - Non-urgent, schedule as needed
+  P4:
+    impact: 3
+    urgency: 3
+    priority: 5
+    sla_response_minutes: 10080  # 7 days
+    sla_resolution_hours: 336    # 14 days
+    description: "Planning - Technical debt, minor improvements"
+    escalation_group: "Platform Engineering"
+    notify: []
+
+# Alternative severity naming conventions
+severity_aliases:
+  # Prometheus/AlertManager style
+  critical: P0
+  warning: P2
+  info: P4
+
+  # PagerDuty style
+  CRITICAL: P0
+  HIGH: P1
+  LOW: P3
+
+  # NewRelic style
+  CRITICAL_VIOLATION: P0
+  WARNING_VIOLATION: P2
+
+  # Numeric style
+  "1": P0
+  "2": P1
+  "3": P2
+  "4": P3
+  "5": P4
+
+# State mapping: Alert state -> ServiceNow incident state
+state_mapping:
+  # Alert states
+  firing: 1         # New
+  triggered: 1      # New
+  acknowledged: 2   # In Progress
+  investigating: 2  # In Progress
+  contained: 3      # On Hold
+  pending: 3        # On Hold
+  resolved: 6       # Resolved
+  ok: 6            # Resolved
+  closed: 7         # Closed
+
+# Resolution codes for closing incidents
+resolution_codes:
+  fixed:
+    snow_code: "Solved (Permanently)"
+    description: "Root cause identified and permanently fixed"
+
+  workaround:
+    snow_code: "Solved (Work Around)"
+    description: "Temporary workaround applied, permanent fix scheduled"
+
+  duplicate:
+    snow_code: "Not Solved (Duplicate)"
+    description: "Duplicate of existing incident"
+
+  not_reproducible:
+    snow_code: "Not Solved (Not Reproducible)"
+    description: "Unable to reproduce the issue"
+
+  known_error:
+    snow_code: "Solved Remotely (Workaround)"
+    description: "Known error with documented workaround"
+
+  user_error:
+    snow_code: "Solved Remotely (Guidance Provided)"
+    description: "User error - guidance provided"
+
+  auto_resolved:
+    snow_code: "Solved (Permanently)"
+    description: "Issue auto-resolved (transient condition)"

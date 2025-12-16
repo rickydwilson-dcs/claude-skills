@@ -1,0 +1,363 @@
+{
+  "__comment": "New Relic Infrastructure Alert Conditions Template",
+  "__description": "CPU, memory, disk, and network alerting for infrastructure monitoring",
+  "__usage": "Replace {{SERVICE_NAME}} and {{ACCOUNT_ID}} with your values. Import via NerdGraph API.",
+  "policy": {
+    "name": "{{SERVICE_NAME}} Infrastructure Alerts",
+    "incidentPreference": "PER_CONDITION_AND_TARGET"
+  },
+  "conditions": [
+    {
+      "name": "{{SERVICE_NAME}} - High CPU Utilization",
+      "description": "CPU usage exceeds threshold - potential performance impact",
+      "type": "NRQL",
+      "enabled": true,
+      "nrql": {
+        "query": "SELECT average(cpuPercent) FROM SystemSample WHERE hostname LIKE '%{{SERVICE_NAME}}%' OR appName = '{{SERVICE_NAME}}' FACET hostname"
+      },
+      "signal": {
+        "aggregationWindow": 300,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationDelay": 120,
+        "fillOption": "NONE"
+      },
+      "terms": [
+        {
+          "threshold": 80,
+          "thresholdDuration": 600,
+          "thresholdOccurrences": "ALL",
+          "operator": "ABOVE",
+          "priority": "WARNING"
+        },
+        {
+          "threshold": 95,
+          "thresholdDuration": 300,
+          "thresholdOccurrences": "ALL",
+          "operator": "ABOVE",
+          "priority": "CRITICAL"
+        }
+      ],
+      "violationTimeLimitSeconds": 86400,
+      "runbookUrl": "https://runbooks.example.com/{{SERVICE_NAME}}/high-cpu",
+      "tags": {
+        "service": "{{SERVICE_NAME}}",
+        "resource": "cpu",
+        "method": "USE"
+      }
+    },
+    {
+      "name": "{{SERVICE_NAME}} - High Memory Utilization",
+      "description": "Memory usage exceeds threshold - OOM risk",
+      "type": "NRQL",
+      "enabled": true,
+      "nrql": {
+        "query": "SELECT average(memoryUsedPercent) FROM SystemSample WHERE hostname LIKE '%{{SERVICE_NAME}}%' OR appName = '{{SERVICE_NAME}}' FACET hostname"
+      },
+      "signal": {
+        "aggregationWindow": 300,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationDelay": 120,
+        "fillOption": "NONE"
+      },
+      "terms": [
+        {
+          "threshold": 85,
+          "thresholdDuration": 600,
+          "thresholdOccurrences": "ALL",
+          "operator": "ABOVE",
+          "priority": "WARNING"
+        },
+        {
+          "threshold": 95,
+          "thresholdDuration": 300,
+          "thresholdOccurrences": "ALL",
+          "operator": "ABOVE",
+          "priority": "CRITICAL"
+        }
+      ],
+      "violationTimeLimitSeconds": 86400,
+      "runbookUrl": "https://runbooks.example.com/{{SERVICE_NAME}}/high-memory",
+      "tags": {
+        "service": "{{SERVICE_NAME}}",
+        "resource": "memory",
+        "method": "USE"
+      }
+    },
+    {
+      "name": "{{SERVICE_NAME}} - High Disk Utilization",
+      "description": "Disk usage exceeds threshold - capacity risk",
+      "type": "NRQL",
+      "enabled": true,
+      "nrql": {
+        "query": "SELECT average(diskUsedPercent) FROM SystemSample WHERE hostname LIKE '%{{SERVICE_NAME}}%' FACET hostname, device"
+      },
+      "signal": {
+        "aggregationWindow": 300,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationDelay": 120,
+        "fillOption": "NONE"
+      },
+      "terms": [
+        {
+          "threshold": 80,
+          "thresholdDuration": 600,
+          "thresholdOccurrences": "ALL",
+          "operator": "ABOVE",
+          "priority": "WARNING"
+        },
+        {
+          "threshold": 90,
+          "thresholdDuration": 300,
+          "thresholdOccurrences": "ALL",
+          "operator": "ABOVE",
+          "priority": "CRITICAL"
+        }
+      ],
+      "violationTimeLimitSeconds": 86400,
+      "runbookUrl": "https://runbooks.example.com/{{SERVICE_NAME}}/high-disk",
+      "tags": {
+        "service": "{{SERVICE_NAME}}",
+        "resource": "disk",
+        "method": "USE"
+      }
+    },
+    {
+      "name": "{{SERVICE_NAME}} - High Load Average",
+      "description": "System load exceeds available CPU capacity",
+      "type": "NRQL",
+      "enabled": true,
+      "nrql": {
+        "query": "SELECT average(loadAverageOneMinute) FROM SystemSample WHERE hostname LIKE '%{{SERVICE_NAME}}%' FACET hostname"
+      },
+      "signal": {
+        "aggregationWindow": 300,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationDelay": 120,
+        "fillOption": "NONE"
+      },
+      "terms": [
+        {
+          "threshold": 4,
+          "thresholdDuration": 600,
+          "thresholdOccurrences": "ALL",
+          "operator": "ABOVE",
+          "priority": "WARNING"
+        },
+        {
+          "threshold": 8,
+          "thresholdDuration": 300,
+          "thresholdOccurrences": "ALL",
+          "operator": "ABOVE",
+          "priority": "CRITICAL"
+        }
+      ],
+      "violationTimeLimitSeconds": 86400,
+      "runbookUrl": "https://runbooks.example.com/{{SERVICE_NAME}}/high-load",
+      "tags": {
+        "service": "{{SERVICE_NAME}}",
+        "resource": "cpu",
+        "metric": "load"
+      }
+    },
+    {
+      "name": "{{SERVICE_NAME}} - Host Not Reporting",
+      "description": "Infrastructure agent stopped reporting - potential host down",
+      "type": "NRQL",
+      "enabled": true,
+      "nrql": {
+        "query": "SELECT count(*) FROM SystemSample WHERE hostname LIKE '%{{SERVICE_NAME}}%' FACET hostname"
+      },
+      "signal": {
+        "aggregationWindow": 60,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationDelay": 120,
+        "fillOption": "STATIC",
+        "fillValue": 0
+      },
+      "terms": [
+        {
+          "threshold": 1,
+          "thresholdDuration": 180,
+          "thresholdOccurrences": "ALL",
+          "operator": "BELOW",
+          "priority": "CRITICAL"
+        }
+      ],
+      "violationTimeLimitSeconds": 86400,
+      "runbookUrl": "https://runbooks.example.com/{{SERVICE_NAME}}/host-down",
+      "tags": {
+        "service": "{{SERVICE_NAME}}",
+        "type": "availability"
+      }
+    },
+    {
+      "name": "{{SERVICE_NAME}} - High Network Errors",
+      "description": "Network interface experiencing errors",
+      "type": "NRQL",
+      "enabled": true,
+      "nrql": {
+        "query": "SELECT sum(receiveErrorsPerSecond) + sum(transmitErrorsPerSecond) as 'Network Errors/s' FROM SystemSample WHERE hostname LIKE '%{{SERVICE_NAME}}%' FACET hostname"
+      },
+      "signal": {
+        "aggregationWindow": 300,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationDelay": 120,
+        "fillOption": "NONE"
+      },
+      "terms": [
+        {
+          "threshold": 10,
+          "thresholdDuration": 300,
+          "thresholdOccurrences": "ALL",
+          "operator": "ABOVE",
+          "priority": "WARNING"
+        },
+        {
+          "threshold": 100,
+          "thresholdDuration": 300,
+          "thresholdOccurrences": "ALL",
+          "operator": "ABOVE",
+          "priority": "CRITICAL"
+        }
+      ],
+      "violationTimeLimitSeconds": 86400,
+      "runbookUrl": "https://runbooks.example.com/{{SERVICE_NAME}}/network-errors",
+      "tags": {
+        "service": "{{SERVICE_NAME}}",
+        "resource": "network",
+        "method": "USE"
+      }
+    },
+    {
+      "name": "{{SERVICE_NAME}} - Container CPU Throttling",
+      "description": "Container experiencing CPU throttling - performance impact",
+      "type": "NRQL",
+      "enabled": true,
+      "nrql": {
+        "query": "SELECT average(cpuLimitPercent) FROM ContainerSample WHERE containerName LIKE '%{{SERVICE_NAME}}%' FACET containerName"
+      },
+      "signal": {
+        "aggregationWindow": 300,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationDelay": 120,
+        "fillOption": "NONE"
+      },
+      "terms": [
+        {
+          "threshold": 80,
+          "thresholdDuration": 600,
+          "thresholdOccurrences": "ALL",
+          "operator": "ABOVE",
+          "priority": "WARNING"
+        },
+        {
+          "threshold": 95,
+          "thresholdDuration": 300,
+          "thresholdOccurrences": "ALL",
+          "operator": "ABOVE",
+          "priority": "CRITICAL"
+        }
+      ],
+      "violationTimeLimitSeconds": 86400,
+      "runbookUrl": "https://runbooks.example.com/{{SERVICE_NAME}}/container-throttling",
+      "tags": {
+        "service": "{{SERVICE_NAME}}",
+        "resource": "container",
+        "type": "throttling"
+      }
+    },
+    {
+      "name": "{{SERVICE_NAME}} - Container Memory Limit",
+      "description": "Container approaching memory limit - OOM risk",
+      "type": "NRQL",
+      "enabled": true,
+      "nrql": {
+        "query": "SELECT average(memoryUsedBytes) / average(memoryLimitBytes) * 100 as 'Memory %' FROM ContainerSample WHERE containerName LIKE '%{{SERVICE_NAME}}%' FACET containerName"
+      },
+      "signal": {
+        "aggregationWindow": 300,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationDelay": 120,
+        "fillOption": "NONE"
+      },
+      "terms": [
+        {
+          "threshold": 85,
+          "thresholdDuration": 600,
+          "thresholdOccurrences": "ALL",
+          "operator": "ABOVE",
+          "priority": "WARNING"
+        },
+        {
+          "threshold": 95,
+          "thresholdDuration": 300,
+          "thresholdOccurrences": "ALL",
+          "operator": "ABOVE",
+          "priority": "CRITICAL"
+        }
+      ],
+      "violationTimeLimitSeconds": 86400,
+      "runbookUrl": "https://runbooks.example.com/{{SERVICE_NAME}}/container-memory",
+      "tags": {
+        "service": "{{SERVICE_NAME}}",
+        "resource": "container",
+        "type": "memory"
+      }
+    },
+    {
+      "name": "{{SERVICE_NAME}} - Container Restarts",
+      "description": "Container restarting frequently - stability issue",
+      "type": "NRQL",
+      "enabled": true,
+      "nrql": {
+        "query": "SELECT sum(restartCount) FROM K8sContainerSample WHERE containerName LIKE '%{{SERVICE_NAME}}%' FACET containerName, podName"
+      },
+      "signal": {
+        "aggregationWindow": 3600,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationDelay": 120,
+        "fillOption": "NONE"
+      },
+      "terms": [
+        {
+          "threshold": 3,
+          "thresholdDuration": 3600,
+          "thresholdOccurrences": "ALL",
+          "operator": "ABOVE",
+          "priority": "WARNING"
+        },
+        {
+          "threshold": 10,
+          "thresholdDuration": 3600,
+          "thresholdOccurrences": "ALL",
+          "operator": "ABOVE",
+          "priority": "CRITICAL"
+        }
+      ],
+      "violationTimeLimitSeconds": 86400,
+      "runbookUrl": "https://runbooks.example.com/{{SERVICE_NAME}}/container-restarts",
+      "tags": {
+        "service": "{{SERVICE_NAME}}",
+        "resource": "container",
+        "type": "stability"
+      }
+    }
+  ],
+  "notificationChannels": [
+    {
+      "type": "PAGERDUTY",
+      "name": "{{SERVICE_NAME}}-infrastructure-pagerduty",
+      "config": {
+        "serviceKey": "{{PAGERDUTY_SERVICE_KEY}}"
+      }
+    },
+    {
+      "type": "SLACK",
+      "name": "{{SERVICE_NAME}}-infrastructure-slack",
+      "config": {
+        "channel": "#alerts-infrastructure",
+        "webhookUrl": "{{SLACK_WEBHOOK_URL}}"
+      }
+    }
+  ]
+}

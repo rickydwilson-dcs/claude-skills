@@ -48,6 +48,21 @@ collaborates-with:
     required: optional
     features-enabled: [infra-docs, architecture-diagrams, runbooks]
     without-collaborator: "Infrastructure documentation will be text-only without visual diagrams"
+  - agent: cs-incident-responder
+    purpose: Infrastructure isolation and emergency deployment rollback during incidents
+    required: optional
+    features-enabled: [system-isolation, deployment-rollback, log-collection]
+    without-collaborator: "Incident containment will require manual infrastructure changes"
+  - agent: cs-observability-engineer
+    purpose: Observability stack design and SLO implementation (Prometheus/Grafana or NewRelic)
+    required: recommended
+    features-enabled: [monitoring-design, alerting-strategy, slo-framework, newrelic-dashboards, newrelic-alerting]
+    without-collaborator: "Basic monitoring without comprehensive observability strategy"
+  - agent: cs-data-engineer
+    purpose: Streaming infrastructure deployment (Kafka clusters, Flink on Kubernetes, Kinesis)
+    required: optional
+    features-enabled: [kafka-deployment, flink-kubernetes, streaming-ci-cd, schema-registry]
+    without-collaborator: "Streaming infrastructure deployment handled without data engineering expertise"
 orchestrates:
   skill: engineering-team/senior-devops
 
@@ -56,7 +71,11 @@ tools: [Read, Write, Bash, Grep, Glob]
 dependencies:
   tools: [Read, Write, Bash, Grep, Glob]
   mcp-tools: []
-  scripts: []
+  scripts:
+    - pipeline_generator.py
+    - terraform_scaffolder.py
+    - deployment_manager.py
+    - servicenow_change_manager.py
 compatibility:
   claude-ai: true
   claude-code: true
@@ -84,7 +103,7 @@ updated: 2025-11-27
 license: MIT
 
 # === DISCOVERABILITY ===
-tags: [automation, ci/cd, devops, engineer, engineering]
+tags: [automation, ci/cd, devops, engineer, engineering, newrelic, prometheus, grafana, servicenow, change-management, itsm]
 featured: false
 verified: true
 
@@ -136,6 +155,15 @@ The cs-devops-engineer agent bridges the gap between manual infrastructure manag
    - **Use Cases:** Production deployments, rollback scenarios, canary testing, A/B deployment patterns, zero-downtime updates
    - **Integration:** Works with kubectl, Helm, Docker, ArgoCD, Flux CD for GitOps workflows
    - **Deployment Patterns:** Rolling updates, blue-green, canary, recreate, A/B testing
+
+4. **ServiceNow Change Manager**
+   - **Purpose:** Generate ServiceNow change request payloads from deployment configurations for ITIL-compliant change management and audit compliance
+   - **Path:** `../../skills/engineering-team/senior-devops/scripts/servicenow_change_manager.py`
+   - **Usage:** `python3 ../../skills/engineering-team/senior-devops/scripts/servicenow_change_manager.py --deployment-file deploy.json --change-type normal --output curl`
+   - **Features:** Change request generation (standard, normal, emergency), risk assessment, backout plan documentation, test plan generation, CMDB CI linking, CAB approval workflow support
+   - **Output:** JSON payload, curl command for testing, text summary
+   - **Use Cases:** ITIL change management, deployment audit trails, CAB preparation, compliance tracking (SOX, PCI-DSS)
+   - **Integration:** Works with deployment_manager.py output for automated change ticket creation
 
 ### Knowledge Bases
 
@@ -817,6 +845,187 @@ kubectl get pods -n logging
 kubectl get pods -n observability
 ./scripts/verify-monitoring.sh
 ```
+
+### Workflow 5: ServiceNow Change Management for Deployments
+
+**Goal:** Integrate deployment pipeline with ServiceNow Change Management for ITIL compliance, audit trails, and CAB approval workflows
+
+**Steps:**
+
+1. **Generate Deployment Configuration** - Use deployment manager to create deployment config
+   ```bash
+   python3 ../../skills/engineering-team/senior-devops/scripts/deployment_manager.py \
+     --input deployment-config.yaml \
+     --output json \
+     --file deploy-config.json
+   ```
+
+2. **Create Change Request Payload** - Generate ServiceNow change request from deployment
+   ```bash
+   python3 ../../skills/engineering-team/senior-devops/scripts/servicenow_change_manager.py \
+     --deployment-file deploy-config.json \
+     --change-type normal \
+     --ci-names "pandora-api-prod,pandora-db-prod" \
+     --start-time "2025-01-15T10:00:00Z" \
+     --end-time "2025-01-15T12:00:00Z" \
+     --output json \
+     --file change-request.json
+
+   # Review generated payload
+   cat change-request.json | jq '{
+     short_description: .short_description,
+     type: .type,
+     risk: .risk,
+     impact: .impact,
+     backout_plan: .backout_plan[:100]
+   }'
+   ```
+
+3. **Submit Change Request to ServiceNow** - Create change ticket via API
+   ```bash
+   # Generate curl command
+   python3 ../../skills/engineering-team/senior-devops/scripts/servicenow_change_manager.py \
+     --deployment-file deploy-config.json \
+     --change-type normal \
+     --output curl > create-change.sh
+
+   # Execute to create change request (requires SNOW_TOKEN)
+   # bash create-change.sh
+   # Response: {"result": {"sys_id": "abc123", "number": "CHG0012345"}}
+
+   # Store change number for pipeline
+   CHANGE_NUMBER="CHG0012345"
+   ```
+
+4. **Wait for CAB Approval (Normal Changes)** - Poll for approval status
+   ```bash
+   # Check change status
+   curl -s "https://your-instance.service-now.com/api/now/table/change_request/$CHANGE_NUMBER" \
+     -H "Authorization: Bearer $SNOW_TOKEN" | jq '.result.state'
+
+   # State values:
+   # -5 = New, -4 = Assess, -3 = Authorize, -2 = Scheduled (Approved)
+   # -1 = Implement, 0 = Review, 3 = Closed
+
+   # Wait for Scheduled state (-2) before proceeding
+   while [ "$(curl -s ... | jq -r '.result.state')" != "-2" ]; do
+     echo "Waiting for CAB approval..."
+     sleep 300
+   done
+   ```
+
+5. **Update Change to Implement** - Mark change as in-progress when deployment starts
+   ```bash
+   curl -X PUT "https://your-instance.service-now.com/api/now/table/change_request/$CHANGE_NUMBER" \
+     -H "Authorization: Bearer $SNOW_TOKEN" \
+     -H "Content-Type: application/json" \
+     -d '{"state": "-1", "work_notes": "Deployment started"}'
+   ```
+
+6. **Execute Deployment** - Run deployment with change tracking
+   ```bash
+   # Deploy to Kubernetes
+   kubectl apply -f k8s/deployment.yaml
+
+   # Add work notes during deployment
+   curl -X PUT "https://your-instance.service-now.com/api/now/table/change_request/$CHANGE_NUMBER" \
+     -d '{"work_notes": "Step 1: Images pulled successfully"}'
+
+   # Wait for rollout
+   kubectl rollout status deployment/my-app -n production
+   ```
+
+7. **Close Change Request** - Mark change as successful or failed
+   ```bash
+   # On success
+   curl -X PUT "https://your-instance.service-now.com/api/now/table/change_request/$CHANGE_NUMBER" \
+     -H "Authorization: Bearer $SNOW_TOKEN" \
+     -d '{
+       "state": "0",
+       "close_code": "successful",
+       "close_notes": "Deployment completed successfully. Version 2.3.1 now running."
+     }'
+
+   # On failure (with rollback)
+   curl -X PUT "https://your-instance.service-now.com/api/now/table/change_request/$CHANGE_NUMBER" \
+     -d '{
+       "state": "0",
+       "close_code": "unsuccessful",
+       "close_notes": "Deployment failed. Rollback executed. Previous version restored."
+     }'
+   ```
+
+8. **Emergency Change Workflow** - For critical hotfixes
+   ```bash
+   # Create emergency change (single approver, post-implementation review)
+   python3 ../../skills/engineering-team/senior-devops/scripts/servicenow_change_manager.py \
+     --deployment-file hotfix-config.json \
+     --change-type emergency \
+     --output curl
+
+   # Emergency changes bypass normal CAB - proceed immediately after single approval
+   ```
+
+**Expected Output:** Complete audit trail of deployment in ServiceNow with change request, approval history, implementation notes, and closure status for compliance reporting
+
+**Time Estimate:** 10-15 minutes for change creation, variable for CAB approval (standard changes auto-approve)
+
+**Example:**
+```bash
+# Automated change management in CI/CD pipeline
+python3 ../../skills/engineering-team/senior-devops/scripts/deployment_manager.py --input config.yaml --output json --file deploy.json
+python3 ../../skills/engineering-team/senior-devops/scripts/servicenow_change_manager.py --deployment-file deploy.json --change-type standard --output curl | bash
+kubectl apply -f k8s/ && curl -X PUT ... -d '{"state": "0", "close_code": "successful"}'
+```
+
+#### Alternative: NewRelic Observability Stack
+
+For teams using NewRelic instead of Prometheus/Grafana, deploy the NewRelic bundle:
+
+```bash
+# Add NewRelic Helm repository
+helm repo add newrelic https://helm-charts.newrelic.com
+helm repo update
+
+# Create namespace and deploy NewRelic bundle
+kubectl create namespace newrelic
+
+# Install newrelic-bundle (includes Infrastructure, Logging, Kubernetes integration)
+helm install newrelic-bundle newrelic/nri-bundle \
+  --namespace newrelic \
+  --set global.licenseKey=$NEW_RELIC_LICENSE_KEY \
+  --set global.cluster=production-cluster \
+  --set newrelic-infrastructure.privileged=true \
+  --set ksm.enabled=true \
+  --set prometheus.enabled=true \
+  --set kubeEvents.enabled=true \
+  --set logging.enabled=true
+
+# Verify installation
+kubectl get pods -n newrelic
+
+# Configure APM in application deployments
+# Add to pod spec:
+#   env:
+#     - name: NEW_RELIC_LICENSE_KEY
+#       valueFrom:
+#         secretKeyRef:
+#           name: newrelic-secret
+#           key: license-key
+#     - name: NEW_RELIC_APP_NAME
+#       value: "my-microservice"
+#     - name: NEW_RELIC_DISTRIBUTED_TRACING_ENABLED
+#       value: "true"
+
+# Generate NewRelic dashboards using cs-observability-engineer tools
+# See: cs-observability-engineer.md Workflow 5 for complete NewRelic setup
+```
+
+**NewRelic Benefits:**
+- Single platform for APM, infrastructure, logs, and traces
+- Built-in SLO management with error budget tracking
+- NRQL query language for custom metrics analysis
+- Native Kubernetes integration with auto-discovery
 
 ## Integration Examples
 

@@ -53,6 +53,16 @@ collaborates-with:
     required: optional
     features-enabled: [architecture-review, design-patterns, scalability-planning]
     without-collaborator: "Architecture decisions made without formal review process"
+  - agent: cs-observability-engineer
+    purpose: Metrics instrumentation and distributed tracing integration
+    required: optional
+    features-enabled: [custom-metrics, trace-context, log-correlation]
+    without-collaborator: "Backend services without observability instrumentation guidance"
+  - agent: cs-data-engineer
+    purpose: Event producers, CDC integration, and streaming architecture patterns
+    required: optional
+    features-enabled: [event-sourcing, cdc-setup, kafka-producers, schema-registry]
+    without-collaborator: "Event streaming patterns may not align with data platform architecture"
 orchestrates:
   skill: engineering-team/senior-backend
 

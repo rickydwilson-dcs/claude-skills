@@ -25,9 +25,9 @@ orchestrated-by: []
 
 # === TECHNICAL ===
 dependencies:
-  scripts: []
-  references: []
-  assets: []
+  scripts: [pipeline_generator.py, terraform_scaffolder.py, deployment_manager.py, servicenow_change_manager.py]
+  references: [cicd_pipeline_guide.md, infrastructure_as_code.md, deployment_strategies.md, servicenow_change_mgmt.md]
+  assets: [servicenow-change-template.json]
 compatibility:
   python-version: 3.8+
   platforms: [macos, linux, windows]
@@ -56,7 +56,7 @@ updated: 2025-11-23
 license: MIT
 
 # === DISCOVERABILITY ===
-tags: [automation, ci/cd, cloud, devops, engineering, senior]
+tags: [automation, ci/cd, cloud, devops, engineering, senior, servicenow, change-management, itsm]
 featured: false
 verified: true
 ---
@@ -78,7 +78,7 @@ Senior DevOps engineers use this skill for continuous integration/deployment, in
 
 ### Main Capabilities
 
-This skill provides three core capabilities through automated scripts:
+This skill provides four core capabilities through automated scripts:
 
 ```bash
 # Script 1: Pipeline Generator
@@ -89,6 +89,9 @@ python scripts/terraform_scaffolder.py [options]
 
 # Script 3: Deployment Manager
 python scripts/deployment_manager.py [options]
+
+# Script 4: ServiceNow Change Manager - ITIL change request automation
+python scripts/servicenow_change_manager.py --deployment-file deploy.json --change-type normal
 ```
 
 ## Core Capabilities
@@ -198,6 +201,55 @@ python scripts/deployment_manager.py --help
 - Testing new releases with minimal risk
 - Automating deployment workflows
 
+### 4. ServiceNow Change Manager
+
+Generate ServiceNow change request payloads from deployment configurations for ITIL-compliant change management.
+
+**Key Features:**
+- Change request generation (Standard, Normal, Emergency)
+- Automatic risk assessment based on deployment scope
+- Backout plan documentation from deployment config
+- Test plan generation with validation steps
+- CMDB Configuration Item linking
+- CAB approval workflow support
+- curl command generation for API testing
+
+**Common Usage:**
+```bash
+# Generate normal change request from deployment
+python scripts/servicenow_change_manager.py \
+  --deployment-file deploy-config.json \
+  --change-type normal \
+  --ci-names "pandora-api-prod,pandora-db-prod" \
+  --start-time "2025-01-15T10:00:00Z" \
+  --end-time "2025-01-15T12:00:00Z" \
+  --output json
+
+# Generate standard change (pre-approved)
+python scripts/servicenow_change_manager.py \
+  --deployment-file deploy-config.json \
+  --change-type standard \
+  --output curl
+
+# Generate emergency change for hotfix
+python scripts/servicenow_change_manager.py \
+  --deployment-file hotfix.json \
+  --change-type emergency \
+  --output curl
+
+# Help
+python scripts/servicenow_change_manager.py --help
+```
+
+**Use Cases:**
+- ITIL-compliant deployment change management
+- Audit trail for production deployments
+- CAB approval automation
+- Compliance tracking (SOX, PCI-DSS)
+- Linking deployments to CMDB Configuration Items
+
+See [servicenow_change_mgmt.md](references/servicenow_change_mgmt.md) for change management best practices.
+
 See [cicd_pipeline_guide.md](references/cicd_pipeline_guide.md) for comprehensive documentation.
 
 ## Reference Documentation
@@ -231,6 +283,19 @@ Technical reference guide in `references/deployment_strategies.md`:
 - Integration patterns
 - Security considerations
 - Scalability guidelines
+
+### ServiceNow Change Management
+
+ITIL change management integration guide in `references/servicenow_change_mgmt.md`:
+
+- Change request types (Standard, Normal, Emergency)
+- Deployment-to-change workflow automation
+- Change Request API patterns
+- CAB approval workflows
+- CI/CD pipeline integration (GitHub Actions, Jenkins)
+- Risk assessment and impact analysis
+- Backout plan documentation
+- Post-implementation review
 
 ## Tech Stack
 
@@ -400,4 +465,6 @@ Check the comprehensive troubleshooting section in `references/deployment_strate
 - Pattern Reference: `references/cicd_pipeline_guide.md`
 - Workflow Guide: `references/infrastructure_as_code.md`
 - Technical Guide: `references/deployment_strategies.md`
+- ServiceNow Guide: `references/servicenow_change_mgmt.md`
+- ServiceNow Template: `assets/servicenow-change-template.json`
 - Tool Scripts: `scripts/` directory

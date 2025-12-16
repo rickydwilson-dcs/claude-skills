@@ -3,7 +3,7 @@
 # === CORE IDENTITY ===
 name: senior-data-engineer
 title: Senior Data Engineer Skill Package
-description: World-class data engineering skill for building scalable data pipelines, ETL/ELT systems, and data infrastructure. Expertise in Python, SQL, Spark, Airflow, dbt, Kafka, and modern data stack. Includes data modeling, pipeline orchestration, data quality, and DataOps. Use when designing data architectures, building data pipelines, optimizing data workflows, or implementing data governance.
+description: World-class data engineering skill for building scalable data pipelines, ETL/ELT systems, real-time streaming, and data infrastructure. Expertise in Python, SQL, Spark, Airflow, dbt, Kafka, Flink, Kinesis, and modern data stack. Includes data modeling, pipeline orchestration, data quality, streaming quality monitoring, and DataOps. Use when designing data architectures, building batch or streaming data pipelines, optimizing data workflows, or implementing data governance.
 domain: engineering
 subdomain: data-engineering
 
@@ -16,6 +16,9 @@ use-cases:
   - Building data warehouses and data lakes
   - Implementing data quality and governance frameworks
   - Creating analytics dashboards and reporting
+  - Building real-time streaming pipelines with Kafka and Flink
+  - Implementing exactly-once streaming semantics
+  - Monitoring streaming quality (consumer lag, data freshness, schema drift)
 
 # === RELATIONSHIPS ===
 related-agents: []
@@ -37,11 +40,16 @@ tech-stack:
   - Apache Spark
   - Airflow
   - dbt
-  - Kafka
+  - Apache Kafka
+  - Apache Flink
+  - AWS Kinesis
+  - Spark Structured Streaming
+  - Kafka Streams
   - PostgreSQL
   - BigQuery
   - Snowflake
   - Docker
+  - Schema Registry
 
 # === EXAMPLES ===
 examples:
@@ -58,15 +66,15 @@ stats:
   reviews: 0
 
 # === VERSIONING ===
-version: v1.0.0
+version: v2.0.0
 author: Claude Skills Team
 contributors: []
 created: 2025-10-20
-updated: 2025-11-08
+updated: 2025-12-16
 license: MIT
 
 # === DISCOVERABILITY ===
-tags: [architecture, data, design, engineer, engineering, senior]
+tags: [architecture, data, design, engineer, engineering, senior, streaming, kafka, flink, real-time]
 featured: false
 verified: true
 ---
@@ -75,35 +83,40 @@ verified: true
 
 ## Core Capabilities
 
-- **[Capability 1]** - [Description]
-- **[Capability 2]** - [Description]
-- **[Capability 3]** - [Description]
-- **[Capability 4]** - [Description]
+- **Batch Pipeline Orchestration** - Design and implement production-ready ETL/ELT pipelines with Airflow, intelligent dependency resolution, retry logic, and comprehensive monitoring
+- **Real-Time Streaming** - Build event-driven streaming pipelines with Kafka, Flink, Kinesis, and Spark Streaming with exactly-once semantics and sub-second latency
+- **Data Quality Management** - Comprehensive batch and streaming data quality validation covering completeness, accuracy, consistency, timeliness, and validity
+- **Streaming Quality Monitoring** - Track consumer lag, data freshness, schema drift, throughput, and dead letter queue rates for streaming pipelines
+- **Performance Optimization** - Analyze and optimize pipeline performance with query optimization, Spark tuning, and cost analysis recommendations
 
 
 ## Key Workflows
 
-### Workflow 1: [Workflow Name]
+### Workflow 1: Build ETL Pipeline
 
-**Time:** [Duration estimate]
-
-**Steps:**
-1. [Step 1]
-2. [Step 2]
-3. [Step 3]
-
-**Expected Output:** [What success looks like]
-
-### Workflow 2: [Workflow Name]
-
-**Time:** [Duration estimate]
+**Time:** 2-4 hours
 
 **Steps:**
-1. [Step 1]
-2. [Step 2]
-3. [Step 3]
+1. Design pipeline architecture using Lambda, Kappa, or Medallion pattern
+2. Configure YAML pipeline definition with sources, transformations, targets
+3. Generate Airflow DAG with `pipeline_orchestrator.py`
+4. Define data quality validation rules
+5. Deploy and configure monitoring/alerting
 
-**Expected Output:** [What success looks like]
+**Expected Output:** Production-ready ETL pipeline with 99%+ success rate, automated quality checks, and comprehensive monitoring
+
+### Workflow 2: Build Real-Time Streaming Pipeline
+
+**Time:** 3-5 days
+
+**Steps:**
+1. Select streaming architecture (Kappa vs Lambda) based on requirements
+2. Configure streaming pipeline YAML (sources, processing, sinks, quality)
+3. Generate Kafka configurations with `kafka_config_generator.py`
+4. Generate Flink/Spark job scaffolding with `stream_processor.py`
+5. Deploy and monitor with `streaming_quality_validator.py`
+
+**Expected Output:** Streaming pipeline processing 10K+ events/sec with P99 latency < 1s, exactly-once delivery, and real-time quality monitoring
 
 
 World-class data engineering for production-grade data systems, scalable pipelines, and enterprise data platforms.
@@ -171,6 +184,39 @@ python scripts/etl_performance_optimizer.py \
     --app-id app-20250115-001
 ```
 
+### Real-Time Streaming
+
+```bash
+# Validate streaming pipeline configuration
+python scripts/stream_processor.py --config streaming_config.yaml --validate
+
+# Generate Kafka topic and client configurations
+python scripts/kafka_config_generator.py \
+    --topic user-events \
+    --partitions 12 \
+    --replication 3 \
+    --output kafka/topics/
+
+# Generate exactly-once producer configuration
+python scripts/kafka_config_generator.py \
+    --producer \
+    --profile exactly-once \
+    --output kafka/producer.properties
+
+# Generate Flink job scaffolding
+python scripts/stream_processor.py \
+    --config streaming_config.yaml \
+    --mode flink \
+    --generate \
+    --output flink-jobs/
+
+# Monitor streaming quality
+python scripts/streaming_quality_validator.py \
+    --lag --consumer-group events-processor --threshold 10000 \
+    --freshness --topic processed-events --max-latency-ms 5000 \
+    --output streaming-health-report.html
+```
+
 ## Core Workflows
 
 ### 1. Building Production Data Pipelines
@@ -224,6 +270,20 @@ python scripts/etl_performance_optimizer.py \
 **Optimization Strategies:** See [frameworks.md](references/frameworks.md) for performance best practices including partitioning strategies, query optimization, and Spark tuning.
 
 **Analysis Tools:** See [tools.md](references/tools.md) for complete documentation on etl_performance_optimizer.py with query analysis and Spark tuning.
+
+### 5. Building Real-Time Streaming Pipelines
+
+**Steps:**
+1. **Architecture Selection:** Choose Kappa (streaming-only) or Lambda (batch + streaming) architecture
+2. **Configure Pipeline:** Create YAML config with sources, processing engine, sinks, quality thresholds
+3. **Generate Kafka Configs:** `python scripts/kafka_config_generator.py --topic events --partitions 12`
+4. **Generate Job Scaffolding:** `python scripts/stream_processor.py --mode flink --generate`
+5. **Deploy Infrastructure:** Use Docker Compose for local dev, Kubernetes for production
+6. **Monitor Quality:** `python scripts/streaming_quality_validator.py --lag --freshness --throughput`
+
+**Streaming Patterns:** See [frameworks.md](references/frameworks.md) for stateful processing, stream joins, windowing, exactly-once semantics, and CDC patterns.
+
+**Templates:** See [templates.md](references/templates.md) for Flink DataStream jobs, Kafka Streams applications, PyFlink templates, and Docker Compose configurations.
 
 ## Python Tools
 
@@ -310,6 +370,96 @@ python scripts/etl_performance_optimizer.py \
 
 **Complete Documentation:** See [tools.md](references/tools.md) for profiling options, optimization strategies, and cost analysis.
 
+### stream_processor.py
+
+Streaming pipeline configuration generator and validator for Kafka, Flink, and Kinesis.
+
+**Capabilities:**
+- Multi-platform support (Kafka, Flink, Kinesis, Spark Streaming)
+- Configuration validation with best practice checks
+- Flink/Spark job scaffolding generation
+- Kafka topic configuration generation
+- Docker Compose for local streaming stacks
+- Exactly-once semantics configuration
+
+**Usage:**
+```bash
+# Validate configuration
+python scripts/stream_processor.py --config streaming_config.yaml --validate
+
+# Generate Kafka configurations
+python scripts/stream_processor.py --config streaming_config.yaml --mode kafka --generate
+
+# Generate Flink job scaffolding
+python scripts/stream_processor.py --config streaming_config.yaml --mode flink --generate --output flink-jobs/
+
+# Generate Docker Compose for local development
+python scripts/stream_processor.py --config streaming_config.yaml --mode docker --generate
+```
+
+**Complete Documentation:** See [tools.md](references/tools.md) for configuration format, validation checks, and generated outputs.
+
+### streaming_quality_validator.py
+
+Real-time streaming data quality monitoring with comprehensive health scoring.
+
+**Capabilities:**
+- Consumer lag monitoring with thresholds
+- Data freshness validation (P50/P95/P99 latency)
+- Schema drift detection
+- Throughput analysis (events/sec, bytes/sec)
+- Dead letter queue rate monitoring
+- Overall quality scoring with recommendations
+- Prometheus metrics export
+
+**Usage:**
+```bash
+# Monitor consumer lag
+python scripts/streaming_quality_validator.py \
+    --lag --consumer-group events-processor --threshold 10000
+
+# Monitor data freshness
+python scripts/streaming_quality_validator.py \
+    --freshness --topic processed-events --max-latency-ms 5000
+
+# Full quality validation
+python scripts/streaming_quality_validator.py \
+    --lag --freshness --throughput --dlq \
+    --output streaming-health-report.html
+```
+
+**Complete Documentation:** See [tools.md](references/tools.md) for all monitoring dimensions and integration patterns.
+
+### kafka_config_generator.py
+
+Production-grade Kafka configuration generator with performance and security profiles.
+
+**Capabilities:**
+- Topic configuration (partitions, replication, retention, compaction)
+- Producer profiles (high-throughput, exactly-once, low-latency, ordered)
+- Consumer profiles (exactly-once, high-throughput, batch)
+- Kafka Streams configuration with state store tuning
+- Security configuration (SASL-PLAIN, SASL-SCRAM, mTLS)
+- Kafka Connect source/sink configurations
+- Multiple output formats (properties, YAML, JSON)
+
+**Usage:**
+```bash
+# Generate topic configuration
+python scripts/kafka_config_generator.py \
+    --topic user-events --partitions 12 --replication 3 --retention-hours 168
+
+# Generate exactly-once producer
+python scripts/kafka_config_generator.py \
+    --producer --profile exactly-once --transactional-id producer-001
+
+# Generate Kafka Streams config
+python scripts/kafka_config_generator.py \
+    --streams --application-id events-processor --exactly-once
+```
+
+**Complete Documentation:** See [tools.md](references/tools.md) for all profiles, security options, and Connect configurations.
+
 ## Reference Documentation
 
 ### Frameworks ([frameworks.md](references/frameworks.md))
@@ -321,7 +471,7 @@ Comprehensive data engineering frameworks and patterns:
 - **Data Quality:** Complete framework covering all quality dimensions
 - **DataOps:** CI/CD for data pipelines, testing strategies, monitoring
 - **Orchestration:** Airflow DAG patterns, backfill strategies
-- **Streaming:** Kafka-based streaming, Spark Structured Streaming
+- **Real-Time Streaming:** Stateful processing, stream joins, windowing strategies, exactly-once semantics, event time processing, watermarks, backpressure, Apache Flink patterns, AWS Kinesis patterns, CDC for streaming
 - **Governance:** Data catalog, lineage tracking, access control
 
 ### Templates ([templates.md](references/templates.md))
@@ -332,8 +482,10 @@ Production-ready code templates and examples:
 - **dbt Models:** Staging, intermediate, fact tables, dimensions with SCD Type 2
 - **SQL Patterns:** Incremental merge (upsert), deduplication, date spine, window functions
 - **Python Pipelines:** Data quality validation class, retry decorators, error handling
-- **Docker:** Dockerfiles for data pipelines, Docker Compose for local development
-- **Configuration:** dbt project config, Spark configuration, Airflow variables
+- **Real-Time Streaming:** Apache Flink DataStream jobs (Java), Kafka Streams applications, PyFlink jobs, AWS Kinesis consumers, Docker Compose for streaming stack
+- **Kafka Configs:** Producer/consumer properties templates, topic configurations, security configurations
+- **Docker:** Dockerfiles for data pipelines, Docker Compose for local development including streaming stack (Kafka, Flink, Schema Registry)
+- **Configuration:** dbt project config, Spark configuration, Airflow variables, streaming pipeline YAML
 - **Testing:** pytest fixtures, integration tests, data quality tests
 
 ### Tools ([tools.md](references/tools.md))
@@ -342,24 +494,29 @@ Python automation tool documentation:
 - **pipeline_orchestrator.py:** Complete usage guide, configuration format, DAG templates
 - **data_quality_validator.py:** Validation rules, dimension checks, Great Expectations integration
 - **etl_performance_optimizer.py:** Performance analysis, query optimization, Spark tuning
-- **Integration Patterns:** Airflow, dbt, CI/CD, monitoring systems
-- **Best Practices:** Configuration management, error handling, performance, monitoring
+- **stream_processor.py:** Streaming pipeline configuration, validation, job scaffolding generation
+- **streaming_quality_validator.py:** Consumer lag, data freshness, schema drift, throughput monitoring
+- **kafka_config_generator.py:** Topic, producer, consumer, Kafka Streams, and Connect configurations
+- **Integration Patterns:** Airflow, dbt, CI/CD, monitoring systems, Prometheus
+- **Best Practices:** Configuration management, error handling, performance, monitoring, streaming quality
 
 ## Tech Stack
 
 **Core Technologies:**
-- **Languages:** Python 3.8+, SQL, Scala (Spark)
+- **Languages:** Python 3.8+, SQL, Scala (Spark), Java (Flink)
 - **Orchestration:** Apache Airflow, Prefect, Dagster
-- **Processing:** Apache Spark, dbt, Pandas
-- **Streaming:** Apache Kafka, Spark Streaming, Flink
+- **Batch Processing:** Apache Spark, dbt, Pandas
+- **Stream Processing:** Apache Kafka, Apache Flink, Kafka Streams, Spark Structured Streaming, AWS Kinesis
 - **Storage:** PostgreSQL, BigQuery, Snowflake, Redshift, S3, GCS
+- **Schema Management:** Confluent Schema Registry, AWS Glue Schema Registry
 - **Containerization:** Docker, Kubernetes
-- **Monitoring:** Datadog, Prometheus, Grafana
+- **Monitoring:** Datadog, Prometheus, Grafana, Kafka UI
 
 **Data Platforms:**
 - **Cloud Data Warehouses:** Snowflake, BigQuery, Redshift
 - **Data Lakes:** Delta Lake, Apache Iceberg, Apache Hudi
-- **Streaming:** Kafka, Kinesis, Pub/Sub
+- **Streaming Platforms:** Apache Kafka, AWS Kinesis, Google Pub/Sub, Azure Event Hubs
+- **Stream Processing Engines:** Apache Flink, Kafka Streams, Spark Structured Streaming
 - **Workflow:** Airflow, Prefect, Dagster
 
 ## Integration Points
@@ -407,17 +564,29 @@ See [tools.md](references/tools.md) for detailed integration patterns and exampl
 
 ## Performance Targets
 
-**Pipeline Execution:**
+**Batch Pipeline Execution:**
 - P50 latency: < 5 minutes (hourly pipelines)
 - P95 latency: < 15 minutes
 - Success rate: > 99%
 - Data freshness: < 1 hour behind source
 
-**Data Quality:**
+**Streaming Pipeline Execution:**
+- Throughput: 10K+ events/second sustained
+- End-to-end latency: P99 < 1 second
+- Consumer lag: < 10K records behind
+- Exactly-once delivery: Zero duplicates or losses
+
+**Data Quality (Batch):**
 - Quality score: > 95%
 - Completeness: > 99%
 - Timeliness: < 2 hours data lag
 - Zero critical failures
+
+**Streaming Quality:**
+- Data freshness: P95 < 5 minutes from event generation
+- Late data rate: < 5% outside watermark window
+- Dead letter queue rate: < 1%
+- Schema compatibility: 100% backward/forward compatible changes
 
 **Cost Efficiency:**
 - Cost per GB processed: < $0.10
@@ -433,6 +602,7 @@ See [tools.md](references/tools.md) for detailed integration patterns and exampl
 
 ---
 
-**Version:** 1.0.0
-**Last Updated:** 2025-11-08
+**Version:** 2.0.0
+**Last Updated:** December 16, 2025
 **Documentation Structure:** Progressive disclosure with comprehensive references
+**Streaming Enhancement:** Task #8 - Real-time streaming capabilities added

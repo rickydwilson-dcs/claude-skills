@@ -46,7 +46,7 @@ This repository provides **modular, self-contained skill packages** specifically
 
 **Key Benefits for Pandora:**
 - ⚡ **Zero dependencies** - Python 3.8+ standard library only, works across Pandora's environments
-- 🎯 **SDLC-optimized** - 34 skills, 34 agents, 16 slash commands covering architecture, security, product management, engineering, delivery
+- 🎯 **SDLC-optimized** - 40 skills, 40 agents, 16 slash commands covering architecture, security, product management, engineering, delivery
 - 🔧 **Fast analysis** - Algorithmic tools without external API dependencies or rate limits
 - 📈 **Measurable impact** - 40%+ time savings, 30%+ quality improvements, faster delivery cycles
 - 👥 **Team adoption ready** - Designed for Pandora's entire development organization to use daily
@@ -57,13 +57,13 @@ This repository provides **modular, self-contained skill packages** specifically
 
 ### Skills & Agents
 
-- **[Skills Catalog](docs/SKILLS_CATALOG.md)** - 34 production-ready skills with Python CLI tools
+- **[Skills Catalog](docs/SKILLS_CATALOG.md)** - 40 production-ready skills with Python CLI tools
   - **Marketing Skills (3)** - Content creation, demand generation, product marketing
   - **Product Skills (7)** - Product management, agile practices, UX research, UI design, business analysis, competitive analysis
-  - **Engineering Skills (19)** - Architecture, security, fullstack, DevOps, AI/ML, data, QA, technical writing, mobile (React Native, Flutter, iOS)
+  - **Engineering Skills (20)** - Architecture, security, fullstack, DevOps, AI/ML, data, QA, technical writing, mobile, network infrastructure
   - **Delivery Skills (5)** - Jira, Confluence, Scrum, project management
 
-- **[Agents Catalog](docs/AGENTS_CATALOG.md)** - 34 workflow orchestrator agents (v2.0)
+- **[Agents Catalog](docs/AGENTS_CATALOG.md)** - 40 workflow orchestrator agents (v2.0)
   - Agents guide multi-step processes and intelligently invoke skills
   - Complete coverage for marketing, product, engineering, and delivery domains
 
@@ -281,8 +281,8 @@ python3 scripts/skill_builder.py --validate skills/marketing-team/content-creato
 
 ### Validation Results
 
-- **34/34 agents passing** (100% validation rate)
-- **34/34 skills passing** (100% validation rate)
+- **39/39 agents passing** (100% validation rate)
+- **39/39 skills passing** (100% validation rate)
 - Zero external dependencies
 - Average validation time: < 2 seconds
 
@@ -341,9 +341,9 @@ This repository is a fork of [Claude Skills Library](https://github.com/alirezar
 
 **Key Differences in Pandora Edition:**
 - Focus on Pandora's SDLC (architecture, security, product management, delivery)
-- 34 skills covering software delivery lifecycle (vs original marketing focus)
-- 92 Python CLI tools for automated analysis
-- 34 workflow orchestrator agents (v2.0)
+- 39 skills covering software delivery lifecycle (vs original marketing focus)
+- 115 Python CLI tools for automated analysis
+- 39 workflow orchestrator agents (v2.0)
 - Comprehensive testing framework (2,814 tests)
 - Zero dependencies (Python 3.8+ standard library only)
 
@@ -370,6 +370,6 @@ Special thanks to:
 ---
 
 **Version:** 1.0.0 (Pandora Edition)
-**Last Updated:** December 14, 2025
-**Status:** 34 production skills, 34 agents, 16 slash commands, 92 CLI tools
+**Last Updated:** December 16, 2025
+**Status:** 39 production skills, 39 agents, 16 slash commands, 115 CLI tools
 **Compatibility:** Claude AI, Claude Code, Python 3.8+

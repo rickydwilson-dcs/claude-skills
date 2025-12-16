@@ -1,0 +1,279 @@
+{
+  "__comment": "New Relic SLO Alert Conditions Template",
+  "__description": "Multi-burn-rate SLO alerting based on Google SRE guidelines",
+  "__usage": "Replace {{SERVICE_NAME}}, {{ACCOUNT_ID}}, and {{SLO_TARGET}} with your values. Import via NerdGraph API.",
+  "policy": {
+    "name": "{{SERVICE_NAME}} SLO Alerts",
+    "incidentPreference": "PER_CONDITION_AND_TARGET"
+  },
+  "conditions": [
+    {
+      "name": "{{SERVICE_NAME}} - Fast Burn (1h/5m) - Critical",
+      "description": "Error rate burning 14.4x the sustainable rate - 2% of monthly budget in 1 hour",
+      "type": "NRQL",
+      "enabled": true,
+      "nrql": {
+        "query": "SELECT percentage(count(*), WHERE error IS true) FROM Transaction WHERE appName = '{{SERVICE_NAME}}'"
+      },
+      "signal": {
+        "aggregationWindow": 300,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationDelay": 120,
+        "fillOption": "NONE",
+        "slideBy": 60
+      },
+      "terms": [
+        {
+          "threshold": 0.144,
+          "thresholdDuration": 300,
+          "thresholdOccurrences": "ALL",
+          "operator": "ABOVE",
+          "priority": "CRITICAL"
+        }
+      ],
+      "violationTimeLimitSeconds": 86400,
+      "runbookUrl": "https://runbooks.example.com/{{SERVICE_NAME}}/high-error-rate",
+      "tags": {
+        "service": "{{SERVICE_NAME}}",
+        "slo_target": "{{SLO_TARGET}}",
+        "burn_rate": "14.4x",
+        "window": "1h"
+      }
+    },
+    {
+      "name": "{{SERVICE_NAME}} - Medium Burn (6h/30m) - Critical",
+      "description": "Error rate burning 6x the sustainable rate - 5% of monthly budget in 6 hours",
+      "type": "NRQL",
+      "enabled": true,
+      "nrql": {
+        "query": "SELECT percentage(count(*), WHERE error IS true) FROM Transaction WHERE appName = '{{SERVICE_NAME}}'"
+      },
+      "signal": {
+        "aggregationWindow": 1800,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationDelay": 120,
+        "fillOption": "NONE",
+        "slideBy": 300
+      },
+      "terms": [
+        {
+          "threshold": 0.06,
+          "thresholdDuration": 1800,
+          "thresholdOccurrences": "ALL",
+          "operator": "ABOVE",
+          "priority": "CRITICAL"
+        }
+      ],
+      "violationTimeLimitSeconds": 86400,
+      "runbookUrl": "https://runbooks.example.com/{{SERVICE_NAME}}/high-error-rate",
+      "tags": {
+        "service": "{{SERVICE_NAME}}",
+        "slo_target": "{{SLO_TARGET}}",
+        "burn_rate": "6x",
+        "window": "6h"
+      }
+    },
+    {
+      "name": "{{SERVICE_NAME}} - Slow Burn (1d/2h) - Warning",
+      "description": "Error rate burning 3x the sustainable rate - 10% of monthly budget in 1 day",
+      "type": "NRQL",
+      "enabled": true,
+      "nrql": {
+        "query": "SELECT percentage(count(*), WHERE error IS true) FROM Transaction WHERE appName = '{{SERVICE_NAME}}'"
+      },
+      "signal": {
+        "aggregationWindow": 7200,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationDelay": 120,
+        "fillOption": "NONE",
+        "slideBy": 600
+      },
+      "terms": [
+        {
+          "threshold": 0.03,
+          "thresholdDuration": 7200,
+          "thresholdOccurrences": "ALL",
+          "operator": "ABOVE",
+          "priority": "WARNING"
+        }
+      ],
+      "violationTimeLimitSeconds": 86400,
+      "runbookUrl": "https://runbooks.example.com/{{SERVICE_NAME}}/elevated-error-rate",
+      "tags": {
+        "service": "{{SERVICE_NAME}}",
+        "slo_target": "{{SLO_TARGET}}",
+        "burn_rate": "3x",
+        "window": "1d"
+      }
+    },
+    {
+      "name": "{{SERVICE_NAME}} - Very Slow Burn (3d/6h) - Warning",
+      "description": "Error rate at sustainable rate - 10% of monthly budget in 3 days",
+      "type": "NRQL",
+      "enabled": true,
+      "nrql": {
+        "query": "SELECT percentage(count(*), WHERE error IS true) FROM Transaction WHERE appName = '{{SERVICE_NAME}}'"
+      },
+      "signal": {
+        "aggregationWindow": 21600,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationDelay": 120,
+        "fillOption": "NONE",
+        "slideBy": 1800
+      },
+      "terms": [
+        {
+          "threshold": 0.01,
+          "thresholdDuration": 21600,
+          "thresholdOccurrences": "ALL",
+          "operator": "ABOVE",
+          "priority": "WARNING"
+        }
+      ],
+      "violationTimeLimitSeconds": 86400,
+      "runbookUrl": "https://runbooks.example.com/{{SERVICE_NAME}}/elevated-error-rate",
+      "tags": {
+        "service": "{{SERVICE_NAME}}",
+        "slo_target": "{{SLO_TARGET}}",
+        "burn_rate": "1x",
+        "window": "3d"
+      }
+    },
+    {
+      "name": "{{SERVICE_NAME}} - High P99 Latency",
+      "description": "P99 latency exceeds acceptable threshold",
+      "type": "NRQL",
+      "enabled": true,
+      "nrql": {
+        "query": "SELECT percentile(duration, 99) FROM Transaction WHERE appName = '{{SERVICE_NAME}}'"
+      },
+      "signal": {
+        "aggregationWindow": 300,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationDelay": 120,
+        "fillOption": "NONE"
+      },
+      "terms": [
+        {
+          "threshold": 1.0,
+          "thresholdDuration": 300,
+          "thresholdOccurrences": "ALL",
+          "operator": "ABOVE",
+          "priority": "WARNING"
+        },
+        {
+          "threshold": 2.0,
+          "thresholdDuration": 300,
+          "thresholdOccurrences": "ALL",
+          "operator": "ABOVE",
+          "priority": "CRITICAL"
+        }
+      ],
+      "violationTimeLimitSeconds": 86400,
+      "runbookUrl": "https://runbooks.example.com/{{SERVICE_NAME}}/high-latency",
+      "tags": {
+        "service": "{{SERVICE_NAME}}",
+        "metric": "latency",
+        "percentile": "99"
+      }
+    },
+    {
+      "name": "{{SERVICE_NAME}} - Low Throughput",
+      "description": "Request rate dropped significantly - potential outage indicator",
+      "type": "NRQL",
+      "enabled": true,
+      "nrql": {
+        "query": "SELECT rate(count(*), 1 minute) FROM Transaction WHERE appName = '{{SERVICE_NAME}}'"
+      },
+      "signal": {
+        "aggregationWindow": 300,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationDelay": 120,
+        "fillOption": "NONE"
+      },
+      "terms": [
+        {
+          "threshold": 10,
+          "thresholdDuration": 300,
+          "thresholdOccurrences": "ALL",
+          "operator": "BELOW",
+          "priority": "WARNING"
+        },
+        {
+          "threshold": 1,
+          "thresholdDuration": 300,
+          "thresholdOccurrences": "ALL",
+          "operator": "BELOW",
+          "priority": "CRITICAL"
+        }
+      ],
+      "violationTimeLimitSeconds": 86400,
+      "runbookUrl": "https://runbooks.example.com/{{SERVICE_NAME}}/low-traffic",
+      "tags": {
+        "service": "{{SERVICE_NAME}}",
+        "metric": "throughput"
+      }
+    },
+    {
+      "name": "{{SERVICE_NAME}} - Apdex Below Target",
+      "description": "User satisfaction score below acceptable threshold",
+      "type": "NRQL",
+      "enabled": true,
+      "nrql": {
+        "query": "SELECT apdex(duration, 0.5) FROM Transaction WHERE appName = '{{SERVICE_NAME}}'"
+      },
+      "signal": {
+        "aggregationWindow": 300,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationDelay": 120,
+        "fillOption": "NONE"
+      },
+      "terms": [
+        {
+          "threshold": 0.85,
+          "thresholdDuration": 600,
+          "thresholdOccurrences": "ALL",
+          "operator": "BELOW",
+          "priority": "WARNING"
+        },
+        {
+          "threshold": 0.7,
+          "thresholdDuration": 300,
+          "thresholdOccurrences": "ALL",
+          "operator": "BELOW",
+          "priority": "CRITICAL"
+        }
+      ],
+      "violationTimeLimitSeconds": 86400,
+      "runbookUrl": "https://runbooks.example.com/{{SERVICE_NAME}}/low-apdex",
+      "tags": {
+        "service": "{{SERVICE_NAME}}",
+        "metric": "apdex"
+      }
+    }
+  ],
+  "notificationChannels": [
+    {
+      "type": "PAGERDUTY",
+      "name": "{{SERVICE_NAME}}-pagerduty",
+      "config": {
+        "serviceKey": "{{PAGERDUTY_SERVICE_KEY}}"
+      }
+    },
+    {
+      "type": "SLACK",
+      "name": "{{SERVICE_NAME}}-slack",
+      "config": {
+        "channel": "#alerts-{{SERVICE_NAME}}",
+        "webhookUrl": "{{SLACK_WEBHOOK_URL}}"
+      }
+    },
+    {
+      "type": "EMAIL",
+      "name": "{{SERVICE_NAME}}-email",
+      "config": {
+        "recipients": "oncall@example.com"
+      }
+    }
+  ]
+}

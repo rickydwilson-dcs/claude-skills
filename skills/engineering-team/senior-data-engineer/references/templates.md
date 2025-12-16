@@ -1336,5 +1336,1029 @@ def test_data_quality_checks(sample_sales_data):
 
 ---
 
-**Last Updated:** 2025-11-08
-**Version:** 1.0.0
+## Real-Time Streaming Templates
+
+### Apache Flink DataStream Job
+
+```java
+// FlinkUserEventsProcessor.java
+import org.apache.flink.api.common.eventtime.WatermarkStrategy;
+import org.apache.flink.api.common.serialization.SimpleStringSchema;
+import org.apache.flink.connector.kafka.source.KafkaSource;
+import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
+import org.apache.flink.connector.kafka.sink.KafkaSink;
+import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
+import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
+import org.apache.flink.streaming.api.windowing.time.Time;
+import org.apache.flink.api.common.functions.AggregateFunction;
+import org.apache.flink.streaming.api.CheckpointingMode;
+import java.time.Duration;
+
+public class FlinkUserEventsProcessor {
+
+    public static void main(String[] args) throws Exception {
+        // Create execution environment
+        StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+
+        // Enable exactly-once checkpointing
+        env.enableCheckpointing(60000, CheckpointingMode.EXACTLY_ONCE);
+        env.getCheckpointConfig().setMinPauseBetweenCheckpoints(30000);
+        env.getCheckpointConfig().setCheckpointTimeout(120000);
+        env.getCheckpointConfig().setMaxConcurrentCheckpoints(1);
+
+        // Configure state backend for production
+        env.setStateBackend(new RocksDBStateBackend("s3://checkpoints/user-events/", true));
+
+        // Kafka source with exactly-once semantics
+        KafkaSource<String> source = KafkaSource.<String>builder()
+            .setBootstrapServers("kafka-cluster:9092")
+            .setTopics("raw-user-events")
+            .setGroupId("flink-user-events-processor")
+            .setStartingOffsets(OffsetsInitializer.committedOffsets(OffsetsInitializer.latest()))
+            .setValueOnlyDeserializer(new SimpleStringSchema())
+            .setProperty("security.protocol", "SASL_SSL")
+            .setProperty("sasl.mechanism", "SCRAM-SHA-256")
+            .build();
+
+        // Create data stream with event-time watermarks
+        DataStream<String> eventsStream = env.fromSource(
+            source,
+            WatermarkStrategy.<String>forBoundedOutOfOrderness(Duration.ofSeconds(30))
+                .withTimestampAssigner((event, timestamp) -> extractTimestamp(event)),
+            "Kafka Source"
+        );
+
+        // Parse JSON events
+        DataStream<UserEvent> parsedEvents = eventsStream
+            .map(json -> parseUserEvent(json))
+            .filter(event -> event != null)
+            .name("Parse Events");
+
+        // Filter for specific event types
+        DataStream<UserEvent> filteredEvents = parsedEvents
+            .filter(event -> event.getEventType().matches("click|purchase|signup"))
+            .name("Filter Events");
+
+        // Enrich with user profiles (async lookup)
+        DataStream<EnrichedEvent> enrichedEvents = AsyncDataStream.unorderedWait(
+            filteredEvents,
+            new UserProfileAsyncFunction(),
+            30, TimeUnit.SECONDS,
+            100  // Max concurrent requests
+        ).name("Enrich Events");
+
+        // Windowed aggregations - 5-minute tumbling windows
+        DataStream<EventMetrics> metricsStream = enrichedEvents
+            .keyBy(event -> event.getUserId() + ":" + event.getEventType())
+            .window(TumblingEventTimeWindows.of(Time.minutes(5)))
+            .allowedLateness(Time.minutes(1))
+            .sideOutputLateData(lateEventsTag)
+            .aggregate(new EventAggregator())
+            .name("Aggregate Metrics");
+
+        // Kafka sink with exactly-once delivery
+        KafkaSink<String> sink = KafkaSink.<String>builder()
+            .setBootstrapServers("kafka-cluster:9092")
+            .setRecordSerializer(KafkaRecordSerializationSchema.builder()
+                .setTopic("processed-user-events")
+                .setValueSerializationSchema(new SimpleStringSchema())
+                .build())
+            .setDeliverGuarantee(DeliveryGuarantee.EXACTLY_ONCE)
+            .setTransactionalIdPrefix("flink-processor")
+            .build();
+
+        // Write results
+        metricsStream
+            .map(metrics -> serializeToJson(metrics))
+            .sinkTo(sink)
+            .name("Kafka Sink");
+
+        // Handle late data
+        DataStream<UserEvent> lateEvents = enrichedEvents
+            .getSideOutput(lateEventsTag);
+
+        lateEvents
+            .map(event -> serializeToJson(event))
+            .sinkTo(dlqSink)
+            .name("DLQ Sink");
+
+        // Execute
+        env.execute("User Events Processing Pipeline");
+    }
+
+    // Custom aggregator for event metrics
+    public static class EventAggregator
+            implements AggregateFunction<EnrichedEvent, EventMetrics, EventMetrics> {
+
+        @Override
+        public EventMetrics createAccumulator() {
+            return new EventMetrics();
+        }
+
+        @Override
+        public EventMetrics add(EnrichedEvent event, EventMetrics acc) {
+            acc.incrementCount();
+            acc.addValue(event.getValue());
+            acc.updateMaxTimestamp(event.getTimestamp());
+            return acc;
+        }
+
+        @Override
+        public EventMetrics getResult(EventMetrics acc) {
+            return acc;
+        }
+
+        @Override
+        public EventMetrics merge(EventMetrics a, EventMetrics b) {
+            return a.merge(b);
+        }
+    }
+}
+```
+
+### Kafka Streams Application
+
+```java
+// KafkaStreamsUserEvents.java
+import org.apache.kafka.streams.*;
+import org.apache.kafka.streams.kstream.*;
+import org.apache.kafka.common.serialization.Serdes;
+import java.time.Duration;
+import java.util.Properties;
+
+public class KafkaStreamsUserEvents {
+
+    public static void main(String[] args) {
+        Properties props = new Properties();
+        props.put(StreamsConfig.APPLICATION_ID_CONFIG, "user-events-processor");
+        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka-cluster:9092");
+        props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
+        props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
+
+        // Exactly-once processing
+        props.put(StreamsConfig.PROCESSING_GUARANTEE_CONFIG, StreamsConfig.EXACTLY_ONCE_V2);
+
+        // State store configuration
+        props.put(StreamsConfig.STATE_DIR_CONFIG, "/tmp/kafka-streams");
+        props.put(StreamsConfig.NUM_STREAM_THREADS_CONFIG, 4);
+
+        // Commit interval
+        props.put(StreamsConfig.COMMIT_INTERVAL_MS_CONFIG, 1000);
+
+        StreamsBuilder builder = new StreamsBuilder();
+
+        // Input topic
+        KStream<String, String> events = builder.stream("raw-user-events",
+            Consumed.with(Serdes.String(), Serdes.String())
+                .withTimestampExtractor(new EventTimestampExtractor()));
+
+        // Parse and filter
+        KStream<String, UserEvent> parsedEvents = events
+            .mapValues(json -> parseUserEvent(json))
+            .filter((key, event) -> event != null &&
+                event.getEventType().matches("click|purchase|signup"));
+
+        // Branch by event type
+        Map<String, KStream<String, UserEvent>> branches = parsedEvents
+            .split(Named.as("event-"))
+            .branch((key, event) -> event.getEventType().equals("purchase"),
+                    Branched.as("purchase"))
+            .branch((key, event) -> event.getEventType().equals("click"),
+                    Branched.as("click"))
+            .defaultBranch(Branched.as("other"));
+
+        // Purchase stream - aggregate revenue
+        KTable<Windowed<String>, PurchaseMetrics> purchaseMetrics = branches.get("event-purchase")
+            .groupByKey()
+            .windowedBy(TimeWindows.ofSizeAndGrace(Duration.ofMinutes(5), Duration.ofMinutes(1)))
+            .aggregate(
+                PurchaseMetrics::new,
+                (key, event, metrics) -> metrics.add(event),
+                Materialized.<String, PurchaseMetrics, WindowStore<Bytes, byte[]>>as("purchase-metrics-store")
+                    .withKeySerde(Serdes.String())
+                    .withValueSerde(purchaseMetricsSerde)
+            );
+
+        // Click stream - count by page
+        KTable<Windowed<String>, Long> clickCounts = branches.get("event-click")
+            .selectKey((key, event) -> event.getPageId())
+            .groupByKey()
+            .windowedBy(TimeWindows.ofSizeAndGrace(Duration.ofMinutes(1), Duration.ofSeconds(30)))
+            .count(Materialized.as("click-counts-store"));
+
+        // Stream-table join for enrichment
+        KTable<String, UserProfile> userProfiles = builder.table("user-profiles",
+            Consumed.with(Serdes.String(), userProfileSerde));
+
+        KStream<String, EnrichedEvent> enrichedEvents = parsedEvents
+            .selectKey((key, event) -> event.getUserId())
+            .leftJoin(userProfiles,
+                (event, profile) -> enrichEvent(event, profile),
+                Joined.with(Serdes.String(), userEventSerde, userProfileSerde));
+
+        // Output to processed topic
+        enrichedEvents
+            .mapValues(event -> serializeToJson(event))
+            .to("processed-user-events", Produced.with(Serdes.String(), Serdes.String()));
+
+        // Output metrics
+        purchaseMetrics.toStream()
+            .map((windowedKey, metrics) -> KeyValue.pair(
+                windowedKey.key(),
+                formatMetricsJson(windowedKey, metrics)))
+            .to("purchase-metrics", Produced.with(Serdes.String(), Serdes.String()));
+
+        // Build and start
+        KafkaStreams streams = new KafkaStreams(builder.build(), props);
+
+        // Graceful shutdown
+        Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
+
+        streams.start();
+    }
+}
+```
+
+### Python Flink Job (PyFlink)
+
+```python
+# pyflink_user_events.py
+from pyflink.datastream import StreamExecutionEnvironment
+from pyflink.datastream.connectors.kafka import (
+    KafkaSource, KafkaSink, KafkaRecordSerializationSchema,
+    KafkaOffsetsInitializer, DeliveryGuarantee
+)
+from pyflink.common.serialization import SimpleStringSchema
+from pyflink.common.watermark_strategy import WatermarkStrategy
+from pyflink.datastream.window import TumblingEventTimeWindows
+from pyflink.common.time import Time, Duration
+from pyflink.datastream.functions import (
+    MapFunction, FilterFunction, AggregateFunction,
+    ProcessWindowFunction
+)
+from pyflink.datastream.state import ValueStateDescriptor
+from pyflink.common.typeinfo import Types
+import json
+from datetime import datetime
+
+class ParseEventFunction(MapFunction):
+    """Parse JSON events to UserEvent objects"""
+
+    def map(self, value: str):
+        try:
+            data = json.loads(value)
+            return {
+                'event_id': data.get('event_id'),
+                'user_id': data.get('user_id'),
+                'event_type': data.get('event_type'),
+                'timestamp': data.get('timestamp'),
+                'properties': data.get('properties', {}),
+                'value': float(data.get('value', 0))
+            }
+        except (json.JSONDecodeError, KeyError):
+            return None
+
+
+class FilterValidEvents(FilterFunction):
+    """Filter for valid event types"""
+
+    def filter(self, event):
+        if event is None:
+            return False
+        return event.get('event_type') in ['click', 'purchase', 'signup']
+
+
+class EventAggregator(AggregateFunction):
+    """Aggregate events in tumbling windows"""
+
+    def create_accumulator(self):
+        return {'count': 0, 'total_value': 0.0, 'max_timestamp': 0}
+
+    def add(self, event, accumulator):
+        accumulator['count'] += 1
+        accumulator['total_value'] += event.get('value', 0)
+        ts = event.get('timestamp', 0)
+        if ts > accumulator['max_timestamp']:
+            accumulator['max_timestamp'] = ts
+        return accumulator
+
+    def get_result(self, accumulator):
+        return accumulator
+
+    def merge(self, acc1, acc2):
+        return {
+            'count': acc1['count'] + acc2['count'],
+            'total_value': acc1['total_value'] + acc2['total_value'],
+            'max_timestamp': max(acc1['max_timestamp'], acc2['max_timestamp'])
+        }
+
+
+class FormatOutput(ProcessWindowFunction):
+    """Format aggregated results for output"""
+
+    def process(self, key, context, elements):
+        for element in elements:
+            yield json.dumps({
+                'key': key,
+                'window_start': context.window().start,
+                'window_end': context.window().end,
+                'count': element['count'],
+                'total_value': element['total_value'],
+                'avg_value': element['total_value'] / max(element['count'], 1),
+                'processed_at': datetime.utcnow().isoformat()
+            })
+
+
+def main():
+    # Create execution environment
+    env = StreamExecutionEnvironment.get_execution_environment()
+
+    # Enable checkpointing for exactly-once
+    env.enable_checkpointing(60000)
+    env.get_checkpoint_config().set_checkpointing_mode('EXACTLY_ONCE')
+    env.get_checkpoint_config().set_min_pause_between_checkpoints(30000)
+    env.get_checkpoint_config().set_checkpoint_timeout(120000)
+
+    # Configure parallelism
+    env.set_parallelism(4)
+
+    # Kafka source
+    source = KafkaSource.builder() \
+        .set_bootstrap_servers("kafka-cluster:9092") \
+        .set_topics("raw-user-events") \
+        .set_group_id("pyflink-user-events-processor") \
+        .set_starting_offsets(KafkaOffsetsInitializer.latest()) \
+        .set_value_only_deserializer(SimpleStringSchema()) \
+        .set_property("security.protocol", "SASL_SSL") \
+        .build()
+
+    # Watermark strategy for event time
+    watermark_strategy = WatermarkStrategy \
+        .for_bounded_out_of_orderness(Duration.of_seconds(30)) \
+        .with_timestamp_assigner(lambda event, _: extract_timestamp(event))
+
+    # Create data stream
+    events_stream = env.from_source(
+        source,
+        watermark_strategy,
+        "Kafka Source"
+    )
+
+    # Parse events
+    parsed_events = events_stream \
+        .map(ParseEventFunction()) \
+        .filter(FilterValidEvents())
+
+    # Key by user_id + event_type and aggregate
+    aggregated = parsed_events \
+        .key_by(lambda e: f"{e['user_id']}:{e['event_type']}") \
+        .window(TumblingEventTimeWindows.of(Time.minutes(5))) \
+        .allowed_lateness(Time.minutes(1)) \
+        .aggregate(
+            EventAggregator(),
+            window_function=FormatOutput()
+        )
+
+    # Kafka sink with exactly-once
+    sink = KafkaSink.builder() \
+        .set_bootstrap_servers("kafka-cluster:9092") \
+        .set_record_serializer(
+            KafkaRecordSerializationSchema.builder()
+                .set_topic("processed-user-events")
+                .set_value_serialization_schema(SimpleStringSchema())
+                .build()
+        ) \
+        .set_delivery_guarantee(DeliveryGuarantee.EXACTLY_ONCE) \
+        .set_transactional_id_prefix("pyflink-processor") \
+        .build()
+
+    # Write to sink
+    aggregated.sink_to(sink)
+
+    # Execute
+    env.execute("PyFlink User Events Processing")
+
+
+def extract_timestamp(event_json: str) -> int:
+    """Extract event timestamp in milliseconds"""
+    try:
+        data = json.loads(event_json)
+        return int(data.get('timestamp', 0))
+    except:
+        return 0
+
+
+if __name__ == "__main__":
+    main()
+```
+
+### AWS Kinesis Consumer (Python)
+
+```python
+# kinesis_consumer.py
+import boto3
+import json
+import time
+import logging
+from datetime import datetime
+from typing import Dict, List, Any, Callable
+from botocore.config import Config
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+
+class KinesisEnhancedFanOutConsumer:
+    """
+    Kinesis consumer with Enhanced Fan-Out for low-latency processing
+    """
+
+    def __init__(
+        self,
+        stream_name: str,
+        consumer_name: str,
+        region: str = "us-east-1",
+        processor: Callable[[Dict], Any] = None
+    ):
+        self.stream_name = stream_name
+        self.consumer_name = consumer_name
+        self.region = region
+        self.processor = processor or self._default_processor
+
+        # Configure client with retries
+        config = Config(
+            retries={'max_attempts': 10, 'mode': 'adaptive'},
+            connect_timeout=5,
+            read_timeout=60
+        )
+
+        self.kinesis = boto3.client('kinesis', region_name=region, config=config)
+        self.consumer_arn = None
+        self.running = False
+
+    def _default_processor(self, record: Dict) -> Any:
+        """Default record processor"""
+        logger.info(f"Processing record: {record.get('SequenceNumber')}")
+        return record
+
+    def register_consumer(self):
+        """Register enhanced fan-out consumer"""
+        try:
+            # Get stream ARN
+            stream_desc = self.kinesis.describe_stream(StreamName=self.stream_name)
+            stream_arn = stream_desc['StreamDescription']['StreamARN']
+
+            # Register consumer
+            response = self.kinesis.register_stream_consumer(
+                StreamARN=stream_arn,
+                ConsumerName=self.consumer_name
+            )
+            self.consumer_arn = response['Consumer']['ConsumerARN']
+
+            # Wait for consumer to become active
+            while True:
+                desc = self.kinesis.describe_stream_consumer(
+                    StreamARN=stream_arn,
+                    ConsumerName=self.consumer_name
+                )
+                status = desc['ConsumerDescription']['ConsumerStatus']
+                if status == 'ACTIVE':
+                    logger.info(f"Consumer {self.consumer_name} is active")
+                    break
+                elif status == 'CREATING':
+                    logger.info("Waiting for consumer to become active...")
+                    time.sleep(5)
+                else:
+                    raise Exception(f"Consumer in unexpected state: {status}")
+
+        except self.kinesis.exceptions.ResourceInUseException:
+            # Consumer already exists
+            stream_desc = self.kinesis.describe_stream(StreamName=self.stream_name)
+            stream_arn = stream_desc['StreamDescription']['StreamARN']
+
+            desc = self.kinesis.describe_stream_consumer(
+                StreamARN=stream_arn,
+                ConsumerName=self.consumer_name
+            )
+            self.consumer_arn = desc['ConsumerDescription']['ConsumerARN']
+            logger.info(f"Using existing consumer: {self.consumer_arn}")
+
+    def subscribe_to_shard(self, shard_id: str):
+        """Subscribe to a single shard with enhanced fan-out"""
+        logger.info(f"Subscribing to shard: {shard_id}")
+
+        response = self.kinesis.subscribe_to_shard(
+            ConsumerARN=self.consumer_arn,
+            ShardId=shard_id,
+            StartingPosition={
+                'Type': 'LATEST'  # Or 'AT_TIMESTAMP', 'TRIM_HORIZON'
+            }
+        )
+
+        # Process events from the subscription
+        event_stream = response['EventStream']
+
+        for event in event_stream:
+            if 'SubscribeToShardEvent' in event:
+                shard_event = event['SubscribeToShardEvent']
+                records = shard_event['Records']
+
+                for record in records:
+                    try:
+                        # Decode data
+                        data = json.loads(record['Data'].decode('utf-8'))
+                        record['ParsedData'] = data
+
+                        # Process record
+                        self.processor(record)
+
+                    except json.JSONDecodeError as e:
+                        logger.error(f"Failed to parse record: {e}")
+                    except Exception as e:
+                        logger.error(f"Failed to process record: {e}")
+
+                # Log progress
+                continuation_token = shard_event.get('ContinuationSequenceNumber')
+                millis_behind = shard_event.get('MillisBehindLatest', 0)
+                logger.debug(f"Shard {shard_id}: {len(records)} records, "
+                           f"{millis_behind}ms behind latest")
+
+    def start(self):
+        """Start consuming from all shards"""
+        self.register_consumer()
+        self.running = True
+
+        # Get all shards
+        stream_desc = self.kinesis.describe_stream(StreamName=self.stream_name)
+        shards = stream_desc['StreamDescription']['Shards']
+
+        import threading
+
+        threads = []
+        for shard in shards:
+            shard_id = shard['ShardId']
+            thread = threading.Thread(
+                target=self._consume_shard_loop,
+                args=(shard_id,),
+                daemon=True
+            )
+            thread.start()
+            threads.append(thread)
+
+        logger.info(f"Started {len(threads)} shard consumers")
+
+        # Wait for threads
+        for thread in threads:
+            thread.join()
+
+    def _consume_shard_loop(self, shard_id: str):
+        """Continuously consume from a shard with reconnection"""
+        while self.running:
+            try:
+                self.subscribe_to_shard(shard_id)
+            except Exception as e:
+                logger.error(f"Shard {shard_id} subscription error: {e}")
+                time.sleep(5)  # Wait before reconnecting
+
+    def stop(self):
+        """Stop consuming"""
+        self.running = False
+        logger.info("Consumer stopped")
+
+
+# Usage example
+def process_user_event(record: Dict):
+    """Process a single user event"""
+    data = record.get('ParsedData', {})
+    event_type = data.get('event_type')
+    user_id = data.get('user_id')
+
+    logger.info(f"Event: {event_type} from user {user_id}")
+
+    # Add your processing logic here
+    # - Enrich with user profile
+    # - Aggregate metrics
+    # - Write to downstream systems
+
+    return data
+
+
+if __name__ == "__main__":
+    consumer = KinesisEnhancedFanOutConsumer(
+        stream_name="user-events-stream",
+        consumer_name="events-processor-v1",
+        region="us-east-1",
+        processor=process_user_event
+    )
+
+    try:
+        consumer.start()
+    except KeyboardInterrupt:
+        consumer.stop()
+```
+
+### Docker Compose for Streaming Stack
+
+```yaml
+# docker-compose-streaming.yaml
+version: '3.8'
+
+services:
+  # Zookeeper for Kafka
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "2181"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Kafka Broker
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    hostname: kafka
+    container_name: kafka
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+      KAFKA_NUM_PARTITIONS: 6
+      KAFKA_DEFAULT_REPLICATION_FACTOR: 1
+      KAFKA_LOG_RETENTION_HOURS: 168
+      KAFKA_LOG_RETENTION_BYTES: 1073741824
+    healthcheck:
+      test: ["CMD", "kafka-broker-api-versions", "--bootstrap-server", "localhost:9092"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Schema Registry
+  schema-registry:
+    image: confluentinc/cp-schema-registry:7.5.0
+    hostname: schema-registry
+    container_name: schema-registry
+    depends_on:
+      kafka:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: kafka:29092
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/subjects"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Kafka Connect
+  kafka-connect:
+    image: confluentinc/cp-kafka-connect:7.5.0
+    hostname: kafka-connect
+    container_name: kafka-connect
+    depends_on:
+      kafka:
+        condition: service_healthy
+      schema-registry:
+        condition: service_healthy
+    ports:
+      - "8083:8083"
+    environment:
+      CONNECT_BOOTSTRAP_SERVERS: kafka:29092
+      CONNECT_REST_ADVERTISED_HOST_NAME: kafka-connect
+      CONNECT_REST_PORT: 8083
+      CONNECT_GROUP_ID: connect-cluster
+      CONNECT_CONFIG_STORAGE_TOPIC: _connect-configs
+      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_OFFSET_STORAGE_TOPIC: _connect-offsets
+      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_STATUS_STORAGE_TOPIC: _connect-status
+      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_KEY_CONVERTER: org.apache.kafka.connect.storage.StringConverter
+      CONNECT_VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
+      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+      CONNECT_PLUGIN_PATH: /usr/share/java,/usr/share/confluent-hub-components
+    volumes:
+      - ./connect-plugins:/usr/share/confluent-hub-components
+
+  # Flink JobManager
+  flink-jobmanager:
+    image: flink:1.18-scala_2.12-java11
+    hostname: flink-jobmanager
+    container_name: flink-jobmanager
+    ports:
+      - "8084:8081"
+    command: jobmanager
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: flink-jobmanager
+        state.backend: rocksdb
+        state.checkpoints.dir: file:///checkpoints
+        execution.checkpointing.interval: 60000
+        execution.checkpointing.mode: EXACTLY_ONCE
+    volumes:
+      - flink-checkpoints:/checkpoints
+      - ./flink-jobs:/opt/flink/jobs
+
+  # Flink TaskManager
+  flink-taskmanager:
+    image: flink:1.18-scala_2.12-java11
+    hostname: flink-taskmanager
+    container_name: flink-taskmanager
+    depends_on:
+      - flink-jobmanager
+    command: taskmanager
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: flink-jobmanager
+        taskmanager.numberOfTaskSlots: 4
+        taskmanager.memory.process.size: 4096m
+    volumes:
+      - flink-checkpoints:/checkpoints
+    deploy:
+      replicas: 2
+
+  # Kafka UI
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    depends_on:
+      kafka:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+      KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schema-registry:8081
+      KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME: connect
+      KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS: http://kafka-connect:8083
+
+  # Redis for caching/state
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+
+  # Elasticsearch for analytics sink
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+
+volumes:
+  flink-checkpoints:
+  redis-data:
+  elasticsearch-data:
+
+networks:
+  default:
+    name: streaming-network
+```
+
+### Kafka Producer Configuration Template
+
+```properties
+# producer.properties - High-throughput exactly-once producer
+
+# Bootstrap servers
+bootstrap.servers=kafka-cluster:9092
+
+# Serializers
+key.serializer=org.apache.kafka.common.serialization.StringSerializer
+value.serializer=org.apache.kafka.common.serialization.StringSerializer
+
+# Exactly-once semantics
+enable.idempotence=true
+acks=all
+retries=2147483647
+max.in.flight.requests.per.connection=5
+
+# Transactions for exactly-once
+transactional.id=producer-app-001
+
+# Performance tuning
+batch.size=65536
+linger.ms=10
+buffer.memory=67108864
+compression.type=lz4
+
+# Reliability
+request.timeout.ms=30000
+delivery.timeout.ms=120000
+max.block.ms=60000
+
+# Security (uncomment for production)
+# security.protocol=SASL_SSL
+# sasl.mechanism=SCRAM-SHA-256
+# sasl.jaas.config=org.apache.kafka.common.security.scram.ScramLoginModule required \
+#   username="producer" \
+#   password="password";
+# ssl.truststore.location=/path/to/truststore.jks
+# ssl.truststore.password=truststore-password
+```
+
+### Kafka Consumer Configuration Template
+
+```properties
+# consumer.properties - Exactly-once consumer
+
+# Bootstrap servers
+bootstrap.servers=kafka-cluster:9092
+
+# Consumer group
+group.id=events-processor-v1
+group.instance.id=consumer-001
+
+# Deserializers
+key.deserializer=org.apache.kafka.common.serialization.StringDeserializer
+value.deserializer=org.apache.kafka.common.serialization.StringDeserializer
+
+# Offset management
+auto.offset.reset=earliest
+enable.auto.commit=false
+
+# Exactly-once reading (for Kafka Streams/transactions)
+isolation.level=read_committed
+
+# Performance
+fetch.min.bytes=1
+fetch.max.wait.ms=500
+max.poll.records=500
+max.partition.fetch.bytes=1048576
+
+# Session management
+session.timeout.ms=45000
+heartbeat.interval.ms=15000
+max.poll.interval.ms=300000
+
+# Partition assignment
+partition.assignment.strategy=org.apache.kafka.clients.consumer.CooperativeStickyAssignor
+
+# Security (uncomment for production)
+# security.protocol=SASL_SSL
+# sasl.mechanism=SCRAM-SHA-256
+# sasl.jaas.config=org.apache.kafka.common.security.scram.ScramLoginModule required \
+#   username="consumer" \
+#   password="password";
+```
+
+### Streaming Pipeline Configuration (YAML)
+
+```yaml
+# streaming_pipeline_config.yaml
+# Configuration for stream_processor.py
+
+name: user-events-pipeline
+version: "1.0.0"
+architecture: kappa
+
+# Source configuration
+sources:
+  - name: raw-events
+    type: kafka
+    config:
+      bootstrap_servers:
+        - kafka-cluster-1:9092
+        - kafka-cluster-2:9092
+        - kafka-cluster-3:9092
+      topic: raw-user-events
+      consumer_group: events-processor-v1
+      security_protocol: SASL_SSL
+      sasl_mechanism: SCRAM-SHA-256
+      auto_offset_reset: earliest
+      enable_auto_commit: false
+
+# Processing configuration
+processing:
+  engine: flink
+  parallelism: 8
+  max_parallelism: 32
+
+  checkpointing:
+    enabled: true
+    interval_ms: 60000
+    mode: exactly_once
+    timeout_ms: 120000
+    min_pause_ms: 30000
+    max_concurrent: 1
+    storage: s3://checkpoints/user-events/
+
+  state_backend:
+    type: rocksdb
+    incremental: true
+    local_directory: /tmp/flink-state
+
+  transformations:
+    - name: parse_json
+      type: map
+      function: parse_user_event
+
+    - name: filter_events
+      type: filter
+      condition: "event_type IN ('click', 'purchase', 'signup')"
+
+    - name: enrich_user
+      type: async_lookup
+      lookup_table: user_profiles
+      join_key: user_id
+      timeout_ms: 30000
+      capacity: 100
+
+    - name: aggregate_metrics
+      type: window_aggregate
+      window:
+        type: tumbling
+        size: 5m
+        allowed_lateness: 1m
+      group_by:
+        - user_id
+        - event_type
+      aggregations:
+        - name: event_count
+          function: count
+        - name: total_value
+          function: sum
+          field: value
+        - name: avg_value
+          function: avg
+          field: value
+
+# Sink configuration
+sinks:
+  - name: processed-events
+    type: kafka
+    config:
+      bootstrap_servers:
+        - kafka-cluster-1:9092
+      topic: processed-user-events
+      exactly_once: true
+      transactional_id_prefix: flink-processor
+
+  - name: metrics-sink
+    type: kafka
+    config:
+      topic: event-metrics
+
+  - name: dlq-sink
+    type: kafka
+    config:
+      topic: user-events-dlq
+      description: Dead letter queue for failed events
+
+# Quality thresholds
+quality:
+  max_consumer_lag: 10000
+  max_latency_ms: 5000
+  max_dlq_rate: 0.01
+  data_freshness_minutes: 5
+
+# Monitoring
+monitoring:
+  metrics_reporter: prometheus
+  metrics_port: 9249
+  health_check_port: 8080
+  alerting:
+    slack_webhook: ${SLACK_WEBHOOK_URL}
+    pagerduty_key: ${PAGERDUTY_KEY}
+```
+
+---
+
+**Last Updated:** December 16, 2025
+**Version:** 2.0.0

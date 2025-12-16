@@ -39,10 +39,10 @@ collaborates-with:
     features-enabled: [model-testing, validation-pipelines, performance-benchmarks]
     without-collaborator: "ML models will lack comprehensive testing and validation"
   - agent: cs-data-engineer
-    purpose: Feature engineering pipelines and data preparation
+    purpose: Feature engineering pipelines, real-time streaming features, and data preparation
     required: recommended
-    features-enabled: [feature-pipelines, data-preparation, data-quality]
-    without-collaborator: "ML pipelines may lack robust data infrastructure"
+    features-enabled: [feature-pipelines, data-preparation, data-quality, streaming-features, online-feature-stores]
+    without-collaborator: "ML pipelines may lack robust data infrastructure and real-time feature capabilities"
   - agent: cs-technical-writer
     purpose: Model documentation with architecture and pipeline diagrams
     required: optional

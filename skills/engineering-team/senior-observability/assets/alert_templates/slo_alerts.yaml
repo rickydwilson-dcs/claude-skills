@@ -1,0 +1,368 @@
+# SLO-Based Alerting Rules Template
+# Multi-burn-rate alerting for error budget consumption
+#
+# Usage: Replace {{SERVICE_NAME}}, {{SLO_TARGET}}, and {{ERROR_BUDGET}} with your values
+# Error Budget = 1 - (SLO_TARGET / 100), e.g., 99.9% SLO = 0.001 error budget
+#
+# Burn Rate Reference:
+#   - 14.4x: Exhausts 30d budget in 2 hours (page immediately)
+#   - 6x: Exhausts 30d budget in 5 hours (page if sustained)
+#   - 3x: Exhausts 30d budget in 10 hours (ticket)
+#   - 1x: Exhausts 30d budget in 30 days (info/review)
+
+groups:
+  - name: {{SERVICE_NAME}}-slo-alerts
+    interval: 30s
+    rules:
+      # ============================================
+      # CRITICAL: Fast Burn (2% budget in 1 hour)
+      # Burn Rate: 14.4x | Budget Consumption: 2%/hour
+      # Action: Page on-call immediately
+      # ============================================
+      - alert: SLOBurnRateCritical
+        expr: |
+          (
+            sum(rate(http_requests_total{job="{{SERVICE_NAME}}",status=~"5.."}[5m]))
+            /
+            sum(rate(http_requests_total{job="{{SERVICE_NAME}}"}[5m]))
+          ) > (14.4 * {{ERROR_BUDGET}})
+          and
+          (
+            sum(rate(http_requests_total{job="{{SERVICE_NAME}}",status=~"5.."}[1h]))
+            /
+            sum(rate(http_requests_total{job="{{SERVICE_NAME}}"}[1h]))
+          ) > (14.4 * {{ERROR_BUDGET}})
+        for: 2m
+        labels:
+          severity: critical
+          service: "{{SERVICE_NAME}}"
+          slo_type: availability
+          burn_rate: "14.4x"
+          budget_consumption: "2%/hour"
+        annotations:
+          summary: "CRITICAL: {{SERVICE_NAME}} burning error budget at 14.4x rate"
+          description: |
+            Service {{SERVICE_NAME}} is consuming error budget at 14.4x the sustainable rate.
+            At this rate, the entire 30-day error budget will be exhausted in ~2 hours.
+
+            Current error rate: {{ $value | humanizePercentage }}
+            SLO Target: {{SLO_TARGET}}%
+
+            Immediate investigation required.
+          runbook_url: "https://runbooks.example.com/{{SERVICE_NAME}}/slo-critical"
+          dashboard_url: "https://grafana.example.com/d/{{SERVICE_NAME}}-slo"
+
+      # ============================================
+      # HIGH: High Burn (5% budget in 6 hours)
+      # Burn Rate: 6x | Budget Consumption: 5%/6hours
+      # Action: Page if sustained
+      # ============================================
+      - alert: SLOBurnRateHigh
+        expr: |
+          (
+            sum(rate(http_requests_total{job="{{SERVICE_NAME}}",status=~"5.."}[30m]))
+            /
+            sum(rate(http_requests_total{job="{{SERVICE_NAME}}"}[30m]))
+          ) > (6 * {{ERROR_BUDGET}})
+          and
+          (
+            sum(rate(http_requests_total{job="{{SERVICE_NAME}}",status=~"5.."}[6h]))
+            /
+            sum(rate(http_requests_total{job="{{SERVICE_NAME}}"}[6h]))
+          ) > (6 * {{ERROR_BUDGET}})
+        for: 5m
+        labels:
+          severity: high
+          service: "{{SERVICE_NAME}}"
+          slo_type: availability
+          burn_rate: "6x"
+          budget_consumption: "5%/6hours"
+        annotations:
+          summary: "HIGH: {{SERVICE_NAME}} burning error budget at 6x rate"
+          description: |
+            Service {{SERVICE_NAME}} is consuming error budget at 6x the sustainable rate.
+            At this rate, the entire 30-day error budget will be exhausted in ~5 hours.
+
+            Current error rate: {{ $value | humanizePercentage }}
+            SLO Target: {{SLO_TARGET}}%
+
+            Investigation recommended within 30 minutes.
+          runbook_url: "https://runbooks.example.com/{{SERVICE_NAME}}/slo-high"
+          dashboard_url: "https://grafana.example.com/d/{{SERVICE_NAME}}-slo"
+
+      # ============================================
+      # WARNING: Medium Burn (10% budget in 24 hours)
+      # Burn Rate: 3x | Budget Consumption: 10%/day
+      # Action: Create ticket, investigate during business hours
+      # ============================================
+      - alert: SLOBurnRateWarning
+        expr: |
+          (
+            sum(rate(http_requests_total{job="{{SERVICE_NAME}}",status=~"5.."}[2h]))
+            /
+            sum(rate(http_requests_total{job="{{SERVICE_NAME}}"}[2h]))
+          ) > (3 * {{ERROR_BUDGET}})
+          and
+          (
+            sum(rate(http_requests_total{job="{{SERVICE_NAME}}",status=~"5.."}[24h]))
+            /
+            sum(rate(http_requests_total{job="{{SERVICE_NAME}}"}[24h]))
+          ) > (3 * {{ERROR_BUDGET}})
+        for: 15m
+        labels:
+          severity: warning
+          service: "{{SERVICE_NAME}}"
+          slo_type: availability
+          burn_rate: "3x"
+          budget_consumption: "10%/day"
+        annotations:
+          summary: "WARNING: {{SERVICE_NAME}} burning error budget at 3x rate"
+          description: |
+            Service {{SERVICE_NAME}} is consuming error budget at 3x the sustainable rate.
+            At this rate, the entire 30-day error budget will be exhausted in ~10 days.
+
+            Current error rate: {{ $value | humanizePercentage }}
+            SLO Target: {{SLO_TARGET}}%
+
+            Create a ticket and investigate during business hours.
+          runbook_url: "https://runbooks.example.com/{{SERVICE_NAME}}/slo-warning"
+          dashboard_url: "https://grafana.example.com/d/{{SERVICE_NAME}}-slo"
+
+      # ============================================
+      # INFO: Low Burn (Budget tracking)
+      # Burn Rate: 1x | Budget Consumption: Normal rate
+      # Action: Monitor, review weekly
+      # ============================================
+      - alert: SLOBurnRateElevated
+        expr: |
+          (
+            sum(rate(http_requests_total{job="{{SERVICE_NAME}}",status=~"5.."}[6h]))
+            /
+            sum(rate(http_requests_total{job="{{SERVICE_NAME}}"}[6h]))
+          ) > (1.5 * {{ERROR_BUDGET}})
+          and
+          (
+            sum(rate(http_requests_total{job="{{SERVICE_NAME}}",status=~"5.."}[3d]))
+            /
+            sum(rate(http_requests_total{job="{{SERVICE_NAME}}"}[3d]))
+          ) > (1.5 * {{ERROR_BUDGET}})
+        for: 1h
+        labels:
+          severity: info
+          service: "{{SERVICE_NAME}}"
+          slo_type: availability
+          burn_rate: "1.5x"
+          budget_consumption: "elevated"
+        annotations:
+          summary: "INFO: {{SERVICE_NAME}} error budget consumption elevated"
+          description: |
+            Service {{SERVICE_NAME}} is consuming error budget at 1.5x the sustainable rate.
+
+            Current error rate: {{ $value | humanizePercentage }}
+            SLO Target: {{SLO_TARGET}}%
+
+            Review during weekly SLO meeting.
+          runbook_url: "https://runbooks.example.com/{{SERVICE_NAME}}/slo-info"
+          dashboard_url: "https://grafana.example.com/d/{{SERVICE_NAME}}-slo"
+
+      # ============================================
+      # LATENCY SLO ALERTS
+      # ============================================
+
+      # Critical: P99 latency exceeds threshold
+      - alert: LatencySLOCritical
+        expr: |
+          histogram_quantile(0.99,
+            sum(rate(http_request_duration_seconds_bucket{job="{{SERVICE_NAME}}"}[5m])) by (le)
+          ) > 1.0
+        for: 5m
+        labels:
+          severity: critical
+          service: "{{SERVICE_NAME}}"
+          slo_type: latency
+          percentile: "p99"
+        annotations:
+          summary: "CRITICAL: {{SERVICE_NAME}} P99 latency exceeds 1s"
+          description: |
+            Service {{SERVICE_NAME}} P99 latency is {{ $value | humanizeDuration }}.
+            This exceeds the 1 second threshold.
+
+            Investigate performance degradation immediately.
+          runbook_url: "https://runbooks.example.com/{{SERVICE_NAME}}/latency-critical"
+          dashboard_url: "https://grafana.example.com/d/{{SERVICE_NAME}}-overview"
+
+      # Warning: P95 latency elevated
+      - alert: LatencySLOWarning
+        expr: |
+          histogram_quantile(0.95,
+            sum(rate(http_request_duration_seconds_bucket{job="{{SERVICE_NAME}}"}[5m])) by (le)
+          ) > 0.5
+        for: 10m
+        labels:
+          severity: warning
+          service: "{{SERVICE_NAME}}"
+          slo_type: latency
+          percentile: "p95"
+        annotations:
+          summary: "WARNING: {{SERVICE_NAME}} P95 latency exceeds 500ms"
+          description: |
+            Service {{SERVICE_NAME}} P95 latency is {{ $value | humanizeDuration }}.
+            This exceeds the 500ms threshold.
+
+            Monitor and investigate if sustained.
+          runbook_url: "https://runbooks.example.com/{{SERVICE_NAME}}/latency-warning"
+          dashboard_url: "https://grafana.example.com/d/{{SERVICE_NAME}}-overview"
+
+      # ============================================
+      # SATURATION ALERTS
+      # ============================================
+
+      # Critical: High CPU usage
+      - alert: SaturationCPUCritical
+        expr: |
+          sum(rate(container_cpu_usage_seconds_total{container="{{SERVICE_NAME}}"}[5m]))
+          /
+          sum(container_spec_cpu_quota{container="{{SERVICE_NAME}}"}/container_spec_cpu_period{container="{{SERVICE_NAME}}"})
+          * 100 > 90
+        for: 5m
+        labels:
+          severity: critical
+          service: "{{SERVICE_NAME}}"
+          resource: cpu
+        annotations:
+          summary: "CRITICAL: {{SERVICE_NAME}} CPU usage above 90%"
+          description: |
+            Service {{SERVICE_NAME}} CPU utilization is {{ $value | humanize }}%.
+
+            Consider scaling or investigating CPU-intensive operations.
+          runbook_url: "https://runbooks.example.com/{{SERVICE_NAME}}/cpu-critical"
+
+      # Critical: High memory usage
+      - alert: SaturationMemoryCritical
+        expr: |
+          sum(container_memory_working_set_bytes{container="{{SERVICE_NAME}}"})
+          /
+          sum(container_spec_memory_limit_bytes{container="{{SERVICE_NAME}}"})
+          * 100 > 90
+        for: 5m
+        labels:
+          severity: critical
+          service: "{{SERVICE_NAME}}"
+          resource: memory
+        annotations:
+          summary: "CRITICAL: {{SERVICE_NAME}} memory usage above 90%"
+          description: |
+            Service {{SERVICE_NAME}} memory utilization is {{ $value | humanize }}%.
+
+            Risk of OOM kill. Consider scaling or investigating memory leaks.
+          runbook_url: "https://runbooks.example.com/{{SERVICE_NAME}}/memory-critical"
+
+      # ============================================
+      # AVAILABILITY ALERTS
+      # ============================================
+
+      # Critical: Service down
+      - alert: ServiceDown
+        expr: up{job="{{SERVICE_NAME}}"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: "{{SERVICE_NAME}}"
+        annotations:
+          summary: "CRITICAL: {{SERVICE_NAME}} is down"
+          description: |
+            Service {{SERVICE_NAME}} is not responding to health checks.
+
+            Immediate investigation required.
+          runbook_url: "https://runbooks.example.com/{{SERVICE_NAME}}/service-down"
+
+      # Warning: Instance down
+      - alert: InstanceDown
+        expr: |
+          count(up{job="{{SERVICE_NAME}}"} == 0)
+          /
+          count(up{job="{{SERVICE_NAME}}"})
+          > 0.25
+        for: 5m
+        labels:
+          severity: warning
+          service: "{{SERVICE_NAME}}"
+        annotations:
+          summary: "WARNING: {{SERVICE_NAME}} instances partially down"
+          description: |
+            More than 25% of {{SERVICE_NAME}} instances are not responding.
+
+            Investigate failing instances.
+          runbook_url: "https://runbooks.example.com/{{SERVICE_NAME}}/instance-down"
+
+# ============================================
+# RECORDING RULES (for efficiency)
+# ============================================
+  - name: {{SERVICE_NAME}}-slo-recording
+    interval: 30s
+    rules:
+      # Pre-compute error rates for different windows
+      - record: job:http_error_rate:5m
+        expr: |
+          sum(rate(http_requests_total{job="{{SERVICE_NAME}}",status=~"5.."}[5m]))
+          /
+          sum(rate(http_requests_total{job="{{SERVICE_NAME}}"}[5m]))
+
+      - record: job:http_error_rate:1h
+        expr: |
+          sum(rate(http_requests_total{job="{{SERVICE_NAME}}",status=~"5.."}[1h]))
+          /
+          sum(rate(http_requests_total{job="{{SERVICE_NAME}}"}[1h]))
+
+      - record: job:http_error_rate:6h
+        expr: |
+          sum(rate(http_requests_total{job="{{SERVICE_NAME}}",status=~"5.."}[6h]))
+          /
+          sum(rate(http_requests_total{job="{{SERVICE_NAME}}"}[6h]))
+
+      - record: job:http_error_rate:24h
+        expr: |
+          sum(rate(http_requests_total{job="{{SERVICE_NAME}}",status=~"5.."}[24h]))
+          /
+          sum(rate(http_requests_total{job="{{SERVICE_NAME}}"}[24h]))
+
+      # Pre-compute latency percentiles
+      - record: job:http_request_duration:p99
+        expr: |
+          histogram_quantile(0.99,
+            sum(rate(http_request_duration_seconds_bucket{job="{{SERVICE_NAME}}"}[5m])) by (le)
+          )
+
+      - record: job:http_request_duration:p95
+        expr: |
+          histogram_quantile(0.95,
+            sum(rate(http_request_duration_seconds_bucket{job="{{SERVICE_NAME}}"}[5m])) by (le)
+          )
+
+      - record: job:http_request_duration:p50
+        expr: |
+          histogram_quantile(0.50,
+            sum(rate(http_request_duration_seconds_bucket{job="{{SERVICE_NAME}}"}[5m])) by (le)
+          )
+
+      # Pre-compute SLI
+      - record: job:sli:availability:30d
+        expr: |
+          1 - (
+            sum(rate(http_requests_total{job="{{SERVICE_NAME}}",status=~"5.."}[30d]))
+            /
+            sum(rate(http_requests_total{job="{{SERVICE_NAME}}"}[30d]))
+          )
+
+      # Pre-compute error budget consumption
+      - record: job:error_budget:consumed:30d
+        expr: |
+          1 - (
+            ({{ERROR_BUDGET}} - (
+              sum(rate(http_requests_total{job="{{SERVICE_NAME}}",status=~"5.."}[30d]))
+              /
+              sum(rate(http_requests_total{job="{{SERVICE_NAME}}"}[30d]))
+            ))
+            /
+            {{ERROR_BUDGET}}
+          )

@@ -1,0 +1,246 @@
+# ServiceNow Configuration for Incident Response
+# Copy and customize this file for your environment
+# All Python tools read from this config file
+
+servicenow:
+  # =============================================================================
+  # INSTANCE SETTINGS
+  # =============================================================================
+  instance_url: "https://your-instance.service-now.com"
+  api_version: "v2"
+
+  # =============================================================================
+  # AUTHENTICATION
+  # Set credentials via environment variables (never commit secrets!)
+  # Supported methods:
+  #   - basic: Set SNOW_USERNAME and SNOW_PASSWORD
+  #   - oauth: Set SNOW_CLIENT_ID, SNOW_CLIENT_SECRET, SNOW_TOKEN_URL
+  #   - token: Set SNOW_TOKEN
+  # =============================================================================
+  auth_method: "basic"  # basic | oauth | token
+
+  # =============================================================================
+  # EVENT MANAGEMENT MODULE
+  # Enable if your ServiceNow instance has Event Management
+  # =============================================================================
+  event_management:
+    enabled: true
+    source: "Pandora Monitoring"
+    # Event API endpoint (default: /api/global/em/jsonv2)
+    endpoint: "/api/global/em/jsonv2"
+    # Event deduplication key field
+    dedup_key: "source_ci"
+
+  # =============================================================================
+  # ASSIGNMENT GROUPS
+  # Map incident types to ServiceNow assignment groups
+  # These are the sys_id or name of assignment groups in your instance
+  # =============================================================================
+  assignment_groups:
+    # Default group for unclassified incidents
+    default: "Platform Engineering"
+
+    # Category-specific groups
+    infrastructure: "Infrastructure Team"
+    application: "Application Support"
+    security: "Security Operations"
+    database: "Database Administration"
+    network: "Network Operations"
+
+    # Severity-based escalation groups
+    p0_escalation: "Major Incident Management"
+    p1_escalation: "On-Call Engineering"
+
+  # =============================================================================
+  # CMDB INTEGRATION
+  # Configuration Item (CI) settings for linking incidents to infrastructure
+  # =============================================================================
+  cmdb:
+    enabled: true
+    # Default CI class when creating new CIs
+    default_ci_class: "cmdb_ci_appl"
+    # Field to use for CI lookup (name or sys_id)
+    ci_lookup_field: "name"
+    # CI relationship type for incident linking
+    relationship_type: "Affected CI"
+
+    # CI class mappings for different service types
+    ci_classes:
+      application: "cmdb_ci_appl"
+      server: "cmdb_ci_server"
+      database: "cmdb_ci_database"
+      container: "cmdb_ci_docker_container"
+      kubernetes: "cmdb_ci_kubernetes_cluster"
+      network_device: "cmdb_ci_netgear"
+
+  # =============================================================================
+  # INCIDENT SETTINGS
+  # Default values for incident creation
+  # =============================================================================
+  incident:
+    # Default category and subcategory
+    category: "Software"
+    subcategory: "Application"
+
+    # Contact type for automated incidents
+    contact_type: "Monitoring"
+
+    # Caller ID for automated incident creation
+    caller_id: "monitoring-system"
+
+    # Include runbook links in incident description
+    include_runbook: true
+
+    # Auto-populate business service from CI
+    auto_business_service: true
+
+  # =============================================================================
+  # CHANGE MANAGEMENT
+  # Settings for deployment-to-change request automation
+  # =============================================================================
+  change_management:
+    # Default change type (standard | normal | emergency)
+    default_type: "normal"
+
+    # Default risk assessment
+    default_risk: "moderate"
+
+    # Require CAB approval for normal changes
+    require_cab: true
+
+    # Standard change template sys_ids (pre-approved changes)
+    standard_templates:
+      deployment: "std_chg_template_deployment"
+      config_change: "std_chg_template_config"
+      maintenance: "std_chg_template_maintenance"
+
+    # Assignment group for change requests
+    assignment_group: "Change Management"
+
+  # =============================================================================
+  # CUSTOM FIELDS
+  # Organization-specific custom fields (u_* fields in ServiceNow)
+  # =============================================================================
+  custom_fields:
+    # Source system identifier
+    u_source_system: "Pandora"
+
+    # Environment field
+    u_environment: "production"
+
+    # Region/location
+    u_region: "ANZ"
+
+    # Add additional custom fields as needed:
+    # u_business_unit: "Retail"
+    # u_cost_center: "12345"
+
+  # =============================================================================
+  # SEVERITY MAPPING
+  # Map P0-P3 severity to ServiceNow impact/urgency/priority
+  # ServiceNow uses: Impact (1-3), Urgency (1-3), Priority (1-5)
+  # =============================================================================
+  severity_mapping:
+    P0:
+      impact: 1       # High - Affects multiple users/systems
+      urgency: 1      # High - Work cannot continue
+      priority: 1     # Critical
+      sla_hours: 1
+      description: "Critical - Active incident requiring immediate response"
+    P1:
+      impact: 2       # Medium - Affects group of users
+      urgency: 1      # High - Work significantly impacted
+      priority: 2     # High
+      sla_hours: 4
+      description: "High - Major degradation or potential breach"
+    P2:
+      impact: 2       # Medium
+      urgency: 2      # Medium - Work can continue with workaround
+      priority: 3     # Moderate
+      sla_hours: 24
+      description: "Medium - Service degradation with workaround available"
+    P3:
+      impact: 3       # Low - Affects single user
+      urgency: 3      # Low - Minimal business impact
+      priority: 4     # Low
+      sla_hours: 72
+      description: "Low - Minor issue, informational"
+
+  # =============================================================================
+  # STATUS MAPPING
+  # Map alert states to ServiceNow incident states
+  # ServiceNow incident states: 1=New, 2=In Progress, 3=On Hold, 6=Resolved, 7=Closed
+  # =============================================================================
+  status_mapping:
+    # Alert state -> ServiceNow state
+    firing: 1         # New
+    acknowledged: 2   # In Progress
+    investigating: 2  # In Progress
+    contained: 3      # On Hold
+    resolved: 6       # Resolved
+    closed: 7         # Closed
+
+    # Resolution codes for different closure reasons
+    resolution_codes:
+      fixed: "Resolved"
+      workaround: "Workaround"
+      duplicate: "Duplicate"
+      not_reproducible: "Not Reproducible"
+      known_error: "Known Error"
+
+# =============================================================================
+# ALERT SOURCE INTEGRATION
+# Configuration for different monitoring tool integrations
+# =============================================================================
+alert_sources:
+  prometheus:
+    enabled: true
+    # Webhook URL format for AlertManager
+    webhook_path: "/api/now/table/incident"
+    # Field mappings from Prometheus labels
+    field_mappings:
+      alertname: "short_description"
+      severity: "priority"
+      namespace: "u_environment"
+      service: "cmdb_ci"
+
+  newrelic:
+    enabled: true
+    # NewRelic webhook format
+    webhook_path: "/api/global/em/jsonv2"
+    # Field mappings from NewRelic payload
+    field_mappings:
+      condition_name: "short_description"
+      priority: "priority"
+      entity_name: "cmdb_ci"
+
+  datadog:
+    enabled: true
+    webhook_path: "/api/now/table/incident"
+    field_mappings:
+      alert_title: "short_description"
+      alert_type: "category"
+      host: "cmdb_ci"
+
+# =============================================================================
+# NOTIFICATION SETTINGS
+# Configure how ServiceNow notifications interact with other tools
+# =============================================================================
+notifications:
+  # Slack integration for incident updates
+  slack:
+    enabled: true
+    channel: "#incidents"
+    notify_on: [created, updated, resolved]
+
+  # PagerDuty integration (if using alongside ServiceNow)
+  pagerduty:
+    enabled: false
+    # Set to true if PagerDuty should still page for P0/P1
+    escalate_critical: true
+
+  # Email notifications
+  email:
+    enabled: true
+    # Additional recipients beyond assignment group
+    cc_recipients: []

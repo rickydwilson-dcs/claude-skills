@@ -48,6 +48,21 @@ collaborates-with:
     required: optional
     features-enabled: [data-architecture, warehouse-design, scalability-review]
     without-collaborator: "Data architecture decisions made without formal review"
+  - agent: cs-devops-engineer
+    purpose: Streaming infrastructure deployment (Kafka clusters, Flink on K8s)
+    required: recommended
+    features-enabled: [kafka-deployment, flink-kubernetes, streaming-ci-cd, infrastructure-monitoring]
+    without-collaborator: "Streaming infrastructure must be managed manually without GitOps"
+  - agent: cs-backend-engineer
+    purpose: Event producers and CDC integration from application databases
+    required: recommended
+    features-enabled: [event-sourcing, cdc-setup, schema-registry, producer-optimization]
+    without-collaborator: "Event production patterns may not align with application architecture"
+  - agent: cs-ml-engineer
+    purpose: Real-time feature engineering and ML model serving integration
+    required: optional
+    features-enabled: [feature-stores, online-inference, streaming-features, model-monitoring]
+    without-collaborator: "ML features will rely on batch processing only"
 orchestrates:
   skill: engineering-team/senior-data-engineer
 
@@ -134,6 +149,31 @@ The cs-data-engineer agent bridges the gap between data strategy and implementat
    - **Features:** Airflow DAG execution profiling, bottleneck detection and root cause analysis, SQL query optimization suggestions (indexing, partitioning, query rewrite), Spark job tuning recommendations (memory, parallelism, shuffle), cost analysis and cloud resource optimization, historical performance trending
    - **Use Cases:** Performance troubleshooting, cost reduction initiatives, capacity planning, SLA compliance, pre-production optimization
    - **Metrics:** P50/P95 latency, success rate, resource utilization, cost per GB processed
+
+4. **Stream Processor**
+   - **Purpose:** Generate and validate streaming pipeline configurations for Kafka, Flink, and Kinesis with production-ready defaults
+   - **Path:** `../../skills/engineering-team/senior-data-engineer/scripts/stream_processor.py`
+   - **Usage:** `python3 ../../skills/engineering-team/senior-data-engineer/scripts/stream_processor.py --config streaming_config.yaml --mode kafka --validate`
+   - **Output Formats:** YAML, JSON, Properties files, Docker Compose, Flink job scaffolding
+   - **Features:** Multi-platform support (Kafka, Flink, Kinesis, Spark Streaming), configuration validation with best practice checks, topic configuration generation, Flink job scaffolding with checkpointing, Docker Compose for local streaming stacks, exactly-once semantics configuration
+   - **Use Cases:** New streaming pipeline setup, migrating batch to streaming, Kafka cluster configuration, Flink job development, local development environments
+
+5. **Streaming Quality Validator**
+   - **Purpose:** Real-time data quality monitoring for streaming pipelines including consumer lag, data freshness, schema drift, and throughput analysis
+   - **Path:** `../../skills/engineering-team/senior-data-engineer/scripts/streaming_quality_validator.py`
+   - **Usage:** `python3 ../../skills/engineering-team/senior-data-engineer/scripts/streaming_quality_validator.py --lag --consumer-group events-processor --threshold 10000`
+   - **Output Formats:** JSON, HTML reports, Prometheus metrics
+   - **Features:** Consumer lag monitoring with alerting thresholds, data freshness validation (P50/P95/P99 latency), schema drift detection (field additions/removals/type changes), throughput analysis (events/sec, bytes/sec), dead letter queue monitoring, quality scoring with recommendations
+   - **Use Cases:** Streaming pipeline health monitoring, SLA compliance validation, schema evolution tracking, capacity planning, incident response
+   - **Metrics:** Consumer lag (records behind), data freshness (seconds), throughput (events/sec), DLQ rate (%)
+
+6. **Kafka Config Generator**
+   - **Purpose:** Generate production-grade Kafka configurations for topics, producers, consumers, and Kafka Streams with security and performance optimization
+   - **Path:** `../../skills/engineering-team/senior-data-engineer/scripts/kafka_config_generator.py`
+   - **Usage:** `python3 ../../skills/engineering-team/senior-data-engineer/scripts/kafka_config_generator.py --topic user-events --partitions 12 --replication 3 --profile exactly-once`
+   - **Output Formats:** Properties, YAML, JSON
+   - **Features:** Topic configuration with retention and compaction policies, producer profiles (high-throughput, exactly-once, low-latency, ordered), consumer profiles (exactly-once, high-throughput, batch processing), Kafka Streams configuration with state store tuning, security configuration (SASL-PLAIN, SASL-SCRAM, mTLS), Kafka Connect source/sink configurations
+   - **Use Cases:** New Kafka topic creation, producer/consumer optimization, Kafka Streams applications, security hardening, Connect pipeline setup
 
 ### Knowledge Bases
 
@@ -710,6 +750,195 @@ python3 ../../skills/engineering-team/senior-data-engineer/scripts/etl_performan
   --output performance_after_optimization.json
 ```
 
+### Workflow 5: Build Real-Time Streaming Pipeline
+
+**Goal:** Design and implement production-grade real-time streaming pipeline with Kafka, Flink/Spark, exactly-once semantics, and comprehensive monitoring
+
+**Steps:**
+
+1. **Architecture Selection** - Choose streaming architecture pattern based on requirements (Kappa for streaming-only, Lambda for batch + streaming hybrid)
+   ```bash
+   # Reference streaming architecture patterns
+   cat ../../skills/engineering-team/senior-data-engineer/references/frameworks.md | grep -A 100 "Real-Time Streaming Architecture"
+
+   # Key decision: Kappa vs Lambda
+   # - Kappa: Single streaming layer, simpler architecture, best for true real-time
+   # - Lambda: Batch + streaming, historical accuracy, complexity tradeoff
+   ```
+
+2. **Create Streaming Pipeline Configuration** - Define YAML configuration for streaming pipeline with sources, processing, and sinks
+   ```yaml
+   # streaming_config.yaml
+   name: user-events-pipeline
+   architecture: kappa
+
+   sources:
+     - name: user-events
+       type: kafka
+       bootstrap_servers: kafka-cluster:9092
+       topic: raw-user-events
+       consumer_group: events-processor
+       security_protocol: SASL_SSL
+
+   processing:
+     engine: flink
+     parallelism: 8
+     checkpointing:
+       interval_ms: 60000
+       mode: exactly_once
+       storage: s3://checkpoints/user-events/
+
+     transformations:
+       - type: filter
+         condition: "event_type IN ('click', 'purchase', 'signup')"
+       - type: enrich
+         lookup_table: user_profiles
+         join_key: user_id
+       - type: aggregate
+         window: tumbling
+         size: 5m
+         group_by: [user_id, event_type]
+         metrics: [count, sum_value]
+
+   sinks:
+     - name: events-warehouse
+       type: kafka
+       topic: processed-user-events
+       exactly_once: true
+     - name: real-time-analytics
+       type: elasticsearch
+       index: user-events-realtime
+
+   quality:
+     max_consumer_lag: 10000
+     max_latency_ms: 5000
+     dlq_topic: user-events-dlq
+   ```
+
+3. **Generate Kafka Configuration** - Create production Kafka topic and client configurations
+   ```bash
+   # Generate topic configuration
+   python3 ../../skills/engineering-team/senior-data-engineer/scripts/kafka_config_generator.py \
+     --topic raw-user-events \
+     --partitions 12 \
+     --replication 3 \
+     --retention-hours 168 \
+     --output kafka/topics/raw-user-events.properties
+
+   # Generate exactly-once producer config
+   python3 ../../skills/engineering-team/senior-data-engineer/scripts/kafka_config_generator.py \
+     --producer \
+     --profile exactly-once \
+     --output kafka/producer.properties
+
+   # Generate consumer config for Flink
+   python3 ../../skills/engineering-team/senior-data-engineer/scripts/kafka_config_generator.py \
+     --consumer \
+     --profile exactly-once \
+     --consumer-group events-processor \
+     --output kafka/consumer.properties
+   ```
+
+4. **Generate Streaming Job** - Create Flink or Spark Streaming job from configuration
+   ```bash
+   # Validate streaming configuration
+   python3 ../../skills/engineering-team/senior-data-engineer/scripts/stream_processor.py \
+     --config streaming_config.yaml \
+     --validate
+
+   # Generate Flink job scaffolding
+   python3 ../../skills/engineering-team/senior-data-engineer/scripts/stream_processor.py \
+     --config streaming_config.yaml \
+     --mode flink \
+     --generate \
+     --output flink-jobs/user-events-processor/
+
+   # Generate Docker Compose for local development
+   python3 ../../skills/engineering-team/senior-data-engineer/scripts/stream_processor.py \
+     --config streaming_config.yaml \
+     --mode docker \
+     --generate \
+     --output docker/streaming-stack/
+   ```
+
+5. **Deploy and Configure Monitoring** - Deploy streaming infrastructure and set up monitoring
+   ```bash
+   # Local development testing
+   cd docker/streaming-stack/
+   docker-compose up -d
+
+   # Produce test events
+   kafka-console-producer --bootstrap-server localhost:9092 \
+     --topic raw-user-events < test-events.json
+
+   # Monitor consumer lag
+   python3 ../../skills/engineering-team/senior-data-engineer/scripts/streaming_quality_validator.py \
+     --lag \
+     --consumer-group events-processor \
+     --threshold 10000 \
+     --output lag-report.json
+
+   # Monitor data freshness
+   python3 ../../skills/engineering-team/senior-data-engineer/scripts/streaming_quality_validator.py \
+     --freshness \
+     --topic processed-user-events \
+     --max-latency-ms 5000 \
+     --output freshness-report.json
+   ```
+
+6. **Validate Streaming Quality** - Run comprehensive streaming quality validation
+   ```bash
+   # Full streaming quality validation
+   python3 ../../skills/engineering-team/senior-data-engineer/scripts/streaming_quality_validator.py \
+     --lag --consumer-group events-processor --threshold 10000 \
+     --freshness --topic processed-user-events --max-latency-ms 5000 \
+     --throughput --min-events-per-sec 1000 \
+     --dlq --dlq-topic user-events-dlq --max-dlq-rate 0.01 \
+     --output streaming-quality-report.html
+
+   # Expected output:
+   # Overall Streaming Health: 96.5% (HEALTHY)
+   # - Consumer Lag: 2,500 records (OK - under 10K threshold)
+   # - Data Freshness: P95 = 1.2s (OK - under 5s threshold)
+   # - Throughput: 8,500 events/sec (OK - above 1K threshold)
+   # - DLQ Rate: 0.3% (OK - under 1% threshold)
+   # - Schema Drift: None detected
+   ```
+
+**Expected Output:** Production streaming pipeline processing 10K+ events/second with sub-second P95 latency, exactly-once delivery guarantees, comprehensive monitoring, and automatic alerting on quality degradation
+
+**Time Estimate:** 3-5 days for initial implementation, 1-2 days for testing and monitoring setup
+
+**Example:**
+```bash
+# Complete streaming pipeline setup workflow
+
+# Step 1: Generate all Kafka configurations
+python3 ../../skills/engineering-team/senior-data-engineer/scripts/kafka_config_generator.py \
+  --topic raw-user-events --partitions 12 --replication 3 \
+  --output kafka/topics/
+
+python3 ../../skills/engineering-team/senior-data-engineer/scripts/kafka_config_generator.py \
+  --producer --profile exactly-once --output kafka/producer.properties
+
+python3 ../../skills/engineering-team/senior-data-engineer/scripts/kafka_config_generator.py \
+  --consumer --profile exactly-once --output kafka/consumer.properties
+
+# Step 2: Generate and validate streaming pipeline
+python3 ../../skills/engineering-team/senior-data-engineer/scripts/stream_processor.py \
+  --config streaming_config.yaml --validate
+
+python3 ../../skills/engineering-team/senior-data-engineer/scripts/stream_processor.py \
+  --config streaming_config.yaml --mode flink --generate --output flink-jobs/
+
+# Step 3: Deploy and monitor
+docker-compose -f docker/streaming-stack/docker-compose.yaml up -d
+
+python3 ../../skills/engineering-team/senior-data-engineer/scripts/streaming_quality_validator.py \
+  --lag --freshness --throughput --dlq \
+  --output streaming-health-$(date +%Y%m%d).html
+```
+
 ## Integration Examples
 
 ### Example 1: Daily ETL Pipeline with Quality Validation
@@ -900,6 +1129,18 @@ mail -s "Weekly Pipeline Performance Report" data-eng@company.com < "$REPORT_DIR
 - **Code Reuse:** 80%+ of pipelines use standard templates and patterns
 - **Documentation Coverage:** 100% of production pipelines documented with data lineage
 
+**Streaming Performance:**
+- **Throughput:** 10K+ events/second sustained processing capacity
+- **End-to-End Latency:** P99 < 1 second from source to sink
+- **Consumer Lag:** < 10K records behind during normal operations
+- **Exactly-Once Delivery:** Zero duplicate or lost messages in production
+
+**Streaming Quality:**
+- **Data Freshness:** P95 < 5 minutes from event generation to availability
+- **Late Data Rate:** < 5% of events arriving outside watermark window
+- **Dead Letter Queue Rate:** < 1% of events routed to DLQ
+- **Schema Compatibility:** 100% backward/forward compatible schema changes
+
 ## Related Agents
 
 - [cs-data-scientist](cs-data-scientist.md) - Consumes data warehouse outputs for statistical analysis, feature engineering, and model training; collaborates on data quality requirements
@@ -919,6 +1160,6 @@ mail -s "Weekly Pipeline Performance Report" data-eng@company.com < "$REPORT_DIR
 
 ---
 
-**Last Updated:** November 12, 2025
+**Last Updated:** December 16, 2025
 **Status:** Production Ready
-**Version:** 1.0
+**Version:** 2.0

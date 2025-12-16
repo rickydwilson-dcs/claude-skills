@@ -5,6 +5,156 @@ All notable changes to the Claude Skills Library will be documented in this file
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.11.0] - 2025-12-16 - Network Infrastructure Engineering
+
+### Added
+
+**New Skill: `senior-network-infrastructure`**
+- Complete network infrastructure toolkit for VPC design, VPN configuration, and firewall policies
+- Multi-cloud support for AWS, Azure, and GCP networking
+- 4 Key Workflows: VPC Design, VPN Configuration, Firewall Policy Implementation, Network Security Audit
+
+**Python Tools (4 new):**
+- `vpn_configurator.py` - Generate VPN configurations for site-to-site, point-to-site, HA VPN (~400 lines)
+  - AWS Site-to-Site VPN, Client VPN
+  - Azure VPN Gateway
+  - GCP Cloud VPN, HA VPN
+  - Output: Terraform, JSON, text
+- `firewall_policy_generator.py` - Create security groups, NACLs, NSGs (~450 lines)
+  - 3-tier application templates
+  - Microservices security patterns
+  - Compliance presets (PCI-DSS, HIPAA, SOC2)
+- `network_topology_analyzer.py` - Analyze network configurations (~450 lines)
+  - Redundancy validation
+  - Security posture assessment
+  - Compliance gap identification
+  - Risk scoring with remediation recommendations
+- `subnet_planner.py` - CIDR allocation and subnet planning (~400 lines)
+  - Multi-AZ support
+  - Tier-based allocation (public, private, database)
+  - IP inventory generation
+  - Output: Terraform, JSON, CSV, text
+
+**Reference Documentation (3 new):**
+- `vpc_design_patterns.md` - VPC architecture patterns, hub-spoke, multi-region, landing zones
+- `network_security_guide.md` - Security groups, NACLs, zero-trust, DDoS, compliance frameworks
+- `cloud_networking.md` - Direct Connect, ExpressRoute, Cloud Interconnect, BGP, VPN architectures
+
+**New Agent: `cs-network-engineer`**
+- Network infrastructure specialist orchestrating senior-network-infrastructure skill
+- 4 workflows: Multi-Region VPC Design, Site-to-Site VPN, Security Group Automation, Compliance Audit
+- Collaborates with: cs-devops-engineer, cs-architect, cs-secops-engineer, cs-security-engineer
+
+### Statistics
+- **Agents**: 40 (was 39) - added cs-network-engineer
+- **Skills**: 40 (was 39) - added senior-network-infrastructure
+- **Commands**: 16 (unchanged)
+- **Python Tools**: 122 (was 118) - added 4 network infrastructure tools
+
+---
+
+## [3.10.0] - 2025-12-16 - ServiceNow ITSM Integration
+
+### Added
+
+**ServiceNow Integration for Incident Response & DevOps:**
+Full ITSM integration for enterprise incident management and deployment change control, enabling Pandora-style ServiceNow workflows for observability and DevOps agents.
+
+**Python Tools (3 new):**
+- `servicenow_incident_manager.py` - Generate incident payloads from alerts with severity mapping (~450 lines)
+  - Alert format auto-detection (Prometheus, NewRelic, DataDog, PagerDuty)
+  - P0-P3 severity to ServiceNow impact/urgency/priority mapping
+  - CMDB Configuration Item linking
+  - curl command generation for testing
+- `servicenow_status_sync.py` - Bi-directional status synchronization (~350 lines)
+  - State mapping (alert → ServiceNow incident states)
+  - Actions: acknowledge, update, hold, resolve, close, reopen
+  - Resolution code handling
+- `servicenow_change_manager.py` - Change request automation for deployments (~500 lines)
+  - Change types: Standard, Normal, Emergency
+  - Risk assessment and backout plan generation
+  - CAB approval workflow support
+  - CI/CD pipeline integration examples
+
+**Reference Documentation (2 new):**
+- `servicenow-patterns.md` - ServiceNow REST API patterns, incident/change workflows
+- `servicenow_change_mgmt.md` - Change management guide with GitHub Actions/Jenkins examples
+
+**Asset Templates & Configuration (4 new):**
+- `servicenow-config.yaml` - Configurable settings (instance URL, assignment groups, Event Management)
+- `servicenow-incident-template.json` - Incident creation payload template
+- `servicenow-severity-mapping.yaml` - P0-P4 severity mapping with SLA definitions
+- `servicenow-change-template.json` - Change request payload template with risk assessment
+
+**Agent Updates:**
+- `cs-incident-responder` - Added ServiceNow Incident Escalation workflow (Workflow 5)
+  - New scripts: servicenow_incident_manager.py, servicenow_status_sync.py
+  - New tags: servicenow, itsm
+- `cs-devops-engineer` - Added ServiceNow Change Management workflow (Workflow 5)
+  - New script: servicenow_change_manager.py
+  - New tags: servicenow, change-management, itsm
+- `cs-observability-engineer` - Added collaboration with cs-incident-responder for ServiceNow
+  - New tags: servicenow, itsm
+
+**Skill Updates:**
+- `incident-response` - Added ServiceNow tools, references, and configuration
+- `senior-devops` - Added change management tool and documentation
+
+### Statistics
+- **Agents**: 39 (unchanged, updated 3)
+- **Skills**: 39 (unchanged, updated 2)
+- **Commands**: 16 (unchanged)
+- **Python Tools**: 118 (was 115) - added 3 ServiceNow tools
+
+---
+
+## [3.9.0] - 2025-12-16 - Observability Engineering
+
+### Added
+
+**New Skill: `senior-observability`**
+- Comprehensive observability engineering for monitoring, logging, tracing, and alerting
+- Four Golden Signals, RED/USE methods, SLI/SLO framework expertise
+- OpenTelemetry distributed tracing patterns
+- Multi-platform support: Prometheus, Grafana, DataDog, CloudWatch
+
+**Python Tools (4 new):**
+- `dashboard_generator.py` - Generate Grafana/DataDog dashboards from service definitions (~800 lines)
+- `alert_rule_generator.py` - Generate Prometheus/DataDog/CloudWatch alerting rules (~700 lines)
+- `slo_calculator.py` - Calculate SLI/SLO targets, error budgets, burn rates (~600 lines)
+- `metrics_analyzer.py` - Analyze metrics patterns for anomalies and trends (~700 lines)
+
+**Reference Documentation (4 new):**
+- `monitoring_patterns.md` - Four Golden Signals, RED/USE methods
+- `logging_architecture.md` - Structured logging, ELK Stack, Loki
+- `distributed_tracing.md` - OpenTelemetry, Jaeger, trace correlation
+- `alerting_runbooks.md` - Alert design, SLO framework, multi-burn-rate alerting
+
+**Asset Templates:**
+- Grafana dashboard templates (service_overview.json, slo_dashboard.json)
+- Prometheus alert templates (slo_alerts.yaml, infrastructure_alerts.yaml)
+- Incident response runbook template
+
+**New Agent: `cs-observability-engineer`**
+- Orchestrates observability stack implementation
+- 4 workflows: Full Stack Implementation, SLI/SLO Framework, Alert Design, Dashboard Design
+- Collaborates with: cs-devops-engineer, cs-architect, cs-backend-engineer, cs-secops-engineer
+
+**Agent Collaboration Updates:**
+- Added `collaborates-with` entries for cs-observability-engineer to:
+  - cs-devops-engineer (monitoring infrastructure deployment)
+  - cs-architect (observability architecture alignment)
+  - cs-backend-engineer (metrics instrumentation)
+  - cs-secops-engineer (security monitoring integration)
+
+### Statistics
+- **Agents**: 39 (was 38) - added cs-observability-engineer
+- **Skills**: 39 (was 38) - added senior-observability
+- **Commands**: 16 (unchanged)
+- **Python Tools**: 115 (was 111) - added 4 observability tools
+
+---
+
 ## [3.8.0] - 2025-12-14 - Logging & Documentation Enhancement
 
 ### Added

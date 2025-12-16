@@ -34,6 +34,17 @@ related-skills: [engineering-team/senior-secops]
 related-commands: []
 orchestrates:
   skill: engineering-team/senior-secops
+collaborates-with:
+  - agent: cs-incident-responder
+    purpose: Incident response handoff and post-incident hardening coordination
+    required: recommended
+    features-enabled: [incident-detection, containment-actions, post-incident-analysis]
+    without-collaborator: "Incident response will require manual coordination"
+  - agent: cs-observability-engineer
+    purpose: Security monitoring dashboards and compliance alerting
+    required: optional
+    features-enabled: [security-metrics, audit-dashboards, compliance-monitoring]
+    without-collaborator: "Security operations without integrated observability"
 
 # === TECHNICAL ===
 tools: [Read, Write, Bash, Grep, Glob]
@@ -48,10 +59,9 @@ compatibility:
 
 # === EXAMPLES ===
 examples:
-  -
-    title: Example Workflow
-    input: "TODO: Add example input for cs-secops-engineer"
-    output: "TODO: Add expected output"
+  - title: "Security Audit"
+    input: "Perform a security audit on our Node.js API"
+    output: "Comprehensive security report with OWASP Top 10 findings, vulnerability severity ratings, and remediation recommendations"
 
 # === ANALYTICS ===
 stats:

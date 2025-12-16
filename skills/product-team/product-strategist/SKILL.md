@@ -273,6 +273,61 @@ python3 scripts/okr_cascade_generator.py growth -v
 
 **Complete Documentation:** See [tools.md](references/tools.md) for full usage guide, strategy templates, and integration patterns.
 
+### okr_lifecycle.py
+OKR lifecycle manager for tracking progress throughout the quarter.
+
+**Key Features:**
+- Weekly check-ins with progress tracking
+- Progress dashboard with health scores
+- Initiative linking and coverage analysis
+- End-of-quarter grading (0.0-1.0 scale)
+- Retrospective generation
+- Quarter-over-quarter comparison
+
+**Usage:**
+```bash
+# Record weekly check-in
+python3 scripts/okr_lifecycle.py checkin okrs.json CO-1-KR1 108000 --confidence 0.8 --notes "Strong week"
+
+# View progress dashboard
+python3 scripts/okr_lifecycle.py status okrs.json
+
+# Link initiative to KR
+python3 scripts/okr_lifecycle.py initiatives okrs.json link --kr-id CO-1-KR1 --name "Q1 Campaign" --contribution 40
+
+# Grade all KRs at end of quarter
+python3 scripts/okr_lifecycle.py grade okrs.json --all --auto
+
+# Generate retrospective
+python3 scripts/okr_lifecycle.py retro okrs.json
+
+# Compare quarters
+python3 scripts/okr_lifecycle.py compare q1_okrs.json q4_okrs.json
+```
+
+**Subcommands:**
+- **checkin:** Record weekly progress (value, confidence, notes)
+- **status:** View progress dashboard with health scores
+- **initiatives:** Link KRs to projects/epics, track coverage
+- **grade:** End-of-quarter scoring (0.0-1.0 scale)
+- **retro:** Generate retrospective analysis
+- **compare:** Quarter-over-quarter trend analysis
+
+**Scoring Scale (from OKR methodology):**
+| Score | Status | Meaning |
+|-------|--------|---------|
+| 0.0-0.3 | Red | Significant miss |
+| 0.4-0.6 | Yellow | Made progress but fell short |
+| 0.7-0.9 | Green | Achieved, stretch goal hit |
+| 1.0 | Exceeded | Too easy, raise bar next time |
+
+**Workflow Integration:**
+1. Create OKRs: `python3 scripts/okr_cascade_generator.py growth -o json -f okrs.json`
+2. Weekly: `python3 scripts/okr_lifecycle.py checkin okrs.json <KR_ID> <value>`
+3. Check status: `python3 scripts/okr_lifecycle.py status okrs.json`
+4. End of quarter: `python3 scripts/okr_lifecycle.py grade okrs.json --all --auto`
+5. Retrospective: `python3 scripts/okr_lifecycle.py retro okrs.json`
+
 ## Reference Documentation
 
 ### Frameworks ([frameworks.md](references/frameworks.md))

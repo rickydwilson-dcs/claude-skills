@@ -40,6 +40,11 @@ collaborates-with:
     required: optional
     features-enabled: [architecture-diagrams, sequence-diagrams, class-diagrams, erd-diagrams]
     without-collaborator: "Architecture documentation will be text-only without visual diagrams"
+  - agent: cs-observability-engineer
+    purpose: Observability architecture and service health monitoring design
+    required: optional
+    features-enabled: [observability-patterns, distributed-tracing, slo-architecture]
+    without-collaborator: "Architecture documentation without observability considerations"
 
 # === TECHNICAL ===
 tools: [Read, Write, Bash, Grep, Glob]

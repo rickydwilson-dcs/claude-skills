@@ -1,0 +1,452 @@
+{
+  "__comment": "New Relic SLO Dashboard Template",
+  "__description": "SLI/SLO tracking dashboard with error budget burn rate visualization",
+  "__usage": "Replace {{SERVICE_NAME}}, {{ACCOUNT_ID}}, and {{SLO_TARGET}} with your values. Import via NerdGraph API.",
+  "name": "{{SERVICE_NAME}} - SLO Dashboard",
+  "description": "Service Level Objectives tracking for {{SERVICE_NAME}} (Target: {{SLO_TARGET}}%)",
+  "permissions": "PUBLIC_READ_WRITE",
+  "pages": [
+    {
+      "name": "SLO Overview",
+      "description": "Service Level Indicators and error budget tracking",
+      "widgets": [
+        {
+          "title": "Current Availability (30 days)",
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT percentage(count(*), WHERE error IS false) as 'Availability %' FROM Transaction WHERE appName = '{{SERVICE_NAME}}' SINCE 30 days ago"
+              }
+            ],
+            "thresholds": [
+              {
+                "alertSeverity": "WARNING",
+                "value": 99.5
+              },
+              {
+                "alertSeverity": "CRITICAL",
+                "value": 99.0
+              }
+            ]
+          },
+          "layout": {
+            "column": 1,
+            "row": 1,
+            "width": 3,
+            "height": 2
+          }
+        },
+        {
+          "title": "SLO Target",
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT {{SLO_TARGET}} as 'Target %' FROM Transaction WHERE appName = '{{SERVICE_NAME}}' SINCE 1 minute ago LIMIT 1"
+              }
+            ]
+          },
+          "layout": {
+            "column": 4,
+            "row": 1,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "title": "Error Budget Remaining",
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT ((percentage(count(*), WHERE error IS false) - {{SLO_TARGET}}) / (100 - {{SLO_TARGET}})) * 100 as 'Budget Remaining %' FROM Transaction WHERE appName = '{{SERVICE_NAME}}' SINCE 30 days ago"
+              }
+            ],
+            "thresholds": [
+              {
+                "alertSeverity": "WARNING",
+                "value": 50
+              },
+              {
+                "alertSeverity": "CRITICAL",
+                "value": 20
+              }
+            ]
+          },
+          "layout": {
+            "column": 6,
+            "row": 1,
+            "width": 3,
+            "height": 2
+          }
+        },
+        {
+          "title": "Time to Budget Exhaustion",
+          "visualization": {
+            "id": "viz.markdown"
+          },
+          "rawConfiguration": {
+            "text": "# Error Budget Status\n\nBased on current burn rate, estimate when error budget will be exhausted.\n\n**Formula:** Budget Remaining / Current Burn Rate = Days Remaining\n\n*Note: A negative number means budget already exhausted.*"
+          },
+          "layout": {
+            "column": 9,
+            "row": 1,
+            "width": 4,
+            "height": 2
+          }
+        },
+        {
+          "title": "Availability SLI (Rolling 30 days)",
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT percentage(count(*), WHERE error IS false) as 'Availability %' FROM Transaction WHERE appName = '{{SERVICE_NAME}}' SINCE 30 days ago TIMESERIES 1 day"
+              },
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT {{SLO_TARGET}} as 'SLO Target' FROM Transaction WHERE appName = '{{SERVICE_NAME}}' SINCE 30 days ago TIMESERIES 1 day"
+              }
+            ],
+            "legend": {
+              "enabled": true
+            },
+            "yAxisLeft": {
+              "min": 98,
+              "max": 100
+            }
+          },
+          "layout": {
+            "column": 1,
+            "row": 3,
+            "width": 12,
+            "height": 3
+          }
+        },
+        {
+          "title": "Error Rate (Inverted SLI)",
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT percentage(count(*), WHERE error IS true) as 'Error Rate %' FROM Transaction WHERE appName = '{{SERVICE_NAME}}' TIMESERIES"
+              },
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT (100 - {{SLO_TARGET}}) as 'Error Budget' FROM Transaction WHERE appName = '{{SERVICE_NAME}}' TIMESERIES"
+              }
+            ],
+            "legend": {
+              "enabled": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "colors": {
+              "seriesOverrides": [
+                {
+                  "seriesName": "Error Rate %",
+                  "color": "#ff4d4d"
+                },
+                {
+                  "seriesName": "Error Budget",
+                  "color": "#ffd700"
+                }
+              ]
+            }
+          },
+          "layout": {
+            "column": 1,
+            "row": 6,
+            "width": 6,
+            "height": 3
+          }
+        },
+        {
+          "title": "Latency SLI (% Under 500ms)",
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT percentage(count(*), WHERE duration < 0.5) as 'Fast Requests %' FROM Transaction WHERE appName = '{{SERVICE_NAME}}' TIMESERIES"
+              },
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT 95 as 'Latency SLO (95%)' FROM Transaction WHERE appName = '{{SERVICE_NAME}}' TIMESERIES"
+              }
+            ],
+            "legend": {
+              "enabled": true
+            },
+            "yAxisLeft": {
+              "min": 80,
+              "max": 100
+            }
+          },
+          "layout": {
+            "column": 7,
+            "row": 6,
+            "width": 6,
+            "height": 3
+          }
+        }
+      ]
+    },
+    {
+      "name": "Burn Rate Analysis",
+      "description": "Multi-window burn rate monitoring for SLO alerting",
+      "widgets": [
+        {
+          "title": "Burn Rate Explanation",
+          "visualization": {
+            "id": "viz.markdown"
+          },
+          "rawConfiguration": {
+            "text": "# Multi-Burn-Rate Alerting\n\n| Window | Burn Rate | Budget Consumed | Severity |\n|--------|-----------|-----------------|----------|\n| 1h/5m | 14.4x | 2% in 1 hour | Critical |\n| 6h/30m | 6.0x | 5% in 6 hours | Critical |\n| 1d/2h | 3.0x | 10% in 1 day | Warning |\n| 3d/6h | 1.0x | 10% in 3 days | Warning |\n\n**Formula:** Burn Rate = (Actual Error Rate) / (Error Budget)"
+          },
+          "layout": {
+            "column": 1,
+            "row": 1,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "title": "Current Burn Rate (1 hour)",
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT percentage(count(*), WHERE error IS true) / (100 - {{SLO_TARGET}}) as 'Burn Rate' FROM Transaction WHERE appName = '{{SERVICE_NAME}}' SINCE 1 hour ago"
+              }
+            ],
+            "thresholds": [
+              {
+                "alertSeverity": "WARNING",
+                "value": 3.0
+              },
+              {
+                "alertSeverity": "CRITICAL",
+                "value": 6.0
+              }
+            ]
+          },
+          "layout": {
+            "column": 5,
+            "row": 1,
+            "width": 2,
+            "height": 3
+          }
+        },
+        {
+          "title": "Current Burn Rate (6 hours)",
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT percentage(count(*), WHERE error IS true) / (100 - {{SLO_TARGET}}) as 'Burn Rate' FROM Transaction WHERE appName = '{{SERVICE_NAME}}' SINCE 6 hours ago"
+              }
+            ],
+            "thresholds": [
+              {
+                "alertSeverity": "WARNING",
+                "value": 1.0
+              },
+              {
+                "alertSeverity": "CRITICAL",
+                "value": 3.0
+              }
+            ]
+          },
+          "layout": {
+            "column": 7,
+            "row": 1,
+            "width": 2,
+            "height": 3
+          }
+        },
+        {
+          "title": "Current Burn Rate (1 day)",
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT percentage(count(*), WHERE error IS true) / (100 - {{SLO_TARGET}}) as 'Burn Rate' FROM Transaction WHERE appName = '{{SERVICE_NAME}}' SINCE 1 day ago"
+              }
+            ],
+            "thresholds": [
+              {
+                "alertSeverity": "WARNING",
+                "value": 1.0
+              },
+              {
+                "alertSeverity": "CRITICAL",
+                "value": 1.5
+              }
+            ]
+          },
+          "layout": {
+            "column": 9,
+            "row": 1,
+            "width": 2,
+            "height": 3
+          }
+        },
+        {
+          "title": "Current Burn Rate (3 days)",
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT percentage(count(*), WHERE error IS true) / (100 - {{SLO_TARGET}}) as 'Burn Rate' FROM Transaction WHERE appName = '{{SERVICE_NAME}}' SINCE 3 days ago"
+              }
+            ],
+            "thresholds": [
+              {
+                "alertSeverity": "WARNING",
+                "value": 0.5
+              },
+              {
+                "alertSeverity": "CRITICAL",
+                "value": 1.0
+              }
+            ]
+          },
+          "layout": {
+            "column": 11,
+            "row": 1,
+            "width": 2,
+            "height": 3
+          }
+        },
+        {
+          "title": "Burn Rate Over Time",
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT percentage(count(*), WHERE error IS true) / (100 - {{SLO_TARGET}}) as 'Burn Rate' FROM Transaction WHERE appName = '{{SERVICE_NAME}}' SINCE 7 days ago TIMESERIES 1 hour"
+              },
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT 1 as 'Sustainable (1x)' FROM Transaction WHERE appName = '{{SERVICE_NAME}}' SINCE 7 days ago TIMESERIES 1 hour"
+              },
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT 6 as 'Critical (6x)' FROM Transaction WHERE appName = '{{SERVICE_NAME}}' SINCE 7 days ago TIMESERIES 1 hour"
+              }
+            ],
+            "legend": {
+              "enabled": true
+            },
+            "yAxisLeft": {
+              "zero": true
+            },
+            "colors": {
+              "seriesOverrides": [
+                {
+                  "seriesName": "Sustainable (1x)",
+                  "color": "#00ff00"
+                },
+                {
+                  "seriesName": "Critical (6x)",
+                  "color": "#ff0000"
+                }
+              ]
+            }
+          },
+          "layout": {
+            "column": 1,
+            "row": 4,
+            "width": 12,
+            "height": 3
+          }
+        },
+        {
+          "title": "Error Budget Consumption (30 days)",
+          "visualization": {
+            "id": "viz.area"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": "{{ACCOUNT_ID}}",
+                "query": "SELECT percentage(count(*), WHERE error IS true) as 'Errors' FROM Transaction WHERE appName = '{{SERVICE_NAME}}' SINCE 30 days ago TIMESERIES 1 day"
+              }
+            ],
+            "legend": {
+              "enabled": true
+            },
+            "colors": {
+              "seriesOverrides": [
+                {
+                  "seriesName": "Errors",
+                  "color": "#ff6b6b"
+                }
+              ]
+            }
+          },
+          "layout": {
+            "column": 1,
+            "row": 7,
+            "width": 12,
+            "height": 3
+          }
+        }
+      ]
+    }
+  ],
+  "variables": [
+    {
+      "name": "service",
+      "title": "Service",
+      "type": "NRQL",
+      "nrqlQuery": {
+        "accountIds": ["{{ACCOUNT_ID}}"],
+        "query": "SELECT uniques(appName) FROM Transaction"
+      },
+      "isMultiSelection": false,
+      "defaultValues": [
+        {
+          "value": {
+            "string": "{{SERVICE_NAME}}"
+          }
+        }
+      ]
+    }
+  ]
+}
