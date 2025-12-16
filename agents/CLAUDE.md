@@ -16,7 +16,7 @@ This guide provides comprehensive instructions for creating **cs-* prefixed agen
 
 ### Production Agents
 
-**27 Agents Currently Available** (as of November 17, 2025):
+**36 Agents Currently Available** (as of December 16, 2025):
 
 | Agent | Domain | Description | Skills Used | Lines |
 |-------|--------|-------------|-------------|-------|
@@ -726,6 +726,6 @@ After creating an agent:
 
 ---
 
-**Last Updated:** November 27, 2025
-**Current Status:** Website-ready format with 9-section YAML frontmatter
+**Last Updated:** December 16, 2025
+**Current Status:** 36 production agents, website-ready format with 10-section YAML frontmatter (includes collaborates-with)
 **Related:** See [main CLAUDE.md](../CLAUDE.md) for repository overview
