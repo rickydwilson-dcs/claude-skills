@@ -38,6 +38,22 @@ related-skills:
   - marketing-team/seo-strategist
   - marketing-team/content-creator
 related-commands: []
+collaborates-with:
+  - agent: cs-content-creator
+    purpose: Content creation aligned with SEO strategy, keyword targeting, and topic clusters
+    required: recommended
+    features-enabled: [seo-content-briefs, keyword-integration, topic-cluster-content]
+    without-collaborator: "SEO strategies will lack content execution capabilities"
+  - agent: cs-technical-writer
+    purpose: Documentation of SEO guidelines, processes, and technical specifications
+    required: optional
+    features-enabled: [seo-docs, process-diagrams, guideline-documentation]
+    without-collaborator: "SEO documentation will be less structured"
+  - agent: cs-demand-gen-specialist
+    purpose: Aligning SEO strategy with demand generation and paid acquisition
+    required: optional
+    features-enabled: [seo-ppc-alignment, funnel-optimization, campaign-coordination]
+    without-collaborator: "SEO efforts may not be coordinated with paid channels"
 orchestrates:
   skill: marketing-team/seo-strategist
 

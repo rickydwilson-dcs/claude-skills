@@ -33,6 +33,27 @@ classification:
 related-agents: [cs-backend-engineer, cs-frontend-engineer, cs-architect]
 related-skills: [engineering-team/senior-graphql, engineering-team/senior-backend]
 related-commands: []
+collaborates-with:
+  - agent: cs-qa-engineer
+    purpose: GraphQL API testing including query validation, mutation testing, and schema coverage
+    required: recommended
+    features-enabled: [graphql-testing, query-validation, schema-coverage]
+    without-collaborator: "GraphQL APIs will lack comprehensive test coverage"
+  - agent: cs-security-engineer
+    purpose: GraphQL security review for query depth limits, rate limiting, and authorization
+    required: recommended
+    features-enabled: [security-audit, query-depth-limits, auth-patterns]
+    without-collaborator: "GraphQL endpoints may be vulnerable to DoS and unauthorized access"
+  - agent: cs-technical-writer
+    purpose: API documentation generation with schema diagrams and query examples
+    required: optional
+    features-enabled: [api-docs, schema-diagrams, query-examples]
+    without-collaborator: "API documentation will be text-only without visual schema diagrams"
+  - agent: cs-backend-engineer
+    purpose: Backend integration for resolvers, data sources, and database optimization
+    required: optional
+    features-enabled: [resolver-integration, dataloader-setup, database-optimization]
+    without-collaborator: "Resolver implementation may require additional backend expertise"
 orchestrates:
   skill: engineering-team/senior-graphql
 
