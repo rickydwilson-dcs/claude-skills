@@ -5,6 +5,44 @@ All notable changes to the Claude Skills Library will be documented in this file
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.12.0] - 2025-12-17 - Installation System Overhaul
+
+### Fixed
+
+**Critical Agent Discovery Issue:**
+- Agents installed to `~/.claude-skills/agents/` were NOT being discovered by Claude Code
+- Claude Code only discovers agents from `~/.claude/agents/` at startup
+- This was causing newly installed agents (like cs-seo-strategist) to be invisible
+
+### Changed
+
+**install.sh - Complete Overhaul:**
+- Now installs agents to BOTH locations:
+  - `~/.claude/agents/` - Claude Code discovery (REQUIRED)
+  - `~/.claude-skills/agents/` - Reference copy
+- Added `install_commands()` function for slash command installation
+- Updated all agent/skill counts: 41 agents, 40 skills, 132 Python tools, 16 commands
+- Added clear messaging about VSCode restart requirement
+- Updated quick start guide with critical directory information
+
+**install_agents.py:**
+- Already correctly installs to `~/.claude/agents/` (no changes needed)
+
+**docs/guides/installation.md - Major Updates:**
+- Added prominent troubleshooting section: "Agents Not Appearing in Claude Code"
+- Added CRITICAL callout explaining `~/.claude/agents/` requirement
+- Added Installation Directories table showing where things go
+- Updated all counts throughout
+- Version bumped to 2.0.0
+
+### Statistics
+- **Agents**: 41 (unchanged)
+- **Skills**: 41 (unchanged)
+- **Commands**: 16 (unchanged)
+- **Python Tools**: 132 (unchanged)
+
+---
+
 ## [3.11.0] - 2025-12-16 - Network Infrastructure Engineering
 
 ### Added

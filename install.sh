@@ -16,6 +16,7 @@ NC='\033[0m' # No Color
 # Installation configuration
 REPO_NAME="claude-skills"
 INSTALL_DIR="${HOME}/.claude-skills"
+CLAUDE_CODE_DIR="${HOME}/.claude"
 BACKUP_DIR="${HOME}/.claude-skills-backup-$(date +%Y%m%d-%H%M%S)"
 
 # Helper functions
@@ -88,13 +89,19 @@ display_welcome() {
     print_header "Claude Skills Installation"
     echo ""
     echo "This script will help you install the claude-skills repository"
-    echo "containing 30 production agents and 31 skill packages."
+    echo "containing 41 production agents and 40 skill packages."
     echo ""
     echo "What you'll get:"
-    echo "  • 30 production agents (Marketing, Product, Delivery, Engineering)"
-    echo "  • 82 Python CLI automation tools"
+    echo "  • 41 production agents (Marketing, Product, Delivery, Engineering)"
+    echo "  • 132 Python CLI automation tools"
+    echo "  • 16 slash commands"
     echo "  • Comprehensive standards library"
     echo "  • Templates and workflows"
+    echo ""
+    echo "Installation locations:"
+    echo "  • Agents: ~/.claude/agents/ (Claude Code discovery)"
+    echo "  • Skills: ~/.claude-skills/skills/"
+    echo "  • Commands: ~/.claude/commands/"
     echo ""
 }
 
@@ -115,11 +122,11 @@ ask_questions() {
     # Question 2: Which agents to install
     echo ""
     echo "2. Which agent domains do you need?"
-    echo "   a) All agents (30 production agents) - Recommended"
-    echo "   b) Marketing only (3 agents)"
+    echo "   a) All agents (41 production agents) - Recommended"
+    echo "   b) Marketing only (4 agents)"
     echo "   c) Product only (6 agents)"
     echo "   d) Delivery only (4 agents)"
-    echo "   e) Engineering only (17 agents)"
+    echo "   e) Engineering only (27 agents)"
     echo ""
     read -p "Choose (a/b/c/d/e) [a]: " AGENT_SELECTION
     AGENT_SELECTION=${AGENT_SELECTION:-a}
@@ -174,37 +181,57 @@ backup_existing() {
 install_agents() {
     print_header "Installing Agents"
 
+    # Create directories
     mkdir -p "$INSTALL_DIR/agents"
+    mkdir -p "$CLAUDE_CODE_DIR/agents"
 
     case $AGENT_SELECTION in
         a) # All agents
-            print_info "Installing all 30 production agents..."
+            print_info "Installing all 41 production agents..."
+            # Install to ~/.claude-skills/agents/ for reference
             cp -r agents/* "$INSTALL_DIR/agents/" 2>/dev/null || true
-            print_success "Installed 30 production agents (3 marketing, 6 product, 4 delivery, 17 engineering)"
+            # Install to ~/.claude/agents/ for Claude Code discovery (flat structure)
+            for agent in agents/*/cs-*.md; do
+                cp "$agent" "$CLAUDE_CODE_DIR/agents/" 2>/dev/null || true
+            done
+            print_success "Installed 41 agents to ~/.claude/agents/ (Claude Code)"
+            print_success "Installed 41 agents to ~/.claude-skills/agents/ (reference)"
             ;;
         b) # Marketing only
             print_info "Installing marketing agents..."
             mkdir -p "$INSTALL_DIR/agents/marketing"
             cp -r agents/marketing/* "$INSTALL_DIR/agents/marketing/" 2>/dev/null || true
-            print_success "Installed 3 marketing agents"
+            for agent in agents/marketing/cs-*.md; do
+                cp "$agent" "$CLAUDE_CODE_DIR/agents/" 2>/dev/null || true
+            done
+            print_success "Installed 4 marketing agents"
             ;;
         c) # Product only
             print_info "Installing product agents..."
             mkdir -p "$INSTALL_DIR/agents/product"
             cp -r agents/product/* "$INSTALL_DIR/agents/product/" 2>/dev/null || true
-            print_success "Installed 5 product agents"
+            for agent in agents/product/cs-*.md; do
+                cp "$agent" "$CLAUDE_CODE_DIR/agents/" 2>/dev/null || true
+            done
+            print_success "Installed 6 product agents"
             ;;
         d) # Delivery only
             print_info "Installing delivery agents..."
             mkdir -p "$INSTALL_DIR/agents/delivery"
             cp -r agents/delivery/* "$INSTALL_DIR/agents/delivery/" 2>/dev/null || true
+            for agent in agents/delivery/cs-*.md; do
+                cp "$agent" "$CLAUDE_CODE_DIR/agents/" 2>/dev/null || true
+            done
             print_success "Installed 4 delivery agents"
             ;;
         e) # Engineering only
             print_info "Installing engineering agents..."
             mkdir -p "$INSTALL_DIR/agents/engineering"
             cp -r agents/engineering/* "$INSTALL_DIR/agents/engineering/" 2>/dev/null || true
-            print_success "Installed 15 engineering agents"
+            for agent in agents/engineering/cs-*.md; do
+                cp "$agent" "$CLAUDE_CODE_DIR/agents/" 2>/dev/null || true
+            done
+            print_success "Installed 27 engineering agents"
             ;;
     esac
 
@@ -215,28 +242,65 @@ install_agents() {
 install_skills() {
     print_header "Installing Skill Packages"
 
-    print_info "Installing 31 skill packages..."
+    print_info "Installing 40 skill packages..."
 
     # Copy skills directory (all 4 domains)
     if [ -d "skills" ]; then
         case $AGENT_SELECTION in
             a) # All skills
                 cp -r skills "$INSTALL_DIR/" 2>/dev/null || true
-                print_success "Installed all 31 skill packages (4 domains)"
+                print_success "Installed all 40 skill packages (4 domains)"
                 ;;
             b) # Marketing only
                 mkdir -p "$INSTALL_DIR/skills"
                 [ -d "skills/marketing-team" ] && cp -r skills/marketing-team "$INSTALL_DIR/skills/" 2>/dev/null || true
-                print_success "Installed 3 marketing skill packages"
+                print_success "Installed 4 marketing skill packages"
                 ;;
             c) # Product only
                 mkdir -p "$INSTALL_DIR/skills"
                 [ -d "skills/product-team" ] && cp -r skills/product-team "$INSTALL_DIR/skills/" 2>/dev/null || true
-                print_success "Installed 5 product skill packages"
+                print_success "Installed 7 product skill packages"
+                ;;
+            d) # Delivery only
+                mkdir -p "$INSTALL_DIR/skills"
+                [ -d "skills/delivery-team" ] && cp -r skills/delivery-team "$INSTALL_DIR/skills/" 2>/dev/null || true
+                print_success "Installed 4 delivery skill packages"
+                ;;
+            e) # Engineering only
+                mkdir -p "$INSTALL_DIR/skills"
+                [ -d "skills/engineering-team" ] && cp -r skills/engineering-team "$INSTALL_DIR/skills/" 2>/dev/null || true
+                print_success "Installed 26 engineering skill packages"
                 ;;
         esac
     else
         print_warning "Skills directory not found - skipping skill installation"
+    fi
+
+    echo ""
+}
+
+# Install slash commands
+install_commands() {
+    print_header "Installing Slash Commands"
+
+    mkdir -p "$CLAUDE_CODE_DIR/commands"
+
+    if [ -d "commands" ]; then
+        print_info "Installing 16 slash commands..."
+
+        # Find all command .md files (excluding README, CLAUDE.md, CATALOG.md)
+        for cmd in commands/*/*.md; do
+            filename=$(basename "$cmd")
+            # Skip non-command files
+            if [[ "$filename" != "README.md" && "$filename" != "CLAUDE.md" && "$filename" != "CATALOG.md" ]]; then
+                cp "$cmd" "$CLAUDE_CODE_DIR/commands/" 2>/dev/null || true
+            fi
+        done
+
+        cmd_count=$(ls "$CLAUDE_CODE_DIR/commands/"*.md 2>/dev/null | wc -l | xargs)
+        print_success "Installed $cmd_count slash commands to ~/.claude/commands/"
+    else
+        print_warning "Commands directory not found - skipping command installation"
     fi
 
     echo ""
@@ -287,38 +351,53 @@ Generated: $(date)
 Installation Complete!
 
 AGENTS INSTALLED:
-- Location: $INSTALL_DIR/agents/
-- Count: $(find "$INSTALL_DIR/agents" -name "cs-*.md" 2>/dev/null | wc -l | xargs) agents
+- Claude Code location: $CLAUDE_CODE_DIR/agents/
+- Reference location: $INSTALL_DIR/agents/
+- Count: $(find "$CLAUDE_CODE_DIR/agents" -name "cs-*.md" 2>/dev/null | wc -l | xargs) agents
+
+SLASH COMMANDS INSTALLED:
+- Location: $CLAUDE_CODE_DIR/commands/
+- Count: $(ls "$CLAUDE_CODE_DIR/commands/"*.md 2>/dev/null | wc -l | xargs) commands
+
+SKILLS INSTALLED:
+- Location: $INSTALL_DIR/skills/
+- Count: $(find "$INSTALL_DIR/skills" -maxdepth 2 -type d -name "senior-*" -o -name "*-toolkit" -o -name "*-expert" 2>/dev/null | wc -l | xargs) skills
 
 USAGE:
 
 1. Claude Code (VSCode):
-   - Agents are automatically discovered
+   - Agents are automatically discovered from ~/.claude/agents/
    - Type: @cs-product-manager
    - Example: "@cs-content-creator help me write a blog post"
+   - Use slash commands: /update.docs, /review.code, /generate.tests
 
 2. Claude AI (claude.ai):
    - Upload agents from: $INSTALL_DIR/agents/
    - Upload skills from: $INSTALL_DIR/skills/
    - Reference in your Project
 
-3. Python Tools (82 total):
+3. Python Tools (132 total):
    - All scripts in: $INSTALL_DIR/skills/*/scripts/*.py
    - Run with: python3 path/to/script.py --help
+
+IMPORTANT DIRECTORIES:
+- ~/.claude/agents/     - Claude Code agent discovery (restart VSCode after changes)
+- ~/.claude/commands/   - Claude Code slash commands
+- ~/.claude-skills/     - Full skill packages with Python tools
 
 DOCUMENTATION:
 - Main README: $INSTALL_DIR/README.md (if exists)
 - Agent Guide: $INSTALL_DIR/agents/CLAUDE.md
 - Standards: $INSTALL_DIR/docs/standards/
 - Templates: $INSTALL_DIR/templates/
-- Installation: $INSTALL_DIR/docs/INSTALL.md
-- Usage Guide: $INSTALL_DIR/docs/USAGE.md
-- Workflow: $INSTALL_DIR/docs/WORKFLOW.md
+- Installation: $INSTALL_DIR/docs/guides/installation.md
+- Usage Guide: $INSTALL_DIR/docs/guides/usage.md
 
 NEXT STEPS:
-1. Read docs/USAGE.md for detailed examples
-2. Browse agents in: $INSTALL_DIR/agents/
-3. Try an agent: @cs-product-manager (in Claude Code)
+1. RESTART VSCODE to discover new agents
+2. Try an agent: @cs-product-manager (in Claude Code)
+3. Try a command: /update.docs
+4. Read docs for detailed examples
 
 For help: See $INSTALL_DIR/docs/
 EOF
@@ -331,24 +410,31 @@ EOF
 display_completion() {
     print_header "Installation Complete!"
     echo ""
-    print_success "Claude Skills successfully installed to:"
-    echo "           $INSTALL_DIR"
+    print_success "Claude Skills successfully installed!"
+    echo ""
+    echo "INSTALLATION SUMMARY:"
+    echo "  Agents:   $(find "$CLAUDE_CODE_DIR/agents" -name "cs-*.md" 2>/dev/null | wc -l | xargs) installed to ~/.claude/agents/"
+    echo "  Commands: $(ls "$CLAUDE_CODE_DIR/commands/"*.md 2>/dev/null | wc -l | xargs) installed to ~/.claude/commands/"
+    echo "  Skills:   $(ls -d "$INSTALL_DIR/skills"/*/* 2>/dev/null | wc -l | xargs) installed to ~/.claude-skills/skills/"
+    echo ""
+    print_info "IMPORTANT: Restart VSCode to discover new agents"
     echo ""
     print_info "Next Steps:"
-    echo "  1. Read the quick start guide:"
-    echo "     cat $INSTALL_DIR/QUICK_START.txt"
+    echo "  1. RESTART VSCODE (required for agent discovery)"
     echo ""
     echo "  2. For Claude Code users:"
-    echo "     - Restart VSCode"
-    echo "     - Agents will be auto-discovered"
-    echo "     - Type: @cs-product-manager to start"
+    echo "     - Type: @cs-product-manager to use an agent"
+    echo "     - Type: /update.docs to use a command"
     echo ""
     echo "  3. For Claude AI users:"
     echo "     - Upload agents from: $INSTALL_DIR/agents/"
     echo "     - Upload skills as needed"
     echo ""
-    echo "  4. Explore agents:"
-    echo "     ls $INSTALL_DIR/agents/*/"
+    echo "  4. View quick start guide:"
+    echo "     cat $INSTALL_DIR/QUICK_START.txt"
+    echo ""
+    echo "  5. Explore installed agents:"
+    echo "     ls ~/.claude/agents/"
     echo ""
 
     if [ -d "$BACKUP_DIR" ]; then
@@ -370,6 +456,7 @@ main() {
     backup_existing
     install_agents
     install_skills
+    install_commands
     install_resources
     configure_claude_code
     create_quick_start

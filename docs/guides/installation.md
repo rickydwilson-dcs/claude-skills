@@ -103,7 +103,7 @@ python3 -c "print('Python environment ready')"
 
 ### 5. Install Agents
 
-The repository includes 30 production agents across 4 domains. Install them to use with Claude Code:
+The repository includes 41 production agents across 4 domains. Install them to use with Claude Code:
 
 ```bash
 # Interactive mode - choose which agents to install
@@ -126,6 +126,8 @@ python3 scripts/install_agents.py --domain engineering
 ```
 
 Agents are installed to `~/.claude/agents/` (user-level, available everywhere).
+
+> **IMPORTANT**: After installing agents, you must **restart VSCode** for Claude Code to discover the new agents. Claude Code only scans for agents at startup.
 
 ### 6. Install Slash Commands
 
@@ -281,10 +283,12 @@ After setup, your `~/.claude/` will look like:
 ```
 ~/.claude/
 ├── CLAUDE.md       # Global instructions (optional)
-├── agents/         # 30 agents (symlinked)
-├── commands/       # 16 slash commands (symlinked)
-└── skills/         # 31 skills (symlinked)
+├── agents/         # 41 agents (Claude Code discovery - REQUIRED)
+├── commands/       # 16 slash commands
+└── skills/         # 40 skills (optional symlinks)
 ```
+
+> **CRITICAL**: Agents MUST be in `~/.claude/agents/` for Claude Code to discover them. This is where Claude Code looks for agents at startup. The `~/.claude-skills/agents/` directory is only for reference/backup - agents there will NOT be discovered by Claude Code.
 
 ### Setup Script for Global Availability
 
@@ -404,19 +408,28 @@ See ~/claude-skills/ for full library:
 
 ## Directory Reference
 
-### Key Directories
+### Installation Directories (After Install)
+
+| Directory | Purpose | Notes |
+|-----------|---------|-------|
+| `~/.claude/agents/` | Claude Code agent discovery | **REQUIRED** - agents must be here |
+| `~/.claude/commands/` | Claude Code slash commands | Available in all projects |
+| `~/.claude-skills/` | Full skill packages | Python tools, references, templates |
+
+### Repository Directories
 
 | Directory | Purpose | Contents |
 |-----------|---------|----------|
-| `agents/` | Workflow orchestrators | 27 specialized agents (cs-* prefix) |
+| `agents/` | Workflow orchestrators | 41 specialized agents (cs-* prefix) |
 | `skills/` | All skill packages | Organized by domain (4 teams) |
-| `skills/marketing-team/` | Marketing skills | 3 skills with Python CLI tools |
-| `skills/product-team/` | Product skills | 5 skills including RICE prioritizer |
-| `skills/engineering-team/` | Engineering skills | 15 skills including CTO advisor |
+| `skills/marketing-team/` | Marketing skills | 4 skills with Python CLI tools |
+| `skills/product-team/` | Product skills | 7 skills including RICE prioritizer |
+| `skills/engineering-team/` | Engineering skills | 26 skills including CTO advisor |
 | `skills/delivery-team/` | Delivery/PM skills | 4 skills with Atlassian tools |
+| `commands/` | Slash commands | 16 commands across 5 categories |
 | `docs/` | Documentation | Standards library and guides |
 | `templates/` | Reusable templates | Agent and skill templates |
-| `tools/` | Testing scripts | CLI validation tools |
+| `scripts/` | Builder tools | Agent/skill/command installers |
 | `output/` | Agent reports | Timestamped analysis outputs (gitignored) |
 
 ### Important Files
@@ -487,6 +500,32 @@ After installation, verify:
 ---
 
 ## Troubleshooting
+
+### Agents Not Appearing in Claude Code
+
+This is the most common issue. Claude Code discovers agents from `~/.claude/agents/` **only at startup**.
+
+```bash
+# 1. Verify agents are in the correct location
+ls ~/.claude/agents/cs-*.md | wc -l
+# Should show 41 (or your installed count)
+
+# 2. Check a specific agent exists
+ls -la ~/.claude/agents/cs-seo-strategist.md
+
+# 3. If agents are missing, reinstall them
+python3 scripts/install_agents.py --all --overwrite
+
+# 4. RESTART VSCODE completely (not just reload)
+# - Close all VSCode windows
+# - Reopen VSCode
+# - Agents should now appear when you type @cs-
+```
+
+**Common mistakes:**
+- Agents installed to `~/.claude-skills/agents/` instead of `~/.claude/agents/`
+- VSCode not restarted after installation
+- Agent files missing the `cs-` prefix
 
 ### Python Command Not Found
 
@@ -561,23 +600,24 @@ python3 -m compileall skills/
 
 After successful installation:
 
-1. **Explore the skills** - Browse [README.md](../README.md#-available-skills) for skill catalog
-2. **Try the agents** - Review [Agent Catalog](../README.md#-agent-catalog) (27 production agents)
-3. **Run examples** - See [USAGE.md](USAGE.md) for workflow examples
-4. **Read documentation** - Check [CLAUDE.md](../CLAUDE.md) for development guide
-5. **Review standards** - See [standards/](standards/) for best practices
+1. **RESTART VSCODE** - Required for Claude Code to discover agents
+2. **Explore the skills** - Browse [README.md](../../README.md) for skill catalog
+3. **Try the agents** - Type `@cs-product-manager` in Claude Code (41 production agents)
+4. **Try slash commands** - Type `/update.docs` or `/review.code`
+5. **Run examples** - See [usage.md](usage.md) for workflow examples
+6. **Read documentation** - Check [CLAUDE.md](../../CLAUDE.md) for development guide
 
 ---
 
 ## Getting Help
 
-- **Documentation Issues:** Check [CLAUDE.md](CLAUDE.md)
+- **Documentation Issues:** Check [CLAUDE.md](../../CLAUDE.md)
 - **Bug Reports:** [GitHub Issues](https://github.com/rickydwilson-dcs/claude-skills/issues)
 - **Questions:** [Discussions](https://github.com/rickydwilson-dcs/claude-skills/discussions)
-- **Contributing:** See [CONTRIBUTING.md](CONTRIBUTING.md)
+- **Contributing:** See [CONTRIBUTING.md](../../CONTRIBUTING.md)
 
 ---
 
-**Version:** 1.0.0
-**Last Updated:** November 17, 2025
+**Version:** 2.0.0
+**Last Updated:** December 17, 2025
 **Compatibility:** Python 3.8+, Claude AI, Claude Code

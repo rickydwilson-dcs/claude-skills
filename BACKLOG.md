@@ -4,41 +4,27 @@ Product backlog for claude-skills repository.
 
 ---
 
-## Completed
-
-| # | Item | Completed | Deliverables |
-|---|------|-----------|--------------|
-| 2 | **Network Engineering** (cs-network-engineer) | 2025-12-16 | `senior-network-infrastructure` skill (4 Python tools, 3 reference guides), `cs-network-engineer` agent |
-
----
-
 ## High Priority
 
-*(Empty)*
+| Opportunity | Effort | Impact | Source |
+|-------------|--------|--------|--------|
+| Add AI-assisted patterns to cs-code-reviewer | 5 SP | Close remaining perception gap | Competitive Analysis Dec 16 |
+| Document CodeRabbit/Copilot integration | 3 SP | Marketing differentiation | Competitive Analysis Dec 16 |
 
 ---
 
 ## Medium Priority
 
-*(Empty)*
+| Opportunity | Effort | Impact | Source |
+|-------------|--------|--------|--------|
+| Add more language support (Rust, PHP) | 8 SP | Expand coverage | Competitive Analysis Dec 16 |
+| Multi-repository analysis | 13 SP | Enterprise feature | Competitive Analysis Dec 16 |
 
 ---
 
 ## Low Priority
 
 *(Empty)*
-
----
-
-## Out of Scope
-
-- Game Development (Unity, Minecraft plugins)
-- Blockchain/Web3
-- Systems Programming (C/C++/Rust at kernel level)
-- Embedded Systems (ARM microcontrollers)
-- Quantitative Trading
-- HR/Legal
-- Customer/Sales Ops
 
 ---
 
